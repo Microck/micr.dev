@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terminal-Style Loading Screen</title>
+    <style>
+      @font-face {
+        font-family: 'TermiusTTF';
+        src: url('fonts/TermiusTTF-bold.ttf') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+      }
+
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        overflow: hidden;
+        font-family: 'TermiusTTF', 'Courier New', monospace;
+      }
+      canvas {
+        display: block;
+      }
+
+      #loader {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+      #loader .checkered-background {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        opacity: 0.3;
+        background-image: 
+          linear-gradient(45deg, #e4e4e4 25%, transparent 25%),
+          linear-gradient(-45deg, #e4e4e4 25%, transparent 25%),
+          linear-gradient(45deg, transparent 75%, #e4e4e4 75%),
+          linear-gradient(-45deg, transparent 75%, #e4e4e4 75%);
+        background-size: 40px 40px;
+        background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+        pointer-events: none;
+      }
+      #loader .loading-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        position: relative;
+        z-index: 10;
+        width: 100vw;
+      }
+      #loader .dialog-box {
+        background: linear-gradient(to bottom, #ffffff, #959595);
+        border: 4px solid black;
+        border-radius: 1rem;
+        padding: 3rem;
+        max-width: 48rem;
+        width: 100%;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+      #loader .content {
+        text-align: center;
+      }
+      #loader .loading-text {
+        color: black;
+        font-size: 1.125rem;
+        font-weight: bold;
+        line-height: 1.4;
+        margin-bottom: 2rem;
+      }
+      #loader .loading-text p {
+        margin-bottom: 1.5rem;
+        font-weight: bold;
+      }
+      #spinner-container {
+        display: flex;
+        justify-content: center;
+        padding-top: 1rem;
+      }
+      #spinner-container .spinner {
+        position: relative;
+      }
+      #spinner-container .spinner-bg {
+        width: 5rem;
+        height: 5rem;
+        border: 4px solid white;
+        border-radius: 50%;
+      }
+      #spinner-container .spinner-fg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5rem;
+        height: 5rem;
+        border: 4px solid #23272e;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 2s linear infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg);}
+        100% { transform: rotate(360deg);}
+      }
+      @media (max-width: 768px) {
+        #loader .dialog-box {
+          padding: 2rem;
+          margin: 1rem;
+        }
+        #loader .loading-text {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loader">
+      <div class="checkered-background"></div>
+      <div class="loading-container">
+        <div class="dialog-box">
+          <div class="content">
+            <div class="loading-text" id="loading-message">
+              <p>
+                The scene is currently loading. Loading times may vary depending on your internet speed.
+              </p>
+              <p>
+                You can orbit vertically by holding the left mouse button, but this feature is intended only for the "Setup" area. Using it elsewhere may disrupt the experience.
+              </p>
+              <p>
+                This website is best viewed on a PC browser at 100% zoom. If you experience lag, I recommend enabling "Hardware acceleration."
+              </p>
+            </div>
+            <div class="spinner-container" id="spinner-container">
+              <div class="spinner">
+                <div class="spinner-bg"></div>
+                <div class="spinner-fg"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <canvas id="canvas3d"></canvas>
+    <script type="module">
+      import { Application } from './runtime.js';
+      const canvas = document.getElementById('canvas3d');
+      const isMobile = /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+        navigator.userAgent
+      );
+
+      if (isMobile) {
+        document.getElementById('loading-message').innerHTML = `
+          <p>
+            Thank you for visiting! This website is designed for desktop browsers.<br>
+            Please use a PC to be able to access.
+			♡
+          </p>
+        `;
+        document.getElementById('spinner-container').style.display = 'none';
+        // Do NOT load the Spline scene
+      } else {
+        const app = new Application(canvas);
+        app.load('./scene.splinecode').then(() => {
+          document.getElementById('loader').style.display = 'none';
+        });
+      }
+    </script>
+  </body>
+</html>
