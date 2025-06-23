@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIP Checkered Screen</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .checkered-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(45deg, #FF0BDF 25%, transparent 25%),
+                linear-gradient(-45deg, #FF0BDF 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #FF0BDF 75%),
+                linear-gradient(-45deg, transparent 75%, #FF0BDF 75%);
+            background-size: 80px 80px;
+            background-position: 0 0, 0 40px, 40px -40px, -40px 0px;
+            background-color: #0A0808;
+        }
+        .centered-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: "Times New Roman", Times, serif;
+            font-size: 8vw;
+            font-weight: bold;
+            color: white;
+            mix-blend-mode: difference;
+            letter-spacing: 0.02em;
+            user-select: none;
+            text-shadow: 0 0 20px #000, 0 0 40px #FF0BDF;
+        }
+        @media (max-width: 600px) {
+            .centered-text {
+                font-size: 14vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="checkered-background"></div>
+    <div class="centered-text">[WIP]</div>
+</body>
+</html>
