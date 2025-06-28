@@ -1,8 +1,0 @@
-[build]
-  command = ""
-  publish = "."
-
-[[redirects]]
-  from = "/microkeebs/*"
-  to = "https://microkeebs.netlify.app/:splat"
-  status = 200
