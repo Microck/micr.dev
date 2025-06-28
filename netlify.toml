@@ -22,3 +22,8 @@
   to = "/microkeebs/dist/index.html"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/microkeebs/images/*"
+  to = "/images/:splat"
+  status = 200
