@@ -12,6 +12,7 @@
 
 # --- REDIRECT RULES ---
 # These rules ensure the built Vite app is served correctly.
+# The order is important: most specific rules first.
 
 # Rule 1: Handles requests for the app's assets (JS, CSS, etc.).
 # It rewrites /microkeebs/assets/* to the correct build output folder.
@@ -20,8 +21,8 @@
   to = "/microkeebs/dist/assets/:splat"
   status = 200
 
-# Rule 2: Handles all other navigation within the app.
-# It serves the app's main index.html for any sub-page, allowing React Router to work.
+# Rule 2: Handles the request for the app's main page.
+# It serves the app's main index.html file when someone visits /microkeebs/
 [[redirects]]
   from = "/microkeebs/"
   to = "/microkeebs/dist/index.html"
