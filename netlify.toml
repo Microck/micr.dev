@@ -1,0 +1,12 @@
+# This configuration handles a repository with a static root
+# and a sub-project that needs a build step.
+
+[build]
+  command = "cd microkeebs && npm install && npm run build"
+
+  publish = "."
+
+[[redirects]]
+  from = "/microkeebs/*"
+  to = "/microkeebs/dist/:splat"
+  status = 200
