@@ -30,22 +30,17 @@ const extractBuildDescription = (build: KeyboardBuild): string => {
 
 export function BuildCard({ build, onClick, showBuild = false }: BuildCardProps) {
   const { isDark } = useTheme();
+  const coverImage = build.images[0];
   const buildDescription = extractBuildDescription(build);
-
-  // --- THE FIX IS HERE ---
-  // This transforms the relative path "./images/..." from your JSON
-  // into an absolute path "/images/..." which Vite then correctly
-  // prepends with your base path ("/microkeebs/").
-  const coverImage = build.images[0].replace("./", "/");
-  // --- END OF FIX ---
 
   return (
     <div onClick={onClick} className="cursor-pointer card-hover group">
+      {/* Restored original h-64 class as requested */}
       <div className="w-full h-64 mb-4 overflow-hidden">
         <img
-          src={coverImage} // Use the corrected, absolute path
+          src={coverImage}
           alt={build.title}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.style.display = "none";
