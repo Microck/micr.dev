@@ -1,6 +1,6 @@
 [build]
   base    = "microkeebs"
-  publish = "microkeebs/dist"
+  publish = "dist"
   command = "npm run build"
 
 [[redirects]]
