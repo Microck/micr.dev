@@ -2,10 +2,11 @@
   {
     "id": "DOE--VY0KSI",
     "title": "2012 HHKB Pro 2 Type-S",
+    "youtubeTitle": "Lubed 2012 HHKB Pro 2 Type-S",
     "category": "EC",
     "timestamp": "2025-06-22T13:00:24Z",
     "images": [
-      "/images/DOE--VY0KSI/thumbnail.jpg"
+      "./images/DOE--VY0KSI/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/DOE--VY0KSI",
     "specs": {
@@ -20,10 +21,11 @@
   {
     "id": "PSyXlFCGj_I",
     "title": "Realforce R2 87ub",
+    "youtubeTitle": "Lubed Realforce R2 87ub with 45g Metakeebs Domes",
     "category": "EC",
     "timestamp": "2025-06-15T13:00:43Z",
     "images": [
-      "/images/PSyXlFCGj_I/thumbnail.jpg"
+      "./images/PSyXlFCGj_I/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/PSyXlFCGj_I",
     "specs": {
@@ -38,10 +40,11 @@
   {
     "id": "LVWLQ3h2Yno",
     "title": "Bias V2",
+    "youtubeTitle": "Bias V2 with lubed Retooled Cherry MX Blacks",
     "category": "MX",
     "timestamp": "2025-06-08T13:00:37Z",
     "images": [
-      "/images/LVWLQ3h2Yno/thumbnail.jpg"
+      "./images/LVWLQ3h2Yno/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/LVWLQ3h2Yno",
     "specs": {
@@ -62,10 +65,11 @@
   {
     "id": "_82CkwU_YFY",
     "title": "Geonworks F2-60",
+    "youtubeTitle": "Geonworks F2-60 with Haimu x Geon Blacks",
     "category": "MX",
     "timestamp": "2025-06-01T13:01:06Z",
     "images": [
-      "/images/_82CkwU_YFY/thumbnail.jpg"
+      "./images/_82CkwU_YFY/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/_82CkwU_YFY",
     "specs": {
@@ -86,10 +90,11 @@
   {
     "id": "ISZuY2U3-6A",
     "title": "TGR 910 CE",
+    "youtubeTitle": "TGR 910 CE with lubed Vintage Cherry MX Blacks",
     "category": "MX",
     "timestamp": "2025-05-25T13:00:26Z",
     "images": [
-      "/images/ISZuY2U3-6A/thumbnail.jpg"
+      "./images/ISZuY2U3-6A/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/ISZuY2U3-6A",
     "specs": {
@@ -109,10 +114,11 @@
   {
     "id": "ss8hBE-pws0",
     "title": "SingaKBD PC Kohaku",
+    "youtubeTitle": "SingaKBD PC Kohaku with lubed Tecsee Bocchi",
     "category": "MX",
     "timestamp": "2025-05-18T13:01:24Z",
     "images": [
-      "/images/ss8hBE-pws0/thumbnail.jpg"
+      "./images/ss8hBE-pws0/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/ss8hBE-pws0",
     "specs": {
@@ -133,10 +139,11 @@
   {
     "id": "SFFZvEytc9M",
     "title": "Realforce R1 104ub",
+    "youtubeTitle": "Lubed Realforce R1 104ub",
     "category": "EC",
     "timestamp": "2025-05-11T13:00:45Z",
     "images": [
-      "/images/SFFZvEytc9M/thumbnail.jpg"
+      "./images/SFFZvEytc9M/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/SFFZvEytc9M",
     "specs": {
@@ -151,10 +158,11 @@
   {
     "id": "A_3zkPLtw3Y",
     "title": "2019 HHKB Pro 2",
+    "youtubeTitle": "Stock 2019 HHKB Pro 2",
     "category": "EC",
     "timestamp": "2025-05-04T13:00:14Z",
     "images": [
-      "/images/A_3zkPLtw3Y/thumbnail.jpg"
+      "./images/A_3zkPLtw3Y/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/A_3zkPLtw3Y",
     "specs": {
@@ -169,10 +177,11 @@
   {
     "id": "oS9oHdsjImA",
     "title": "TGR-03 PROTO",
+    "youtubeTitle": "TGR-03 PROTO with lubed Diamond Polished Cherry MX Browns",
     "category": "MX",
     "timestamp": "2025-04-27T13:01:24Z",
     "images": [
-      "/images/oS9oHdsjImA/thumbnail.jpg"
+      "./images/oS9oHdsjImA/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/oS9oHdsjImA",
     "specs": {
@@ -192,10 +201,11 @@
   {
     "id": "tHxVcRIHGqU",
     "title": "Leopold FC660C",
+    "youtubeTitle": "Lubed and Silenced Leopold FC660C",
     "category": "EC",
     "timestamp": "2025-04-20T13:01:34Z",
     "images": [
-      "/images/tHxVcRIHGqU/thumbnail.jpg"
+      "./images/tHxVcRIHGqU/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/tHxVcRIHGqU",
     "specs": {
@@ -209,10 +219,11 @@
   {
     "id": "AFmaq-e7eBc",
     "title": "Bias V2",
+    "youtubeTitle": "Bias V2 with lubed Cherry MX Whites",
     "category": "MX",
     "timestamp": "2025-04-12T11:13:47Z",
     "images": [
-      "/images/AFmaq-e7eBc/thumbnail.jpg"
+      "./images/AFmaq-e7eBc/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/AFmaq-e7eBc",
     "specs": {
@@ -232,10 +243,11 @@
   {
     "id": "7NTZj-98yAM",
     "title": "2016 HHKB Pro 2 Type-S",
+    "youtubeTitle": "Lubed 2016 HHKB Pro 2 Type-S",
     "category": "EC",
     "timestamp": "2025-04-08T13:00:09Z",
     "images": [
-      "/images/7NTZj-98yAM/thumbnail.jpg"
+      "./images/7NTZj-98yAM/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/7NTZj-98yAM",
     "specs": {
@@ -250,10 +262,11 @@
   {
     "id": "5F3iMTc4hus",
     "title": "YAWN60",
+    "youtubeTitle": "YAWN60 with lubed Vintage Cherry MX Browns",
     "category": "MX",
     "timestamp": "2025-04-04T15:03:37Z",
     "images": [
-      "/images/5F3iMTc4hus/thumbnail.jpg"
+      "./images/5F3iMTc4hus/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/5F3iMTc4hus",
     "specs": {
@@ -273,10 +286,11 @@
   {
     "id": "YzaJVl_TQVw",
     "title": "SingaKBD PC Kohaku",
+    "youtubeTitle": "SingaKBD PC Kohaku with lubed Cherry MX Blacks",
     "category": "MX",
     "timestamp": "2025-03-13T15:20:48Z",
     "images": [
-      "/images/YzaJVl_TQVw/thumbnail.jpg"
+      "./images/YzaJVl_TQVw/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/YzaJVl_TQVw",
     "specs": {
@@ -297,10 +311,11 @@
   {
     "id": "dDN38OwMLnw",
     "title": "Chilkey ND75",
+    "youtubeTitle": "Chilkey ND75 with KTT Grapefruit",
     "category": "MX",
     "timestamp": "2025-02-22T12:07:03Z",
     "images": [
-      "/images/dDN38OwMLnw/thumbnail.jpg"
+      "./images/dDN38OwMLnw/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/dDN38OwMLnw",
     "specs": {
@@ -321,10 +336,11 @@
   {
     "id": "YRvEWg0ChF8",
     "title": "TGR-03 PROTO",
+    "youtubeTitle": "TGR-03 PROTO with lubed Vintage Cherry MX Clears",
     "category": "MX",
     "timestamp": "2025-02-08T17:11:58Z",
     "images": [
-      "/images/YRvEWg0ChF8/thumbnail.jpg"
+      "./images/YRvEWg0ChF8/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/YRvEWg0ChF8",
     "specs": {
@@ -345,10 +361,11 @@
   {
     "id": "3gLHo75n3tQ",
     "title": "Vertex INTRO S100",
+    "youtubeTitle": "Vertex INTRO S100 with lubed Kailh BCP",
     "category": "MX",
     "timestamp": "2025-02-02T15:31:24Z",
     "images": [
-      "/images/3gLHo75n3tQ/thumbnail.jpg"
+      "./images/3gLHo75n3tQ/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/3gLHo75n3tQ",
     "specs": {
@@ -369,10 +386,11 @@
   {
     "id": "r20686Wiw_o",
     "title": "Vortex Pok3r LE",
+    "youtubeTitle": "Vortex Pok3r LE with Cherry RGB Browns",
     "category": "MX",
     "timestamp": "2025-01-18T09:53:16Z",
     "images": [
-      "/images/r20686Wiw_o/thumbnail.jpg"
+      "./images/r20686Wiw_o/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/r20686Wiw_o",
     "specs": {
@@ -393,10 +411,11 @@
   {
     "id": "a1AUHkoameo",
     "title": "MonsGeek M1 V5 VIA",
+    "youtubeTitle": "MonsGeek M1 V5 VIA with lubed Akko Mirror",
     "category": "MX",
     "timestamp": "2025-01-07T11:06:17Z",
     "images": [
-      "/images/a1AUHkoameo/thumbnail.jpg"
+      "./images/a1AUHkoameo/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/a1AUHkoameo",
     "specs": {
@@ -416,10 +435,11 @@
   {
     "id": "BVmT-khkd5E",
     "title": "TKD Cycle8",
+    "youtubeTitle": "TKD Cycle8 with lubed Tecsee Bocchi",
     "category": "MX",
     "timestamp": "2025-01-05T11:19:02Z",
     "images": [
-      "/images/BVmT-khkd5E/thumbnail.jpg"
+      "./images/BVmT-khkd5E/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/BVmT-khkd5E",
     "specs": {
@@ -440,10 +460,11 @@
   {
     "id": "AD96PTb2l2o",
     "title": "Synovia R0",
+    "youtubeTitle": "Synovia R0 with lubed Retooled Cherry MX Blacks",
     "category": "MX",
     "timestamp": "2025-01-02T16:51:54Z",
     "images": [
-      "/images/AD96PTb2l2o/thumbnail.jpg"
+      "./images/AD96PTb2l2o/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/AD96PTb2l2o",
     "specs": {
@@ -464,10 +485,11 @@
   {
     "id": "_EFypkbu9gQ",
     "title": "Chilkey ND TKL",
+    "youtubeTitle": "Chilkey ND TKL with Kailh Blue Lotus",
     "category": "MX",
     "timestamp": "2024-11-19T15:18:00Z",
     "images": [
-      "/images/_EFypkbu9gQ/thumbnail.jpg"
+      "./images/_EFypkbu9gQ/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/_EFypkbu9gQ",
     "specs": {
@@ -487,10 +509,11 @@
   {
     "id": "Yjbeg1tw3oQ",
     "title": "Neo75 Cu",
+    "youtubeTitle": "Neo75 Cu with stock SW Catmints",
     "category": "MX",
     "timestamp": "2024-10-22T14:33:46Z",
     "images": [
-      "/images/Yjbeg1tw3oQ/thumbnail.jpg"
+      "./images/Yjbeg1tw3oQ/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/Yjbeg1tw3oQ",
     "specs": {
@@ -511,10 +534,11 @@
   {
     "id": "-nwtEc4itjI",
     "title": "Corne",
+    "youtubeTitle": "Corne with stock JWK Durock T1",
     "category": "MX",
     "timestamp": "2024-10-20T09:40:21Z",
     "images": [
-      "/images/-nwtEc4itjI/thumbnail.jpg"
+      "./images/-nwtEc4itjI/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/-nwtEc4itjI",
     "specs": {
@@ -535,10 +559,11 @@
   {
     "id": "lt6Ol9lGNYM",
     "title": "Neo75 Cu",
+    "youtubeTitle": "Neo75 Cu with stock HMX Hyacinth V2",
     "category": "MX",
     "timestamp": "2024-10-19T13:02:16Z",
     "images": [
-      "/images/lt6Ol9lGNYM/thumbnail.jpg"
+      "./images/lt6Ol9lGNYM/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/lt6Ol9lGNYM",
     "specs": {
@@ -559,10 +584,11 @@
   {
     "id": "4di1-BcHbos",
     "title": "Neo75 Cu",
+    "youtubeTitle": "Neo75 Cu with stock Kailh BCP",
     "category": "MX",
     "timestamp": "2024-10-18T15:31:31Z",
     "images": [
-      "/images/4di1-BcHbos/thumbnail.jpg"
+      "./images/4di1-BcHbos/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/4di1-BcHbos",
     "specs": {
@@ -583,10 +609,11 @@
   {
     "id": "GuSzmcKmQVk",
     "title": "GMK67-S",
+    "youtubeTitle": "GMK67-S with stock Kailh Red",
     "category": "MX",
     "timestamp": "2024-10-16T16:19:53Z",
     "images": [
-      "/images/GuSzmcKmQVk/thumbnail.jpg"
+      "./images/GuSzmcKmQVk/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/GuSzmcKmQVk",
     "specs": {
@@ -607,10 +634,11 @@
   {
     "id": "qQyXONuKdUg",
     "title": "TKD PT.1/75",
+    "youtubeTitle": "TKD PT.1/75 with stock Gateron Deeppings",
     "category": "MX",
     "timestamp": "2024-10-12T13:45:50Z",
     "images": [
-      "/images/qQyXONuKdUg/thumbnail.jpg"
+      "./images/qQyXONuKdUg/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/qQyXONuKdUg",
     "specs": {
@@ -631,10 +659,11 @@
   {
     "id": "C18I6p-d3f8",
     "title": "TKD PT.1/75",
+    "youtubeTitle": "TKD PT.1/75 with lubed Cherry MX2A Blacks",
     "category": "MX",
     "timestamp": "2024-10-09T14:26:20Z",
     "images": [
-      "/images/C18I6p-d3f8/thumbnail.jpg"
+      "./images/C18I6p-d3f8/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/C18I6p-d3f8",
     "specs": {
@@ -655,10 +684,11 @@
   {
     "id": "IYaVQKktZdw",
     "title": "Neo80",
+    "youtubeTitle": "Neo80 with stock Kailh BCP",
     "category": "MX",
     "timestamp": "2024-09-30T18:10:20Z",
     "images": [
-      "/images/IYaVQKktZdw/thumbnail.jpg"
+      "./images/IYaVQKktZdw/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/IYaVQKktZdw",
     "specs": {
@@ -678,10 +708,11 @@
   {
     "id": "Y14DpRLXWj8",
     "title": "Neo80",
+    "youtubeTitle": "Neo80 with SW x Haimu MP Tactile",
     "category": "MX",
     "timestamp": "2024-09-27T11:21:02Z",
     "images": [
-      "/images/Y14DpRLXWj8/thumbnail.jpg"
+      "./images/Y14DpRLXWj8/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/Y14DpRLXWj8",
     "specs": {
@@ -698,10 +729,11 @@
   {
     "id": "9jOMOvGyZ-s",
     "title": "Neo80",
+    "youtubeTitle": "Neo80 with stock Sarokeys x Geon BCP",
     "category": "MX",
     "timestamp": "2024-09-24T13:29:49Z",
     "images": [
-      "/images/9jOMOvGyZ-s/thumbnail.jpg"
+      "./images/9jOMOvGyZ-s/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/9jOMOvGyZ-s",
     "specs": {
@@ -721,10 +753,11 @@
   {
     "id": "k8R0UoV-MGg",
     "title": "Luminkey60",
+    "youtubeTitle": "Luminkey60 with stock HMX Hyacinth V2",
     "category": "MX",
     "timestamp": "2024-09-22T12:05:39Z",
     "images": [
-      "/images/k8R0UoV-MGg/thumbnail.jpg"
+      "./images/k8R0UoV-MGg/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/k8R0UoV-MGg",
     "specs": {
@@ -744,10 +777,11 @@
   {
     "id": "rqp0Ke4q3Wo",
     "title": "Neo80",
+    "youtubeTitle": "Neo80 with stock SW Catmints",
     "category": "MX",
     "timestamp": "2024-09-21T13:26:03Z",
     "images": [
-      "/images/rqp0Ke4q3Wo/thumbnail.jpg"
+      "./images/rqp0Ke4q3Wo/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/rqp0Ke4q3Wo",
     "specs": {
@@ -767,10 +801,11 @@
   {
     "id": "Vp7r9jnV7ig",
     "title": "Luminkey60",
+    "youtubeTitle": "Luminkey60 with Sarokeys x Geon BCP",
     "category": "MX",
     "timestamp": "2024-09-19T18:49:56Z",
     "images": [
-      "/images/Vp7r9jnV7ig/thumbnail.jpg"
+      "./images/Vp7r9jnV7ig/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/Vp7r9jnV7ig",
     "specs": {
@@ -790,10 +825,11 @@
   {
     "id": "IKvUXZlL4eg",
     "title": "Luminkey60",
+    "youtubeTitle": "Luminkey60 with stock SW Catmints",
     "category": "MX",
     "timestamp": "2024-08-17T12:07:37Z",
     "images": [
-      "/images/IKvUXZlL4eg/thumbnail.jpg"
+      "./images/IKvUXZlL4eg/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/IKvUXZlL4eg",
     "specs": {
@@ -813,10 +849,11 @@
   {
     "id": "_jCYjJrbzaA",
     "title": "Luminkey60",
+    "youtubeTitle": "Luminkey60 with stock SW x Haimu MP Tactiles",
     "category": "MX",
     "timestamp": "2024-08-08T19:00:12Z",
     "images": [
-      "/images/_jCYjJrbzaA/thumbnail.jpg"
+      "./images/_jCYjJrbzaA/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/_jCYjJrbzaA",
     "specs": {
@@ -836,10 +873,11 @@
   {
     "id": "ddO5IkKV36c",
     "title": "GMK67",
+    "youtubeTitle": "GMK67 con stock KTT Kang White V3",
     "category": "MX",
     "timestamp": "2023-12-20T15:59:48Z",
     "images": [
-      "/images/ddO5IkKV36c/thumbnail.jpg"
+      "./images/ddO5IkKV36c/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/ddO5IkKV36c",
     "specs": {
@@ -860,10 +898,11 @@
   {
     "id": "V8-leeVOAOM",
     "title": "QK65 R1",
+    "youtubeTitle": "QK65 con C3 Tangerines",
     "category": "MX",
     "timestamp": "2023-07-29T11:05:12Z",
     "images": [
-      "/images/V8-leeVOAOM/thumbnail.jpg"
+      "./images/V8-leeVOAOM/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/V8-leeVOAOM",
     "specs": {
@@ -884,10 +923,11 @@
   {
     "id": "v-YySRb_ISg",
     "title": "QK65 R1",
+    "youtubeTitle": "QK65 with Prevail Epsilons",
     "category": "MX",
     "timestamp": "2023-07-01T15:28:20Z",
     "images": [
-      "/images/v-YySRb_ISg/thumbnail.jpg"
+      "./images/v-YySRb_ISg/thumbnail.jpg"
     ],
     "youtubeUrl": "https://youtu.be/v-YySRb_ISg",
     "specs": {

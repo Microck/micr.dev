@@ -1,49 +1,109 @@
-import React from 'react';
-import { KeyboardBuild } from '../types/Build';
-import { useTheme } from '../contexts/ThemeContext';
+import React from "react";
+import { KeyboardBuild } from "../types/Build";
+import { useTheme } from "../contexts/ThemeContext";
 
 interface BuildCardProps {
   build: KeyboardBuild;
   onClick: () => void;
+  showBuild?: boolean;
 }
 
-export function BuildCard({ build, onClick }: BuildCardProps) {
+/**
+ * FINAL VERSION: Extracts build descriptions with specific rules and
+ * simplifies the output for MX boards.
+ */
+const extractBuildDescription = (build: KeyboardBuild): string => {
+  const sourceTitle = build.youtubeTitle || build.title;
+  const lowerCaseTitle = sourceTitle.toLowerCase();
+
+  if (build.category === "EC") {
+    // EC logic remains the same
+    if (lowerCaseTitle.startsWith("lubed and silenced")) {
+      return "Lubed and Silenced";
+    }
+    if (lowerCaseTitle.startsWith("lubed")) {
+      return "Lubed";
+    }
+    if (lowerCaseTitle.startsWith("stock")) {
+      return "Stock";
+    }
+  } else if (build.category === "MX") {
+    // NEW MX LOGIC: Find and remove the prefix
+    const prefixes = [
+      " with lubed ",
+      " with stock ",
+      " with ",
+      " con lubed ",
+      " con stock ",
+      " con ",
+    ];
+
+    for (const prefix of prefixes) {
+      const index = lowerCaseTitle.indexOf(prefix);
+      if (index !== -1) {
+        // Return the part of the title *after* the prefix
+        return sourceTitle.substring(index + prefix.length).trim();
+      }
+    }
+  }
+
+  return ""; // Fallback if no rules match
+};
+
+export function BuildCard({
+  build,
+  onClick,
+  showBuild = false,
+}: BuildCardProps) {
   const { isDark } = useTheme();
-  
-  // Use the first image as the cover image
   const coverImage = build.images[0];
+  const buildDescription = extractBuildDescription(build);
 
   return (
-    <div
-      onClick={onClick}
-      className="cursor-pointer card-hover"
-    >
+    <div onClick={onClick} className="cursor-pointer card-hover">
       {/* Cover image */}
-      <div className="w-full h-64 mb-4 overflow-hidden rounded-lg">
+      <div className="w-full h-64 mb-4 overflow-hidden">
         <img
           src={coverImage}
           alt={build.title}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
           onError={(e) => {
-            // Fallback to placeholder if image fails to load
             const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
+            target.style.display = "none";
             const placeholder = target.nextElementSibling as HTMLElement;
-            if (placeholder) placeholder.style.display = 'flex';
+            if (placeholder) placeholder.style.display = "flex";
           }}
         />
-        {/* Fallback placeholder */}
         <div className="placeholder-bg w-full h-full hidden items-center justify-center">
-          <span className={`text-lg font-normal ${isDark ? 'text-[#1c1c1c]' : 'text-[#1c1c1c]'}`}>
+          <span
+            className={`text-lg font-normal ${
+              isDark ? "text-[#1c1c1c]" : "text-[#1c1c1c]"
+            }`}
+          >
             COVER IMAGE
           </span>
         </div>
       </div>
-      
+
       {/* Title */}
-      <h3 className={`card-title text-lg text-center slide-up ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>
+      <h3
+        className={`card-title text-lg text-center slide-up ${
+          isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+        }`}
+      >
         {build.title}
       </h3>
+
+      {/* Build description */}
+      {showBuild && buildDescription && (
+        <p
+          className={`text-xs text-center mt-1 px-2 leading-relaxed ${
+            isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+          } opacity-70`}
+        >
+          {buildDescription}
+        </p>
+      )}
     </div>
   );
 }

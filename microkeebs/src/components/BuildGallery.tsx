@@ -11,6 +11,7 @@ interface BuildGalleryProps {
 
 export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
   const [showTimestamps, setShowTimestamps] = useState(false);
+  const [showBuild, setShowBuild] = useState(false);
   const [sortBy, setSortBy] = useState('newest');
   const [activeFilter, setActiveFilter] = useState('All');
   const { isDark } = useTheme();
@@ -34,33 +35,64 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
         {/* Controls */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-12 fade-in">
-          {/* Timestamp toggle */}
-          <label className="flex items-center space-x-2 cursor-pointer">
-            <div className="relative">
-              <input
-                type="checkbox"
-                checked={showTimestamps}
-                onChange={(e) => setShowTimestamps(e.target.checked)}
-                className="sr-only"
-              />
-              <div className={`w-4 h-4 border transition-all duration-300 ${
-                showTimestamps 
-                  ? isDark 
-                    ? 'bg-[#a7a495] scale-110 border-[#a7a495]' 
-                    : 'bg-[#1c1c1c] scale-110 border-[#1c1c1c]'
-                  : isDark 
-                    ? 'bg-[#2a2a2a] border-[#a7a495]' 
-                    : 'bg-[#b5b3a7] border-[#1c1c1c]'
-              }`}>
-                {showTimestamps && (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className={`w-2 h-2 ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#b5b3a7]'}`}></div>
-                  </div>
-                )}
+          {/* Toggle controls */}
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+            {/* Timestamp toggle */}
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  checked={showTimestamps}
+                  onChange={(e) => setShowTimestamps(e.target.checked)}
+                  className="sr-only"
+                />
+                <div className={`w-4 h-4 border transition-all duration-300 ${
+                  showTimestamps 
+                    ? isDark 
+                      ? 'bg-[#a7a495] scale-110 border-[#a7a495]' 
+                      : 'bg-[#1c1c1c] scale-110 border-[#1c1c1c]'
+                    : isDark 
+                      ? 'bg-[#2a2a2a] border-[#a7a495]' 
+                      : 'bg-[#b5b3a7] border-[#1c1c1c]'
+                }`}>
+                  {showTimestamps && (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className={`w-2 h-2 ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#b5b3a7]'}`}></div>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-            <span className={`text-sm font-normal ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>Show timestamps</span>
-          </label>
+              <span className={`text-sm font-normal ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>Show timestamps</span>
+            </label>
+
+            {/* Build description toggle */}
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  checked={showBuild}
+                  onChange={(e) => setShowBuild(e.target.checked)}
+                  className="sr-only"
+                />
+                <div className={`w-4 h-4 border transition-all duration-300 ${
+                  showBuild 
+                    ? isDark 
+                      ? 'bg-[#a7a495] scale-110 border-[#a7a495]' 
+                      : 'bg-[#1c1c1c] scale-110 border-[#1c1c1c]'
+                    : isDark 
+                      ? 'bg-[#2a2a2a] border-[#a7a495]' 
+                      : 'bg-[#b5b3a7] border-[#1c1c1c]'
+                }`}>
+                  {showBuild && (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className={`w-2 h-2 ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#b5b3a7]'}`}></div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <span className={`text-sm font-normal ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>Show build</span>
+            </label>
+          </div>
           
           {/* Sort dropdown */}
           <div className="flex items-center space-x-2">
@@ -133,6 +165,7 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
               <BuildCard
                 build={build}
                 onClick={() => onBuildSelect(build)}
+                showBuild={showBuild}
               />
               {showTimestamps && (
                 <div className={`text-xs text-center mt-2 ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>
