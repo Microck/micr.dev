@@ -1,29 +1,31 @@
-# This is the definitive configuration for deploying a static root site
-# and a Vite sub-project from the same repository.
+# =============================================================================
+# FINAL CONFIGURATION for a Monorepo with a Vite SPA in a subfolder
+# =============================================================================
 
 [build]
-  # 1. The build command first navigates into the subfolder,
-  #    installs its dependencies, and runs its build script.
+  # This command builds the Vite app inside the 'microkeebs' directory.
   command = "cd microkeebs && npm install && npm run build"
 
-  # 2. The publish directory is the ROOT of the repository.
-  #    This ensures all your static files (index.html, /wip, etc.) are deployed.
+  # This publishes the entire repository root, deploying all static files
+  # AND the newly built 'microkeebs/dist' folder.
   publish = "."
 
-# --- REDIRECT RULES ---
-# These rules ensure the built Vite app is served correctly.
-# The order is important: most specific rules first.
+# --- REDIRECT & REWRITE RULES ---
+# The order and content of these rules are critical.
 
-# Rule 1: Handles requests for the app's assets (JS, CSS, etc.).
-# It rewrites /microkeebs/assets/* to the correct build output folder.
+# Rule 1: Asset Rewriting
+# This rule ensures that requests for your app's assets (JS, CSS, images)
+# are correctly served from the build output directory.
 [[redirects]]
   from = "/microkeebs/assets/*"
   to = "/microkeebs/dist/assets/:splat"
   status = 200
 
-# Rule 2: Handles the request for the app's main page.
-# It serves the app's main index.html file when someone visits /microkeebs/
+# Rule 2: SPA Fallback / Catch-all
+# This is the most important rule. It ensures that any direct navigation
+# or refresh on a sub-page of your app (e.g., /microkeebs/build/123)
+# serves the main index.html file, allowing React Router to handle the route.
 [[redirects]]
-  from = "/microkeebs/"
+  from = "/microkeebs/*"
   to = "/microkeebs/dist/index.html"
   status = 200
