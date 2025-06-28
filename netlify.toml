@@ -1,27 +1,19 @@
-# This configuration handles a repository with a static root
-# and a sub-project that needs a build step.
+# This is the netlify.toml for the MAIN micr.dev site.
 
 [build]
-  # This command builds ONLY the sub-project.
-  command = "cd microkeebs && npm install && npm run build"
-
-  # This publishes the ROOT of the repository, deploying all static files.
+  # This command is for your main site. If it's just static files, it can be empty.
+  command = ""
+  # This publishes the root of the repository, deploying all your static files.
   publish = "."
 
-# --- CORRECTED REDIRECTS ---
-# The order of these rules is important.
+# --- PROXY RULE ---
+# This rule tells Netlify how to handle the /microkeebs path.
 
-# Rule 1: Serve the assets correctly.
-# This rule tells Netlify to look inside the 'dist' folder for any requested assets.
 [[redirects]]
-  from = "/microkeebs/assets/*"
-  to = "/microkeebs/dist/assets/:splat"
-  status = 200
-
-# Rule 2: Serve the main app for all other routes.
-# This is the fallback for your Single Page App (SPA). It ensures that
-# direct visits to /microkeebs or /microkeebs/some/page work correctly.
-[[redirects]]
+  # When a user requests /microkeebs/... on your main site...
   from = "/microkeebs/*"
-  to = "/microkeebs/dist/index.html"
+  # ...invisibly fetch the content from your separate microkeebs site.
+  # IMPORTANT: Replace the URL with the one you copied from Step 1!
+  to = "https://microkeebs-unique-name.netlify.app/:splat"
+  # Status 200! is crucial. It means "this is a rewrite, not a redirect".
   status = 200
