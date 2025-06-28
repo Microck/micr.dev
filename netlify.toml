@@ -17,14 +17,123 @@
   force = true
 
 # Rule 2: Explicitly handle the base path WITHOUT a trailing slash.
-# The 'force = true' overrides Netlify's default file-serving logic.
 [[redirects]]
   from = "/microkeebs"
   to = "/microkeebs/dist/index.html"
   status = 200
   force = true
 
+# Rule 3: Serve images from dist
 [[redirects]]
   from = "/microkeebs/images/*"
   to = "/microkeebs/dist/images/:splat"
   status = 200
+
+# --- SPA/INTERNAL REDIRECTS ---
+[[redirects]]
+  from = "/about"
+  to = "/wip"
+  status = 302
+
+[[redirects]]
+  from = "/quarzite"
+  to = "/wip"
+  status = 302
+
+[[redirects]]
+  from = "/regular-projects"
+  to = "/wip"
+  status = 302
+
+[[redirects]]
+  from = "/big-projects"
+  to = "/wip"
+  status = 302
+
+# --- EXTERNAL REDIRECTS ---
+[[redirects]]
+  from = "/youtube"
+  to = "https://www.youtube.com/@Microck"
+  status = 302
+
+[[redirects]]
+  from = "/twitter"
+  to = "https://x.com/JustMicrock"
+  status = 302
+
+[[redirects]]
+  from = "/github"
+  to = "https://github.com/Microck"
+  status = 302
+
+[[redirects]]
+  from = "/anime"
+  to = "https://anilist.co/user/Microck/"
+  status = 302
+
+[[redirects]]
+  from = "/films"
+  to = "https://letterboxd.com/microck_/"
+  status = 302
+
+[[redirects]]
+  from = "/books"
+  to = "https://www.goodreads.com/user/show/169975249-microck"
+  status = 302
+
+[[redirects]]
+  from = "/games"
+  to = "https://backloggd.com/u/Microck/"
+  status = 302
+
+[[redirects]]
+  from = "/music"
+  to = "https://stats.fm/xmicrock"
+  status = 302
+
+[[redirects]]
+  from = "/minecraft"
+  to = "https://namemc.com/profile/xMicrock.1"
+  status = 302
+
+[[redirects]]
+  from = "/osu"
+  to = "https://osu.ppy.sh/users/13935109"
+  status = 302
+
+[[redirects]]
+  from = "/vlr"
+  to = "https://tracker.gg/valorant/profile/riot/Secret%23666/performance?platform=pc&playlist=competitive"
+  status = 302
+
+# --- MICROKEEBS SOCIALS ---
+[[redirects]]
+  from = "/microkeebs/youtube"
+  to = "https://www.youtube.com/@microkeebs"
+  status = 302
+
+[[redirects]]
+  from = "/microkeebs/instagram"
+  to = "https://www.instagram.com/microkeebs/"
+  status = 302
+
+[[redirects]]
+  from = "/microkeebs/tiktok"
+  to = "https://www.tiktok.com/@microkeebs"
+  status = 302
+
+[[redirects]]
+  from = "/microkeebs/reddit"
+  to = "https://www.reddit.com/user/Microkeebs/"
+  status = 302
+
+# --- SOCR SOCIALS ---
+[[redirects]]
+  from = "/socr/youtube"
+  to = "https://www.youtube.com/@socr.marcos"
+  status = 302
+
+[[redirects]]
+  from = "/socr/instagram"
+  to = "https://www.instagram.com/http.socr"
+  status = 302
