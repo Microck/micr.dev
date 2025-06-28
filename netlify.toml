@@ -9,16 +9,19 @@
   publish = "."
 
 # --- CORRECTED REDIRECTS ---
-# This is the standard and most reliable way to handle a Single Page App (SPA)
-# like React/Vite in a subfolder.
+# The order of these rules is important.
 
+# Rule 1: Serve the assets correctly.
+# This rule tells Netlify to look inside the 'dist' folder for any requested assets.
 [[redirects]]
-  # When a user requests any path starting with /microkeebs/...
-  from = "/microkeebs/*"
-  # ...serve them the main index.html file from the build output.
-  to = "/microkeebs/dist/index.html"
-  # Status 200 means it's a successful rewrite, not a 301 redirect.
+  from = "/microkeebs/assets/*"
+  to = "/microkeebs/dist/assets/:splat"
   status = 200
-  # THIS IS THE FIX: It tells Netlify to always apply this rule,
-  # even if a file exists at the original path (like /microkeebs/index.html).
-  force = true
+
+# Rule 2: Serve the main app for all other routes.
+# This is the fallback for your Single Page App (SPA). It ensures that
+# direct visits to /microkeebs or /microkeebs/some/page work correctly.
+[[redirects]]
+  from = "/microkeebs/*"
+  to = "/microkeebs/dist/index.html"
+  status = 200
