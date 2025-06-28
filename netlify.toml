@@ -25,7 +25,6 @@
   force = true
 
 [[redirects]]
-  from = "/microkeebs/public/images/*"
-  to = "/images/:splat"
+  from = "/microkeebs/images/*"
+  to = "/microkeebs/dist/images/:splat"
   status = 200
-  force = true
