@@ -6,25 +6,29 @@
   # This command builds the Vite app inside the 'microkeebs' directory.
   command = "cd microkeebs && npm install && npm run build"
 
-  # This publishes the entire repository root, deploying all static files
-  # AND the newly built 'microkeebs/dist' folder.
+  # This publishes the entire repository root.
   publish = "."
 
 # --- REDIRECT & REWRITE RULES ---
-# The order and content of these rules are critical.
+# The order of these rules is critical.
 
-# Rule 1: Asset Rewriting
-# This rule ensures that requests for your app's assets (JS, CSS, images)
-# are correctly served from the build output directory.
+# Rule 1: Serve assets correctly.
+# This must come first to prevent assets from being served as HTML.
 [[redirects]]
   from = "/microkeebs/assets/*"
   to = "/microkeebs/dist/assets/:splat"
   status = 200
 
-# Rule 2: SPA Fallback / Catch-all
-# This is the most important rule. It ensures that any direct navigation
-# or refresh on a sub-page of your app (e.g., /microkeebs/build/123)
-# serves the main index.html file, allowing React Router to handle the route.
+# Rule 2: Handle the app's base path. (THE FIX)
+# This new, specific rule forces Netlify to serve your app's index.html
+# when someone visits /microkeebs or /microkeebs/.
+[[redirects]]
+  from = "/microkeebs/"
+  to = "/microkeebs/dist/index.html"
+  status = 200
+
+# Rule 3: SPA Fallback for deep links.
+# This handles any other route like /microkeebs/build/123.
 [[redirects]]
   from = "/microkeebs/*"
   to = "/microkeebs/dist/index.html"
