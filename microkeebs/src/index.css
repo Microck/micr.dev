@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    letter-spacing: -0.02em; /* Reduced kerning for Consolas */
+  }
+  
+  body {
+    background-color: #a7a495; /* Dark Beige */
+    color: #1c1c1c; /* Charcoal */
+  }
+}
+
+@layer components {
+  .card-title {
+    font-family: 'Share Tech Mono', 'Consolas', monospace;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+  
+  .placeholder-bg {
+    background-color: white; /* White only for placeholders */
+  }
+  
+  /* Metal gradient shine effect */
+  .metal-shine {
+    position: relative;
+    background-size: 200% 200%;
+    animation: metalShine 3s ease-in-out infinite;
+  }
+  
+  /* Animation Classes */
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .slide-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 0.8s ease-out forwards;
+  }
+
+  .stagger-item {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: staggerIn 0.6s ease-out forwards;
+  }
+
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .smooth-bounce {
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .smooth-bounce:hover {
+    transform: translateY(-8px) scale(1.02);
+  }
+
+  .card-hover {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-12px);
+  }
+
+  .button-morph {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .button-morph::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(181, 179, 167, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .button-morph:hover::before {
+    left: 100%;
+  }
+
+  .nav-item {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #1c1c1c;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .nav-item:hover::after {
+    width: 100%;
+  }
+
+  .carousel-slide {
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .ranking-item {
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .ranking-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background-color: rgba(28, 28, 28, 0.05);
+    transition: width 0.3s ease;
+    z-index: 0;
+  }
+
+  .ranking-item:hover::before {
+    width: 100%;
+  }
+
+  .ranking-item > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .specs-reveal {
+    opacity: 0;
+    transform: translateX(20px);
+    animation: specReveal 0.5s ease-out forwards;
+  }
+
+  .thumbnail-hover {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .thumbnail-hover:hover {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes staggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes specReveal {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes metalShine {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Stagger animation delays */
+.stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+.stagger-item:nth-child(6) { animation-delay: 0.6s; }
+.stagger-item:nth-child(7) { animation-delay: 0.7s; }
+.stagger-item:nth-child(8) { animation-delay: 0.8s; }
+.stagger-item:nth-child(9) { animation-delay: 0.9s; }

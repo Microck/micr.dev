@@ -1,0 +1,907 @@
+[
+  {
+    "id": "DOE--VY0KSI",
+    "title": "2012 HHKB Pro 2 Type-S",
+    "category": "EC",
+    "timestamp": "2025-06-22T13:00:24Z",
+    "images": [
+      "/images/DOE--VY0KSI/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/DOE--VY0KSI",
+    "specs": {
+      "Keyboard": "Happy Hacking Keyboard (HHKB) Professional 2 Type-S",
+      "Keycaps": "Stock",
+      "Domes": "45g OEM",
+      "Sliders": "Stock (Non-Lubed, Type-S rings)",
+      "Stabilizers": "Lubed with 205g0",
+      "Dampening": "Nothing"
+    }
+  },
+  {
+    "id": "PSyXlFCGj_I",
+    "title": "Realforce R2 87ub",
+    "category": "EC",
+    "timestamp": "2025-06-15T13:00:43Z",
+    "images": [
+      "/images/PSyXlFCGj_I/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/PSyXlFCGj_I",
+    "specs": {
+      "Keyboard": "Topre Realforce R2 87UB + JustSystems sticker",
+      "Keycaps": "Ivory Topre Realforce R2 87UW + Urushi Keycap",
+      "Domes": "45g Metakeebs",
+      "Sliders": "Stock (Non-Lubed, Non-Silenced)",
+      "Stabilizers": "Lubed with 205g0",
+      "Dampening": "Nothing"
+    }
+  },
+  {
+    "id": "LVWLQ3h2Yno",
+    "title": "Bias V2",
+    "category": "MX",
+    "timestamp": "2025-06-08T13:00:37Z",
+    "images": [
+      "/images/LVWLQ3h2Yno/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/LVWLQ3h2Yno",
+    "specs": {
+      "Keyboard": "Baionlenja Bias R2 (reanodized dark gray by Prime)",
+      "Keycaps": "GMK WoB + Relegendables + GMK Alt Grrrr",
+      "Switches": "Retooled Cherry MX Black",
+      "Lube": "GHv4",
+      "Films": "TX 0.15",
+      "Springs": "TX L 55g lubed with GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "Grommet Mount (Soft Grommets)",
+      "Stabilizers": "Cherry Clip Ins + C3 wires with 205g0",
+      "PCB": "Baion 808 Solder",
+      "Artisan": "-",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "_82CkwU_YFY",
+    "title": "Geonworks F2-60",
+    "category": "MX",
+    "timestamp": "2025-06-01T13:01:06Z",
+    "images": [
+      "/images/_82CkwU_YFY/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/_82CkwU_YFY",
+    "specs": {
+      "Keyboard": "Geonworks F2-60 (Silver)",
+      "Keycaps": "GMK Panels",
+      "Switches": "HG Haimu x Geon Blacks",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Full Aluminium",
+      "Mount": "Gasket O-ring",
+      "Stabilizers": "Swagkeys Knight V2 with 205g0",
+      "PCB": "Capy60 Hotswap*",
+      "Artisan": "Unknown \"Golf\" Monster Artisan",
+      "Others": "*PCB has been sanded to fit"
+    }
+  },
+  {
+    "id": "ISZuY2U3-6A",
+    "title": "TGR 910 CE",
+    "category": "MX",
+    "timestamp": "2025-05-25T13:00:26Z",
+    "images": [
+      "/images/ISZuY2U3-6A/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/ISZuY2U3-6A",
+    "specs": {
+      "Keyboard": "TGR 910 CE Silver",
+      "Keycaps": "GMK Hyperfuse Origins",
+      "Switches": "Vintage Cherry MX Black",
+      "Lube": "ghv4",
+      "Films": "TX 0.15",
+      "Springs": "TX UXL 45g with GPL 105",
+      "Plate": "Full Brass",
+      "Mount": "Top Mount",
+      "Stabilizers": "Staebies V2 with Permatex Dialectric Grease",
+      "PCB": "Mechlovin' Zed65 (Mini-USB Connector)",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "ss8hBE-pws0",
+    "title": "SingaKBD PC Kohaku",
+    "category": "MX",
+    "timestamp": "2025-05-18T13:01:24Z",
+    "images": [
+      "/images/ss8hBE-pws0/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/ss8hBE-pws0",
+    "specs": {
+      "Keyboard": "SingaKBD Kohaku R2 Polycarbonate",
+      "Keycaps": "GMK Symbiote + Standard Galactic Kit",
+      "Switches": "PH Studio x Tecsee Bocchi (Zaku Recolor)",
+      "Lube": "Prelubed",
+      "Films": "-",
+      "Springs": "22mm Extended Single Staged Spring (Stock)",
+      "Plate": "Full Aluminium",
+      "Mount": "Gasket Mount",
+      "Stabilizers": "JWK Stabilizers lubed with Permatex Dialectric Grease",
+      "PCB": "Kohaku R1 Hotswap",
+      "Artisan": "-",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "SFFZvEytc9M",
+    "title": "Realforce R1 104ub",
+    "category": "EC",
+    "timestamp": "2025-05-11T13:00:45Z",
+    "images": [
+      "/images/SFFZvEytc9M/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/SFFZvEytc9M",
+    "specs": {
+      "Keyboard": "Topre Realforce R1 104UB",
+      "Keycaps": "Stock",
+      "Domes": "Variable OEM",
+      "Sliders": "Stock (Non-Lubed, Non-Silenced)",
+      "Stabilizers": "Lubed with 205g0",
+      "Dampening": "Nothing"
+    }
+  },
+  {
+    "id": "A_3zkPLtw3Y",
+    "title": "2019 HHKB Pro 2",
+    "category": "EC",
+    "timestamp": "2025-05-04T13:00:14Z",
+    "images": [
+      "/images/A_3zkPLtw3Y/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/A_3zkPLtw3Y",
+    "specs": {
+      "Keyboard": "Happy Hacking Keyboard (HHKB) Professional 2",
+      "Keycaps": "Stock",
+      "Domes": "45g OEM",
+      "Sliders": "Stock (Non-Lubed, Non-Silenced)",
+      "Stabilizers": "Stock",
+      "Dampening": "Nothing"
+    }
+  },
+  {
+    "id": "oS9oHdsjImA",
+    "title": "TGR-03 PROTO",
+    "category": "MX",
+    "timestamp": "2025-04-27T13:01:24Z",
+    "images": [
+      "/images/oS9oHdsjImA/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/oS9oHdsjImA",
+    "specs": {
+      "Keyboard": "TGR-03 PROTOTYPE (Silver)",
+      "Keycaps": "GMK DMG R3 + Novelties Kit",
+      "Switches": "Diamond Polished Cherry MX Hyperglide Browns",
+      "Lube": "Krytox 205g0",
+      "Films": "Deskey",
+      "Springs": "TX M 55g",
+      "Plate": "Full Aluminium",
+      "Mount": "Top Mount",
+      "Stabilizers": "Cherry Clip In + C3 Wires lubed with XHT-BDZ and Krytox 205g0",
+      "PCB": "Hiney H87A",
+      "Others": "gaslight yourself into thinking the scroll led is green, im lazy to change it"
+    }
+  },
+  {
+    "id": "tHxVcRIHGqU",
+    "title": "Leopold FC660C",
+    "category": "EC",
+    "timestamp": "2025-04-20T13:01:34Z",
+    "images": [
+      "/images/tHxVcRIHGqU/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/tHxVcRIHGqU",
+    "specs": {
+      "Keyboard": "Leopold FC660C Beige",
+      "PCB": "Stock OEM PCB",
+      "Plate": "Stock OEM SS Plate",
+      "Domes": "45g OEM",
+      "Keycaps": "OEM Beige"
+    }
+  },
+  {
+    "id": "AFmaq-e7eBc",
+    "title": "Bias V2",
+    "category": "MX",
+    "timestamp": "2025-04-12T11:13:47Z",
+    "images": [
+      "/images/AFmaq-e7eBc/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/AFmaq-e7eBc",
+    "specs": {
+      "Keyboard": "Baionlenja Bias V2 (Silver-ish Plutonium (?) top + Purple Genelec bottom)",
+      "Keycaps": "GMK Hyperfuse Origins",
+      "Switches": "Cherry MX Milk / White",
+      "Lube": "Trybosis 3204",
+      "Films": "Kelowna PC",
+      "Springs": "45g lubed with GPL 105",
+      "Plate": "Full PC",
+      "Mount": "Grommet Mount (Soft Grommets)",
+      "Stabilizers": "Neo stabs lubed with Permatex Dialectric Grease",
+      "PCB": "Solder Baion 808",
+      "Others": "Only alphas, spacebar and mods have been soldered"
+    }
+  },
+  {
+    "id": "7NTZj-98yAM",
+    "title": "2016 HHKB Pro 2 Type-S",
+    "category": "EC",
+    "timestamp": "2025-04-08T13:00:09Z",
+    "images": [
+      "/images/7NTZj-98yAM/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/7NTZj-98yAM",
+    "specs": {
+      "Keyboard": "Happy Hacking Keyboard (HHKB) Professional 2 Type-S",
+      "Keycaps": "Stock",
+      "Domes": "45g OEM",
+      "Sliders": "Stock (Non-Lubed, Stock Type-S rings)",
+      "Stabilizers": "Lubed with Krytox 205g0",
+      "Dampening": "Nothing"
+    }
+  },
+  {
+    "id": "5F3iMTc4hus",
+    "title": "YAWN60",
+    "category": "MX",
+    "timestamp": "2025-04-04T15:03:37Z",
+    "images": [
+      "/images/5F3iMTc4hus/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/5F3iMTc4hus",
+    "specs": {
+      "Keyboard": "YAWN60 / Yet Another Weighted Neko by me",
+      "Keycaps": "ePBT Coniferous (?) + KKB Jindo",
+      "Switches": "Vintage Cherry MX Brown",
+      "Lube": "ghv4",
+      "Films": "TX 0.15",
+      "Springs": "55g TX L lubed with GPL 105",
+      "Plate": "Full PC",
+      "Mount": "Gummy 70A O-ring",
+      "Stabilizers": "Neo stabs lubed with Permatex Dialectric Grease",
+      "PCB": "Waffling60 MX Rev E by 4pplet",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "YzaJVl_TQVw",
+    "title": "SingaKBD PC Kohaku",
+    "category": "MX",
+    "timestamp": "2025-03-13T15:20:48Z",
+    "images": [
+      "/images/YzaJVl_TQVw/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/YzaJVl_TQVw",
+    "specs": {
+      "Keyboard": "SingaKBD Kohaku R2 Polycarbonate",
+      "Keycaps": "GMK Chaos Theory",
+      "Switches": "Cherry MX Black Hyperglide",
+      "Lube": "Krytox 205g0",
+      "Films": "PC (?)",
+      "Springs": "22mm Doble-Stage 45g (?) lubed with GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "Gasket Mount",
+      "Stabilizers": "JWK Stabilizers lubed with Permatex Dialectric Grease",
+      "PCB": "Kohaku R1 Hotswap",
+      "Artisan": "-",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "dDN38OwMLnw",
+    "title": "Chilkey ND75",
+    "category": "MX",
+    "timestamp": "2025-02-22T12:07:03Z",
+    "images": [
+      "/images/dDN38OwMLnw/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/dDN38OwMLnw",
+    "specs": {
+      "Keyboard": "Chilkey ND75 (White)",
+      "Keycaps": "PBT Monochrome",
+      "Switches": "KTT Grapefruit",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "Stock",
+      "Plate": "PC",
+      "Stabilizers": "Stock",
+      "PCB": "Hotswap",
+      "Artisan": "-",
+      "Mount": "Silica Gel",
+      "Others": "foams, stab job is stock"
+    }
+  },
+  {
+    "id": "YRvEWg0ChF8",
+    "title": "TGR-03 PROTO",
+    "category": "MX",
+    "timestamp": "2025-02-08T17:11:58Z",
+    "images": [
+      "/images/YRvEWg0ChF8/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/YRvEWg0ChF8",
+    "specs": {
+      "Keyboard": "TGR-03 PROTOTYPE (Silver)",
+      "Keycaps": "GMK Hyperfuse Origins + GMK Modern Dolch Keycap",
+      "Switches": "Vintage Cherry MX Ergo Clears (trimmed)",
+      "Lube": "Krytox 205g0",
+      "Films": "TX 0.15",
+      "Springs": "TX L 55g lubed with GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "Top Mount",
+      "Stabilizers": "Cherry Clip In + C3 Wires lubed with XHT-BDZ and Krytox 205g0",
+      "PCB": "Hiney H87A",
+      "Artisan": "-",
+      "Others": "Soldered LEDs on Caps Lock and Scroll (non-working lmao)"
+    }
+  },
+  {
+    "id": "3gLHo75n3tQ",
+    "title": "Vertex INTRO S100",
+    "category": "MX",
+    "timestamp": "2025-02-02T15:31:24Z",
+    "images": [
+      "/images/3gLHo75n3tQ/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/3gLHo75n3tQ",
+    "specs": {
+      "Keyboard": "Vertex INTRO S100 (Half-life colorway)",
+      "Keycaps": "KKB Jindo + Dye-sub shinethroughs + OG Doubleshots (ANSI & ISO) on numpad + Relegendables",
+      "Switches": "Kailh BCP (Black Cherry Pies)",
+      "Lube": "Prelubed",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Full CF",
+      "Mount": "Gasket",
+      "Stabilizers": "Screw-In JWK Stabilizers lubed with Permatex Dialectric Grease and Krytox 205g0 (included in my unit)",
+      "PCB": "Hotswap",
+      "Artisan": "CYSM Keyby Basic Beige",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "r20686Wiw_o",
+    "title": "Vortex Pok3r LE",
+    "category": "MX",
+    "timestamp": "2025-01-18T09:53:16Z",
+    "images": [
+      "/images/r20686Wiw_o/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/r20686Wiw_o",
+    "specs": {
+      "Keyboard": "Vortex Pok3r LE (Limited Edition)",
+      "Keycaps": "GMK WoB + GMK Spacebar + PBT Alphas and Accents",
+      "Switches": "Cherry RGB Brown",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Full Alu",
+      "Mount": "Tray Mount",
+      "Stabilizers": "Stock Plate Mount lubed with Permatex Dialectric Grease",
+      "PCB": "Solder",
+      "Artisan": "-",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "a1AUHkoameo",
+    "title": "MonsGeek M1 V5 VIA",
+    "category": "MX",
+    "timestamp": "2025-01-07T11:06:17Z",
+    "images": [
+      "/images/a1AUHkoameo/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/a1AUHkoameo",
+    "specs": {
+      "Keyboard": "MonsGeek M1 V5 VIA",
+      "Keycaps": "Keyreative Black Blanks",
+      "Switches": "Akko Mirror",
+      "Lube": "Prelubed",
+      "Films": "-",
+      "Springs": "Stock",
+      "Plate": "PC",
+      "Stabilizers": "Stock",
+      "PCB": "Hotswap",
+      "Artisan": "-",
+      "Others": "foams, stab job is stock"
+    }
+  },
+  {
+    "id": "BVmT-khkd5E",
+    "title": "TKD Cycle8",
+    "category": "MX",
+    "timestamp": "2025-01-05T11:19:02Z",
+    "images": [
+      "/images/BVmT-khkd5E/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/BVmT-khkd5E",
+    "specs": {
+      "Keyboard": "TKD Cycle8",
+      "Keycaps": "GMK WoB",
+      "Switches": "PH Studio x Tecsee Bocchi (Zaku Recolor)",
+      "Lube": "Prelubed",
+      "Films": "-",
+      "Springs": "22mm Extended Single Staged Spring (Stock)",
+      "Plate": "Full PC",
+      "Mount": "Gasket Beans",
+      "Stabilizers": "Cherry Clip In + C3 Wires lubed with XHT-BDZ and Krytox 205g0",
+      "PCB": "ANSI Hotswap",
+      "Artisan": "Dreadkeys Monochrome",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "AD96PTb2l2o",
+    "title": "Synovia R0",
+    "category": "MX",
+    "timestamp": "2025-01-02T16:51:54Z",
+    "images": [
+      "/images/AD96PTb2l2o/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/AD96PTb2l2o",
+    "specs": {
+      "Keyboard": "Baionlenja Synovia R0",
+      "Keycaps": "GMK Rainy Day (Base + Hangul + Spacebars)",
+      "Switches": "Retooled Cherry MX Black",
+      "Lube": "GHv4",
+      "Films": "TX 0.15",
+      "Springs": "TX L 55g lubed with GPL 105",
+      "Plate": "Aluminium",
+      "Mount": "Top Mount",
+      "Stabilizers": "Staebies V2 on spacebar, Neo stabs on rest; lubed with XHT-BDZ and Krytox 205g0",
+      "PCB": "Fixed Solder",
+      "Artisan": "-",
+      "Others": "Force break mod"
+    }
+  },
+  {
+    "id": "_EFypkbu9gQ",
+    "title": "Chilkey ND TKL",
+    "category": "MX",
+    "timestamp": "2024-11-19T15:18:00Z",
+    "images": [
+      "/images/_EFypkbu9gQ/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/_EFypkbu9gQ",
+    "specs": {
+      "Keyboard": "Chillkey ND TKL (Sky Blue)",
+      "Keycaps": "PBT Doubleshot",
+      "Switches": "Kailh Blue Lotus",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Alu",
+      "Stabilizers": "Stock",
+      "PCB": "Hotswap",
+      "Artisan": "-",
+      "Others": "Completely stock"
+    }
+  },
+  {
+    "id": "Yjbeg1tw3oQ",
+    "title": "Neo75 Cu",
+    "category": "MX",
+    "timestamp": "2024-10-22T14:33:46Z",
+    "images": [
+      "/images/Yjbeg1tw3oQ/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/Yjbeg1tw3oQ",
+    "specs": {
+      "Keyboard": "Neo75 CU",
+      "Keycaps": "Keykobo Alhambra",
+      "Switches": "SWK Catmint",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "PP",
+      "Mount": "Gasket?",
+      "Stabilizers": "Neo stabs",
+      "PCB": "Hotswap",
+      "Artisan": "-",
+      "Others": "Brass bottom, no foams."
+    }
+  },
+  {
+    "id": "-nwtEc4itjI",
+    "title": "Corne",
+    "category": "MX",
+    "timestamp": "2024-10-20T09:40:21Z",
+    "images": [
+      "/images/-nwtEc4itjI/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/-nwtEc4itjI",
+    "specs": {
+      "Keyboard": "3D Printed Corne",
+      "Keycaps": "Akko Starry Night",
+      "Switches": "JWK Durock T1",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "PLA",
+      "Mount": "Tray",
+      "Stabilizers": "-",
+      "PCB": "Hotswap",
+      "Artisan": "-",
+      "Others": "im pretty sure you can add some screws to this case design and make it an angled ergo but cba"
+    }
+  },
+  {
+    "id": "lt6Ol9lGNYM",
+    "title": "Neo75 Cu",
+    "category": "MX",
+    "timestamp": "2024-10-19T13:02:16Z",
+    "images": [
+      "/images/lt6Ol9lGNYM/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/lt6Ol9lGNYM",
+    "specs": {
+      "Keyboard": "Neo75 CU",
+      "Keycaps": "Keykobo Alhambra",
+      "Switches": "HMX Hyacinth V2U",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "PP",
+      "Mount": "Gasket?",
+      "Stabilizers": "Neo stabs",
+      "PCB": "Hotswap",
+      "Artisan": "-",
+      "Others": "Brass bottom, no foams."
+    }
+  },
+  {
+    "id": "4di1-BcHbos",
+    "title": "Neo75 Cu",
+    "category": "MX",
+    "timestamp": "2024-10-18T15:31:31Z",
+    "images": [
+      "/images/4di1-BcHbos/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/4di1-BcHbos",
+    "specs": {
+      "Keyboard": "Neo75",
+      "Keycaps": "Keykobo Alhambra",
+      "Switches": "Kailh BCP",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "PP",
+      "Mount": "Gasket?",
+      "Stabilizers": "Neo stabs",
+      "PCB": "Hotswap",
+      "Artisan": "-",
+      "Others": "Brass bottom, no foams."
+    }
+  },
+  {
+    "id": "GuSzmcKmQVk",
+    "title": "GMK67-S",
+    "category": "MX",
+    "timestamp": "2024-10-16T16:19:53Z",
+    "images": [
+      "/images/GuSzmcKmQVk/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/GuSzmcKmQVk",
+    "specs": {
+      "Keyboard": "GMK67-S",
+      "Keycaps": "Aifei Shoko",
+      "Switches": "Kailh Red + Akko CS Rose Red on Mods + KTT Rose on Spacebar?",
+      "Lube": "stock",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "PC?",
+      "Mount": "Gasket",
+      "Stabilizers": "Stock Plate Mount lubed with Dialectric Grease",
+      "PCB": "Hotswap",
+      "Artisan": "-",
+      "Others": "your lie on april in the screen wowers"
+    }
+  },
+  {
+    "id": "qQyXONuKdUg",
+    "title": "TKD PT.1/75",
+    "category": "MX",
+    "timestamp": "2024-10-12T13:45:50Z",
+    "images": [
+      "/images/qQyXONuKdUg/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/qQyXONuKdUg",
+    "specs": {
+      "Keyboard": "TKD PT. 1/75",
+      "Keycaps": "SW Beige + Beige Shinethroughs",
+      "Switches": "Gateron Deepping + SW Catmint on spacebar",
+      "Lube": "stock (I genuinely thought these were lubed)",
+      "Films": "Prefilmed",
+      "Springs": "57.5g",
+      "Plate": "Alu? Not sure",
+      "Mount": "Top",
+      "Stabilizers": "SW Knight V2",
+      "PCB": "Solder",
+      "Artisan": "-",
+      "Others": "thanks to Manu for lending me his unit for content 🫶"
+    }
+  },
+  {
+    "id": "C18I6p-d3f8",
+    "title": "TKD PT.1/75",
+    "category": "MX",
+    "timestamp": "2024-10-09T14:26:20Z",
+    "images": [
+      "/images/C18I6p-d3f8/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/C18I6p-d3f8",
+    "specs": {
+      "Keyboard": "TKD PT. 1/75",
+      "Keycaps": "KKB Violet Alert",
+      "Switches": "Cherry MX2A Black + Cherry MX Lock on Caps Lock",
+      "Lube": "Krytox 205g0",
+      "Films": "TX 0.125",
+      "Springs": "TX XL 62g",
+      "Plate": "Alu",
+      "Mount": "Top",
+      "Stabilizers": "SW Knight V2",
+      "PCB": "Hotswap",
+      "Artisan": "Spookycaps MissingNo",
+      "Others": "thanks to Manu for lending me his unit for content 🫶"
+    }
+  },
+  {
+    "id": "IYaVQKktZdw",
+    "title": "Neo80",
+    "category": "MX",
+    "timestamp": "2024-09-30T18:10:20Z",
+    "images": [
+      "/images/IYaVQKktZdw/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/IYaVQKktZdw",
+    "specs": {
+      "Keyboard": "Neo80 WK (Spray-coated White)",
+      "Keycaps": "GMK Amethyst",
+      "Switches": "Kailh BCP (Black Cherry Pie)",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Alu",
+      "Mount": "Gasket Dumbell",
+      "Stabilizers": "TX AP lubed with Krytox 205g0",
+      "PCB": "Stock Hotswap",
+      "Others": "All foams"
+    }
+  },
+  {
+    "id": "Y14DpRLXWj8",
+    "title": "Neo80",
+    "category": "MX",
+    "timestamp": "2024-09-27T11:21:02Z",
+    "images": [
+      "/images/Y14DpRLXWj8/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/Y14DpRLXWj8",
+    "specs": {
+      "Keyboard": "Neo80 WK (Spray-coated White)",
+      "Keycaps": "PBT Notion",
+      "Switches": "SW x Haimu MP Tactile",
+      "Plate": "Alu",
+      "Mount": "O-ring",
+      "Stabilizers": "TX AP lubed with Krytox 205g0",
+      "PCB": "Stock Hotswap",
+      "Others": "All foams except the default case foam that has been replaced w other type of foam"
+    }
+  },
+  {
+    "id": "9jOMOvGyZ-s",
+    "title": "Neo80",
+    "category": "MX",
+    "timestamp": "2024-09-24T13:29:49Z",
+    "images": [
+      "/images/9jOMOvGyZ-s/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/9jOMOvGyZ-s",
+    "specs": {
+      "Keyboard": "Neo80 WK (Spray-coated White)",
+      "Keycaps": "GMK Amethyst",
+      "Switches": "Sarokeys x Geon BCP (Black Cherry Pie)",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Alu",
+      "Mount": "Gasket Dumbell",
+      "Stabilizers": "TX AP lubed with Krytox 205g0",
+      "PCB": "Stock Hotswap",
+      "Others": "All foams"
+    }
+  },
+  {
+    "id": "k8R0UoV-MGg",
+    "title": "Luminkey60",
+    "category": "MX",
+    "timestamp": "2024-09-22T12:05:39Z",
+    "images": [
+      "/images/k8R0UoV-MGg/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/k8R0UoV-MGg",
+    "specs": {
+      "Keyboard": "Luminkey60 | LX60 (Silver + Orange)",
+      "Keycaps": "OG Doubleshots + Beige Shinethroughs",
+      "Switches": "HMX Hyacinth V2",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "PP",
+      "Mount": "O-ring 55A",
+      "Stabilizers": "Neo stabilizers lubed with Krytox 205g0",
+      "PCB": "Stock Hotswap",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "rqp0Ke4q3Wo",
+    "title": "Neo80",
+    "category": "MX",
+    "timestamp": "2024-09-21T13:26:03Z",
+    "images": [
+      "/images/rqp0Ke4q3Wo/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/rqp0Ke4q3Wo",
+    "specs": {
+      "Keyboard": "Neo80 WK (Spray-coated White)",
+      "Keycaps": "GMK Amethyst",
+      "Switches": "SW Catmints",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Alu",
+      "Mount": "Gasket Dumbell",
+      "Stabilizers": "TX AP lubed with Krytox 205g0",
+      "PCB": "Stock Hotswap",
+      "Others": "All foams"
+    }
+  },
+  {
+    "id": "Vp7r9jnV7ig",
+    "title": "Luminkey60",
+    "category": "MX",
+    "timestamp": "2024-09-19T18:49:56Z",
+    "images": [
+      "/images/Vp7r9jnV7ig/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/Vp7r9jnV7ig",
+    "specs": {
+      "Keyboard": "Luminkey60 | LX60 (Silver + Orange)",
+      "Keycaps": "OG Doubleshots + Beige Shinethroughs",
+      "Switches": "Sarokeys x Geon BCP",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "PP",
+      "Mount": "O-ring 55A",
+      "Stabilizers": "Neo stabilizers lubed with Krytox 205g0",
+      "PCB": "Stock Hotswap",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "IKvUXZlL4eg",
+    "title": "Luminkey60",
+    "category": "MX",
+    "timestamp": "2024-08-17T12:07:37Z",
+    "images": [
+      "/images/IKvUXZlL4eg/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/IKvUXZlL4eg",
+    "specs": {
+      "Keyboard": "Luminkey60 | LX60 (Silver + Orange)",
+      "Keycaps": "OG Doubleshots + Beige Shinethroughs",
+      "Switches": "SW Catmint",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "PP",
+      "Mount": "O-ring 55A",
+      "Stabilizers": "Neo stabilizers lubed with Krytox 205g0",
+      "PCB": "Stock Hotswap",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "_jCYjJrbzaA",
+    "title": "Luminkey60",
+    "category": "MX",
+    "timestamp": "2024-08-08T19:00:12Z",
+    "images": [
+      "/images/_jCYjJrbzaA/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/_jCYjJrbzaA",
+    "specs": {
+      "Keyboard": "Luminkey60 | LX60 (Silver + Orange)",
+      "Keycaps": "OG Doubleshots + JC Studio Tulip + Beige Shinethroughs",
+      "Switches": "SW x Haimu MP Tactiles",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "PP",
+      "Mount": "O-ring 55A",
+      "Stabilizers": "Neo stabilizers lubed with Krytox 205g0",
+      "PCB": "Stock Hotswap",
+      "Others": "-"
+    }
+  },
+  {
+    "id": "ddO5IkKV36c",
+    "title": "GMK67",
+    "category": "MX",
+    "timestamp": "2023-12-20T15:59:48Z",
+    "images": [
+      "/images/ddO5IkKV36c/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/ddO5IkKV36c",
+    "specs": {
+      "Keyboard": "GMK67 (Blanco)",
+      "Keycaps": "PBT BoW with Japanese Sublegends",
+      "Switches": "KTT Kang White V3",
+      "Lube": "N/A",
+      "Films": "N/A",
+      "Springs": "Stock",
+      "Plate": "PC",
+      "Mount": "Gasket",
+      "Stabilizers": "Stock / lubed with Permatex Dialectric Grease and 205g0 on spacebar",
+      "PCB": "Stock",
+      "Artisan": "N/A",
+      "Others": "N/A"
+    }
+  },
+  {
+    "id": "V8-leeVOAOM",
+    "title": "QK65 R1",
+    "category": "MX",
+    "timestamp": "2023-07-29T11:05:12Z",
+    "images": [
+      "/images/V8-leeVOAOM/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/V8-leeVOAOM",
+    "specs": {
+      "Keyboard": "QK65 R1 (Black + Lilac)",
+      "Keycaps": "ABS WoB",
+      "Switches": "C3 Tangerines and BCP spacebar",
+      "Lube": "Krytox 205g0 on rails and Krytox 105g0 on springs",
+      "Films": "N/A",
+      "Springs": "Stock (67g)",
+      "Plate": "POM",
+      "Mount": "Gasket Socks",
+      "Stabilizers": "Owlabs V2 / lubed with 205g0",
+      "PCB": "Stock Hotswap Wireless ver.",
+      "Artisan": "mr_maw_ \"Mr. Hunter\"",
+      "Others": "Bateria enganchada a la caja con celo"
+    }
+  },
+  {
+    "id": "v-YySRb_ISg",
+    "title": "QK65 R1",
+    "category": "MX",
+    "timestamp": "2023-07-01T15:28:20Z",
+    "images": [
+      "/images/v-YySRb_ISg/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/v-YySRb_ISg",
+    "specs": {
+      "Keyboard": "QK65 R1 (Black + Lilac weight)",
+      "Keycaps": "GMK Amethyst",
+      "Switches": "Prevail Epsilon (Stock)",
+      "Lube": "N/A",
+      "Films": "N/A",
+      "Springs": "Stock (68g progressive)",
+      "Plate": "FR4",
+      "Mount": "Gasket Socks",
+      "Stabilizers": "Owlabs V2 / lubed with 205g0",
+      "PCB": "Stock Hotswap Wireless ver.",
+      "Artisan": "N/A"
+    }
+  }
+]
