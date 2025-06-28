@@ -2,11 +2,15 @@
 # and a sub-project that needs a build step.
 
 [build]
-  command = "cd microkeebs && npm install && npm run build"
 
-  publish = "."
+[[redirects]]
+  # Rule 1: Handles the base path (e.g., /microkeebs or /microkeebs/)
+  # It serves the main entry point of your app.
+  from = "/microkeebs"
+  to = "/microkeebs/dist/index.html"
+  status = 200
 
 [[redirects]]
   from = "/microkeebs/*"
-  to = "/microkeebs/dist/:splat"
+  to = "/microkeebs/dist/index.html"
   status = 200
