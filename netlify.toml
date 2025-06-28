@@ -23,6 +23,6 @@
 # Rule 2: Handles all other navigation within the app.
 # It serves the app's main index.html for any sub-page, allowing React Router to work.
 [[redirects]]
-  from = "/microkeebs"
+  from = "/microkeebs/"
   to = "/microkeebs/dist/index.html"
   status = 200
