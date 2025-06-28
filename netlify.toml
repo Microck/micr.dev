@@ -1,0 +1,28 @@
+# This is the definitive configuration for deploying a static root site
+# and a Vite sub-project from the same repository.
+
+[build]
+  # 1. The build command first navigates into the subfolder,
+  #    installs its dependencies, and runs its build script.
+  command = "cd microkeebs && npm install && npm run build"
+
+  # 2. The publish directory is the ROOT of the repository.
+  #    This ensures all your static files (index.html, /wip, etc.) are deployed.
+  publish = "."
+
+# --- REDIRECT RULES ---
+# These rules ensure the built Vite app is served correctly.
+
+# Rule 1: Handles requests for the app's assets (JS, CSS, etc.).
+# It rewrites /microkeebs/assets/* to the correct build output folder.
+[[redirects]]
+  from = "/microkeebs/assets/*"
+  to = "/microkeebs/dist/assets/:splat"
+  status = 200
+
+# Rule 2: Handles all other navigation within the app.
+# It serves the app's main index.html for any sub-page, allowing React Router to work.
+[[redirects]]
+  from = "/microkeebs/*"
+  to = "/microkeebs/dist/index.html"
+  status = 200
