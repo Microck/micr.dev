@@ -14,6 +14,7 @@
   from = "/microkeebs/assets/*"
   to = "/microkeebs/dist/assets/:splat"
   status = 200
+  force = true
 
 # Rule 2: Explicitly handle the base path WITHOUT a trailing slash.
 # The 'force = true' overrides Netlify's default file-serving logic.
@@ -27,3 +28,4 @@
   from = "/microkeebs/public/images/*"
   to = "/images/:splat"
   status = 200
+  force = true
