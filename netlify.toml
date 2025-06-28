@@ -16,7 +16,9 @@
   # When a user requests any path starting with /microkeebs/...
   from = "/microkeebs/*"
   # ...serve them the main index.html file from the build output.
-  # React Router will then handle the specific route on the client-side.
   to = "/microkeebs/dist/index.html"
   # Status 200 means it's a successful rewrite, not a 301 redirect.
   status = 200
+  # THIS IS THE FIX: It tells Netlify to always apply this rule,
+  # even if a file exists at the original path (like /microkeebs/index.html).
+  force = true
