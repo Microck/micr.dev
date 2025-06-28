@@ -1,14 +1,9 @@
-# This is the netlify.toml for the MAIN micr.dev site.
-
 [build]
-  # This command is for your main site. If it's just static files, it can be empty.
+  # If your main site is just static files, you can leave this empty or use your main site's build command.
   command = ""
-  # This publishes the root of the repository, deploying all your static files.
   publish = "."
 
-# --- PROXY RULE ---
-# This rule tells Netlify how to handle the /microkeebs path.
-
+# Proxy all /microkeebs/* requests to the microkeebs Netlify site
 [[redirects]]
   from = "/microkeebs/*"
   to = "https://microkeebs.netlify.app/:splat"
