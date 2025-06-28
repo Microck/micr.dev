@@ -1,35 +1,24 @@
 # =============================================================================
-# FINAL CONFIGURATION for a Monorepo with a Vite SPA in a subfolder
+# FINAL & FORCEFUL CONFIGURATION for a Monorepo with a Vite SPA
 # =============================================================================
 
 [build]
-  # This command builds the Vite app inside the 'microkeebs' directory.
   command = "cd microkeebs && npm install && npm run build"
-
-  # This publishes the entire repository root.
   publish = "."
 
 # --- REDIRECT & REWRITE RULES ---
-# The order of these rules is critical.
+# The order and `force` attribute are critical.
 
-# Rule 1: Serve assets correctly.
-# This must come first to prevent assets from being served as HTML.
+# Rule 1: Serve assets correctly. This MUST be first.
 [[redirects]]
   from = "/microkeebs/assets/*"
   to = "/microkeebs/dist/assets/:splat"
   status = 200
 
-# Rule 2: Handle the app's base path. (THE FIX)
-# This new, specific rule forces Netlify to serve your app's index.html
-# when someone visits /microkeebs or /microkeebs/.
+# Rule 2: Explicitly handle the base path WITHOUT a trailing slash.
+# The 'force = true' overrides Netlify's default file-serving logic.
 [[redirects]]
-  from = "/microkeebs/"
+  from = "/microkeebs"
   to = "/microkeebs/dist/index.html"
   status = 200
-
-# Rule 3: SPA Fallback for deep links.
-# This handles any other route like /microkeebs/build/123.
-[[redirects]]
-  from = "/microkeebs/*"
-  to = "/microkeebs/dist/index.html"
-  status = 200
+  force = true
