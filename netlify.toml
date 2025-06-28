@@ -1,9 +1,7 @@
 [build]
-  # If your main site is just static files, you can leave this empty or use your main site's build command.
   command = ""
   publish = "."
 
-# Proxy all /microkeebs/* requests to the microkeebs Netlify site
 [[redirects]]
   from = "/microkeebs/*"
   to = "https://microkeebs.netlify.app/:splat"
