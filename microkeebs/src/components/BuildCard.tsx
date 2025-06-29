@@ -41,6 +41,8 @@ export function BuildCard({ build, onClick, showBuild = false }: BuildCardProps)
           src={coverImage}
           alt={build.title}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          loading="eager"
+          decoding="sync"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.style.display = "none";

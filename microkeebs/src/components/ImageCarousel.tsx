@@ -20,6 +20,8 @@ export function ImageCarousel({ images, title }: ImageCarouselProps) {
             src={images[0]}
             alt={title}
             className="w-full h-full object-cover carousel-slide"
+            loading="eager"
+            decoding="sync"
             onError={(e) => {
               // Fallback to placeholder if image fails to load
               const target = e.target as HTMLImageElement;
@@ -61,6 +63,8 @@ export function ImageCarousel({ images, title }: ImageCarouselProps) {
             src={images[currentIndex]}
             alt={`${title} - Image ${currentIndex + 1}`}
             className="w-full h-full object-cover carousel-slide"
+            loading="eager"
+            decoding="sync"
             onError={(e) => {
               // Fallback to placeholder if image fails to load
               const target = e.target as HTMLImageElement;
@@ -96,49 +100,59 @@ export function ImageCarousel({ images, title }: ImageCarouselProps) {
         </div>
       </div>
       
-      {/* Thumbnails - Show up to 5 images */}
-      <div className="flex justify-center space-x-2 overflow-x-auto">
-        {images.slice(0, 5).map((image, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-20 h-16 overflow-hidden rounded thumbnail-hover flex-shrink-0 ${
-              index === currentIndex
-                ? isDark 
-                  ? 'ring-2 ring-[#a7a495]' 
-                  : 'ring-2 ring-[#1c1c1c]'
-                : isDark 
-                  ? 'hover:ring-1 hover:ring-[#a7a495] hover:ring-opacity-50' 
-                  : 'hover:ring-1 hover:ring-[#1c1c1c] hover:ring-opacity-50'
-            }`}
-          >
-            <img
-              src={image}
-              alt={`${title} thumbnail ${index + 1}`}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                // Fallback to placeholder if thumbnail fails to load
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                const placeholder = target.nextElementSibling as HTMLElement;
-                if (placeholder) placeholder.style.display = 'flex';
-              }}
-            />
-            {/* Fallback placeholder for thumbnail */}
-            <div className="placeholder-bg w-full h-full hidden items-center justify-center">
-              <span className={`text-xs ${isDark ? 'text-[#1c1c1c]' : 'text-[#1c1c1c]'}`}>
-                {index === 0 ? 'THUMB' : index + 1}
-              </span>
-            </div>
-          </button>
-        ))}
-        {images.length > 5 && (
-          <div className={`w-20 h-16 flex items-center justify-center ${
-            isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
-          }`}>
-            <span className="text-xs">+{images.length - 5}</span>
-          </div>
-        )}
+      {/* Thumbnails - Show all images, horizontally scrollable, hide scrollbar */}
+      <div
+        className="flex justify-center space-x-2 overflow-x-auto"
+        style={{
+          scrollbarWidth: 'none', // Firefox
+          msOverflowStyle: 'none', // IE 10+
+        }}
+      >
+        <style>
+          {`
+            .carousel-thumbnails::-webkit-scrollbar {
+              display: none;
+            }
+          `}
+        </style>
+        <div className="carousel-thumbnails flex space-x-2">
+          {images.map((image, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-20 h-16 overflow-hidden rounded thumbnail-hover flex-shrink-0 ${
+                index === currentIndex
+                  ? isDark 
+                    ? 'ring-2 ring-[#a7a495]' 
+                    : 'ring-2 ring-[#1c1c1c]'
+                  : isDark 
+                    ? 'hover:ring-1 hover:ring-[#a7a495] hover:ring-opacity-50' 
+                    : 'hover:ring-1 hover:ring-[#1c1c1c] hover:ring-opacity-50'
+              }`}
+            >
+              <img
+                src={image}
+                alt={`${title} thumbnail ${index + 1}`}
+                className="w-full h-full object-cover"
+                loading="eager"
+                decoding="sync"
+                onError={(e) => {
+                  // Fallback to placeholder if thumbnail fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const placeholder = target.nextElementSibling as HTMLElement;
+                  if (placeholder) placeholder.style.display = 'flex';
+                }}
+              />
+              {/* Fallback placeholder for thumbnail */}
+              <div className="placeholder-bg w-full h-full hidden items-center justify-center">
+                <span className={`text-xs ${isDark ? 'text-[#1c1c1c]' : 'text-[#1c1c1c]'}`}>
+                  {index === 0 ? 'THUMB' : index + 1}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
       
       {/* Image counter */}

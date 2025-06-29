@@ -88,6 +88,8 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
                   src={build.images[0]}
                   alt={build.title}
                   className="w-full h-full object-cover"
+                  loading="eager"
+                  decoding="sync"
                   onError={(e) => {
                     // Fallback to placeholder if image fails to load
                     const target = e.target as HTMLImageElement;
