@@ -34,6 +34,11 @@
   from = "/about"
   to = "/wip"
   status = 302
+  
+[[redirects]]
+  from = "/microkeebs"
+  to = "/microkeebs/"
+  status = 302
 
 [[redirects]]
   from = "/quarzite"
