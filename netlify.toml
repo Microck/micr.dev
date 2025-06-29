@@ -6,31 +6,26 @@
   command = "cd microkeebs && npm install && npm run build"
   publish = "."
 
-# --- REDIRECT & REWRITE RULES ---
-# The order and `force` attribute are critical.
-
-# Rule 1: Serve assets correctly. This MUST be first.
-[[redirects]]
-  from = "/microkeebs/assets/*"
-  to = "/microkeebs/dist/assets/:splat"
-  status = 200
-  force = true
-
-# Rule 2: Redirect /microkeebs to /microkeebs/ (must come before the SPA rule)
+# Redirect /microkeebs to /microkeebs/
 [[redirects]]
   from = "/microkeebs"
   to = "/microkeebs/"
   status = 301
   force = true
 
-# Rule 3: Serve the SPA index.html for /microkeebs/
+# SPA fallback for all routes under /microkeebs/
 [[redirects]]
-  from = "/microkeebs/"
-  to = "/microkeebs/dist/index.html"
+  from = "/microkeebs/*"
+  to = "/microkeebs/index.html"
+  status = 200
+
+# (Your other redirects below, unchanged)
+[[redirects]]
+  from = "/microkeebs/assets/*"
+  to = "/microkeebs/dist/assets/:splat"
   status = 200
   force = true
 
-# Rule 4: Serve images from dist
 [[redirects]]
   from = "/microkeebs/images/*"
   to = "/microkeebs/dist/images/:splat"
