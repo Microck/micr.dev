@@ -16,14 +16,21 @@
   status = 200
   force = true
 
-# Rule 2: Explicitly handle the base path WITHOUT a trailing slash.
+# Rule 2: Redirect /microkeebs to /microkeebs/ (must come before the SPA rule)
 [[redirects]]
   from = "/microkeebs"
+  to = "/microkeebs/"
+  status = 301
+  force = true
+
+# Rule 3: Serve the SPA index.html for /microkeebs/
+[[redirects]]
+  from = "/microkeebs/"
   to = "/microkeebs/dist/index.html"
   status = 200
   force = true
 
-# Rule 3: Serve images from dist
+# Rule 4: Serve images from dist
 [[redirects]]
   from = "/microkeebs/images/*"
   to = "/microkeebs/dist/images/:splat"
