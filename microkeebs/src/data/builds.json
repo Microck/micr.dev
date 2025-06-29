@@ -1,5 +1,30 @@
 [
   {
+    "id": "H2IkaUvgVhs",
+    "title": "Geonworks F2-60",
+    "youtubeTitle": "Geonworks F2-60 with lubed Vintage Cherry MX Blacks",
+    "category": "MX",
+    "timestamp": "2025-06-29T13:00:25Z",
+    "images": [
+      "./images/H2IkaUvgVhs/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/H2IkaUvgVhs",
+    "specs": {
+      "Keyboard": "Geonworks F2-60 (Silver)",
+      "Keycaps": "GMK WoB + GMK Chaos Theory + GMK Alt Grrrr",
+      "Switches": "Vintage Cherry MX Black",
+      "Lube": "ghv4",
+      "Films": "TX 0.15",
+      "Springs": "TX UXL 45g with GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "Gasket O-ring",
+      "Stabilizers": "Swagkeys Knight V2 with 205g0",
+      "PCB": "Capy60 Hotswap*",
+      "Artisan": "Dreadkeys Monochrome",
+      "Others": "*PCB has been sanded to fit"
+    }
+  },
+  {
     "id": "DOE--VY0KSI",
     "title": "2012 HHKB Pro 2 Type-S",
     "youtubeTitle": "Lubed 2012 HHKB Pro 2 Type-S",
