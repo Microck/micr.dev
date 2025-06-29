@@ -16,16 +16,16 @@
   status = 200
   force = true
 
-# Redirect /microkeebs to /microkeebs/ (trailing slash)
-[[redirects]]
-  from = "/microkeebs"
-  to = "/microkeebs/"
-  status = 301
-  force = true
-
 # Rule 2: Explicitly handle the base path WITHOUT a trailing slash.
 [[redirects]]
   from = "/microkeebs"
+  to = "/microkeebs/dist/index.html"
+  status = 200
+  force = true
+  
+# Rule 2: Explicitly handle the base path WITHOUT a trailing slash.
+[[redirects]]
+  from = "/microkeebs/"
   to = "/microkeebs/dist/index.html"
   status = 200
   force = true
