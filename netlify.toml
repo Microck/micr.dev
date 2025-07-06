@@ -22,11 +22,6 @@
   to = "/microkeebs/dist/index.html"
   status = 200
   force = true
-  
-[[redirects]]
-  from = "/microkeebs/*"
-  to = "/microkeebs/dist/index.html"
-  status = 200
 
 # Rule 3: Serve images from dist
 [[redirects]]
