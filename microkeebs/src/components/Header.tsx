@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { Youtube, Instagram } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -16,18 +15,13 @@ const TikTokIcon = ({ size = 20, className = "" }: { size?: number; className?: 
   </svg>
 );
 
-export function Header() {
+interface HeaderProps {
+  currentPage: string;
+  onNavigate: (page: string) => void;
+}
+
+export function Header({ currentPage, onNavigate }: HeaderProps) {
   const { isDark } = useTheme();
-  const location = useLocation();
-
-  // Determine the current page for highlighting
-  const getCurrentPage = () => {
-    if (location.pathname.startsWith('/rankings')) return 'rankings';
-    if (location.pathname.startsWith('/contact')) return 'contact';
-    return 'builds'; // Default to builds for root and build detail pages
-  };
-
-  const currentPage = getCurrentPage();
 
   return (
     <header className={`${isDark ? 'bg-[#2a2a2a]' : 'bg-[#b5b3a7]'} py-4 fade-in`}>
@@ -48,44 +42,41 @@ export function Header() {
           </svg>
         </div>
         
-        {/* Navigation */}
+        {/* Navigation - Centered on desktop, full width on mobile */}
         <nav className="flex space-x-0 order-last sm:order-none">
-          <Link to="/">
-            <button
-              className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal button-morph ${
-                currentPage === 'builds'
-                  ? isDark ? 'bg-[#a7a495] text-[#1c1c1c]' : 'bg-[#1c1c1c] text-[#b5b3a7]'
-                  : isDark ? 'text-[#a7a495] hover:bg-[#1c1c1c]' : 'text-[#1c1c1c] hover:bg-[#a7a495]'
-              }`}
-            >
-              Builds
-            </button>
-          </Link>
-          <Link to="/rankings">
-            <button
-              className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal button-morph ${
-                currentPage === 'rankings'
-                  ? isDark ? 'bg-[#a7a495] text-[#1c1c1c]' : 'bg-[#1c1c1c] text-[#b5b3a7]'
-                  : isDark ? 'text-[#a7a495] hover:bg-[#1c1c1c]' : 'text-[#1c1c1c] hover:bg-[#a7a495]'
-              }`}
-            >
-              Ranking
-            </button>
-          </Link>
-          <Link to="/contact">
-            <button
-              className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal button-morph ${
-                currentPage === 'contact'
-                  ? isDark ? 'bg-[#a7a495] text-[#1c1c1c]' : 'bg-[#1c1c1c] text-[#b5b3a7]'
-                  : isDark ? 'text-[#a7a495] hover:bg-[#1c1c1c]' : 'text-[#1c1c1c] hover:bg-[#a7a495]'
-              }`}
-            >
-              Contact
-            </button>
-          </Link>
+          <button
+            onClick={() => onNavigate('builds')}
+            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal button-morph ${
+              currentPage === 'builds'
+                ? isDark ? 'bg-[#a7a495] text-[#1c1c1c]' : 'bg-[#1c1c1c] text-[#b5b3a7]'
+                : isDark ? 'text-[#a7a495] hover:bg-[#1c1c1c]' : 'text-[#1c1c1c] hover:bg-[#a7a495]'
+            }`}
+          >
+            Builds
+          </button>
+          <button
+            onClick={() => onNavigate('rankings')}
+            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal button-morph ${
+              currentPage === 'rankings'
+                ? isDark ? 'bg-[#a7a495] text-[#1c1c1c]' : 'bg-[#1c1c1c] text-[#b5b3a7]'
+                : isDark ? 'text-[#a7a495] hover:bg-[#1c1c1c]' : 'text-[#1c1c1c] hover:bg-[#a7a495]'
+            }`}
+          >
+            Ranking
+          </button>
+          <button
+            onClick={() => onNavigate('contact')}
+            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal button-morph ${
+              currentPage === 'contact'
+                ? isDark ? 'bg-[#a7a495] text-[#1c1c1c]' : 'bg-[#1c1c1c] text-[#b5b3a7]'
+                : isDark ? 'text-[#a7a495] hover:bg-[#1c1c1c]' : 'text-[#1c1c1c] hover:bg-[#a7a495]'
+            }`}
+          >
+            Contact
+          </button>
         </nav>
 
-        {/* Social Icons */}
+        {/* Social Icons - Hidden on mobile to save space */}
         <div className="hidden sm:flex items-center space-x-4">
           <a
             href="https://www.youtube.com/@microkeebs"
