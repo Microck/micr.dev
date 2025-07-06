@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { BuildGallery } from './components/BuildGallery';
 import { BuildDetail } from './components/BuildDetail';
@@ -8,13 +8,11 @@ import { Footer } from './components/Footer';
 import { ThemeToggle } from './components/ThemeToggle';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { getBuildsWithSlugs } from './utils/slugs';
-import { HashRouter } from "react-router-dom";
 import buildsData from './data/builds.json';
 
 // Generate slugs for all builds once
 const buildsWithSlugs = getBuildsWithSlugs(buildsData);
 
-// New component for the Contact page for cleaner routing
 function ContactPage() {
   const { isDark } = useTheme();
   return (
@@ -61,7 +59,6 @@ function AppContent() {
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'}`}>
-      {/* You will need to update Header to use <Link> instead of onNavigate */}
       <Header currentPage={getCurrentPage()} />
       <main>
         <Routes>
