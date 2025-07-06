@@ -8,10 +8,21 @@ import { Footer } from './components/Footer';
 import { ThemeToggle } from './components/ThemeToggle';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { getBuildsWithSlugs } from './utils/slugs';
+import { HashRouter } from "react-router-dom";
 import buildsData from './data/builds.json';
 
 // Generate slugs for all builds once
 const buildsWithSlugs = getBuildsWithSlugs(buildsData);
+
+function App() {
+  return (
+    <ThemeProvider>
+      <HashRouter basename="/microkeebs">
+        <AppContent />
+      </HashRouter>
+    </ThemeProvider>
+  );
+}
 
 // New component for the Contact page for cleaner routing
 function ContactPage() {
