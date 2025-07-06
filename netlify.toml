@@ -16,13 +16,17 @@
   status = 200
   force = true
   
-# Rule 2: SPA Fallback Rule for the app's root AND all deep links.
-# This is the only change needed from your "perfect" file.
+# Rule 2: Explicitly handle the base path WITHOUT a trailing slash.
 [[redirects]]
-  from = "/microkeebs/*" # Changed from "/microkeebs/" to handle all sub-paths
+  from = "/microkeebs/"
   to = "/microkeebs/dist/index.html"
   status = 200
   force = true
+  
+[[redirects]]
+  from = "/microkeebs/*"
+  to = "/microkeebs/dist/index.html"
+  status = 200
 
 # Rule 3: Serve images from dist
 [[redirects]]
@@ -57,7 +61,6 @@
   status = 302
 
 # --- EXTERNAL REDIRECTS ---
-# (The rest of your file remains exactly the same)
 [[redirects]]
   from = "/youtube"
   to = "https://www.youtube.com/@Microck"
