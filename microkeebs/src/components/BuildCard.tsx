@@ -1,14 +1,14 @@
 import React from "react";
-import { KeyboardBuild } from "../types/Build";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
+import { BuildWithSlug } from "../utils/slugs";
 
 interface BuildCardProps {
-  build: KeyboardBuild;
-  onClick: () => void;
+  build: BuildWithSlug;
   showBuild?: boolean;
 }
 
-const extractBuildDescription = (build: KeyboardBuild): string => {
+const extractBuildDescription = (build: BuildWithSlug): string => {
   const sourceTitle = build.youtubeTitle || build.title;
   const lowerCaseTitle = sourceTitle.toLowerCase();
 
@@ -17,7 +17,14 @@ const extractBuildDescription = (build: KeyboardBuild): string => {
     if (lowerCaseTitle.startsWith("lubed")) return "Lubed";
     if (lowerCaseTitle.startsWith("stock")) return "Stock";
   } else if (build.category === "MX") {
-    const prefixes = [" with lubed ", " with stock ", " with ", " con lubed ", " con stock ", " con "];
+    const prefixes = [
+      " with lubed ",
+      " with stock ",
+      " with ",
+      " con lubed ",
+      " con stock ",
+      " con ",
+    ];
     for (const prefix of prefixes) {
       const index = lowerCaseTitle.indexOf(prefix);
       if (index !== -1) {
@@ -28,14 +35,17 @@ const extractBuildDescription = (build: KeyboardBuild): string => {
   return "";
 };
 
-export function BuildCard({ build, onClick, showBuild = false }: BuildCardProps) {
+export function BuildCard({ build, showBuild = false }: BuildCardProps) {
   const { isDark } = useTheme();
+  const navigate = useNavigate();
   const coverImage = build.images[0];
   const buildDescription = extractBuildDescription(build);
 
   return (
-    <div onClick={onClick} className="cursor-pointer card-hover group">
-      {/* Restored original h-64 class as requested */}
+    <div
+      onClick={() => navigate(`/${build.slug}`)}
+      className="cursor-pointer card-hover group"
+    >
       <div className="w-full h-64 mb-4 overflow-hidden">
         <img
           src={coverImage}
@@ -51,18 +61,30 @@ export function BuildCard({ build, onClick, showBuild = false }: BuildCardProps)
           }}
         />
         <div className="placeholder-bg w-full h-full hidden items-center justify-center">
-          <span className={`text-lg font-normal ${isDark ? "text-[#1c1c1c]" : "text-[#1c1c1c]"}`}>
+          <span
+            className={`text-lg font-normal ${
+              isDark ? "text-[#1c1c1c]" : "text-[#1c1c1c]"
+            }`}
+          >
             COVER IMAGE
           </span>
         </div>
       </div>
 
-      <h3 className={`card-title text-lg text-center slide-up ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>
+      <h3
+        className={`card-title text-lg text-center slide-up ${
+          isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+        }`}
+      >
         {build.title}
       </h3>
 
       {showBuild && buildDescription && (
-        <p className={`text-xs text-center mt-1 px-2 leading-relaxed ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"} opacity-70`}>
+        <p
+          className={`text-xs text-center mt-1 px-2 leading-relaxed ${
+            isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+          } opacity-70`}
+        >
           {buildDescription}
         </p>
       )}
