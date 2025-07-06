@@ -15,29 +15,32 @@
   to = "/microkeebs/dist/assets/:splat"
   status = 200
   force = true
-  
-# Rule 2: Explicitly handle the base path WITHOUT a trailing slash.
-[[redirects]]
-  from = "/microkeebs/"
-  to = "/microkeebs/dist/index.html"
-  status = 200
-  force = true
 
-# Rule 3: Serve images from dist
+# Rule 2: Serve images from dist
 [[redirects]]
   from = "/microkeebs/images/*"
   to = "/microkeebs/dist/images/:splat"
   status = 200
 
+# Rule 3: Redirect /microkeebs to /microkeebs/ (for clean URLs)
+[[redirects]]
+  from = "/microkeebs"
+  to = "/microkeebs/"
+  status = 301
+  force = true
+
+# Rule 4: SPA Fallback Rule - THIS FIXES DIRECT URL ACCESS
+# This must come AFTER asset/image rules and the trailing slash redirect.
+[[redirects]]
+  from = "/microkeebs/*"
+  to = "/microkeebs/dist/index.html"
+  status = 200
+  force = true
+
 # --- SPA/INTERNAL REDIRECTS ---
 [[redirects]]
   from = "/about"
   to = "/wip"
-  status = 302
-  
-[[redirects]]
-  from = "/microkeebs"
-  to = "/microkeebs/"
   status = 302
 
 [[redirects]]

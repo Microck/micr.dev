@@ -1,6 +1,6 @@
 import { KeyboardBuild } from '../types/Build';
 
-// Define a new type that includes the slug
+// The type definition remains the same
 export type BuildWithSlug = KeyboardBuild & { slug: string };
 
 // Function to convert a title to a URL-friendly slug
@@ -11,24 +11,39 @@ function slugify(title: string): string {
     .replace(/^-+|-+$/g, '');    // Trim leading/trailing hyphens
 }
 
-// Function to process all builds, sort them, and assign unique slugs
+// New function to handle conditional suffixes
 export function getBuildsWithSlugs(builds: KeyboardBuild[]): BuildWithSlug[] {
-  const slugCounts: Record<string, number> = {};
+  const baseSlugCounts: Record<string, number> = {};
 
-  // Sort builds by timestamp, oldest first
+  // First pass: Count the total occurrences of each base slug
+  for (const build of builds) {
+    const baseSlug = slugify(build.title);
+    baseSlugCounts[baseSlug] = (baseSlugCounts[baseSlug] || 0) + 1;
+  }
+
+  // Sort builds by timestamp, oldest first, to ensure suffixes are chronological
   const sortedBuilds = [...builds].sort(
     (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
   );
 
+  const runningSlugCounts: Record<string, number> = {};
+
+  // Second pass: Generate the final slugs
   return sortedBuilds.map((build) => {
     const baseSlug = slugify(build.title);
-    
-    // Increment the count for this base slug
-    slugCounts[baseSlug] = (slugCounts[baseSlug] || 0) + 1;
-    const count = slugCounts[baseSlug];
+    const totalCount = baseSlugCounts[baseSlug];
 
-    // Append the count to the slug
-    const finalSlug = `${baseSlug}-${count}`;
+    let finalSlug: string;
+
+    if (totalCount === 1) {
+      // If there's only one, use the base slug without a number
+      finalSlug = baseSlug;
+    } else {
+      // If there are duplicates, increment the running count and add the suffix
+      runningSlugCounts[baseSlug] = (runningSlugCounts[baseSlug] || 0) + 1;
+      const currentIndex = runningSlugCounts[baseSlug];
+      finalSlug = `${baseSlug}-${currentIndex}`;
+    }
 
     return { ...build, slug: finalSlug };
   });
