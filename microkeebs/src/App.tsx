@@ -14,16 +14,6 @@ import buildsData from './data/builds.json';
 // Generate slugs for all builds once
 const buildsWithSlugs = getBuildsWithSlugs(buildsData);
 
-function App() {
-  return (
-    <ThemeProvider>
-      <HashRouter basename="/microkeebs">
-        <AppContent />
-      </HashRouter>
-    </ThemeProvider>
-  );
-}
-
 // New component for the Contact page for cleaner routing
 function ContactPage() {
   const { isDark } = useTheme();
@@ -89,9 +79,9 @@ function AppContent() {
 function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter basename="/microkeebs">
+      <HashRouter basename="/microkeebs">
         <AppContent />
-      </BrowserRouter>
+      </HashRouter>
     </ThemeProvider>
   );
 }
