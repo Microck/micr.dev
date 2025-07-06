@@ -1,5 +1,28 @@
 [
   {
+    "id": "b-JKWJ-yDko",
+    "title": "CM Novatouch TKL",
+    "youtubeTitle": "Lubed CM Novatouch TKL",
+    "category": "EC",
+    "timestamp": "2025-07-06T13:01:07Z",
+    "images": [
+      "./images/b-JKWJ-yDko/thumbnail.jpg",
+      "./images/b-JKWJ-yDko/1.jpg",
+      "./images/b-JKWJ-yDko/2.jpg",
+      "./images/b-JKWJ-yDko/3.jpg",
+      "./images/b-JKWJ-yDko/4.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/b-JKWJ-yDko",
+    "specs": {
+      "Keyboard": "CoolerMaster Novatouch TKL",
+      "Keycaps": "Keyreative Turquoise Blanks",
+      "Domes": "45g OEM",
+      "Sliders": "PBB MX-Adapters (Lubed with 205g0, Non-Silenced)",
+      "Stabilizers": "PBB MX-Adapters, Lubed with 205g0",
+      "Dampening": "Spacebar keycap has foam and an X-silence ring"
+    }
+  },
+  {
     "id": "H2IkaUvgVhs",
     "title": "Geonworks F2-60",
     "youtubeTitle": "Geonworks F2-60 with lubed Vintage Cherry MX Blacks",
