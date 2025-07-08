@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>micr.dev</title>
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-	<link rel="shortcut icon" href="/favicon.ico" />
-	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-	<meta name="apple-mobile-web-app-title" content="Micr.dev" />
-	<link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Micr.dev" />
+    <link rel="manifest" href="/site.webmanifest" />
     <style>
       @font-face {
         font-family: 'TermiusTTF';
@@ -30,6 +30,32 @@
       }
       canvas {
         display: block;
+      }
+      
+      /* ADDED: Scene container and dither overlay */
+      #scene-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      #dither-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          repeating-conic-gradient(
+            rgba(255, 0, 0, 0.1) 0% 25%, 
+            rgba(0, 255, 0, 0.1) 0% 50%,
+            rgba(0, 0, 255, 0.1) 0% 75%,
+            rgba(255, 255, 0, 0.1) 0% 100%
+          ) 
+          0 0 / 4px 4px;
+        mix-blend-mode: overlay;
+        pointer-events: none;
+        z-index: 1;
+        display: none;
       }
 
       #loader {
@@ -154,7 +180,13 @@
         </div>
       </div>
     </div>
-    <canvas id="canvas3d"></canvas>
+    
+    <!-- ADDED: Scene container with dither overlay -->
+    <div id="scene-container">
+      <canvas id="canvas3d"></canvas>
+      <div id="dither-overlay"></div>
+    </div>
+    
     <script type="module">
       import { Application } from './runtime.js';
       const canvas = document.getElementById('canvas3d');
@@ -176,6 +208,8 @@
         const app = new Application(canvas);
         app.load('./scene.splinecode').then(() => {
           document.getElementById('loader').style.display = 'none';
+          // Enable dither effect on scene
+          document.getElementById('dither-overlay').style.display = 'block';
         });
       }
     </script>
