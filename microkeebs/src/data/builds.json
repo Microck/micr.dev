@@ -1,5 +1,24 @@
 [
   {
+    "id": "Fl0SWesndJ0",
+    "title": "Realforce R2 87ub",
+    "youtubeTitle": "Lubed Realforce R2 87ub",
+    "category": "EC",
+    "timestamp": "2025-07-13T13:00:32Z",
+    "images": [
+      "./images/Fl0SWesndJ0/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/Fl0SWesndJ0",
+    "specs": {
+      "Keyboard": "Topre Realforce R2 87UB",
+      "Keycaps": "Stock",
+      "Domes": "45g OEM",
+      "Sliders": "Stock (Non-Lubed, Non-Silenced)",
+      "Stabilizers": "Lubed with 205g0",
+      "Dampening": "Nothing"
+    }
+  },
+  {
     "id": "b-JKWJ-yDko",
     "title": "CM Novatouch TKL",
     "youtubeTitle": "Lubed CM Novatouch TKL",
