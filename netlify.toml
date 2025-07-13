@@ -142,3 +142,8 @@
   from = "/socr/instagram"
   to = "https://www.instagram.com/http.socr"
   status = 302
+  
+[[headers]]
+  for = "/scene.splinecode"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
