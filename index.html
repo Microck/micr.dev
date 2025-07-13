@@ -4,21 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>micr.dev</title>
-    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicons/favicon-96x96.png"
+      sizes="96x96"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
     <link rel="shortcut icon" href="/favicons/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicons/apple-touch-icon.png"
+    />
     <meta name="apple-mobile-web-app-title" content="Micr.dev" />
     <link rel="manifest" href="/site.webmanifest" />
     <style>
       @font-face {
-        font-family: 'TermiusTTF';
-        src: url('fonts/TermiusTTF-bold.ttf') format('truetype');
+        font-family: "TermiusTTF";
+        src: url("fonts/TermiusTTF-bold.ttf") format("truetype");
         font-weight: bold;
         font-style: normal;
       }
 
-      html, body {
+      html,
+      body {
         height: 100%;
         margin: 0;
         padding: 0;
@@ -26,12 +36,12 @@
       }
       body {
         overflow: hidden;
-        font-family: 'TermiusTTF', 'Courier New', monospace;
+        font-family: "TermiusTTF", "Courier New", monospace;
       }
       canvas {
         display: block;
       }
-      
+
       /* ADDED: Scene container and dither overlay */
       #scene-container {
         position: relative;
@@ -44,13 +54,12 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: 
-          repeating-conic-gradient(
-            rgba(255, 0, 0, 0.1) 0% 25%, 
+        background: repeating-conic-gradient(
+            rgba(255, 0, 0, 0.1) 0% 25%,
             rgba(0, 255, 0, 0.1) 0% 50%,
             rgba(0, 0, 255, 0.1) 0% 75%,
             rgba(255, 255, 0, 0.1) 0% 100%
-          ) 
+          )
           0 0 / 4px 4px;
         mix-blend-mode: overlay;
         pointer-events: none;
@@ -60,7 +69,10 @@
 
       #loader {
         position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         z-index: 9999;
         display: flex;
         align-items: center;
@@ -69,10 +81,12 @@
       }
       #loader .checkered-background {
         position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         opacity: 0.3;
-        background-image: 
-          linear-gradient(45deg, #e4e4e4 25%, transparent 25%),
+        background-image: linear-gradient(45deg, #e4e4e4 25%, transparent 25%),
           linear-gradient(-45deg, #e4e4e4 25%, transparent 25%),
           linear-gradient(45deg, transparent 75%, #e4e4e4 75%),
           linear-gradient(-45deg, transparent 75%, #e4e4e4 75%);
@@ -139,8 +153,12 @@
         animation: spin 2s linear infinite;
       }
       @keyframes spin {
-        0% { transform: rotate(0deg);}
-        100% { transform: rotate(360deg);}
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
       @media (max-width: 768px) {
         #loader .dialog-box {
@@ -161,13 +179,17 @@
           <div class="content">
             <div class="loading-text" id="loading-message">
               <p>
-                The scene is currently loading. Loading times may vary depending on your internet speed.
+                The scene is currently loading. Loading times may vary depending
+                on your internet speed.
               </p>
               <p>
-                You can orbit vertically by holding the left mouse button, this feature is intended only for the "Setup" area. You won't be able to use it elsewhere.
+                You can orbit vertically by holding the left mouse button, this
+                feature is intended only for the "Setup" area. You won't be able
+                to use it elsewhere.
               </p>
               <p>
-                This website is best viewed on a PC browser at 100% zoom. If you experience lag, I recommend enabling "Hardware acceleration."
+                This website is best viewed on a PC browser at 100% zoom. If you
+                experience lag, I recommend enabling "Hardware acceleration."
               </p>
             </div>
             <div class="spinner-container" id="spinner-container">
@@ -180,37 +202,60 @@
         </div>
       </div>
     </div>
-    
+
     <!-- ADDED: Scene container with dither overlay -->
     <div id="scene-container">
       <canvas id="canvas3d"></canvas>
       <div id="dither-overlay"></div>
     </div>
-    
+
     <script type="module">
-      import { Application } from './runtime.js';
-      const canvas = document.getElementById('canvas3d');
+      import { Application } from "./runtime.js";
+      const canvas = document.getElementById("canvas3d");
       const isMobile = /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(
         navigator.userAgent
       );
 
       if (isMobile) {
-        document.getElementById('loading-message').innerHTML = `
+        document.getElementById("loading-message").innerHTML = `
           <p>
             Thank you for visiting! This website is designed for desktop browsers.<br>
             Please use a PC to be able to access.
 			♡
           </p>
         `;
-        document.getElementById('spinner-container').style.display = 'none';
-        // Do NOT load the Spline scene
+        document.getElementById("spinner-container").style.display = "none";
       } else {
+        // This is the new loading logic
         const app = new Application(canvas);
-        app.load('./scene.splinecode').then(() => {
-          document.getElementById('loader').style.display = 'none';
-          // Enable dither effect on scene
-          document.getElementById('dither-overlay').style.display = 'block';
-        });
+
+        async function loadScene() {
+          try {
+            // 1. Fetch the scene file manually.
+            // 'force-cache' tells the browser to use the cache if available.
+            const response = await fetch("./scene.splinecode", {
+              cache: "force-cache",
+            });
+            const buffer = await response.arrayBuffer();
+
+            // 2. Load the scene from the data buffer instead of the URL.
+            await app.load(buffer);
+
+            // 3. The rest of your code runs after a successful load.
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("dither-overlay").style.display = "block";
+          } catch (error) {
+            console.error(
+              "Failed to load and initialize the Spline scene:",
+              error
+            );
+            // Optionally, show an error message to the user
+            document.getElementById("loading-message").innerHTML =
+              "<p>Sorry, an error occurred while loading the scene.</p>";
+          }
+        }
+
+        loadScene();
       }
     </script>
   </body>
