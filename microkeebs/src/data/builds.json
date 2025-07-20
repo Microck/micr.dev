@@ -1,5 +1,24 @@
 [
   {
+    "id": "tErsI1rh9Lw",
+    "title": "2022 HHKB Professional Hybrid",
+    "youtubeTitle": "Stock 2022 HHKB Professional Hybrid",
+    "category": "EC",
+    "timestamp": "2025-07-20T13:01:35Z",
+    "images": [
+      "./images/tErsI1rh9Lw/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/tErsI1rh9Lw",
+    "specs": {
+      "Keyboard": "Happy Hacking Keyboard (HHKB) Professional Hybrid",
+      "Keycaps": "Stock",
+      "Domes": "45g OEM",
+      "Sliders": "Stock (Non-Lubed, No rings)",
+      "Stabilizers": "Stock?",
+      "Dampening": "Anti-vibration mat"
+    }
+  },
+  {
     "id": "Fl0SWesndJ0",
     "title": "Realforce R2 87ub",
     "youtubeTitle": "Lubed Realforce R2 87ub",
