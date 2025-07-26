@@ -1,12 +1,15 @@
 [
   {
     "id": "tErsI1rh9Lw",
-    "title": "2022 HHKB Professional Hybrid",
+    "title": "HHKB Professional Hybrid",
     "youtubeTitle": "Stock 2022 HHKB Professional Hybrid",
     "category": "EC",
     "timestamp": "2025-07-20T13:01:35Z",
     "images": [
-      "./images/tErsI1rh9Lw/thumbnail.jpg"
+      "./images/tErsI1rh9Lw/thumbnail.jpg",
+	  "./images/tErsI1rh9Lw/1.jpg",
+	  "./images/tErsI1rh9Lw/2.jpg",
+	  "./images/tErsI1rh9Lw/3.jpg"
     ],
     "youtubeUrl": "https://youtu.be/tErsI1rh9Lw",
     "specs": {
@@ -25,7 +28,10 @@
     "category": "EC",
     "timestamp": "2025-07-13T13:00:32Z",
     "images": [
-      "./images/Fl0SWesndJ0/thumbnail.jpg"
+      "./images/Fl0SWesndJ0/thumbnail.jpg",
+	  "./images/Fl0SWesndJ0/1.jpg",
+	  "./images/Fl0SWesndJ0/2.jpg",
+	  "./images/Fl0SWesndJ0/3.jpg"
     ],
     "youtubeUrl": "https://youtu.be/Fl0SWesndJ0",
     "specs": {
