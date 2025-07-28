@@ -1,5 +1,29 @@
 [
   {
+    "id": "lvT9VmOTKn8",
+    "title": "TGR Jane V2 CE",
+    "youtubeTitle": "TGR Jane V2 CE with lubed Vintage Cherry MX Blacks",
+    "category": "MX",
+    "timestamp": "2025-07-27T13:01:18Z",
+    "images": [
+      "./images/lvT9VmOTKn8/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/lvT9VmOTKn8",
+    "specs": {
+      "Keyboard": "TGR Jane V2 CE (WKL, Black)",
+      "Keycaps": "GMK Pulse",
+      "Switches": "Vintage Cherry MX Black",
+      "Lube": "ghv4",
+      "Films": "TX 0.15",
+      "Springs": "TX UXL 45g with GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "O-ring Mount",
+      "Stabilizers": "Cherry Clip Ins + C3 wires with 205g0",
+      "PCB": "Stock (it sucks sm)",
+      "Others": "-"
+    }
+  },
+  {
     "id": "tErsI1rh9Lw",
     "title": "HHKB Professional Hybrid",
     "youtubeTitle": "Stock 2022 HHKB Professional Hybrid",
