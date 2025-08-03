@@ -1,5 +1,30 @@
 [
   {
+    "id": "oP6QJU2zwNg",
+    "title": "Geonworks F2-60",
+    "youtubeTitle": "Geonworks F2-60 with lubed Cherry Razer Oranges",
+    "category": "MX",
+    "timestamp": "2025-08-03T13:01:25Z",
+    "images": [
+      "./images/oP6QJU2zwNg/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/oP6QJU2zwNg",
+    "specs": {
+      "Keyboard": "Geonworks F2-60 (Silver)",
+      "Keycaps": "GMK Honeywell",
+      "Switches": "Cherry Razer Oranges (Kailh 2014 Razer Orange stems in Retooled Cherry MX Blue housing)",
+      "Lube": "Tribosys 3203 on stem",
+      "Films": "TX 0.15mm",
+      "Springs": "TX L 55g lubed with Krytox GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "Viton O-ring",
+      "Stabilizers": "Swagkeys Knight V2 with 205g0",
+      "PCB": "Capy60 Hotswap*",
+      "Artisan": "-",
+      "Others": "*PCB has been sanded to fit"
+    }
+  },
+  {
     "id": "lvT9VmOTKn8",
     "title": "TGR Jane V2 CE",
     "youtubeTitle": "TGR Jane V2 CE with lubed Vintage Cherry MX Blacks",
