@@ -6,7 +6,9 @@
     "category": "MX",
     "timestamp": "2025-08-03T13:01:25Z",
     "images": [
-      "./images/oP6QJU2zwNg/thumbnail.jpg"
+      "./images/oP6QJU2zwNg/thumbnail.webp",
+      "./images/oP6QJU2zwNg/1.webp",
+      "./images/oP6QJU2zwNg/2.webp"
     ],
     "youtubeUrl": "https://youtu.be/oP6QJU2zwNg",
     "specs": {
@@ -31,7 +33,14 @@
     "category": "MX",
     "timestamp": "2025-07-27T13:01:18Z",
     "images": [
-      "./images/lvT9VmOTKn8/thumbnail.jpg"
+      "./images/lvT9VmOTKn8/thumbnail.webp",
+      "./images/lvT9VmOTKn8/1.webp",
+      "./images/lvT9VmOTKn8/2.webp",
+      "./images/lvT9VmOTKn8/3.webp",
+      "./images/lvT9VmOTKn8/4.webp",
+      "./images/lvT9VmOTKn8/5.webp",
+      "./images/lvT9VmOTKn8/6.webp",
+      "./images/lvT9VmOTKn8/7.webp"
     ],
     "youtubeUrl": "https://youtu.be/lvT9VmOTKn8",
     "specs": {

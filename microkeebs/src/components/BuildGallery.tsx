@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { KeyboardBuild } from "../types/Build";
+import { useState } from "react";
 import { BuildCard } from "./BuildCard";
 import { Footer } from "./Footer";
 import { useTheme } from "../contexts/ThemeContext";
 import builds from "../data/builds.json";
 
 interface BuildGalleryProps {
-  onBuildSelect: (build: KeyboardBuild) => void;
+  onBuildSelect: (build: any) => void;
 }
 
 export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
