@@ -144,7 +144,7 @@ function AppContent() {
                   </a>
                   <div className="mt-6 flex justify-center">
                     <img 
-                      src="/microkeebs/cat.png" 
+                      src="/microkeebs/public/cat.png" 
                       alt="Cat" 
                       className={`w-32 h-32 rounded-lg transition-all duration-300 ${
                         isDark ? 'opacity-80' : 'opacity-100'
