@@ -4,7 +4,9 @@ import { BuildGallery } from './components/BuildGallery';
 import { BuildDetail } from './components/BuildDetail';
 import { Rankings } from './components/Rankings';
 import { Footer } from './components/Footer';
+// import { CatIcon } from './components/icons';
 import { ThemeToggle } from './components/ThemeToggle';
+import { MobilePopup } from './components/MobilePopup';
 import { KeyboardBuild } from './types/Build';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { findBuildBySlug } from './utils/slugUtils';
@@ -19,8 +21,8 @@ function AppContent() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      if (hash.startsWith('#/build/')) {
-        const slugPath = hash.replace('#/build/', '');
+      if (hash.startsWith('#/builds/')) {
+        const slugPath = hash.replace('#/builds/', '');
         const parts = slugPath.split('/');
         const baseSlug = parts[0];
         const counter = parts[1];
@@ -70,7 +72,7 @@ function AppContent() {
     const index = sameTitleBuilds.findIndex(b => b.id === build.id);
     const counter = sameTitleBuilds.length > 1 ? `/${index + 1}` : '';
     
-    window.location.hash = `#/build/${baseSlug}${counter}`;
+    window.location.hash = `#/builds/${baseSlug}${counter}`;
   };
 
   const handleBackToGallery = () => {
@@ -133,13 +135,22 @@ function AppContent() {
                   <p className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} font-normal mb-4 fade-in text-sm sm:text-base`} style={{ animationDelay: '0.5s' }}>
                     Only business inquiries will be responded to.
                   </p>
-                  <a 
+                  <a
                     href="mailto:microkeebs@gmail.com"
                     className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} font-normal hover:opacity-70 transition-all duration-300 smooth-bounce fade-in text-sm sm:text-base`}
                     style={{ animationDelay: '0.7s' }}
                   >
                     microkeebs@gmail.com
                   </a>
+                  <div className="mt-6 flex justify-center">
+                    <img 
+                      src="/microkeebs/cat.png" 
+                      alt="Cat" 
+                      className={`w-32 h-32 rounded-lg transition-all duration-300 ${
+                        isDark ? 'opacity-80' : 'opacity-100'
+                      }`}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -162,6 +173,7 @@ function AppContent() {
         {renderContent()}
       </main>
       <ThemeToggle />
+      <MobilePopup />
     </div>
   );
 }
