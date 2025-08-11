@@ -1,5 +1,29 @@
 [
   {
+    "id": "PUMRux4bYtU",
+    "title": "TGR 910 CE",
+    "youtubeTitle": "TGR 910 CE with lubed Vintage Cherry MX Browns",
+    "category": "MX",
+    "timestamp": "2025-08-10T13:00:47Z",
+    "images": [
+      "./images/PUMRux4bYtU/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/PUMRux4bYtU",
+    "specs": {
+      "Keyboard": "TGR 910 CE Silver",
+      "Keycaps": "GMK DMG + Novelties",
+      "Switches": "Vintage Cherry MX Brown",
+      "Lube": "Trybosis 3203",
+      "Films": "Kelowna PC",
+      "Springs": "Single-stage 45g with GPL 105",
+      "Plate": "Full Polycarbonate",
+      "Mount": "Top Mount",
+      "Stabilizers": "Durock V2 with Permatex Dialectric Grease",
+      "PCB": "Mechlovin' Zed65 (Mini-USB Connector)",
+      "Others": "-"
+    }
+  },
+  {
     "id": "oP6QJU2zwNg",
     "title": "Geonworks F2-60",
     "youtubeTitle": "Geonworks F2-60 with lubed Cherry Razer Oranges",
