@@ -1,0 +1,227 @@
+/* === FONT === */
+@font-face {
+  font-family: "DecimaMono";
+  src: url("fonts/DecimaMono.ttf") format("truetype");
+}
+
+/* === BASE === */
+body {
+  font-family: "DecimaMono", monospace;
+  background: white;
+  margin: 0;
+  padding: 0;
+  color: black;
+}
+
+.container {
+  display: flex;
+}
+
+.left-column {
+  width: 30%;
+  padding: 58px 60px;
+  font-size: 12px;
+  letter-spacing: 0px;
+  line-height: 1.17;
+}
+
+.right-fixed {
+  position: fixed;
+  top: 10px;
+  right: 200px;
+  max-width: 600px;
+  max-height: 700px;
+}
+
+.right-fixed img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+/* === CATEGORY BLOCKS === */
+.category {
+  margin-bottom: 1.5rem;
+}
+
+.category-title {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.intro-text {
+  text-align: justify;
+  margin-bottom: 2rem;
+  margin-right: -55px; /* adjust this value */
+  white-space: pre-wrap;
+}
+
+.inline-category {
+  margin-bottom: 0;
+}
+
+.inline-category strong {
+  font-weight: bold;
+}
+
+/* === DEFAULT P-TYPE GRID (Games, etc.) === */
+.p-grid-container {
+  display: grid;
+  grid-template-columns: repeat(6, 50px); /* 6 columns, each 50px wide */
+  grid-auto-rows: auto;                   /* height adapts to image ratio */
+  column-gap: 2px;                        /* horizontal gap */
+  row-gap: 2px;                           /* vertical gap */
+}
+
+.p-grid-container img,
+.p-grid-container .placeholder {
+  width: 50px;            /* match column width */
+  height: auto;           /* keep aspect ratio */
+  object-fit: contain;    /* no cropping */
+  background-color: white;
+  display: block;
+}
+
+/* === CATEGORY-SPECIFIC GRID SIZES === */
+
+/* Fragrances — smaller than games */
+.fragrances-grid {
+  grid-template-columns: repeat(6, 40px);
+}
+
+.fragrances-grid img,
+.fragrances-grid .placeholder {
+  width: 30px;
+  height: auto;
+}
+
+/* EPs / Albums — larger square covers */
+.epsAlbums-grid {
+  grid-template-columns: repeat(5, 60px);
+}
+
+.epsAlbums-grid img,
+.epsAlbums-grid .placeholder {
+  width: 60px;
+  height: 60px;
+  object-fit: cover; /* fill square */
+}
+
+/* === PLACEHOLDERS === */
+.placeholder {
+  background: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7px;
+  color: #fff;
+}
+
+/* === TEXT ROWS === */
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* === DESIGNER GRID === */
+.designer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100px);
+  gap: 2px;
+}
+
+.designer-grid img,
+.designer-grid .placeholder {
+  width: 100px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.designer-grid .placeholder {
+  background: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: #555;
+}
+
+/* === COLOUR SWATCH === */
+.color-swatch {
+  width: 10px;
+  height: 10px;
+  margin-left: 0px;
+  border: 1px solid #000;
+  flex-shrink: 0;
+  flex-grow: 0;
+  align-self: center;
+  box-sizing: content-box;
+}
+
+/* === FONTS PREVIEW === */
+.font-preview {
+  font-size: 14px;
+}
+
+.runway-item {
+  white-space: nowrap;
+}
+
+/* Fonts section override for manual dots */
+.fonts-item {
+  display: inline-block;
+  white-space: pre;
+  width: 100%;
+}
+
+/* === LINKS === */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* === CUSTOM CURSOR === */
+.custom-cursor {
+  position: fixed;
+  min-width: 24px;
+  height: auto;
+  padding: 6px 8px;
+  background: black;
+  color: white;
+  font-size: 14px;
+  font-family: inherit;
+  white-space: nowrap;
+  border-radius: 0px;
+  pointer-events: none;
+  z-index: 9999;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  .page-rotate {
+    /* Rotate, move into view, then scale */
+    transform: rotate(90deg) translateY(-100%) scale(calc(100vw / 100vh));
+    transform-origin: top left;
+
+    /* Swap dimensions after rotation */
+    width: 100vh;
+    height: 100vw;
+  }
+}

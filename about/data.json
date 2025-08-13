@@ -1,0 +1,375 @@
+{
+  "intro": {
+    "type": "intro",
+    "text": "MICROCK                                                                          he/him\nIf you've found this page, you can learn a bit more about my interests. The things are listed in no particular order, so the first isn't necessarily my favorite and the last isn't my least. If we have something in common, feel free to start a conversation."
+  },
+
+  "series": {
+    "displayName": "Series",
+    "type": "T",
+    "items": [
+      { "title": "Utopia UK", "year": 2013 },
+      { "title": "Better Call Saul", "year": 2015 },
+      { "title": "Mr Robot", "year": 2015 },
+      { "title": "Severance", "year": 2022 }
+    ]
+  },
+
+  "animes": {
+    "displayName": "Animes",
+    "type": "T",
+    "items": [
+      { "title": "Death Note", "year": 2006 },
+      { "title": "Code Geass: Lelouch of the Rebellion", "year": 2006 },
+      { "title": "Puella Magi Madoka Magica", "year": 2011 },
+      { "title": "Attack on Titan (Shingeki no Kyojin)", "year": 2013 },
+      { "title": "Your Lie in April (Shigatsu wa Kimi no Uso)", "year": 2014 },
+      { "title": "Erased (Boku dake ga Inai Machi)", "year": 2016 },
+      { "title": "Bocchi the Rock!", "year": 2022 }
+    ]
+  },
+
+  "films": {
+    "displayName": "Films",
+    "type": "T",
+    "items": [
+      { "title": "Inglourious Basterds", "year": 2009 },
+      { "title": "Puella Magi Madoka Magica: Rebellion III", "year": 2013 },
+      { "title": "Whiplash", "year": 2014 },
+      { "title": "Interstellar", "year": 2014 },
+      { "title": "Nightcrawler", "year": 2014 },
+      { "title": "Parasite", "year": 2019 },
+      { "title": "1917", "year": 2019 }
+    ]
+  },
+
+  "games": {
+    "displayName": "Games",
+    "type": "P",
+    "items": [
+      { "name": "Undertale", "image": "undertale.png" },
+      { "name": "Celeste", "image": "celeste.jpg" },
+      { "name": "OneShot", "image": "oneshot.png" },
+      { "name": "Super Mario Galaxy 2", "image": "smg2.png" },
+      { "name": "Minecraft", "image": "minecraft.jpg" },
+      { "name": "Portal 2", "image": "portal2.png" },
+      { "name": "Portal Stories: Mel", "image": "portalstoriesmel.png" },
+      { "name": "Lorn’s Lure", "image": "lornslure.jpg" },
+      { "name": "Fear & Hunger", "image": "feareandhunger.png" },
+      { "name": "Detroit: Become Human", "image": "detroitbecomehuman.png" },
+      { "name": "Omori", "image": "omori.jpg" }
+    ]
+  },
+
+  "styles": {
+    "displayName": "Styles",
+    "type": "R",
+    "items": [
+      { "title": "Vkei", "right": "Japanese rock/metal subculture" },
+      { "title": "Streetwear", "right": "Urban casual fashion" },
+      { "title": "Avant-garde", "right": "Experimental high fashion" },
+      { "title": "Jirai", "right": "Kawaii-goth Harajuku style" },
+      { "title": "Harajuku", "right": "Japanese street fashion" }
+    ]
+  },
+  
+    "runways": {
+    "displayName": "Runways",
+    "type": "runways",
+    "items": [
+      { "runway": "AW01 RIOT! RIOT! RIOT!", "designer": "Raf Simons" },
+      { "runway": "FW16", "designer": "Yohji Yamamoto" },
+      { "runway": "FW06 But Beautiful", "designer": "Undercover" },
+      { "runway": "AW04 Waves", "designer": "Raf Simons" }
+    ]
+  },
+
+
+  "fashionDesignerImages": {
+    "displayName": "Fashion Designers",
+    "type": "designerImages",
+    "items": [
+      { "name": "Yohji Yamamoto", "image": "yohji.png" },
+      { "name": "Raf Simons", "image": "raf.png" },
+      { "name": "Maison Margiela", "image": "mm.png" },
+      { "name": "Number (N)ine", "image": "numbernine.png" },
+      { "name": "Engrave the Cross", "image": "engravethex.png" },
+      { "name": "KMRii", "image": "kmrii.png" },
+      { "name": "Carol Christian Poell", "image": "ccp.png" }
+    ]
+  },
+  
+    "fragrances": {
+    "displayName": "Fragrances",
+    "type": "P",
+    "items": [
+      { "name": "Tobacco Vanille", "image": "tobaccovanille.jpg" },
+      { "name": "Jazz Club", "image": "jazzclub.jpg" },
+      { "name": "Encre Noire", "image": "encrenoire.jpg" },
+      { "name": "Another 13", "image": "another13.jpg" }
+    ]
+  },
+
+  "colours": {
+    "displayName": "Colours",
+    "type": "colours",
+    "items": [
+      { "title": "#8621E7" },
+      { "title": "#000000" },
+      { "title": "#F0E8BB" }
+    ]
+  },
+
+  "fonts": {
+    "displayName": "Fonts",
+    "type": "fonts",
+    "items": [
+      { "title": "Roboto Mono........................................................", "right": "Christian Robertson" },
+      { "title": "Mongolian Baiti..................................................................", "right": "Microsoft" },
+      { "title": "Alte Haas Grotesk.....................................................", "right": "Yann Le Coroller" },
+      { "title": "Times New Roman..........................................................", "right": "Stanley Morison" },
+      { "title": "Acumin Variable Concept ...............................................", "right": "Robert Slimbach" },
+      { "title": "BONNES.........................................................................", "right": "Unknown" },
+      { "title": "Dutch801 RM BT...............................................................", "right": "Bitstream" }
+    ]
+  },
+
+  "bands": {
+    "displayName": "Bands",
+    "type": "R",
+    "items": [
+      { "title": "Glass Beach", "right": "Indie Rock / Power Pop", "spotify": "https://open.spotify.com/artist/4gHs8pWsgZpndQZKs6QVRH" },
+      { "title": "Panchiko", "right": "Indie Rock / Shoegaze", "spotify": "https://open.spotify.com/artist/4KEHIUSoWCcqrk8AddTE1O" },
+      { "title": "Radiohead", "right": "Alternative Rock / Art Rock", "spotify": "https://open.spotify.com/artist/4Z8W4fKeB5YxbusRsdQVPb" },
+      { "title": "Tally Hall", "right": "Power Pop / Indie Pop", "spotify": "https://open.spotify.com/artist/7lqaPghwYv2mE9baz5XQmL" }
+    ]
+  },
+
+  "indieArtists": {
+    "displayName": "Indie Artists",
+    "type": "R",
+    "items": [
+      { "title": "Sewerslvt / Cynthoni", "right": "Atmospheric DnB / Breakcore", "spotify": "https://open.spotify.com/artist/30F64wQIHvLiFTGaNZ73nU" },
+      { "title": "Aphex Twin", "right": "IDM / Acid Techno", "spotify": "https://open.spotify.com/artist/6kBDZFXuLrZgHnvmPu9NsG" },
+      { "title": "Hakushi Hasegawa", "right": "Art Pop / Jazz Fusion", "spotify": "https://open.spotify.com/artist/5DZqDIAqRSN8mBM0DoQwoi" },
+      { "title": "Femtanyl", "right": "Breakcore / Digital Hardcore", "spotify": "https://open.spotify.com/artist/53e9n1LucuH3guikmtv180" },
+      { "title": "loadcode", "right": "Emo / Indie Rock", "spotify": "https://open.spotify.com/artist/3Fvs7FLabmef2LGdET9HWw?si=Q0RRoTE8ThWwDXSixB8ICw" },
+      { "title": "Toby Fox", "right": "Video Game Music", "spotify": "https://open.spotify.com/artist/57DlMWmbVIf2ssJ8QBpBau" },
+      { "title": "quinn", "right": "Digicore / Glitch Pop", "spotify": "https://open.spotify.com/artist/2QpNu8tDPv9n7oY34J1TtN" },
+      { "title": "S3RL", "right": "UK Hardcore / Powerstomp", "spotify": "https://open.spotify.com/artist/11aa081aKYUzmeFm0yHdT2" },
+      { "title": "2hollis", "right": "Digicore / Electropop", "spotify": "https://open.spotify.com/artist/72NhFAGG5Pt91VbheJeEPG" }
+    ]
+  },
+
+  "epsAlbums": {
+    "displayName": "EPs / Albums",
+    "type": "P",
+    "items": [
+      { "name": "the first album of glass beach - glass beach", "image": "tfgba.png", "spotify": "https://open.spotify.com/album/5GOoswCqZQiq9gbjSHkzMq" },
+      { "name": "repression years!!!! - loadcode", "image": "repressionyears.jpg", "spotify": "https://open.spotify.com/album/1Iwns512BKEOnuoksUYvr6?si=nFFT3dl6R2e8wkh_kltj6Q" },
+      { "name": "Selected Ambient Works 85-92 - Aphex Twin", "image": "selectedambient.png", "spotify": "https://open.spotify.com/album/7aNclGRxTysfh6z0d8671k" },
+      { "name": "Selected Aphex Works N64 - on4ward", "image": "selectedn64.jpg", "spotify": "https://open.spotify.com/album/1gHEtjiBaJyNjh4iLwo8xt?si=kaU8oOmSQjiVguqXbpFJ1A" },
+      { "name": "we had good times together, don’t forget that - Sewerslvt", "image": "wehadgoodtimes.jpg", "spotify": "https://open.spotify.com/album/6Hs9pYq5ionwBpGAp6iqi9" },
+      { "name": "Everywhere At The End Of Time - The Caretaker", "image": "eateot.jpg", "spotify": "https://open.spotify.com/album/44YowKrYCgiT0qZGdLARWi" },
+      { "name": "ok computer - Radiohead", "image": "okcomputer.png", "spotify": "https://open.spotify.com/album/6dVIqQ8qmQ5GBnJ9shOYGE" },
+      { "name": "anything Toby Fox has ever done", "image": "ut.jpg", "spotify": "https://open.spotify.com/album/2M2Ae2SvZe3fmzUtlVOV5Z" }
+    ]
+  },
+
+  "individualTracks": {
+    "displayName": "Individual Tracks",
+    "type": "R",
+    "items": [
+      { "title": "bedroom community", "right": "glass beach", "spotify": "https://open.spotify.com/track/4HJc004qYXE9zsG6PfTFFj" },
+      { "title": "commatose", "right": "glass beach", "spotify": "https://open.spotify.com/track/0s4SBcxkhUzP14eFKrWdEC" },
+      { "title": "ecifircas", "right": "sewerslvt", "spotify": "https://open.spotify.com/track/0ROexSyivb8X5LLLzsTFuB" },
+      { "title": "blissful overdose", "right": "sewerslvt", "spotify": "https://open.spotify.com/track/2Uer7J87AJzKkpcTP4lpGY" },
+      { "title": "aisatsana", "right": "aphex twin", "spotify": "https://open.spotify.com/track/3ESsjKqrj3M79I8sSZieK3" },
+      { "title": "avril 14th", "right": "aphex twin", "spotify": "https://open.spotify.com/track/5oZisSvibQw9GVM1v3fCwB" },
+      { "title": "180db_", "right": "aphex twin", "spotify": "https://open.spotify.com/track/1EqV8PuCj1RX4eBX76fqtc" },
+      { "title": "the world revolving", "right": "toby fox", "spotify": "https://open.spotify.com/track/5QBozbgRWIYDSriHCRTsXd" },
+      { "title": "megalovania", "right": "toby fox", "spotify": "https://open.spotify.com/track/1J03Vp93ybKIxfzYI4YJtL" },
+      { "title": "desert", "right": "Hakushi Hasegawa", "spotify": "https://open.spotify.com/intl-ar/track/66Jk8djrqgRCZThe3t2EYa" },
+      { "title": "story 2", "right": "clipping", "spotify": "https://open.spotify.com/track/1UsHdJAj4Y1sMIqAh1mS02" },
+      { "title": "ruler of everything", "right": "tally hall", "spotify": "https://open.spotify.com/track/3vFZheR74pxUkzxqhXTZ2X" },
+      { "title": "ゆきこさん", "right": "ミドリ", "spotify": "https://open.spotify.com/intl-ja/track/7EzsrJjJQBXRPiAPijADtG" },
+      { "title": "must be nice", "right": "quinn", "spotify": "https://open.spotify.com/track/25TIIp717353bt26eqPiJw" },
+      { "title": "one am", "right": "quinn", "spotify": "https://open.spotify.com/track/3nmxRPV8vlZ0dXBw3kOV0t" },
+      { "title": "but the heart is torn apart.", "right": "2 0 2 1", "spotify": "https://open.spotify.com/track/0gdw5j1dhQ9H0CmNRfFL8S" }
+    ]
+  },
+
+  "genres": {
+    "displayName": "Genres",
+    "type": "R",
+    "items": [
+      { "title": "Breakcore", "right": "180–240 BPM" },
+      { "title": "DnB", "right": "160–180 BPM" },
+      { "title": "Ambient", "right": "0–80 BPM" },
+      { "title": "Classical", "right": "Varies" },
+      { "title": "JRock", "right": "120–160 BPM" },
+      { "title": "4th wave emo", "right": "90–140 BPM" },
+      { "title": "Indie rock", "right": "100–140 BPM" },
+      { "title": "Speedcore", "right": "250–1000 BPM" },
+      { "title": "Hyperpop", "right": "120–160 BPM" },
+      { "title": "Jungle", "right": "160–180 BPM" },
+      { "title": "Alternative", "right": "Varies" }
+    ]
+  },
+
+  "inspirations": {
+    "displayName": "Inspirations & References",
+    "type": "R",
+    "items": [
+      { "title": "Gawx", "right": "Filmmaker / Illustrator / YouTuber" },
+      { "title": "f4mi", "right": "Digital Artist / YouTuber" },
+      { "title": "ivorytv", "right": "Filmmaker / YouTuber" },
+      { "title": "pinguefy", "right": "Aimer / YouTuber" },
+      { "title": "jam2go", "right": "Gamemaker / Music Producer" }
+    ]
+  },
+
+  "coffee": {
+    "displayName": "Coffee",
+    "type": "R",
+    "items": [
+      { "title": "Caramel Macchiato" }
+    ]
+  },
+
+  "monsterFlavor": {
+    "displayName": "Monster Flavor",
+    "type": "R",
+    "items": [
+      { "title": "Rehab Iced Tea & Lemonade" }
+    ]
+  },
+
+  "daVinciPlugin": {
+    "displayName": "DaVinci Resolve Default Plugin",
+    "type": "R",
+    "items": [
+      { "title": "Halation" }
+    ]
+  },
+
+  "browserExtension": {
+    "displayName": "Browser Extension",
+    "type": "R",
+    "items": [
+      { "title": "uBlock Origin" }
+    ]
+  },
+
+  "keyboardSpring": {
+    "displayName": "Keyboard Switch Spring",
+    "type": "R",
+    "items": [
+      { "title": "TX 22mm 45g" }
+    ]
+  },
+
+  "lens": {
+    "displayName": "Lens",
+    "type": "R",
+    "items": [
+      { "title": "50mm" }
+    ]
+  },
+
+  "lightKelvin": {
+    "displayName": "Light Kelvin",
+    "type": "R",
+    "items": [
+      { "title": "2700k" }
+    ]
+  },
+
+  "material": {
+    "displayName": "Material",
+    "type": "R",
+    "items": [
+      { "title": "Concrete" }
+    ]
+  },
+
+  "framing": {
+    "displayName": "Framing",
+    "type": "R",
+    "items": [
+      { "title": "Headshot bottom-framing with extreme negative space" }
+    ]
+  },
+
+  "personalityType": {
+    "displayName": "Personality Type",
+    "type": "R",
+    "items": [
+      { "title": "INFJ-T" }
+    ]
+  },
+
+  "gymExercise": {
+    "displayName": "Gym Exercise",
+    "type": "R",
+    "items": [
+      { "title": "Lat Pulldown" }
+    ]
+  },
+
+  "smg2Galaxy": {
+    "displayName": "SMG2 Galaxy",
+    "type": "R",
+    "items": [
+      { "title": "Slimy Springs Galaxy" }
+    ]
+  },
+
+  "resolution": {
+    "displayName": "Resolution",
+    "type": "R",
+    "items": [
+      { "title": "2880x2160" }
+    ]
+  },
+
+  "minecraftEnchant": {
+    "displayName": "Minecraft Enchant",
+    "type": "R",
+    "items": [
+      { "title": "Feather Falling IV" }
+    ]
+  },
+
+  "minecraftWood": {
+    "displayName": "Minecraft Wood Type",
+    "type": "R",
+    "items": [
+      { "title": "Spruce" }
+    ]
+  },
+
+  "uselessMelee": {
+    "displayName": "Best Useless Melee",
+    "type": "R",
+    "items": [
+      { "title": "Scythe" }
+    ]
+  },
+
+  "maleSupporting": {
+    "displayName": "Male Supporting Character",
+    "type": "R",
+    "items": [
+      { "title": "Tyrell Wellick" }
+    ]
+  },
+
+  "femaleSupporting": {
+    "displayName": "Female Supporting Character",
+    "type": "R",
+    "items": [
+      { "title": "Kim Wexler" }
+    ]
+  }
+}

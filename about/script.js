@@ -1,0 +1,324 @@
+// Helper: measure dots accurately with given fonts
+function getDots(leftText, rightText, availableWidth, leftFont, rightFont, dotFont) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  ctx.font = leftFont;
+  const leftWidth = ctx.measureText(leftText).width;
+
+  ctx.font = rightFont;
+  const rightWidth = ctx.measureText(rightText).width;
+
+  ctx.font = dotFont;
+  const dotWidth = ctx.measureText(".").width;
+
+  const dotsNeeded = Math.max(
+    1,
+    Math.floor((availableWidth - leftWidth - rightWidth) / dotWidth)
+  );
+
+  return ".".repeat(dotsNeeded);
+}
+
+fetch("data.json")
+  .then((res) => res.json())
+  .then((data) => {
+    const content = document.getElementById("content");
+
+    for (const [category, details] of Object.entries(data)) {
+      const section = document.createElement("div");
+      section.classList.add("category", category); // category-specific class
+
+      const leftCol = document.querySelector(".left-column");
+      const styles = window.getComputedStyle(leftCol);
+      const paddingLeft = parseInt(styles.paddingLeft, 10);
+      const paddingRight = parseInt(styles.paddingRight, 10);
+      const availableWidth =
+        leftCol.clientWidth - paddingLeft - paddingRight;
+      const defaultFont = `${styles.fontSize} ${styles.fontFamily}`;
+
+      // Intro paragraph
+      if (details.type === "intro") {
+        const introPara = document.createElement("p");
+        introPara.classList.add("intro-text");
+        introPara.textContent = details.text;
+        section.appendChild(introPara);
+        content.appendChild(section);
+        continue;
+      }
+
+      // Sort T types oldest -> newest
+      if (details.type === "T") {
+        details.items.sort((a, b) => a.year - b.year);
+      }
+
+      // Single-line R type
+      if (details.type === "R" && details.items.length === 1) {
+        section.classList.add("inline-category");
+        const titleText = details.displayName || category;
+        const valueText = details.items[0].title || details.items[0].name;
+        const dots = getDots(
+          titleText,
+          valueText,
+          availableWidth,
+          defaultFont,
+          defaultFont,
+          defaultFont
+        );
+        const inline = document.createElement("div");
+        inline.classList.add("item");
+        inline.style.whiteSpace = "nowrap";
+        inline.innerHTML = `<strong>${titleText}</strong>${dots}${valueText}`;
+        section.appendChild(inline);
+        content.appendChild(section);
+        continue;
+      }
+
+      // Category title
+      const title = document.createElement("div");
+      title.classList.add("category-title");
+      title.textContent = details.displayName || category;
+      section.appendChild(title);
+
+      // Designer images
+      if (details.type === "designerImages") {
+        const grid = document.createElement("div");
+        grid.classList.add("designer-grid");
+        details.items.forEach((item) => {
+          let element;
+          if (item.image && item.image.trim() !== "") {
+            element = document.createElement("img");
+            element.src = "images/" + item.image;
+            element.alt = item.name;
+            element.setAttribute("data-label", item.name);
+          } else {
+            element = document.createElement("div");
+            element.classList.add("placeholder");
+            element.textContent = item.name;
+            element.setAttribute("data-label", item.name);
+          }
+          grid.appendChild(element);
+        });
+        section.appendChild(grid);
+      }
+
+      // Colours
+      else if (details.type === "colours") {
+        const swatchWidth = 14; // swatch size
+        details.items.forEach((item) => {
+          const hex = item.title;
+          const dots = getDots(
+            hex,
+            "",
+            availableWidth - swatchWidth,
+            defaultFont,
+            defaultFont,
+            defaultFont
+          );
+          const row = document.createElement("div");
+          row.classList.add("item");
+          row.style.whiteSpace = "nowrap";
+
+          const text = document.createElement("span");
+          text.textContent = `${hex}${dots}`;
+
+          const swatch = document.createElement("div");
+          swatch.classList.add("color-swatch");
+          swatch.style.backgroundColor = hex;
+
+          row.appendChild(text);
+          row.appendChild(swatch);
+          section.appendChild(row);
+        });
+      }
+
+      // Fonts
+      else if (details.type === "fonts") {
+        details.items.forEach((item) => {
+          const row = document.createElement("div");
+          row.classList.add("fonts-item");
+          row.style.whiteSpace = "pre";
+
+          const firstDotIndex = item.title.indexOf(".");
+          let fontName = item.title;
+          let dots = "";
+
+          if (firstDotIndex !== -1) {
+            fontName = item.title.substring(0, firstDotIndex);
+            dots = item.title.substring(firstDotIndex);
+          }
+
+          const leftSpan = document.createElement("span");
+          leftSpan.textContent = fontName;
+          leftSpan.style.fontFamily = `"${fontName.trim()}", ${styles.fontFamily}`;
+
+          const dotsSpan = document.createElement("span");
+          dotsSpan.style.fontFamily = styles.fontFamily;
+          dotsSpan.textContent = dots;
+
+          const rightSpan = document.createElement("span");
+          rightSpan.style.fontFamily = styles.fontFamily;
+          rightSpan.textContent = item.right;
+
+          row.appendChild(leftSpan);
+          row.appendChild(dotsSpan);
+          row.appendChild(rightSpan);
+          section.appendChild(row);
+        });
+      }
+
+      // Runways
+      else if (details.type === "runways") {
+        details.items.forEach((item) => {
+          const dots = getDots(
+            item.runway,
+            item.designer,
+            availableWidth,
+            defaultFont,
+            defaultFont,
+            defaultFont
+          );
+          const row = document.createElement("div");
+          row.classList.add("item", "runway-item");
+          row.textContent = `${item.runway}${dots}${item.designer}`;
+          section.appendChild(row);
+        });
+      }
+
+      // P = Picture grid
+      else if (details.type === "P") {
+        const gridContainer = document.createElement("div");
+        gridContainer.classList.add("p-grid-container", `${category}-grid`);
+
+        details.items.forEach((item) => {
+          let contentEl;
+          if (item.image && item.image.trim() !== "") {
+            contentEl = document.createElement("img");
+            contentEl.src = "images/" + item.image;
+            contentEl.alt = item.name;
+            contentEl.setAttribute("data-label", item.name);
+          } else {
+            contentEl = document.createElement("div");
+            contentEl.classList.add("placeholder");
+            contentEl.textContent = "Placeholder";
+            contentEl.setAttribute("data-label", item.name || "Placeholder");
+          }
+
+          if (item.spotify) {
+            const link = document.createElement("a");
+            link.href = item.spotify;
+            link.target = "_blank";
+            link.style.cursor = "pointer";
+            link.appendChild(contentEl);
+            gridContainer.appendChild(link);
+          } else {
+            gridContainer.appendChild(contentEl);
+          }
+        });
+        section.appendChild(gridContainer);
+      }
+
+      // T = Text with dot leaders
+      else if (details.type === "T") {
+        details.items.forEach((item) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.classList.add("item");
+          itemDiv.style.whiteSpace = "nowrap";
+          if (item.year) {
+            const titleText = item.title || item.name;
+            const dots = getDots(
+              titleText,
+              String(item.year),
+              availableWidth,
+              defaultFont,
+              defaultFont,
+              defaultFont
+            );
+            itemDiv.innerHTML = `${titleText}${dots}${item.year}`;
+          } else {
+            itemDiv.textContent = item.title || item.name;
+          }
+          section.appendChild(itemDiv);
+        });
+      }
+
+      // R = Regular text
+      else if (details.type === "R") {
+        details.items.forEach((item) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.classList.add("item");
+
+          const clickableUrl = item.spotify || item.link;
+
+          if (item.right) {
+            const dots = getDots(
+              item.title,
+              item.right,
+              availableWidth,
+              defaultFont,
+              defaultFont,
+              defaultFont
+            );
+            if (clickableUrl) {
+              const link = document.createElement("a");
+              link.href = clickableUrl;
+              link.target = "_blank";
+              link.textContent = `${item.title}${dots}${item.right}`;
+              link.style.cursor = "pointer";
+              link.style.textDecoration = "none";
+              link.style.color = "inherit";
+              itemDiv.appendChild(link);
+            } else {
+              itemDiv.textContent = `${item.title}${dots}${item.right}`;
+            }
+          } else {
+            if (clickableUrl) {
+              const link = document.createElement("a");
+              link.href = clickableUrl;
+              link.target = "_blank";
+              link.textContent = item.title || item.name;
+              link.style.cursor = "pointer";
+              link.style.textDecoration = "none";
+              link.style.color = "inherit";
+              itemDiv.appendChild(link);
+            } else {
+              itemDiv.textContent = item.title || item.name;
+            }
+          }
+
+          section.appendChild(itemDiv);
+        });
+      }
+
+      content.appendChild(section);
+    }
+
+    // === Black square cursor logic ===
+    const customCursor = document.createElement("div");
+    customCursor.classList.add("custom-cursor");
+    document.body.appendChild(customCursor);
+
+    document.addEventListener("mousemove", (e) => {
+      if (customCursor.style.display === "block") {
+        customCursor.style.left = e.clientX + 10 + "px";
+        customCursor.style.top = e.clientY + 10 + "px";
+      }
+    });
+
+    const hoverTargets = document.querySelectorAll(
+      ".p-grid-container img, .p-grid-container .placeholder, .designer-grid img, .designer-grid .placeholder"
+    );
+
+    hoverTargets.forEach((el) => {
+      el.addEventListener("mouseenter", () => {
+        let label = el.getAttribute("data-label") || el.alt || el.textContent || "";
+        customCursor.textContent = label;
+        customCursor.style.display = "block";
+      });
+
+      el.addEventListener("mouseleave", () => {
+        customCursor.style.display = "none";
+        customCursor.textContent = "";
+      });
+    });
+  });

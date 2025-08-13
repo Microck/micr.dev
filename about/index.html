@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+	.mobile-blocker {
+	  display: none; /* hidden by default */
+	}
+
+	@media (max-width: 768px) {
+	  .mobile-blocker {
+		display: flex; /* show only on mobile */
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: white;
+		color: black;
+		font-family: "Comic Sans MS", cursive, sans-serif;
+		font-size: 20px;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		padding: 20px;
+		z-index: 999999;
+		max-width: 100%;
+		box-sizing: border-box;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+	  }
+
+	  .page-rotate, .container {
+		display: none !important; /* hide your actual site on mobile */
+	  }
+	}
+  </style>
+</head>
+<body>
+  <div class="mobile-blocker">
+    soz id rather kms than make my websites responsive on mobile<br>
+    <br>
+    come back on desktop ^_^
+  </div>
+
+  <div class="page-rotate">
+    <div class="container">
+      <div class="left-column" id="content"></div>
+      <div class="right-fixed">
+        <img src="images/right-image.jpg" alt="Right Image" />
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
