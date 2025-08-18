@@ -1,5 +1,30 @@
 [
   {
+    "id": "OF77cCl14us",
+    "title": "Bias V2",
+    "youtubeTitle": "Bias V2 with lubed Retooled Cherry MX Blacks",
+    "category": "MX",
+    "timestamp": "2025-08-16T22:00:18Z",
+    "images": [
+      "./images/OF77cCl14us/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/OF77cCl14us",
+    "specs": {
+      "Keyboard": "Baionlenja Bias R2 (reanodized dark gray by Prime)",
+      "Keycaps": "GMK WoB + GMK Chaos Theory + GMK Alt Grrrr",
+      "Switches": "Retooled Cherry MX Black",
+      "Lube": "GHv4",
+      "Films": "TX 0.15",
+      "Springs": "TX L 55g lubed with GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "Grommet Mount (Hard Grommets)",
+      "Stabilizers": "Cherry Clip Ins + C3 wires with 205g0",
+      "PCB": "Baion 808 Solder",
+      "Artisan": "Dreadkeys Monochrome",
+      "Others": "-"
+    }
+  },
+  {
     "id": "PUMRux4bYtU",
     "title": "TGR 910 CE",
     "youtubeTitle": "TGR 910 CE with lubed Vintage Cherry MX Browns",
