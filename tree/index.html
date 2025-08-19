@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>micr.dev Landing</title>
+    <style>
+      @font-face {
+        font-family: "HelveticaNeue65Medium";
+        src: url("fonts/Helvetica Neue 65 Medium.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      body {
+        margin: 0;
+        height: 100vh;
+        background: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: sans-serif;
+      }
+
+      .container {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .sphere {
+        width: 150px;
+        height: 150px;
+        cursor: pointer;
+        position: relative;
+        transition: transform 0.2s ease;
+      }
+
+      .sphere:hover {
+        transform: scale(1.1);
+      }
+
+      .sphere img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        display: block;
+      }
+
+      .tooltip {
+        visibility: hidden;
+        opacity: 0;
+        width: 220px;
+        background-color: rgba(0, 0, 0, 0.85);
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px;
+        position: absolute;
+        bottom: 110%; /* show above sphere */
+        left: 50%;
+        transform: translateX(-50%);
+        transition: opacity 0.3s ease;
+        font-size: 0.85rem;
+        pointer-events: none;
+        z-index: 10;
+        font-family: "HelveticaNeue65Medium", sans-serif;
+      }
+
+      .sphere:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="sphere-container"></div>
+
+    <script>
+      const spheres = [
+        {
+          img: "images/micrdev.gif",
+          url: "https://micr.dev/",
+          desc: "A 3D interactable portfolio. Needs WebGL and hardware acceleration enabled.",
+        },
+        {
+          img: "images/micrdevabout.gif",
+          url: "https://micr.dev/about/",
+          desc: "A place to learn a bit more of me.",
+        },
+        {
+          img: "images/micrdevmicrokeebs.gif",
+          url: "https://micr.dev/microkeebs/",
+          desc: "A website to showcase keyboards that I have built.",
+        },
+      ];
+
+      const container = document.getElementById("sphere-container");
+
+      spheres.forEach((sphere) => {
+        const div = document.createElement("div");
+        div.className = "sphere";
+        div.innerHTML = `
+          <img src="${sphere.img}" alt="sphere" />
+          <div class="tooltip">${sphere.desc}</div>
+        `;
+        div.addEventListener("click", () => {
+          window.location.href = sphere.url;
+        });
+        container.appendChild(div);
+      });
+    </script>
+  </body>
+</html>
