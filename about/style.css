@@ -18,7 +18,7 @@ body {
 }
 
 .left-column {
-  width: 30%;
+  width: 28%;
   padding: 58px 60px;
   font-size: 12px;
   letter-spacing: 0px;
@@ -51,11 +51,31 @@ body {
   margin-bottom: 0.3rem;
 }
 
+/* === INTRO BLOCK === */
 .intro-text {
-  text-align: justify;
   margin-bottom: 2rem;
-  margin-right: -55px; /* adjust this value */
-  white-space: pre-wrap;
+  width: 100%;          /* take full width of column */
+  box-sizing: border-box;
+}
+
+.intro-header {
+  display: flex;
+  justify-content: space-between; /* left + right alignment */
+  font-weight: normal;            /* not bold */
+  margin: 0;
+  padding: 0;
+  line-height: 1.17;              /* match site’s base */
+  width: 100%;                    /* ensure full width */
+  box-sizing: border-box;
+}
+
+.intro-body {
+  text-align: justify;            /* full justification */
+  margin: 0;
+  padding: 0;
+  line-height: 1.17;              /* match site’s base */
+  width: 100%;                    /* ensure full width */
+  box-sizing: border-box;
 }
 
 .inline-category {
@@ -69,24 +89,22 @@ body {
 /* === DEFAULT P-TYPE GRID (Games, etc.) === */
 .p-grid-container {
   display: grid;
-  grid-template-columns: repeat(6, 50px); /* 6 columns, each 50px wide */
-  grid-auto-rows: auto;                   /* height adapts to image ratio */
-  column-gap: 2px;                        /* horizontal gap */
-  row-gap: 2px;                           /* vertical gap */
+  grid-template-columns: repeat(6, 50px);
+  grid-auto-rows: auto;
+  column-gap: 2px;
+  row-gap: 2px;
 }
 
 .p-grid-container img,
 .p-grid-container .placeholder {
-  width: 50px;            /* match column width */
-  height: auto;           /* keep aspect ratio */
-  object-fit: contain;    /* no cropping */
+  width: 50px;
+  height: auto;
+  object-fit: contain;
   background-color: white;
   display: block;
 }
 
 /* === CATEGORY-SPECIFIC GRID SIZES === */
-
-/* Fragrances — smaller than games */
 .fragrances-grid {
   grid-template-columns: repeat(6, 40px);
 }
@@ -97,7 +115,6 @@ body {
   height: auto;
 }
 
-/* EPs / Albums — larger square covers */
 .epsAlbums-grid {
   grid-template-columns: repeat(5, 60px);
 }
@@ -106,7 +123,7 @@ body {
 .epsAlbums-grid .placeholder {
   width: 60px;
   height: 60px;
-  object-fit: cover; /* fill square */
+  object-fit: cover;
 }
 
 /* === PLACEHOLDERS === */
@@ -171,7 +188,6 @@ body {
   white-space: nowrap;
 }
 
-/* Fonts section override for manual dots */
 .fonts-item {
   display: inline-block;
   white-space: pre;
@@ -216,11 +232,8 @@ a:hover {
   }
 
   .page-rotate {
-    /* Rotate, move into view, then scale */
     transform: rotate(90deg) translateY(-100%) scale(calc(100vw / 100vh));
     transform-origin: top left;
-
-    /* Swap dimensions after rotation */
     width: 100vh;
     height: 100vw;
   }

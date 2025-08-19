@@ -27,7 +27,7 @@ fetch("data.json")
 
     for (const [category, details] of Object.entries(data)) {
       const section = document.createElement("div");
-      section.classList.add("category", category); // category-specific class
+      section.classList.add("category", category);
 
       const leftCol = document.querySelector(".left-column");
       const styles = window.getComputedStyle(leftCol);
@@ -37,11 +37,36 @@ fetch("data.json")
         leftCol.clientWidth - paddingLeft - paddingRight;
       const defaultFont = `${styles.fontSize} ${styles.fontFamily}`;
 
-      // Intro paragraph
+      // === Intro paragraph ===
       if (details.type === "intro") {
-        const introPara = document.createElement("p");
+        const introPara = document.createElement("div");
         introPara.classList.add("intro-text");
-        introPara.textContent = details.text;
+
+        // First line: MICROCK left, he/him right (no dots)
+        const firstLine = document.createElement("div");
+        firstLine.classList.add("intro-header");
+
+        const leftSpan = document.createElement("span");
+        leftSpan.textContent = "MICROCK";
+
+        const rightSpan = document.createElement("span");
+        rightSpan.textContent = "he/him";
+
+        firstLine.appendChild(leftSpan);
+        firstLine.appendChild(rightSpan);
+
+        // Rest of text (justified block)
+        const rest = document.createElement("div");
+        rest.classList.add("intro-body");
+        rest.textContent = details.text
+          .replace(
+            "MICROCK                                                                          he/him",
+            ""
+          )
+          .trim();
+
+        introPara.appendChild(firstLine);
+        introPara.appendChild(rest);
         section.appendChild(introPara);
         content.appendChild(section);
         continue;
@@ -68,7 +93,7 @@ fetch("data.json")
         const inline = document.createElement("div");
         inline.classList.add("item");
         inline.style.whiteSpace = "nowrap";
-        inline.innerHTML = `<strong>${titleText}</strong>${dots}${valueText}`;
+        inline.innerHTML = `<span>${titleText}</span>${dots}${valueText}`;
         section.appendChild(inline);
         content.appendChild(section);
         continue;
@@ -104,7 +129,7 @@ fetch("data.json")
 
       // Colours
       else if (details.type === "colours") {
-        const swatchWidth = 14; // swatch size
+        const swatchWidth = 14;
         details.items.forEach((item) => {
           const hex = item.title;
           const dots = getDots(
@@ -132,37 +157,23 @@ fetch("data.json")
         });
       }
 
-      // Fonts
+      // Fonts (now works like R type with dot leaders)
       else if (details.type === "fonts") {
         details.items.forEach((item) => {
           const row = document.createElement("div");
-          row.classList.add("fonts-item");
-          row.style.whiteSpace = "pre";
+          row.classList.add("item");
+          row.style.whiteSpace = "nowrap";
 
-          const firstDotIndex = item.title.indexOf(".");
-          let fontName = item.title;
-          let dots = "";
+          const dots = getDots(
+            item.title,
+            item.right,
+            availableWidth,
+            defaultFont,
+            defaultFont,
+            defaultFont
+          );
 
-          if (firstDotIndex !== -1) {
-            fontName = item.title.substring(0, firstDotIndex);
-            dots = item.title.substring(firstDotIndex);
-          }
-
-          const leftSpan = document.createElement("span");
-          leftSpan.textContent = fontName;
-          leftSpan.style.fontFamily = `"${fontName.trim()}", ${styles.fontFamily}`;
-
-          const dotsSpan = document.createElement("span");
-          dotsSpan.style.fontFamily = styles.fontFamily;
-          dotsSpan.textContent = dots;
-
-          const rightSpan = document.createElement("span");
-          rightSpan.style.fontFamily = styles.fontFamily;
-          rightSpan.textContent = item.right;
-
-          row.appendChild(leftSpan);
-          row.appendChild(dotsSpan);
-          row.appendChild(rightSpan);
+          row.textContent = `${item.title}${dots}${item.right}`;
           section.appendChild(row);
         });
       }
@@ -311,7 +322,8 @@ fetch("data.json")
 
     hoverTargets.forEach((el) => {
       el.addEventListener("mouseenter", () => {
-        let label = el.getAttribute("data-label") || el.alt || el.textContent || "";
+        let label =
+          el.getAttribute("data-label") || el.alt || el.textContent || "";
         customCursor.textContent = label;
         customCursor.style.display = "block";
       });

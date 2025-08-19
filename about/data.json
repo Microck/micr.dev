@@ -1,7 +1,7 @@
 {
   "intro": {
     "type": "intro",
-    "text": "MICROCK                                                                          he/him\nIf you've found this page, you can learn a bit more about my interests. The things are listed in no particular order, so the first isn't necessarily my favorite and the last isn't my least. If we have something in common, feel free to start a conversation."
+    "text": "If you've found this page, you can learn a bit more about my interests. The things are listed in no particular order, so the first isn't necessarily my favorite and the last isn't my least. If we have something in common, feel free to start a conversation."
   },
 
   "series": {
@@ -124,13 +124,13 @@
     "displayName": "Fonts",
     "type": "fonts",
     "items": [
-      { "title": "Roboto Mono........................................................", "right": "Christian Robertson" },
-      { "title": "Mongolian Baiti..................................................................", "right": "Microsoft" },
-      { "title": "Alte Haas Grotesk.....................................................", "right": "Yann Le Coroller" },
-      { "title": "Times New Roman..........................................................", "right": "Stanley Morison" },
-      { "title": "Acumin Variable Concept ...............................................", "right": "Robert Slimbach" },
-      { "title": "BONNES.........................................................................", "right": "Unknown" },
-      { "title": "Dutch801 RM BT...............................................................", "right": "Bitstream" }
+      { "title": "Roboto Mono", "right": "Christian Robertson" },
+      { "title": "Mongolian Baiti", "right": "Microsoft" },
+      { "title": "Alte Haas Grotesk", "right": "Yann Le Coroller" },
+      { "title": "Times New Roman", "right": "Stanley Morison" },
+      { "title": "Acumin Variable Concept", "right": "Robert Slimbach" },
+      { "title": "BONNES", "right": "Unknown" },
+      { "title": "Dutch801 RM BT", "right": "Bitstream" }
     ]
   },
 
@@ -170,7 +170,7 @@
       { "name": "Selected Ambient Works 85-92 - Aphex Twin", "image": "selectedambient.png", "spotify": "https://open.spotify.com/album/7aNclGRxTysfh6z0d8671k" },
       { "name": "Selected Aphex Works N64 - on4ward", "image": "selectedn64.jpg", "spotify": "https://open.spotify.com/album/1gHEtjiBaJyNjh4iLwo8xt?si=kaU8oOmSQjiVguqXbpFJ1A" },
       { "name": "we had good times together, don’t forget that - Sewerslvt", "image": "wehadgoodtimes.jpg", "spotify": "https://open.spotify.com/album/6Hs9pYq5ionwBpGAp6iqi9" },
-      { "name": "Everywhere At The End Of Time - The Caretaker", "image": "eateot.jpg", "spotify": "https://open.spotify.com/album/44YowKrYCgiT0qZGdLARWi" },
+      { "name": "Everywhere At The End Of Time - The Caretaker", "image": "eateot.jpg", "spotify": "https://youtu.be/wJWksPWDKOc" },
       { "name": "ok computer - Radiohead", "image": "okcomputer.png", "spotify": "https://open.spotify.com/album/6dVIqQ8qmQ5GBnJ9shOYGE" },
       { "name": "anything Toby Fox has ever done", "image": "ut.jpg", "spotify": "https://open.spotify.com/album/2M2Ae2SvZe3fmzUtlVOV5Z" }
     ]
