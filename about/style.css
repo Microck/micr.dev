@@ -2,6 +2,7 @@
 @font-face {
   font-family: "DecimaMono";
   src: url("fonts/DecimaMono.ttf") format("truetype");
+  font-display: block; /* ensures text waits for the font */
 }
 
 /* === BASE === */
