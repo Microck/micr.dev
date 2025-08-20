@@ -112,7 +112,7 @@ function AppContent() {
                   <h1 className={`text-3xl sm:text-4xl font-bold ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} mb-8`}>About me</h1>
                   <div className={`space-y-4 ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} font-normal leading-relaxed text-sm sm:text-base`}>
                     <p className="fade-in" style={{ animationDelay: '0.2s' }}>
-                      I'm Marcos, also known as Microkeebs. I joined the keyboard hobby in early 2021 and have been active since then, but I didn't build my first custom keyboard until mid-2022, when I also started Microkeebs as a way to showcase my keyboards.
+                      I joined the keyboard hobby in early 2021 and have been active since then, but I didn't build my first custom keyboard until mid-2022, when I also started Microkeebs as a way to showcase my keyboards.
                     </p>
                     <p className="fade-in" style={{ animationDelay: '0.4s' }}>
                       I began doing streams and content in Spanish, my native language, building keyboards for people who commissioned me, which allowed me to try a lot of keyboards without having to buy each and every one of them, as I couldn't afford it. I also made some educational videos to try and expand the hobby in Spain. I'm not good at dealing with people, so when I closed commissions, I quickly ran out of content to make and lost motivation, so I took a hiatus from December 2022 to July 2023. I was still in the hobby during this time but just didn't create content.
