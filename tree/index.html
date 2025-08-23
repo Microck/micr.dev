@@ -3,7 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>micr.dev Landing</title>
+    <title>tree</title>
+    <link rel="icon" type="image/png" href="images/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,700"
+      rel="stylesheet"
+      type="text/css"
+    />
     <style>
       @font-face {
         font-family: "HelveticaNeue65Medium";
@@ -15,16 +21,103 @@
       body {
         margin: 0;
         height: 100vh;
-        background: black;
+        background: radial-gradient(
+          ellipse at bottom,
+          #1b2735 0%,
+          #090a0f 100%
+        );
+        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
         font-family: sans-serif;
       }
 
+      /* STAR BACKGROUND */
+      #stars,
+      #stars2,
+      #stars3 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: block;
+      }
+
+      #stars {
+        width: 1px;
+        height: 1px;
+        background: transparent;
+        box-shadow: 
+          1234px 456px #fff, 789px 1234px #fff, 1500px 800px #fff,
+          300px 1900px #fff, 1800px 300px #fff, 400px 600px #fff,
+          1600px 1700px #fff, 900px 1400px #fff, 1200px 200px #fff;
+        animation: animStar 50s linear infinite;
+      }
+      #stars:after {
+        content: " ";
+        position: absolute;
+        top: 2000px;
+        width: 1px;
+        height: 1px;
+        background: transparent;
+        box-shadow: inherit;
+      }
+
+      #stars2 {
+        width: 2px;
+        height: 2px;
+        background: transparent;
+        box-shadow: 
+          500px 1000px #fff, 1400px 700px #fff, 300px 300px #fff,
+          1700px 1200px #fff, 800px 1600px #fff, 1900px 400px #fff;
+        animation: animStar 100s linear infinite;
+      }
+      #stars2:after {
+        content: " ";
+        position: absolute;
+        top: 2000px;
+        width: 2px;
+        height: 2px;
+        background: transparent;
+        box-shadow: inherit;
+      }
+
+      #stars3 {
+        width: 3px;
+        height: 3px;
+        background: transparent;
+        box-shadow: 
+          600px 1500px #fff, 1300px 500px #fff, 400px 1800px #fff,
+          1700px 900px #fff, 1000px 300px #fff;
+        animation: animStar 150s linear infinite;
+      }
+      #stars3:after {
+        content: " ";
+        position: absolute;
+        top: 2000px;
+        width: 3px;
+        height: 3px;
+        background: transparent;
+        box-shadow: inherit;
+      }
+
+      @keyframes animStar {
+        from {
+          transform: translateY(0px);
+        }
+        to {
+          transform: translateY(-2000px);
+        }
+      }
+
+      /* SPHERES */
       .container {
         display: flex;
         gap: 2rem;
+        position: relative;
+        z-index: 10;
       }
 
       .sphere {
@@ -57,13 +150,13 @@
         border-radius: 6px;
         padding: 8px;
         position: absolute;
-        bottom: 110%; /* show above sphere */
+        bottom: 110%;
         left: 50%;
         transform: translateX(-50%);
         transition: opacity 0.3s ease;
         font-size: 0.85rem;
         pointer-events: none;
-        z-index: 10;
+        z-index: 20;
         font-family: "HelveticaNeue65Medium", sans-serif;
       }
 
@@ -74,6 +167,12 @@
     </style>
   </head>
   <body>
+    <!-- STAR LAYERS -->
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+
+    <!-- SPHERES -->
     <div class="container" id="sphere-container"></div>
 
     <script>
@@ -92,6 +191,11 @@
           img: "images/micrdevmicrokeebs.gif",
           url: "https://micr.dev/microkeebs/",
           desc: "A website to showcase keyboards that I have built.",
+        },
+        {
+          img: "images/micrdevquarzite.gif",
+          url: "https://micr.dev/quarzite/",
+          desc: "A dedicated page for my character.",
         },
       ];
 
