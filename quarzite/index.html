@@ -471,50 +471,45 @@
       })();
     </script>
 
-    <!-- WebNeko Cat (toggleable) -->
+    <!-- WebNeko Cat (toggleable, new skin each enable) -->
     <script>
       const nekoTypes = ["calico", "classic", "black", "marmalade"];
-      let nekoActive = false;
+      let nekoActive = true;
 
-      function spawnNeko() {
-        if (nekoActive) return;
-        const chosenNeko =
-          nekoTypes[Math.floor(Math.random() * nekoTypes.length)];
-        window.NekoType = chosenNeko;
-
-        const script = document.createElement("script");
-        script.src = "https://webneko.net/n20171213.js";
-        script.id = "neko-script";
-        document.body.appendChild(script);
-
-        script.onload = () => {
-          const neko = document.getElementById("nl");
-          if (neko) neko.click();
-        };
-
-        nekoActive = true;
+      function pickRandomNeko() {
+        return nekoTypes[Math.floor(Math.random() * nekoTypes.length)];
       }
 
-      function removeNeko() {
+      function toggleNeko() {
         const neko = document.getElementById("nl");
-        if (neko) neko.remove();
-        const script = document.getElementById("neko-script");
-        if (script) script.remove();
-        nekoActive = false;
+        if (!neko) return;
+
+        if (nekoActive) {
+          neko.style.display = "none";
+          nekoActive = false;
+        } else {
+          window.NekoType = pickRandomNeko();
+          neko.style.display = "block";
+          neko.click();
+          nekoActive = true;
+        }
       }
 
       document.addEventListener("DOMContentLoaded", () => {
         const btn = document.getElementById("neko-toggle");
         if (btn) {
-          btn.addEventListener("click", () => {
-            if (nekoActive) {
-              removeNeko();
-            } else {
-              spawnNeko();
-            }
-          });
+          btn.addEventListener("click", toggleNeko);
         }
+
+        // Auto-start with a random skin
+        window.NekoType = pickRandomNeko();
+      });
+
+      window.addEventListener("load", () => {
+        const neko = document.getElementById("nl");
+        if (neko) neko.click();
       });
     </script>
+    <script src="https://webneko.net/n20171213.js"></script>
   </body>
 </html>
