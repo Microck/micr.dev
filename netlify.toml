@@ -37,11 +37,6 @@
   status = 302
 
 [[redirects]]
-  from = "/quarzite"
-  to = "/wip"
-  status = 302
-
-[[redirects]]
   from = "/regular-projects"
   to = "/wip"
   status = 302

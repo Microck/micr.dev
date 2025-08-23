@@ -1,0 +1,120 @@
+{
+  "images": [
+    {
+      "src": "assets/brainrotcat.png",
+      "date": "2023-11-07",
+      "artist": {
+        "name": "brainrotcat",
+        "url": "https://x.com/brainrotcat"
+      }
+    },
+    {
+      "src": "assets/artdebil.jpg",
+      "date": "2024-03-16",
+      "artist": {
+        "name": "artdebil",
+        "url": "https://x.com/artdebil"
+      }
+    },
+    {
+      "src": "assets/original.png",
+      "date": "2022-04-20",
+      "artist": {
+        "name": "unknown",
+        "url": ""
+      },
+      "desc": "Sadly, I couldn’t find or remember the original artist who transformed my character from an idea in my mind into a reality."
+    },
+    {
+      "src": "assets/buc0c0.png",
+      "date": "2025-01-12",
+      "artist": {
+        "name": "buc0c0",
+        "url": "https://x.com/buc0c0"
+      }
+    },
+    {
+      "src": "assets/yellmi.png",
+      "date": "2023-01-09",
+      "artist": {
+        "name": "yellmi",
+        "url": "https://x.com/___yellmi"
+      }
+    },
+    {
+      "src": "assets/nana.png",
+      "date": "2022-06-15",
+      "artist": {
+        "name": "Nana",
+        "url": "https://x.com/Mainlian"
+      }
+    },
+    {
+      "src": "assets/unknown.jpg",
+      "date": "2024-07-26",
+      "artist": {
+        "name": "maaya00002",
+        "url": ""
+      },
+      "desc": "This is one of my favourite commissions, but sadly I cannot find the artist's profile. If anyone manages to find it, please let me know!"
+    },
+    {
+      "src": "assets/kola.jpeg",
+      "date": "2024-07-21",
+      "artist": {
+        "name": "Kola",
+        "url": "https://www.instagram.com/DarkKolaa"
+      }
+    },
+    {
+      "src": "assets/milku.png",
+      "date": "2025-03-29",
+      "artist": {
+        "name": "milku666",
+        "url": "https://www.youtube.com/@milku666"
+      }
+    },
+    {
+      "src": "assets/yurilover.png",
+      "date": "2024-12-02",
+      "artist": {
+        "name": "yurilover1973",
+        "url": "https://x.com/Lololol40194363"
+      }
+    },
+    {
+      "src": "assets/farhan.png",
+      "date": "2025-06-13",
+      "artist": {
+        "name": "Farhan",
+        "url": "https://www.fiverr.com/rylanvo?source=inbox"
+      }
+    },
+    {
+      "src": "assets/yondee.png",
+      "date": "2022-07-20",
+      "artist": {
+        "name": "yondee",
+        "url": "https://x.com/yondeerart"
+      }
+    },
+    {
+      "src": "assets/olena.png",
+      "date": "2023-03-21",
+      "artist": {
+        "name": "veterymer",
+        "url": "https://www.fiverr.com/veterymer"
+      },
+      "desc": "I had always wanted to have a Celeste skin mod, so I commissioned veterymer to make me a small sheet of starting sprites. From those, I made the rest of them myself (+500 different sprites, iirc). I definitely wouldn’t have been able to make it without their initial sheet and design! You can download the skin mod by clicking <a href=\"https://gamebanana.com/mods/486547\" target=\"_blank\" rel=\"noopener noreferrer\">here</a>."
+    },
+    {
+      "src": "assets/3d.jpg",
+      "date": "2025-06-13",
+      "artist": {
+        "name": "Farhan",
+        "url": "https://www.fiverr.com/rylanvo?source=inbox"
+      },
+      "desc": "I wanted to add a 3D model of Quarzite to my interactable portfolio, so I commissioned a 3D model. It has some errors, and I'm not perfectly happy with the result, but it does the job."
+    }
+  ]
+}

@@ -1,0 +1,642 @@
+:root {
+  --desktop-purple: #7000ff;
+
+  /* Window positions/sizes (latest locked values) */
+  --gallery-left: 231px;
+  --gallery-top: 148px;
+  --gallery-width: 726px;
+  --gallery-height: 784px;
+
+  --info-left: 974px;
+  --info-top: 148px;
+  --info-width: 527px;
+  --info-height: 403px;
+  
+  --logo-top: 18px; /* adjust to move up/down */
+}
+
+/* ------------------------------
+   Window Positions
+--------------------------------*/
+#win-gallery {
+  left: var(--gallery-left);
+  top: var(--gallery-top);
+  width: var(--gallery-width);
+  height: var(--gallery-height);
+  z-index: 10;
+}
+
+#win-info {
+  left: var(--info-left);
+  top: var(--info-top);
+  width: var(--info-width);
+  height: var(--info-height);
+  z-index: 20;
+}
+
+#win-notepad {
+  left: 1154px;
+  top: 479px;
+  width: 500px;
+  height: 400px;
+  z-index: 25; /* above info, below clippy */
+}
+
+#win-clippy {
+  left: 1154px;
+  top: 479px;
+  width: 350px;
+  height: 300px;
+  z-index: 30;
+}
+
+#win-clippy .window-body {
+  overflow: visible; /* ✅ let the bubble escape */
+}
+
+#win-paint {
+  left: 1053px;
+  top: 509px;
+  width: 747px;
+  height: 399px;
+  z-index: 35;
+}
+
+/* ------------------------------
+   Fonts
+--------------------------------*/
+@font-face {
+  font-family: "FixedsysWin98";
+  src: url("../assets/fonts/Fixedsys62.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------
+   Notepad
+--------------------------------*/
+#notepad-text {
+  font-family: "FixedsysWin98", monospace;
+  font-size: 12px;   /* default, overridden by JS zoom */
+  line-height: 12px;
+  white-space: pre;
+  background: #fff;
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+/* Notepad Menu Bar (authentic Win98) */
+.notepad-menu {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 2px 6px;
+  margin: 0;
+  list-style: none;
+  background: #c0c0c0; /* 3D face */
+  font-size: 12px;
+}
+
+.notepad-menu li {
+  cursor: default;
+  padding: 2px 6px;
+  margin: 0;
+  border: 1px dotted transparent;
+  color: #000;
+  user-select: none;
+}
+
+.notepad-menu li:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.notepad-menu li:active,
+.notepad-menu li:focus {
+  border-color: #000; /* dotted border only when clicked/focused */
+}
+
+.notepad-menu li u {
+  text-decoration: none; /* underline comes from <u> in HTML */
+}
+
+/* Notepad Body */
+.notepad-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+}
+
+/* Remove unwanted 1px gray line */
+#win-notepad .window-body {
+  border: none !important;
+  margin-top: 0 !important;
+}
+
+/* Notepad textarea */
+#notepad-text {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  resize: none;
+  background: #fff;
+  font-family: "FixedsysWin98", "Fixedsys", monospace;
+  font-size: 12px;
+  line-height: 12px;
+  overflow: auto;
+}
+
+/* Wrapping modes */
+.notepad-wrap {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+.notepad-nowrap {
+  white-space: pre;
+  overflow: auto;
+}
+
+/* ------------------------------
+   Base
+--------------------------------*/
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #56007e;                  /* fallback color */
+  background-image: url("../assets/tile.png"); /* ✅ tiled background */
+  background-repeat: repeat;
+  background-position: 0 0;
+  background-size: auto;
+  overflow: hidden;
+
+  /* ✅ slow drift animation */
+  animation: bg-scroll 300s linear infinite;
+}
+
+@keyframes bg-scroll {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 1000px 1000px; /* drift down-right */
+  }
+}
+
+.desktop {
+  position: relative;
+  height: 100vh;
+  padding-top: 30px; /* leave space for logo (adjust to your logo height) */
+}
+
+/* ------------------------------
+   Logo (Top Banner)
+--------------------------------*/
+/* Logo container (the red box) */
+/* The container (your red box) */
+#logo-container {
+  position: absolute;
+  top: -220px;                 /* stick to top */
+  left: 50%;              /* center horizontally */
+  transform: translateX(-50%);
+  width: 600px;           /* desired width */
+  height: 550px;          /* desired height */
+  z-index: 1;
+  padding: 20px;
+  overflow: hidden;       /* hide overflow if GIF is bigger */
+}
+
+/* The GIF inside */
+#logo-img {
+  width: 100%;            /* stretch to container width */
+  height: 100%;           /* stretch to container height */
+  object-fit: fill;    /* keep aspect ratio, may letterbox */
+  object-position: fill;
+  image-rendering: pixelated;
+}
+/* ------------------------------
+   Windows
+--------------------------------*/
+.app-window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+.app-window .title-bar {
+  cursor: move;
+  touch-action: none;
+}
+
+.app-window .window-body {
+  flex: 1 1 auto;
+  user-select: text;
+}
+
+/* Title-bar icons */
+.title-bar-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.title-icon {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+  flex: 0 0 16px;
+}
+.title-label {
+  display: inline-block;
+}
+
+/* ------------------------------
+   Tabs (98.css markup)
+--------------------------------*/
+.tabs-menu {
+  margin: 8px 0;
+}
+
+/* ------------------------------
+   Gallery
+--------------------------------*/
+.gallery-body {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.gallery-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+  grid-auto-rows: 200px;
+  gap: 8px;
+  align-content: start;
+}
+
+.gallery-strip .slot {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.gallery-strip .slot img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* ------------------------------
+   Warning modal
+--------------------------------*/
+#warning-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 9998;
+}
+
+#warning {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  z-index: 9999;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ------------------------------
+   Debug UI
+--------------------------------*/
+.debug-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2000;
+}
+
+.debug-btn + .debug-btn {
+  right: 120px;
+}
+
+body.debug-mode .app-window {
+  outline: 1px dashed #ff3b3b;
+}
+
+.dbg-label {
+  position: absolute;
+  top: -16px;
+  left: 0;
+  background: #ff3b3b;
+  color: #fff;
+  font: 12px/1 monospace;
+  padding: 2px 6px;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.dbg-grip {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ff3b3b;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  z-index: 1002;
+}
+
+.dbg-nw { top: -6px; left: -6px; cursor: nwse-resize; }
+.dbg-ne { top: -6px; right: -6px; cursor: nesw-resize; }
+.dbg-sw { bottom: -6px; left: -6px; cursor: nesw-resize; }
+.dbg-se { bottom: -6px; right: -6px; cursor: nwse-resize; }
+.dbg-n  { top: -6px; left: 50%; transform: translateX(-50%); cursor: n-resize; }
+.dbg-s  { bottom: -6px; left: 50%; transform: translateX(-50%); cursor: s-resize; }
+.dbg-w  { left: -6px; top: 50%; transform: translateY(-50%); cursor: w-resize; }
+.dbg-e  { right: -6px; top: 50%; transform: translateY(-50%); cursor: e-resize; }
+
+/* ------------------------------
+   Clippy
+--------------------------------*/
+#clippy-wrapper {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  background: transparent;
+}
+
+#clippy {
+  background-image: url("../assets/clippy.webp");
+  position: absolute;
+  top: 58px;
+  left: 131px;
+  height: 204px;
+  width: 189px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  z-index: 2;
+}
+
+.speech-bubble {
+  position: absolute;
+  bottom: 190px;
+  left: 5px;
+  width: 160px;
+  min-height: 13px;
+  background: #ffffd0;
+  border-radius: 0.4em;
+  padding: 5px;
+  margin: 5px;
+  box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.1);
+}
+
+.speech-bubble:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 75%;
+  width: 0;
+  height: 0;
+  border: 37px solid transparent;
+  border-top-color: #ffffd0;
+  border-bottom: 0;
+  border-right: 0;
+  margin-left: -18.5px;
+  margin-bottom: -30px;
+}
+
+/* ------------------------------
+   Image Viewer
+--------------------------------*/
+#win-viewer {
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.viewer-body {
+  background: #c0c0c0;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.viewer-figure {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #bdbdbd;
+  padding: 6px;
+}
+
+.viewer-figure img {
+  max-width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.viewer-meta,
+.viewer-desc {
+  margin-top: 6px;
+  font-size: 12px;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+.viewer-meta a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* ------------------------------
+   Paint
+--------------------------------*/
+.paint-body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #c0c0c0;
+}
+
+.paint-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ------------------------------
+   Resizable Windows
+--------------------------------*/
+.app-window.resizable {
+  resize: both;
+  overflow: hidden;
+  min-width: 200px;
+  min-height: 120px;
+}
+
+/* Warning modal layout */
+#warning .window-body {
+  padding: 12px;
+}
+
+.warning-row {
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.warning-icon {
+  image-rendering: pixelated;
+  flex: 0 0 auto;
+}
+
+#warning-message {
+  line-height: 1.3;
+}
+
+
+/* Volume + animation buttons */
+
+/* Volume popup */
+#volume-popup {
+  position: absolute;
+  bottom: 60px;
+  right: 400px;
+  width: 160px;
+  z-index: 3000;
+}
+
+
+/* Control buttons container */
+#control-buttons {
+  position: absolute;
+  bottom: 50px; /* move stack further up */
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 2;
+}
+
+/* Each button */
+.control-btn {
+  width: 40px !important;   /* force exact width */
+  height: 40px !important;  /* force exact height */
+  min-width: 0 !important;  /* override 98.css min-width */
+  padding: 0 !important;    /* remove default padding */
+  box-sizing: border-box;   /* include border in size */
+  border: 2px solid #000;
+  background: #c0c0c0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.control-btn img {
+  width: 24px;
+  height: 24px;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* Volume popup */
+#volume-popup {
+  position: absolute;
+  right: 70px;   /* appear to the left of the buttons */
+  width: 140px;  /* slimmer */
+  z-index: 1000;
+}
+
+#volume-popup .window-body {
+  padding: 4px;
+}
+
+#volume-slider {
+  width: 100%;
+  height: 4px; /* make it slim */
+}
+
+/* ------------------------------
+   Custom Cursors (Win98 style)
+--------------------------------*/
+
+/* Default pointer */
+html, body {
+  cursor: url("../assets/cursor/Cursor79.cur"), default !important;
+}
+
+/* Links, buttons, clickable */
+a, button, .control-btn, .title-bar-controls button {
+  cursor: url("../assets/cursor/Cursor107.cur"), pointer !important;
+}
+
+/* Gallery images (hand cursor) */
+.gallery-strip .slot img {
+  cursor: url("../assets/cursor/Cursor107.cur"), pointer !important;
+}
+
+/* Text areas, inputs */
+textarea, input, .notepad-body {
+  cursor: url("../assets/cursor/Cursor105.cur"), text !important;
+}
+
+/* Busy / loading */
+body.busy, .loading {
+  cursor: url("../assets/cursor/Cursor83.cur"), wait !important;
+}
+
+/* Move (drag windows) */
+.app-window .title-bar {
+  cursor: url("../assets/cursor/Cursor97.cur"), move !important;
+}
+
+/* Precision select (crosshair) */
+.crosshair, canvas, .paint-frame {
+  cursor: url("../assets/cursor/Cursor99.cur"), crosshair !important;
+}
+
+/* Help cursor */
+.help {
+  cursor: url("../assets/cursor/Cursor103.cur"), help !important;
+}
+
+/* Alternate select (arrow + hourglass) */
+.alt-select {
+  cursor: url("../assets/cursor/Cursor101.cur"), progress !important;
+}
+
+#easter-egg-tree {
+  position: absolute;
+  left: 260px;   /* adjust so it's under the gallery */
+  top: 400px;    /* adjust so it's hidden behind gallery */
+  width: 120px;
+  height: auto;
+  z-index: 1;    /* behind windows */
+  cursor: pointer;
+}
