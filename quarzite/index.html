@@ -403,6 +403,11 @@
           />
         </button>
 
+        <!-- Neko toggle (third position) -->
+        <button id="neko-toggle" class="control-btn">
+          <img src="assets/still.gif" alt="Toggle Neko" />
+        </button>
+
         <!-- Stop animation -->
         <button id="anim-toggle" class="control-btn">
           <img
@@ -466,13 +471,50 @@
       })();
     </script>
 
-    <!-- WebNeko Cat (random skin) -->
+    <!-- WebNeko Cat (toggleable) -->
     <script>
-      const nekoTypes = ["calico", "neko", "black", "marmalade"];
-      const chosenNeko =
-        nekoTypes[Math.floor(Math.random() * nekoTypes.length)];
-      window.NekoType = chosenNeko;
+      const nekoTypes = ["calico", "classic", "black", "marmalade"];
+      let nekoActive = false;
+
+      function spawnNeko() {
+        if (nekoActive) return;
+        const chosenNeko =
+          nekoTypes[Math.floor(Math.random() * nekoTypes.length)];
+        window.NekoType = chosenNeko;
+
+        const script = document.createElement("script");
+        script.src = "https://webneko.net/n20171213.js";
+        script.id = "neko-script";
+        document.body.appendChild(script);
+
+        script.onload = () => {
+          const neko = document.getElementById("nl");
+          if (neko) neko.click();
+        };
+
+        nekoActive = true;
+      }
+
+      function removeNeko() {
+        const neko = document.getElementById("nl");
+        if (neko) neko.remove();
+        const script = document.getElementById("neko-script");
+        if (script) script.remove();
+        nekoActive = false;
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const btn = document.getElementById("neko-toggle");
+        if (btn) {
+          btn.addEventListener("click", () => {
+            if (nekoActive) {
+              removeNeko();
+            } else {
+              spawnNeko();
+            }
+          });
+        }
+      });
     </script>
-    <script src="https://webneko.net/n20171213.js"></script>
   </body>
 </html>
