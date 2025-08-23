@@ -3,7 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>OC Site — Quarzite Desktop</title>
+    <title>Quarzite</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/icons/windows_slanted-1.png" />
 
     <!-- 98.css (Win98 look) -->
     <link
@@ -30,11 +33,11 @@
         hidden
         style="
           position: absolute;
-          left: 480px;   /* adjust if you move the gallery default position */
-          top: 480px;    /* sits under the gallery by default */
+          left: 480px;
+          top: 480px;
           width: 120px;
           height: auto;
-          z-index: 1;    /* below app windows (they start at z-index: 10) */
+          z-index: 1;
           cursor: pointer;
         "
       />
@@ -133,7 +136,7 @@
               </p>
 
               <p>
-                Lastly, if you like my character and feel like drawing them, go for it! I’d be so happy to see any kind of art, memes, or whatever you come up with. You can send it to me at microckgfx@gmail.com, or just drop it in my socials. If I don’t reply, it probably got eaten by a spam filter or something like that, so don’t stress about tagging me or trying again. I promise I’ll appreciate it a ton.
+                Lastly, if you like my character and feel like drawing them, go for it! I’d be so happy to see any kind of art, memes, or whatever you come up with. You can send it to me at <b>microckgfx@gmail.com</b>, or just drop it in my socials. If I don’t reply, it probably got eaten by a spam filter or something like that, so don’t stress about tagging me or trying again. I promise I’ll appreciate it a ton.
               </p>
             </div>
           </div>
@@ -328,7 +331,7 @@
         document.addEventListener("DOMContentLoaded", () => {
           const i = Math.floor(Math.random() * LOGOS.length);
           setLogo(i);
-          window.setQuarziteLogo = setLogo; // console helper
+          window.setQuarziteLogo = setLogo;
         });
       })();
     </script>
