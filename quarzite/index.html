@@ -465,5 +465,14 @@
         });
       })();
     </script>
+
+    <!-- WebNeko Cat (random skin) -->
+    <script>
+      const nekoTypes = ["calico", "neko", "black", "marmalade"];
+      const chosenNeko =
+        nekoTypes[Math.floor(Math.random() * nekoTypes.length)];
+      window.NekoType = chosenNeko;
+    </script>
+    <script src="https://webneko.net/n20171213.js"></script>
   </body>
 </html>
