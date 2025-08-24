@@ -49,8 +49,7 @@
         width: 1px;
         height: 1px;
         background: transparent;
-        box-shadow: 
-          1234px 456px #fff, 789px 1234px #fff, 1500px 800px #fff,
+        box-shadow: 1234px 456px #fff, 789px 1234px #fff, 1500px 800px #fff,
           300px 1900px #fff, 1800px 300px #fff, 400px 600px #fff,
           1600px 1700px #fff, 900px 1400px #fff, 1200px 200px #fff;
         animation: animStar 50s linear infinite;
@@ -69,8 +68,7 @@
         width: 2px;
         height: 2px;
         background: transparent;
-        box-shadow: 
-          500px 1000px #fff, 1400px 700px #fff, 300px 300px #fff,
+        box-shadow: 500px 1000px #fff, 1400px 700px #fff, 300px 300px #fff,
           1700px 1200px #fff, 800px 1600px #fff, 1900px 400px #fff;
         animation: animStar 100s linear infinite;
       }
@@ -88,8 +86,7 @@
         width: 3px;
         height: 3px;
         background: transparent;
-        box-shadow: 
-          600px 1500px #fff, 1300px 500px #fff, 400px 1800px #fff,
+        box-shadow: 600px 1500px #fff, 1300px 500px #fff, 400px 1800px #fff,
           1700px 900px #fff, 1000px 300px #fff;
         animation: animStar 150s linear infinite;
       }
@@ -175,7 +172,15 @@
     <!-- SPHERES -->
     <div class="container" id="sphere-container"></div>
 
+    <!-- BACKGROUND MUSIC -->
+    <audio
+      id="bg-music"
+      src="audio/my-castle-town.mp3"
+      loop
+    ></audio>
+
     <script>
+      // Spheres
       const spheres = [
         {
           img: "images/micrdev.gif",
@@ -212,6 +217,20 @@
           window.location.href = sphere.url;
         });
         container.appendChild(div);
+      });
+
+      // Background music
+      const audio = document.getElementById("bg-music");
+      audio.volume = 0.25; // 25% volume
+      audio.play().catch(() => {
+        console.log("Autoplay blocked. Waiting for user interaction.");
+      });
+
+      // Fallback: play on first user interaction if autoplay is blocked
+      document.body.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+        }
       });
     </script>
   </body>
