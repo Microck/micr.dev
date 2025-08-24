@@ -20,6 +20,7 @@ const quotes = [
   "Black is modest and arrogant at the same time. Black is lazy and easy - but mysterious. But above all black says this: I don’t bother you - don’t bother me.",
   "You are alone, and below the stage the seats are empty. The theatre is dark. Why do you keep acting?",
   "For every push, there is a pull. A consequence.",
+  "I became such a good swimmer that nobody thought to check if I was drowning.",
   "Despite everything, it's still you."
 ];
 

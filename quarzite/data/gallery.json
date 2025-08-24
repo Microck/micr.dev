@@ -114,7 +114,16 @@
         "name": "Farhan",
         "url": "https://www.fiverr.com/rylanvo?source=inbox"
       },
-      "desc": "I wanted to add a 3D model of Quarzite to my interactable portfolio, so I commissioned a 3D model. It has some errors, and I'm not perfectly happy with the result, but it does the job."
+      "desc": "I wanted to add a 3D model of Quarzite to my interactable portfolio, so I commissioned a 3D model. It has some geometry errors, and I'm not perfectly happy with the result, but it does the job."
+    },
+    {
+      "src": "assets/WpK_DqaB.jpg",
+      "date": "2025-08-24",
+      "artist": {
+        "name": "maruya",
+        "url": "https://x.com/masarapmaruya"
+      },
+      "desc": "WIP"
     }
   ]
 }
