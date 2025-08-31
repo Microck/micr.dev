@@ -1,5 +1,43 @@
 [
   {
+    "id": "aWxg0_yg4IY",
+    "title": "Realforce R1 87u 10th Anniversary",
+    "youtubeTitle": "Lubed and Silenced Realforce R1 87u 10th Anniversary",
+    "category": "EC",
+    "timestamp": "2025-08-31T13:00:03Z",
+    "images": [
+      "./images/aWxg0_yg4IY/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/aWxg0_yg4IY",
+    "specs": {
+      "Keyboard": "Realforce R1 87u 10th Anniversary (Dark Grey)",
+      "Keycaps": "Realforce R1 87u 10th Anniversary",
+      "Domes": "Variable Force (Silenced)",
+      "Sliders": "Purple (Non-Lubed, 0.5mm rings)",
+      "Stabilizers": "Lubed with 205g0",
+      "Dampening": "Nothing"
+    }
+  },
+  {
+    "id": "7nRExcDoby8",
+    "title": "2014 HHKB Pro 2",
+    "youtubeTitle": "Lubed 2014 HHKB Pro 2",
+    "category": "EC",
+    "timestamp": "2025-08-24T13:00:11Z",
+    "images": [
+      "./images/7nRExcDoby8/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/7nRExcDoby8",
+    "specs": {
+      "Keyboard": "Happy Hacking Keyboard (HHKB) Professional 2",
+      "Keycaps": "Stock",
+      "Domes": "45g OEM",
+      "Sliders": "Stock (Non-Lubed, No rings)",
+      "Stabilizers": "Lubed with 205g0",
+      "Dampening": "Nothing"
+    }
+  },
+  {
     "id": "OF77cCl14us",
     "title": "Bias V2",
     "youtubeTitle": "Bias V2 with lubed Retooled Cherry MX Blacks",
