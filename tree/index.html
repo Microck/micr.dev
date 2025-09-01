@@ -136,8 +136,18 @@
         display: block;
       }
 
-      .sphere.active {
-        transform: scale(1.1);
+      /* Desktop hover zoom */
+      @media (hover: hover) and (pointer: fine) {
+        .sphere:hover {
+          transform: scale(1.1);
+        }
+      }
+
+      /* Mobile active zoom */
+      @media (hover: none) and (pointer: coarse) {
+        .sphere.active {
+          transform: scale(1.1);
+        }
       }
 
       /* Desktop tooltip */
