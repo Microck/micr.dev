@@ -26,8 +26,9 @@
           #1b2735 0%,
           #090a0f 100%
         );
-        overflow: hidden;
+        overflow-x: hidden;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         font-family: sans-serif;
@@ -115,6 +116,8 @@
         gap: 2rem;
         position: relative;
         z-index: 10;
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
       .sphere {
@@ -125,10 +128,6 @@
         transition: transform 0.2s ease;
       }
 
-      .sphere:hover {
-        transform: scale(1.1);
-      }
-
       .sphere img {
         width: 100%;
         height: 100%;
@@ -137,6 +136,11 @@
         display: block;
       }
 
+      .sphere.active {
+        transform: scale(1.1);
+      }
+
+      /* Desktop tooltip */
       .tooltip {
         visibility: hidden;
         opacity: 0;
@@ -161,6 +165,55 @@
         visibility: visible;
         opacity: 1;
       }
+
+      /* Mobile description box */
+      #mobile-desc {
+        display: none;
+        margin-top: 1rem;
+        background: rgba(0, 0, 0, 0.85);
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 8px;
+        max-width: 90%;
+        text-align: center;
+        font-size: 0.9rem;
+        font-family: "HelveticaNeue65Medium", sans-serif;
+        z-index: 50;
+      }
+
+      @media (max-width: 600px) {
+        .sphere {
+          width: 40vw;
+          height: 40vw;
+          max-width: 150px;
+          max-height: 150px;
+        }
+
+        .tooltip {
+          display: none; /* hide floating tooltips on mobile */
+        }
+
+        /* Denser stars on mobile */
+        #stars {
+          box-shadow: 1234px 456px #fff, 789px 1234px #fff, 1500px 800px #fff,
+            300px 1900px #fff, 1800px 300px #fff, 400px 600px #fff,
+            1600px 1700px #fff, 900px 1400px #fff, 1200px 200px #fff,
+            200px 800px #fff, 600px 1200px #fff, 1000px 1600px #fff,
+            400px 400px #fff, 800px 200px #fff, 1500px 1500px #fff,
+            300px 700px #fff, 700px 1800px #fff, 1700px 400px #fff;
+        }
+        #stars2 {
+          box-shadow: 500px 1000px #fff, 1400px 700px #fff, 300px 300px #fff,
+            1700px 1200px #fff, 800px 1600px #fff, 1900px 400px #fff,
+            200px 1500px #fff, 1000px 500px #fff, 600px 1800px #fff,
+            400px 900px #fff, 1200px 1300px #fff, 1600px 600px #fff;
+        }
+        #stars3 {
+          box-shadow: 600px 1500px #fff, 1300px 500px #fff, 400px 1800px #fff,
+            1700px 900px #fff, 1000px 300px #fff, 800px 1200px #fff,
+            500px 700px #fff, 1200px 1600px #fff, 1400px 1400px #fff;
+        }
+      }
     </style>
   </head>
   <body>
@@ -172,15 +225,18 @@
     <!-- SPHERES -->
     <div class="container" id="sphere-container"></div>
 
+    <!-- MOBILE DESCRIPTION BOX -->
+    <div id="mobile-desc"></div>
+
     <!-- BACKGROUND MUSIC -->
     <audio
       id="bg-music"
       src="audio/my-castle-town.mp3"
       loop
+      playsinline
     ></audio>
 
     <script>
-      // Spheres
       const spheres = [
         {
           img: "images/micrdev.gif",
@@ -205,6 +261,10 @@
       ];
 
       const container = document.getElementById("sphere-container");
+      const mobileDesc = document.getElementById("mobile-desc");
+      const isMobile = window.matchMedia("(pointer: coarse)").matches;
+
+      let activeSphere = null;
 
       spheres.forEach((sphere) => {
         const div = document.createElement("div");
@@ -213,25 +273,59 @@
           <img src="${sphere.img}" alt="sphere" />
           <div class="tooltip">${sphere.desc}</div>
         `;
-        div.addEventListener("click", () => {
-          window.location.href = sphere.url;
-        });
+
+        if (isMobile) {
+          div.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (activeSphere === div) {
+              // second tap → go to link
+              window.location.href = sphere.url;
+            } else {
+              // first tap → show description
+              if (activeSphere) activeSphere.classList.remove("active");
+              activeSphere = div;
+              div.classList.add("active");
+              mobileDesc.textContent = sphere.desc;
+              mobileDesc.style.display = "block";
+            }
+          });
+        } else {
+          // Desktop: single click
+          div.addEventListener("click", () => {
+            window.location.href = sphere.url;
+          });
+        }
+
         container.appendChild(div);
       });
 
+      if (isMobile) {
+        // Tap outside clears selection
+        document.body.addEventListener("click", () => {
+          if (activeSphere) {
+            activeSphere.classList.remove("active");
+            activeSphere = null;
+            mobileDesc.style.display = "none";
+          }
+        });
+      }
+
       // Background music
       const audio = document.getElementById("bg-music");
-      audio.volume = 0.25; // 25% volume
-      audio.play().catch(() => {
-        console.log("Autoplay blocked. Waiting for user interaction.");
-      });
+      audio.volume = 0.25;
 
-      // Fallback: play on first user interaction if autoplay is blocked
-      document.body.addEventListener("click", () => {
+      // Play on first click/tap anywhere
+      const enableAudio = () => {
         if (audio.paused) {
-          audio.play();
+          audio.play().catch((err) => {
+            console.log("Audio play failed:", err);
+          });
         }
-      });
+        document.removeEventListener("click", enableAudio);
+        document.removeEventListener("touchstart", enableAudio);
+      };
+      document.addEventListener("click", enableAudio);
+      document.addEventListener("touchstart", enableAudio);
     </script>
   </body>
 </html>
