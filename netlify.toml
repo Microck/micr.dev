@@ -133,3 +133,8 @@
   from = "/socr/instagram"
   to = "https://www.instagram.com/http.socr"
   status = 302
+  
+  [[redirects]]
+  from = "/nay"
+  to = "https://discord.gg/75Tjf2yV"
+  status = 302
