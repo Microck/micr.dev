@@ -5,7 +5,7 @@
       "date": "2023-11-07",
       "artist": {
         "name": "brainrotcat",
-        "url": "https://x.com/brainrotcat"
+        "url": "https://twitter.com/brainrotcat"
       }
     },
     {
@@ -13,7 +13,7 @@
       "date": "2024-03-16",
       "artist": {
         "name": "artdebil",
-        "url": "https://x.com/artdebil"
+        "url": "https://twitter.com/artdebil"
       }
     },
     {
@@ -30,7 +30,7 @@
       "date": "2025-01-12",
       "artist": {
         "name": "buc0c0",
-        "url": "https://x.com/buc0c0"
+        "url": "https://twitter.com/buc0c0"
       }
     },
     {
@@ -38,7 +38,7 @@
       "date": "2023-01-09",
       "artist": {
         "name": "yellmi",
-        "url": "https://x.com/___yellmi"
+        "url": "https://twitter.com/___yellmi"
       }
     },
     {
@@ -46,7 +46,7 @@
       "date": "2022-06-15",
       "artist": {
         "name": "Nana",
-        "url": "https://x.com/Mainlian"
+        "url": "https://twitter.com/Mainlian"
       }
     },
     {
@@ -79,7 +79,7 @@
       "date": "2024-12-02",
       "artist": {
         "name": "yurilover1973",
-        "url": "https://x.com/Lololol40194363"
+        "url": "https://twitter.com/Lololol40194363"
       }
     },
     {
@@ -95,7 +95,7 @@
       "date": "2022-07-20",
       "artist": {
         "name": "yondee",
-        "url": "https://x.com/yondeerart"
+        "url": "https://twitter.com/yondeerart"
       }
     },
     {
@@ -121,7 +121,7 @@
       "date": "2025-08-24",
       "artist": {
         "name": "maruya",
-        "url": "https://x.com/masarapmaruya"
+        "url": "https://twitter.com/masarapmaruya"
       },
       "desc": "WIP"
     },
@@ -133,6 +133,14 @@
         "url": ""
       },
       "desc": "in dodo we trust"
+    },
+    {
+      "src": "assets/yuyumini.jpg",
+      "date": "2025-09-05",
+      "artist": {
+        "name": "Yuyumini99",
+        "url": "https://twitter.com/Yuyumini99"
+      }
     }
   ]
 }
