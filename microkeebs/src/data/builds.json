@@ -1,5 +1,30 @@
 [
   {
+    "id": "XYydztEvHdk",
+    "title": "TGR Jane V2 CE",
+    "youtubeTitle": "TGR Jane V2 CE with lubed Cherry Razer Oranges",
+    "category": "MX",
+    "timestamp": "2025-09-07T13:01:03Z",
+    "images": [
+      "./images/XYydztEvHdk/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/XYydztEvHdk",
+    "specs": {
+      "Keyboard": "Purple TGR Jane V2 CE (WK, Re-anodized & color matched to GMK First Love)",
+      "Keycaps": "GMK First Love",
+      "Switches": "Cherry Razer Oranges (Kailh 2014 Razer Orange stems in Retooled Cherry MX Blue housing)",
+      "Lube": "Tribosys 3203",
+      "Films": "TX 0.15mm",
+      "Springs": "TX UXL 45g with GPL 105 on alphas, TX L 55g with GPL 105 on rest",
+      "Plate": "Full Polycarbonate",
+      "Mount": "Top Mount",
+      "Stabilizers": "Cherry Clip Ins + C3 wires with 205g0",
+      "PCB": "SAM80-S (miniB) H8X",
+      "Artisan": "1/1 First Love MissingNo by Spookycaps",
+      "Others": "shoutout cat hair"
+    }
+  },
+  {
     "id": "aWxg0_yg4IY",
     "title": "Realforce R1 87u 10th Anniversary",
     "youtubeTitle": "Lubed and Silenced Realforce R1 87u 10th Anniversary",
