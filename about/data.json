@@ -25,7 +25,8 @@
       { "title": "Attack on Titan (Shingeki no Kyojin)", "year": 2013 },
       { "title": "Your Lie in April (Shigatsu wa Kimi no Uso)", "year": 2014 },
       { "title": "Erased (Boku dake ga Inai Machi)", "year": 2016 },
-      { "title": "Bocchi the Rock!", "year": 2022 }
+      { "title": "Bocchi the Rock!", "year": 2022 },
+      { "title": "Takopi's Original Sin", "year": 2025 }
     ]
   },
 
@@ -69,11 +70,12 @@
       { "title": "Streetwear", "right": "Urban casual fashion" },
       { "title": "Avant-garde", "right": "Experimental high fashion" },
       { "title": "Jirai", "right": "Kawaii-goth Harajuku style" },
-      { "title": "Harajuku", "right": "Japanese street fashion" }
+      { "title": "Harajuku", "right": "Japanese street fashion" },
+      { "title": "Ouji", "right": "Aristocratic Japanese fashion" }
     ]
   },
-  
-    "runways": {
+
+  "runways": {
     "displayName": "Runways",
     "type": "runways",
     "items": [
@@ -83,7 +85,6 @@
       { "runway": "AW04 Waves", "designer": "Raf Simons" }
     ]
   },
-
 
   "fashionDesignerImages": {
     "displayName": "Fashion Designers",
@@ -98,8 +99,8 @@
       { "name": "Carol Christian Poell", "image": "ccp.png" }
     ]
   },
-  
-    "fragrances": {
+
+  "fragrances": {
     "displayName": "Fragrances",
     "type": "P",
     "items": [
@@ -130,7 +131,8 @@
       { "title": "Times New Roman", "right": "Stanley Morison" },
       { "title": "Acumin Variable Concept", "right": "Robert Slimbach" },
       { "title": "BONNES", "right": "Unknown" },
-      { "title": "Dutch801 RM BT", "right": "Bitstream" }
+      { "title": "Dutch801 RM BT", "right": "Bitstream" },
+      { "title": "Neue Montreal", "right": "Mathieu Desjardins" }
     ]
   },
 
@@ -195,7 +197,6 @@
       { "title": "story 2", "right": "clipping", "spotify": "https://open.spotify.com/track/1UsHdJAj4Y1sMIqAh1mS02" },
       { "title": "ruler of everything", "right": "tally hall", "spotify": "https://open.spotify.com/track/3vFZheR74pxUkzxqhXTZ2X" },
       { "title": "ゆきこさん", "right": "ミドリ", "spotify": "https://open.spotify.com/intl-ja/track/7EzsrJjJQBXRPiAPijADtG" },
-      { "title": "must be nice", "right": "quinn", "spotify": "https://open.spotify.com/track/25TIIp717353bt26eqPiJw" },
       { "title": "one am", "right": "quinn", "spotify": "https://open.spotify.com/track/3nmxRPV8vlZ0dXBw3kOV0t" },
       { "title": "but the heart is torn apart.", "right": "2 0 2 1", "spotify": "https://open.spotify.com/track/0gdw5j1dhQ9H0CmNRfFL8S" }
     ]
