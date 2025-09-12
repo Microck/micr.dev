@@ -29,16 +29,12 @@ body {
 .right-fixed {
   position: fixed;
   top: 10px;
-  right: 200px;
-
-  /* make 30% bigger */
-  transform: scale(1.1);
-  transform-origin: top right; /* grows outward from corner */
+  right: 250px;
 }
 
 .right-fixed img {
   width: auto;
-  height: auto;
+  height: 950px;
   max-width: 100%;
   max-height: 100%;
   display: block;
