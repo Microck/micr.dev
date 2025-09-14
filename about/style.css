@@ -19,7 +19,7 @@
   --left-col-max: 880px;   /* absolute cap */
 
   --hero-right-gap: 280px;  /* space between image and right edge */
-  --hero-height: 90vh;      /* max scale of right image */
+  --hero-height: 100vh;     /* full viewport height */
   --hero-translate-x: 0px;  /* fine nudge horizontally */
   --hero-translate-y: 0px;  /* fine nudge vertically */
 }
@@ -60,7 +60,7 @@ body {
   transform: translate(
     var(--hero-translate-x),
     calc(-50% + var(--hero-translate-y))
-  );                                      /* center plus fine nudges */
+  );
   z-index: 1;
 }
 
@@ -73,7 +73,7 @@ body {
 /* The visible image */
 .hero-img {
   display: block;
-  max-height: var(--hero-height); /* resize with viewport */
+  max-height: var(--hero-height); /* now 100vh */
   width: auto;
   height: auto;
   pointer-events: none; /* clicks go to masked link */
