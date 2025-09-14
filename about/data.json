@@ -140,10 +140,26 @@
     "displayName": "Bands",
     "type": "R",
     "items": [
-      { "title": "Glass Beach", "right": "Indie Rock / Power Pop", "spotify": "https://open.spotify.com/artist/4gHs8pWsgZpndQZKs6QVRH" },
-      { "title": "Panchiko", "right": "Indie Rock / Shoegaze", "spotify": "https://open.spotify.com/artist/4KEHIUSoWCcqrk8AddTE1O" },
-      { "title": "Radiohead", "right": "Alternative Rock / Art Rock", "spotify": "https://open.spotify.com/artist/4Z8W4fKeB5YxbusRsdQVPb" },
-      { "title": "Tally Hall", "right": "Power Pop / Indie Pop", "spotify": "https://open.spotify.com/artist/7lqaPghwYv2mE9baz5XQmL" }
+      {
+        "title": "Glass Beach",
+        "right": "Indie Rock / Power Pop",
+        "spotify": "https://open.spotify.com/artist/4gHs8pWsgZpndQZKs6QVRH"
+      },
+      {
+        "title": "Panchiko",
+        "right": "Indie Rock / Shoegaze",
+        "spotify": "https://open.spotify.com/artist/4KEHIUSoWCcqrk8AddTE1O"
+      },
+      {
+        "title": "Radiohead",
+        "right": "Alternative Rock / Art Rock",
+        "spotify": "https://open.spotify.com/artist/4Z8W4fKeB5YxbusRsdQVPb"
+      },
+      {
+        "title": "Tally Hall",
+        "right": "Power Pop / Indie Pop",
+        "spotify": "https://open.spotify.com/artist/7lqaPghwYv2mE9baz5XQmL"
+      }
     ]
   },
 
@@ -151,15 +167,51 @@
     "displayName": "Indie Artists",
     "type": "R",
     "items": [
-      { "title": "Sewerslvt / Cynthoni", "right": "Atmospheric DnB / Breakcore", "spotify": "https://open.spotify.com/artist/30F64wQIHvLiFTGaNZ73nU" },
-      { "title": "Aphex Twin", "right": "IDM / Acid Techno", "spotify": "https://open.spotify.com/artist/6kBDZFXuLrZgHnvmPu9NsG" },
-      { "title": "Hakushi Hasegawa", "right": "Art Pop / Jazz Fusion", "spotify": "https://open.spotify.com/artist/5DZqDIAqRSN8mBM0DoQwoi" },
-      { "title": "Femtanyl", "right": "Breakcore / Digital Hardcore", "spotify": "https://open.spotify.com/artist/53e9n1LucuH3guikmtv180" },
-      { "title": "loadcode", "right": "Emo / Indie Rock", "spotify": "https://open.spotify.com/artist/3Fvs7FLabmef2LGdET9HWw?si=Q0RRoTE8ThWwDXSixB8ICw" },
-      { "title": "Toby Fox", "right": "Video Game Music", "spotify": "https://open.spotify.com/artist/57DlMWmbVIf2ssJ8QBpBau" },
-      { "title": "quinn", "right": "Digicore / Glitch Pop", "spotify": "https://open.spotify.com/artist/2QpNu8tDPv9n7oY34J1TtN" },
-      { "title": "S3RL", "right": "UK Hardcore / Powerstomp", "spotify": "https://open.spotify.com/artist/11aa081aKYUzmeFm0yHdT2" },
-      { "title": "2hollis", "right": "Digicore / Electropop", "spotify": "https://open.spotify.com/artist/72NhFAGG5Pt91VbheJeEPG" }
+      {
+        "title": "Sewerslvt / Cynthoni",
+        "right": "Atmospheric DnB / Breakcore",
+        "spotify": "https://open.spotify.com/artist/30F64wQIHvLiFTGaNZ73nU"
+      },
+      {
+        "title": "Aphex Twin",
+        "right": "IDM / Acid Techno",
+        "spotify": "https://open.spotify.com/artist/6kBDZFXuLrZgHnvmPu9NsG"
+      },
+      {
+        "title": "Hakushi Hasegawa",
+        "right": "Art Pop / Jazz Fusion",
+        "spotify": "https://open.spotify.com/artist/5DZqDIAqRSN8mBM0DoQwoi"
+      },
+      {
+        "title": "Femtanyl",
+        "right": "Breakcore / Digital Hardcore",
+        "spotify": "https://open.spotify.com/artist/53e9n1LucuH3guikmtv180"
+      },
+      {
+        "title": "loadcode",
+        "right": "Emo / Indie Rock",
+        "spotify": "https://open.spotify.com/artist/3Fvs7FLabmef2LGdET9HWw?si=Q0RRoTE8ThWwDXSixB8ICw"
+      },
+      {
+        "title": "Toby Fox",
+        "right": "Video Game Music",
+        "spotify": "https://open.spotify.com/artist/57DlMWmbVIf2ssJ8QBpBau"
+      },
+      {
+        "title": "quinn",
+        "right": "Digicore / Glitch Pop",
+        "spotify": "https://open.spotify.com/artist/2QpNu8tDPv9n7oY34J1TtN"
+      },
+      {
+        "title": "S3RL",
+        "right": "UK Hardcore / Powerstomp",
+        "spotify": "https://open.spotify.com/artist/11aa081aKYUzmeFm0yHdT2"
+      },
+      {
+        "title": "2hollis",
+        "right": "Digicore / Electropop",
+        "spotify": "https://open.spotify.com/artist/72NhFAGG5Pt91VbheJeEPG"
+      }
     ]
   },
 
@@ -167,15 +219,56 @@
     "displayName": "EPs / Albums",
     "type": "P",
     "items": [
-      { "name": "the first album of glass beach - glass beach", "image": "tfgba.png", "spotify": "https://open.spotify.com/album/5GOoswCqZQiq9gbjSHkzMq" },
-      { "name": "repression years!!!! - loadcode", "image": "repressionyears.jpg", "spotify": "https://open.spotify.com/album/1Iwns512BKEOnuoksUYvr6?si=nFFT3dl6R2e8wkh_kltj6Q" },
-      { "name": "Selected Ambient Works 85-92 - Aphex Twin", "image": "selectedambient.png", "spotify": "https://open.spotify.com/album/7aNclGRxTysfh6z0d8671k" },
-      { "name": "Selected Aphex Works N64 - on4ward", "image": "selectedn64.jpg", "spotify": "https://open.spotify.com/album/1gHEtjiBaJyNjh4iLwo8xt" },
-      { "name": "we had good times together, don’t forget that - Sewerslvt", "image": "wehadgoodtimes.jpg", "spotify": "https://open.spotify.com/album/6Hs9pYq5ionwBpGAp6iqi9" },
-      { "name": "Everywhere At The End Of Time - The Caretaker", "image": "eateot.jpg", "spotify": "https://youtu.be/wJWksPWDKOc" },
-      { "name": "ok computer - Radiohead", "image": "okcomputer.png", "spotify": "https://open.spotify.com/album/6dVIqQ8qmQ5GBnJ9shOYGE" },
-      { "name": "boy - 2hollis", "image": "boy.png", "spotify": "https://open.spotify.com/album/0JfgfkFvNYiZIt5mS3skmZ" },
-      { "name": "anything Toby Fox has ever done", "image": "ut.jpg", "spotify": "https://open.spotify.com/album/2M2Ae2SvZe3fmzUtlVOV5Z" }
+      {
+        "name": "the first album of glass beach - glass beach",
+        "image": "tfgba.png",
+        "spotify": "https://open.spotify.com/album/5GOoswCqZQiq9gbjSHkzMq"
+      },
+      {
+        "name": "repression years!!!! - loadcode",
+        "image": "repressionyears.jpg",
+        "spotify": "https://open.spotify.com/album/1Iwns512BKEOnuoksUYvr6?si=nFFT3dl6R2e8wkh_kltj6Q"
+      },
+      {
+        "name": "Selected Ambient Works 85-92 - Aphex Twin",
+        "image": "selectedambient.png",
+        "spotify": "https://open.spotify.com/album/7aNclGRxTysfh6z0d8671k"
+      },
+      {
+        "name": "Selected Aphex Works N64 - on4ward",
+        "image": "selectedn64.jpg",
+        "spotify": "https://open.spotify.com/album/1gHEtjiBaJyNjh4iLwo8xt"
+      },
+      {
+        "name": "we had good times together, don’t forget that - Sewerslvt",
+        "image": "wehadgoodtimes.jpg",
+        "spotify": "https://open.spotify.com/album/6Hs9pYq5ionwBpGAp6iqi9"
+      },
+      {
+        "name": "Everywhere At The End Of Time - The Caretaker",
+        "image": "eateot.jpg",
+        "spotify": "https://youtu.be/wJWksPWDKOc"
+      },
+      {
+        "name": "ok computer - Radiohead",
+        "image": "okcomputer.png",
+        "spotify": "https://open.spotify.com/album/6dVIqQ8qmQ5GBnJ9shOYGE"
+      },
+      {
+        "name": "boy - 2hollis",
+        "image": "boy.png",
+        "spotify": "https://open.spotify.com/album/0JfgfkFvNYiZIt5mS3skmZ"
+      },
+      {
+        "name": "anything Toby Fox has ever done",
+        "image": "ut.jpg",
+        "spotify": "https://open.spotify.com/album/2M2Ae2SvZe3fmzUtlVOV5Z"
+      },
+      {
+        "name": "NERVE'S ENDING - The Quick Brown Fox",
+        "image": "nerve.png",
+        "spotify": "https://halleylabs.com/album/nerves-ending"
+      }
     ]
   },
 
