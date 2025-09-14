@@ -22,7 +22,9 @@ const quotes = [
   "For every push, there is a pull. A consequence.", // Brandon Sanderson, *Mistborn* (2006)
   "I became such a good swimmer that nobody thought to check if I was drowning.",
   "You built up a poison that poisoned others around you. That you love. And the only true justice was to let those dominant jackals feed on you. Survive off you.", // *Moral Orel* (2008)
-  "Despite everything, it's still you." // Toby Fox, *Undertale* (2015)
+  "Despite everything, it's still you.", // Toby Fox, *Undertale* (2015)
+  "Can you recall the last time someone looked at you and actually saw you? Not the mask, not the role, not the noise you put up to keep the room comfortable? That’s why you keep ending up here, feeling unseen in a crowded room.",
+  "And what does that leave? A life where you’re crowded but hollow. Where every conversation feels like static. Where you go home at night with the sick realization that no one, not one person, knows the thoughts that keep you awake. You could disappear tomorrow, and they would only remember the outline you left behind, not the person who carried it."
 ];
 
 // Typewriter effect
