@@ -14,15 +14,14 @@
 
 :root {
   /* Tweak these to adjust widths/position */
-  --left-col-min: 480px;  /* wider min column */
-  --left-col-ideal: 36vw; /* % of viewport */
-  --left-col-max: 880px;  /* absolute cap */
+  --left-col-min: 480px;   /* wider min column */
+  --left-col-ideal: 36vw;  /* % of viewport */
+  --left-col-max: 880px;   /* absolute cap */
 
-  --hero-top: 24px;        /* vertical offset */
-  --hero-right-gap: 280px;  /* space from right edge */
-  --hero-height: 100vh;     /* scale of right image */
-  --hero-translate-x: 0px; /* fine nudge left/right */
-  --hero-translate-y: 0px; /* fine nudge up/down */
+  --hero-right-gap: 280px;  /* space between image and right edge */
+  --hero-height: 90vh;      /* max scale of right image */
+  --hero-translate-x: 0px;  /* fine nudge horizontally */
+  --hero-translate-y: 0px;  /* fine nudge vertically */
 }
 
 body {
@@ -53,28 +52,30 @@ body {
   line-height: 1.17;
 }
 
-/* Sticky right panel with shrink-wrapped content */
+/* Fixed right panel, always centered vertically */
 .right-fixed {
-  position: sticky;
-  top: var(--hero-top);
-  align-self: start;
-  justify-self: end;
-  margin-right: var(--hero-right-gap);
+  position: fixed;                        /* anchor to viewport */
+  top: 50%;                               /* push to vertical middle */
+  right: var(--hero-right-gap);
+  transform: translate(
+    var(--hero-translate-x),
+    calc(-50% + var(--hero-translate-y))
+  );                                      /* center plus fine nudges */
+  z-index: 1;
 }
 
 /* Wrap that matches the image size (so the mask aligns perfectly) */
 .hero-wrap {
   position: relative;
   display: inline-block;
-  transform: translate(var(--hero-translate-x), var(--hero-translate-y));
 }
 
 /* The visible image */
 .hero-img {
   display: block;
-  height: min(var(--hero-height), 950px);
+  max-height: var(--hero-height); /* resize with viewport */
   width: auto;
-  max-width: 100%;
+  height: auto;
   pointer-events: none; /* clicks go to masked link */
 }
 
@@ -92,7 +93,7 @@ body {
 
   /* Tiny transparent bg to capture clicks */
   background: rgba(0, 0, 0, 0.001);
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Keep default arrow over the right image even though it's clickable */
