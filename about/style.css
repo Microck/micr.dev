@@ -2,10 +2,29 @@
 @font-face {
   font-family: "DecimaMono";
   src: url("fonts/DecimaMono.ttf") format("truetype");
-  font-display: block; /* ensures text waits for the font */
+  font-display: block;
 }
 
-/* === BASE === */
+/* === RESET/BASE === */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Tweak these to adjust widths/position */
+  --left-col-min: 480px;  /* wider min column */
+  --left-col-ideal: 36vw; /* % of viewport */
+  --left-col-max: 880px;  /* absolute cap */
+
+  --hero-top: 24px;        /* vertical offset */
+  --hero-right-gap: 280px;  /* space from right edge */
+  --hero-height: 100vh;     /* scale of right image */
+  --hero-translate-x: 0px; /* fine nudge left/right */
+  --hero-translate-y: 0px; /* fine nudge up/down */
+}
+
 body {
   font-family: "DecimaMono", monospace;
   background: white;
@@ -14,53 +33,72 @@ body {
   color: black;
 }
 
+/* === LAYOUT === */
 .container {
-  display: flex;
+  display: grid;
+  grid-template-columns: clamp(
+      var(--left-col-min),
+      var(--left-col-ideal),
+      var(--left-col-max)
+    )
+    1fr;
+  column-gap: clamp(16px, 3vw, 48px);
+  align-items: start;
 }
 
 .left-column {
-  width: 30%;
   padding: 58px 60px;
   font-size: 12px;
   letter-spacing: 0px;
   line-height: 1.17;
 }
 
+/* Sticky right panel with shrink-wrapped content */
 .right-fixed {
-  position: fixed;
-  top: 10px;
-  right: 250px;
+  position: sticky;
+  top: var(--hero-top);
+  align-self: start;
+  justify-self: end;
+  margin-right: var(--hero-right-gap);
 }
 
-.right-fixed img {
+/* Wrap that matches the image size (so the mask aligns perfectly) */
+.hero-wrap {
+  position: relative;
+  display: inline-block;
+  transform: translate(var(--hero-translate-x), var(--hero-translate-y));
+}
+
+/* The visible image */
+.hero-img {
+  display: block;
+  height: min(var(--hero-height), 950px);
   width: auto;
-  height: 950px;
   max-width: 100%;
-  max-height: 100%;
+  pointer-events: none; /* clicks go to masked link */
+}
+
+/* Clickable silhouette exactly over the image */
+.masked-link {
+  position: absolute;
+  inset: 0;
   display: block;
 
-  /* prevent the <img> rectangle from catching clicks */
-  pointer-events: none;
+  /* Only opaque pixels clickable */
+  -webkit-mask: url("images/right-image.png") no-repeat 0 0;
+  mask: url("images/right-image.png") no-repeat 0 0;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+
+  /* Tiny transparent bg to capture clicks */
+  background: rgba(0, 0, 0, 0.001);
+  z-index: 1;
 }
 
-/* clickable silhouette mask */
-.masked-link {
-  display: inline-block;
-  position: relative;
-
-  /* Apply PNG mask: only opaque pixels are clickable */
-  -webkit-mask: url("images/right-image.png") no-repeat center / contain;
-  mask: url("images/right-image.png") no-repeat center / contain;
-
-  /* Tiny transparent bg to make the link area capture clicks */
-  background: rgba(0,0,0,0.001);
-
-  width: 100%;
-  height: 100%;
-}
-
+/* Keep default arrow over the right image even though it's clickable */
+.masked-link,
 .masked-link:hover {
-  cursor: pointer;
+  cursor: default;
 }
 
 /* === CATEGORY BLOCKS === */
@@ -76,27 +114,27 @@ body {
 /* === INTRO BLOCK === */
 .intro-text {
   margin-bottom: 2rem;
-  width: 100%;          /* take full width of column */
+  width: 100%;
   box-sizing: border-box;
 }
 
 .intro-header {
   display: flex;
-  justify-content: space-between; /* left + right alignment */
-  font-weight: normal;            /* not bold */
+  justify-content: space-between;
+  font-weight: normal;
   margin: 0;
   padding: 0;
-  line-height: 1.17;              /* match site’s base */
-  width: 100%;                    /* ensure full width */
+  line-height: 1.17;
+  width: 100%;
   box-sizing: border-box;
 }
 
 .intro-body {
-  text-align: justify;            /* full justification */
+  text-align: justify;
   margin: 0;
   padding: 0;
-  line-height: 1.17;              /* match site’s base */
-  width: 100%;                    /* ensure full width */
+  line-height: 1.17;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -222,7 +260,8 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+/* Keep hand cursor for normal links, not the masked one */
+a:hover:not(.masked-link) {
   text-decoration: none;
   cursor: pointer;
 }
@@ -244,19 +283,4 @@ a:hover {
   display: none;
 }
 
-@media (max-width: 768px) {
-  html, body {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-  }
-
-  .page-rotate {
-    transform: rotate(90deg) translateY(-100%) scale(calc(100vw / 100vh));
-    transform-origin: top left;
-    width: 100vh;
-    height: 100vw;
-  }
-}
+/* Note: mobile rotate hack removed (you already block mobile) */
