@@ -11,14 +11,15 @@ WIP
 A landing page designed to let users discover my other webpages through a single link, without needing to access the 3D site to find them. This is because most people did not realize they needed hardware acceleration enabled, or thought their browser had crashed and left the site before waiting long enough.
 
 # micr.dev/about
-<img width="1900" height="954" alt="Screenshot_1315" src="https://github.com/user-attachments/assets/bff39ae2-4b3c-4327-8020-912f327b1c3c" />
+<img width="1843" height="983" alt="Screenshot_1325" src="https://github.com/user-attachments/assets/b0be87e9-e013-48db-94c0-17dfb1037adb" />
+
 
 
 I have always struggled with poor passive memory recall, so I decided to make an About Me page. This helps others get to know me, and also helps me remember things that interest me.
 
 The page is inspired by some of the art from the album "Syro" by Aphex Twin, which is clear when compared side by side. I fell in love with its minimalism and simplicity, and decided to take heavy inspiration for my own page.
 
-<img width="1404" height="790" alt="SharpnelSampler - Aphex Twin - produk 29  101   u47GnMsgoCo - 1404x790 - 0m27s" src="https://github.com/user-attachments/assets/6be2fb36-7246-417e-98ad-c3430c1b91d9" />
+<img width="500" height="auto" alt="SharpnelSampler - Aphex Twin - produk 29  101   u47GnMsgoCo - 1404x790 - 0m27s" src="https://github.com/user-attachments/assets/6be2fb36-7246-417e-98ad-c3430c1b91d9" />
 
 
 It starts with a brief description of myself and the page, as well as my preferred pronouns. It is followed by things that interest me, in the following order: Series, Anime, Films, Games, Styles, Runways, Fashion Designers, Fragrances, Colours, Fonts, Bands, Indie Artists, EPs/Albums, Individual Tracks, Genres, Inspirations & References, and finally a section with completely random short entries. Some sections use images to showcase items if I felt it matched better, and others let you click to open that item in a new page (like a specific song). Hovering over images displays a simple, sharp black rectangle with the name of what you are hovering over, in case you do not recognize it from the picture and want to know what it is.
