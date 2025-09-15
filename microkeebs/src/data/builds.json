@@ -1,5 +1,24 @@
 [
   {
+    "id": "o3zlZj4vjh4",
+    "title": "2007 HHKB Pro 2",
+    "youtubeTitle": "Lubed 2007 HHKB Pro 2",
+    "category": "EC",
+    "timestamp": "2025-09-14T13:01:38Z",
+    "images": [
+      "./images/o3zlZj4vjh4/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/o3zlZj4vjh4",
+    "specs": {
+      "Keyboard": "Happy Hacking Keyboard (HHKB) Professional 2",
+      "Keycaps": "Stock",
+      "Domes": "2007 45g OEM",
+      "Sliders": "Stock (Non-Lubed, Type-S rings)",
+      "Stabilizers": "Lubed with 205g0",
+      "Dampening": "Nothing"
+    }
+  },
+  {
     "id": "XYydztEvHdk",
     "title": "TGR Jane V2 CE",
     "youtubeTitle": "TGR Jane V2 CE with lubed Cherry Razer Oranges",
