@@ -21,10 +21,17 @@ const quotes = [
   "You are alone, and below the stage the seats are empty. The theatre is dark. Why do you keep acting?", // Charles Bukowski
   "For every push, there is a pull. A consequence.", // Brandon Sanderson, *Mistborn* (2006)
   "I became such a good swimmer that nobody thought to check if I was drowning.",
-  "You built up a poison that poisoned others around you. That you love. And the only true justice was to let those dominant jackals feed on you. Survive off you.", // *Moral Orel* (2008)
+  "And the only true justice was to let those dominant jackals feed on you. Survive off you.", // *Moral Orel* (2008)
   "Despite everything, it's still you.", // Toby Fox, *Undertale* (2015)
   "Can you recall the last time someone looked at you and actually saw you? Not the mask, not the role, not the noise you put up to keep the room comfortable? That’s why you keep ending up here, feeling unseen in a crowded room.",
-  "And what does that leave? A life where you’re crowded but hollow. Where every conversation feels like static. Where you go home at night with the sick realization that no one, not one person, knows the thoughts that keep you awake. You could disappear tomorrow, and they would only remember the outline you left behind, not the person who carried it."
+  "And what does that leave? A life where you’re crowded but hollow. Where every conversation feels like static. Where you go home at night with the sick realization that no one, not one person, knows the thoughts that keep you awake. You could disappear tomorrow, and they would only remember the outline you left behind, not the person who carried it.",
+  "This world is rotten, and those who are making it rot deserve to die.", // Light Yagami, *Death Note*
+  "I cannot make you understand. I cannot make anyone understand what is happening inside me. I cannot even explain it to myself.", // Franz Kafka
+  "Above all, avoid falsehood, every kind of falsehood, especially falseness to yourself.", // Fyodor Dostoevsky, *The Brothers Karamazov*
+  "Your worst sin is that you have destroyed and betrayed yourself for nothing.", // Fyodor Dostoevsky
+  "You didn't crawl through hell just to stop at the gates.",
+  "The time will pass anyways.",
+  "Comparison is the thief of joy."
 ];
 
 // Typewriter effect
