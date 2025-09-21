@@ -1,5 +1,30 @@
 [
   {
+    "id": "mW1YiRFIIB8",
+    "title": "Geonworks F1-8X V2",
+    "youtubeTitle": "Geonworks F1-8X V2 with dry Cherry MX2A Browns",
+    "category": "MX",
+    "timestamp": "2025-09-21T13:01:26Z",
+    "images": [
+      "./images/mW1YiRFIIB8/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/mW1YiRFIIB8",
+    "specs": {
+      "Keyboard": "Geonworks F1-8X V2 (Silver top, Black bottom from an all black unit)",
+      "Keycaps": "GMK WoB + GMK Chaos Theory + GMK Alt Grrrr",
+      "Switches": "Unlubed Cherry MX2A Browns",
+      "Lube": "GPL 105 on stems (bag lubed)",
+      "Films": "TX 0.15mm",
+      "Springs": "TX UXL 45g with GPL 105",
+      "Plate": "Full Aluminum 1.5mm Leaf Spring V3",
+      "Mount": "Viton O-ring",
+      "Stabilizers": "Staebies V2 with Permatex Dialectric Grease",
+      "PCB": "SAM80-S H8X",
+      "Artisan": "Dreadkeys Monochrome",
+      "Others": "-"
+    }
+  },
+  {
     "id": "o3zlZj4vjh4",
     "title": "2007 HHKB Pro 2",
     "youtubeTitle": "Lubed 2007 HHKB Pro 2",
