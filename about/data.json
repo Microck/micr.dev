@@ -96,7 +96,8 @@
       { "name": "Number (N)ine", "image": "numbernine.png" },
       { "name": "Engrave the Cross", "image": "engravethex.png" },
       { "name": "KMRii", "image": "kmrii.png" },
-      { "name": "Carol Christian Poell", "image": "ccp.png" }
+      { "name": "Carol Christian Poell", "image": "ccp.png" },
+      { "name": "alice auaa", "image": "aa.jpg" }
     ]
   },
 
@@ -203,11 +204,6 @@
         "spotify": "https://open.spotify.com/artist/2QpNu8tDPv9n7oY34J1TtN"
       },
       {
-        "title": "S3RL",
-        "right": "UK Hardcore / Powerstomp",
-        "spotify": "https://open.spotify.com/artist/11aa081aKYUzmeFm0yHdT2"
-      },
-      {
         "title": "2hollis",
         "right": "Digicore / Electropop",
         "spotify": "https://open.spotify.com/artist/72NhFAGG5Pt91VbheJeEPG"
@@ -279,19 +275,21 @@
       { "title": "bedroom community", "right": "glass beach", "spotify": "https://open.spotify.com/track/4HJc004qYXE9zsG6PfTFFj" },
       { "title": "commatose", "right": "glass beach", "spotify": "https://open.spotify.com/track/0s4SBcxkhUzP14eFKrWdEC" },
       { "title": "ecifircas", "right": "sewerslvt", "spotify": "https://open.spotify.com/track/0ROexSyivb8X5LLLzsTFuB" },
-      { "title": "blissful overdose", "right": "sewerslvt", "spotify": "https://open.spotify.com/track/2Uer7J87AJzKkpcTP4lpGY" },
+      { "title": "psychosis", "right": "sewerslvt", "spotify": "https://open.spotify.com/intl-es/track/0V36ohSgy0Fq4MyqNORyFO?si=5124b23f2e2c487f" },
       { "title": "aisatsana", "right": "aphex twin", "spotify": "https://open.spotify.com/track/3ESsjKqrj3M79I8sSZieK3" },
       { "title": "avril 14th", "right": "aphex twin", "spotify": "https://open.spotify.com/track/5oZisSvibQw9GVM1v3fCwB" },
       { "title": "mt saint michel + saint michaels mount", "right": "aphex twin", "spotify": "https://open.spotify.com/track/5A6UIgePfszc5796wIfzFQ" },
       { "title": "180db_", "right": "aphex twin", "spotify": "https://open.spotify.com/track/1EqV8PuCj1RX4eBX76fqtc" },
       { "title": "the world revolving", "right": "toby fox", "spotify": "https://open.spotify.com/track/5QBozbgRWIYDSriHCRTsXd" },
       { "title": "megalovania", "right": "toby fox", "spotify": "https://open.spotify.com/track/1J03Vp93ybKIxfzYI4YJtL" },
-      { "title": "desert", "right": "Hakushi Hasegawa", "spotify": "https://open.spotify.com/intl-ar/track/66Jk8djrqgRCZThe3t2EYa" },
+      { "title": "desert", "right": "hakushi hasegawa", "spotify": "https://open.spotify.com/intl-ar/track/66Jk8djrqgRCZThe3t2EYa" },
       { "title": "story 2", "right": "clipping", "spotify": "https://open.spotify.com/track/1UsHdJAj4Y1sMIqAh1mS02" },
       { "title": "ruler of everything", "right": "tally hall", "spotify": "https://open.spotify.com/track/3vFZheR74pxUkzxqhXTZ2X" },
       { "title": "ゆきこさん", "right": "ミドリ", "spotify": "https://open.spotify.com/intl-ja/track/7EzsrJjJQBXRPiAPijADtG" },
       { "title": "one am", "right": "quinn", "spotify": "https://open.spotify.com/track/3nmxRPV8vlZ0dXBw3kOV0t" },
-      { "title": "but the heart is torn apart.", "right": "2 0 2 1", "spotify": "https://open.spotify.com/track/0gdw5j1dhQ9H0CmNRfFL8S" }
+      { "title": "but the heart is torn apart.", "right": "2 0 2 1", "spotify": "https://open.spotify.com/track/0gdw5j1dhQ9H0CmNRfFL8S" },
+      { "title": "liebestraum no. 3", "right": "franz liszt", "spotify": "https://open.spotify.com/intl-es/track/2u9VGZmVz7Rm01SfDgzcfA?si=9982c33e88294d44" },
+      { "title": "ballade no. 1 in g minor, Op. 23", "right": "frédéric chopin", "spotify": "https://youtu.be/dIbeazAlxM4" }
     ]
   },
 
@@ -304,7 +302,7 @@
       { "title": "Ambient", "right": "0–80 BPM" },
       { "title": "Classical", "right": "Varies" },
       { "title": "JRock", "right": "120–160 BPM" },
-      { "title": "4th wave emo", "right": "90–140 BPM" },
+      { "title": "Midwest emo", "right": "90–140 BPM" },
       { "title": "Indie rock", "right": "100–140 BPM" },
       { "title": "Speedcore", "right": "250–1000 BPM" },
       { "title": "Hyperpop", "right": "120–160 BPM" },
@@ -337,7 +335,7 @@
     "displayName": "Monster Flavor",
     "type": "R",
     "items": [
-      { "title": "Rehab Iced Tea & Lemonade" }
+      { "title": "Peach, Rehab Iced Tea & Lemonade" }
     ]
   },
 
