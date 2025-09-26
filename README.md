@@ -2,7 +2,7 @@
 ![portfolio](https://github.com/user-attachments/assets/1ec0295e-3ea7-4a8c-961d-9bcf9ca4d1eb)
 
 
-WIP
+3D Website made with Spline.
 
 # micr.dev/tree
 ![chrome-capture-2025-08-23](https://github.com/user-attachments/assets/e2543240-0c2b-4825-bd31-b7e091c76c34)
