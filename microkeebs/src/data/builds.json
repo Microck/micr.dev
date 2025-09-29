@@ -1,5 +1,24 @@
 [
   {
+    "id": "UyCKwUVz0ik",
+    "title": "2016 HHKB Pro 2",
+    "youtubeTitle": "Lubed and Silenced 2016 HHKB Pro 2",
+    "category": "EC",
+    "timestamp": "2025-09-28T13:00:56Z",
+    "images": [
+      "./images/UyCKwUVz0ik/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/UyCKwUVz0ik",
+    "specs": {
+      "Keyboard": "Happy Hacking Keyboard (HHKB) Professional 2",
+      "Keycaps": "Stock Black Printed + Bubbled Realforce Winkeys",
+      "Domes": "45g OEM",
+      "Sliders": "Purple (Lubed with Tribosys 3203, 0.5mm Rings)",
+      "Stabilizers": "Lubed with 205g0",
+      "Dampening": "Force break & Case foam"
+    }
+  },
+  {
     "id": "mW1YiRFIIB8",
     "title": "Geonworks F1-8X V2",
     "youtubeTitle": "Geonworks F1-8X V2 with dry Cherry MX2A Browns",
