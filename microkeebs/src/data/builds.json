@@ -30,7 +30,14 @@
     "category": "EC",
     "timestamp": "2025-09-28T13:00:56Z",
     "images": [
-      "./images/UyCKwUVz0ik/thumbnail.jpg"
+      "./images/UyCKwUVz0ik/thumbnail.jpg",
+      "./images/UyCKwUVz0ik/1.webp",
+      "./images/UyCKwUVz0ik/2.webp",
+      "./images/UyCKwUVz0ik/3.webp",
+      "./images/UyCKwUVz0ik/4.webp",
+      "./images/UyCKwUVz0ik/5.webp",
+      "./images/UyCKwUVz0ik/6.webp"
+      
     ],
     "youtubeUrl": "https://youtu.be/UyCKwUVz0ik",
     "specs": {

@@ -3,7 +3,6 @@
     "type": "intro",
     "text": "If you've found this page, you can learn a bit more about my interests. The things are listed in no particular order, so the first isn't necessarily my favorite and the last isn't my least. If we have something in common, feel free to start a conversation."
   },
-
   "series": {
     "displayName": "Series",
     "type": "T",
@@ -14,7 +13,6 @@
       { "title": "Severance", "year": 2022 }
     ]
   },
-
   "animes": {
     "displayName": "Animes",
     "type": "T",
@@ -29,7 +27,6 @@
       { "title": "Takopi's Original Sin", "year": 2025 }
     ]
   },
-
   "films": {
     "displayName": "Films",
     "type": "T",
@@ -43,7 +40,6 @@
       { "title": "1917", "year": 2019 }
     ]
   },
-
   "games": {
     "displayName": "Games",
     "type": "P",
@@ -61,7 +57,6 @@
       { "name": "Omori", "image": "omori.jpg" }
     ]
   },
-
   "styles": {
     "displayName": "Styles",
     "type": "R",
@@ -74,7 +69,6 @@
       { "title": "Ouji", "right": "Aristocratic Japanese fashion" }
     ]
   },
-
   "runways": {
     "displayName": "Runways",
     "type": "runways",
@@ -85,7 +79,6 @@
       { "runway": "AW04 Waves", "designer": "Raf Simons" }
     ]
   },
-
   "fashionDesignerImages": {
     "displayName": "Fashion Designers",
     "type": "designerImages",
@@ -100,7 +93,6 @@
       { "name": "alice auaa", "image": "aa.jpg" }
     ]
   },
-
   "fragrances": {
     "displayName": "Fragrances",
     "type": "P",
@@ -111,7 +103,6 @@
       { "name": "Another 13", "image": "another13.jpg" }
     ]
   },
-
   "colours": {
     "displayName": "Colours",
     "type": "colours",
@@ -121,7 +112,6 @@
       { "title": "#F0E8BB" }
     ]
   },
-
   "fonts": {
     "displayName": "Fonts",
     "type": "fonts",
@@ -136,7 +126,6 @@
       { "title": "Neue Montreal", "right": "Mathieu Desjardins" }
     ]
   },
-
   "bands": {
     "displayName": "Bands",
     "type": "R",
@@ -163,7 +152,6 @@
       }
     ]
   },
-
   "indieArtists": {
     "displayName": "Indie Artists",
     "type": "R",
@@ -210,7 +198,6 @@
       }
     ]
   },
-
   "epsAlbums": {
     "displayName": "EPs / Albums",
     "type": "P",
@@ -264,10 +251,14 @@
         "name": "NERVE'S ENDING - The Quick Brown Fox",
         "image": "nerve.png",
         "spotify": "https://halleylabs.com/album/nerves-ending"
+      },
+      {
+        "name": "wetdream - WillyRodriguezWasTaken",
+        "image": "wetdream.jpg",
+        "spotify": "https://open.spotify.com/album/7Mz3AROK1ffsZhTMaFCdvv?si=CvKF7sCTTXWo0nkfXWelVw"
       }
     ]
   },
-
   "individualTracks": {
     "displayName": "Individual Tracks",
     "type": "R",
@@ -292,7 +283,6 @@
       { "title": "ballade no. 1 in g minor, Op. 23", "right": "frédéric chopin", "spotify": "https://youtu.be/dIbeazAlxM4" }
     ]
   },
-
   "genres": {
     "displayName": "Genres",
     "type": "R",
@@ -310,7 +300,6 @@
       { "title": "Alternative", "right": "Varies" }
     ]
   },
-
   "inspirations": {
     "displayName": "Inspirations & References",
     "type": "R",
@@ -322,7 +311,6 @@
       { "title": "jam2go", "right": "Gamemaker / Music Producer" }
     ]
   },
-
   "coffee": {
     "displayName": "Coffee",
     "type": "R",
@@ -330,7 +318,6 @@
       { "title": "Caramel Macchiato" }
     ]
   },
-
   "monsterFlavor": {
     "displayName": "Monster Flavor",
     "type": "R",
@@ -338,7 +325,6 @@
       { "title": "Peach, Rehab Iced Tea & Lemonade" }
     ]
   },
-
   "daVinciPlugin": {
     "displayName": "DaVinci Resolve Default Plugin",
     "type": "R",
@@ -346,7 +332,6 @@
       { "title": "Halation" }
     ]
   },
-
   "browserExtension": {
     "displayName": "Browser Extension",
     "type": "R",
@@ -354,7 +339,6 @@
       { "title": "uBlock Origin" }
     ]
   },
-
   "keyboardSpring": {
     "displayName": "Keyboard Switch Spring",
     "type": "R",
@@ -362,7 +346,6 @@
       { "title": "TX 22mm 45g" }
     ]
   },
-
   "lens": {
     "displayName": "Lens",
     "type": "R",
@@ -370,7 +353,6 @@
       { "title": "50mm" }
     ]
   },
-
   "lightKelvin": {
     "displayName": "Light Kelvin",
     "type": "R",
@@ -378,7 +360,6 @@
       { "title": "2700k" }
     ]
   },
-
   "material": {
     "displayName": "Material",
     "type": "R",
@@ -386,7 +367,6 @@
       { "title": "Concrete" }
     ]
   },
-
   "framing": {
     "displayName": "Framing",
     "type": "R",
@@ -394,7 +374,6 @@
       { "title": "Headshot bottom-framing with extreme negative space" }
     ]
   },
-
   "personalityType": {
     "displayName": "Personality Type",
     "type": "R",
@@ -402,7 +381,6 @@
       { "title": "INFJ-T" }
     ]
   },
-
   "gymExercise": {
     "displayName": "Gym Exercise",
     "type": "R",
@@ -410,7 +388,6 @@
       { "title": "Lat Pulldown" }
     ]
   },
-
   "smg2Galaxy": {
     "displayName": "SMG2 Galaxy",
     "type": "R",
@@ -418,7 +395,6 @@
       { "title": "Slimy Springs Galaxy" }
     ]
   },
-
   "resolution": {
     "displayName": "Resolution",
     "type": "R",
@@ -426,7 +402,6 @@
       { "title": "2880x2160" }
     ]
   },
-
   "minecraftEnchant": {
     "displayName": "Minecraft Enchant",
     "type": "R",
@@ -434,7 +409,6 @@
       { "title": "Feather Falling IV" }
     ]
   },
-
   "minecraftWood": {
     "displayName": "Minecraft Wood Type",
     "type": "R",
@@ -442,7 +416,6 @@
       { "title": "Spruce" }
     ]
   },
-
   "uselessMelee": {
     "displayName": "Best Useless Melee",
     "type": "R",
@@ -450,7 +423,6 @@
       { "title": "Scythe" }
     ]
   },
-
   "maleSupporting": {
     "displayName": "Male Supporting Character",
     "type": "R",
@@ -458,7 +430,6 @@
       { "title": "Tyrell Wellick" }
     ]
   },
-
   "femaleSupporting": {
     "displayName": "Female Supporting Character",
     "type": "R",
