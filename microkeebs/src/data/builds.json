@@ -1,5 +1,29 @@
 [
   {
+    "id": "MNhcefyyKrw",
+    "title": "Oblique",
+    "youtubeTitle": "Oblique with lubed Cherry MX Blacks",
+    "category": "MX",
+    "timestamp": "2025-10-05T13:00:40Z",
+    "images": [
+      "./images/MNhcefyyKrw/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/MNhcefyyKrw",
+    "specs": {
+      "Keyboard": "Bowl Oblique (Cream Coat / Copper)",
+      "Keycaps": "GMK DMG R3 + Novelties",
+      "Switches": "Cherry MX Black Hyperglide",
+      "Lube": "Krytox 205g0",
+      "Films": "PC (?)",
+      "Springs": "22mm Doble-Stage 45g (?) lubed with GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "60A Gasket Mount",
+      "Stabilizers": "JWK with 205g0",
+      "PCB": "Hotswap",
+      "Others": ""
+    }
+  },
+  {
     "id": "UyCKwUVz0ik",
     "title": "2016 HHKB Pro 2",
     "youtubeTitle": "Lubed and Silenced 2016 HHKB Pro 2",
