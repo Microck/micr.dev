@@ -31,7 +31,13 @@ const quotes = [
   "Your worst sin is that you have destroyed and betrayed yourself for nothing.", // Fyodor Dostoevsky
   "You didn't crawl through hell just to stop at the gates.",
   "The time will pass anyways.",
-  "Comparison is the thief of joy."
+  "Comparison is the thief of joy.",
+  "I’m the human embodiment of the sunk cost fallacy.",
+  "He did it well. He had to do it well. Some whispered about a supernatural skill on his part, that he was too talented for a fourteen-year-old boy. That infuriated him. It turned sweat into luck. Szeth hated that they thought he was something special. He wasn’t.", // Brandon Sanderson, *Wind and truth: Stormlight Archive Book 5*
+  "To go wrong in one's own way is better than to go right in someone else's.", // Fyodor Dostoevsky, *Crime and Punishment*
+  "What do you do when there is an evil you cannot defeat by just means? Do you stain your hands with evil to destroy evil? Or do you remain steadfastly just and righteous even if it means surrendering to evil?", // Lelouch vi Britannia, *Code Geass*
+  "You can't change the world without getting your hands dirty.", // Lelouch vi Britannia, *Code Geass*
+  "And those who were seen dancing were thought to be insane by those who could not hear the music." // Friedrich Nietzsche
 ];
 
 // Typewriter effect
