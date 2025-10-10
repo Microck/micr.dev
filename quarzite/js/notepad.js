@@ -10,25 +10,19 @@
   // Force wrapping via inline styles so CSS can't override it
   function applyWrap(isWrap) {
     const ta = document.getElementById("notepad-text");
-
-    // keep classes if you still want them for styling, but inline wins
     ta.classList.remove("notepad-wrap", "notepad-nowrap");
     ta.classList.add(isWrap ? "notepad-wrap" : "notepad-nowrap");
-
-    // hard override wrapping behavior
     ta.style.whiteSpace = isWrap ? "pre-wrap" : "pre";
     ta.style.overflowWrap = isWrap ? "anywhere" : "normal";
     ta.style.wordBreak = isWrap ? "break-word" : "normal";
   }
 
-  // Define all versions
   const versions = [
     {
       name: "ASCII",
       fromFile: "assets/ascii.txt",
       fontSize: 7,
       wrap: false,
-      // fixed values from your debug overlay
       window: { left: 1143, top: 497, width: 382, height: 430 },
     },
     {
@@ -36,6 +30,16 @@
       text:
         "Forms FORM-29827281-12:\nTest Assessment Report\n\nThis was a " +
         "triumph.\nI'm making a note here:\nHUGE SUCCESS.",
+      fontSize: 18,
+      wrap: true,
+      window: { left: 1154, top: 479, width: 500, height: 400 },
+    },
+    {
+      name: "Clippy Tip",
+      text:
+        "Did you know?\n\nYou can cycle through Clippy's quotes anytime," +
+        "no need to reload the page.\n\nJust hold Ctrl and press the " +
+        "left or right arrow keys to go backward or forward.",
       fontSize: 18,
       wrap: true,
       window: { left: 1154, top: 479, width: 500, height: 400 },
@@ -73,20 +77,19 @@
     return base + Math.floor(Math.random() * (range * 2 + 1)) - range;
   }
 
-  // Pick by index (or random if index not provided)
   async function pickContent(index) {
     const ta = document.getElementById("notepad-text");
     const win = document.getElementById("win-notepad");
-
     let version;
+
     if (typeof index === "number" && index >= 0 && index < versions.length) {
       version = versions[index];
     } else {
       version = versions[Math.floor(Math.random() * versions.length)];
     }
+
     console.log("Chosen version:", version.name);
 
-    // load text (file or inline)
     if (version.fromFile) {
       try {
         const res = await fetch(version.fromFile, { cache: "no-store" });
@@ -100,11 +103,9 @@
       ta.value = version.text;
     }
 
-    // apply font size + wrapping (inline styles)
     setFontPx(version.fontSize);
     applyWrap(version.wrap);
 
-    // window size + position
     if (version.name === "ASCII") {
       win.style.left = version.window.left + "px";
       win.style.top = version.window.top + "px";
@@ -122,6 +123,5 @@
     await pickContent();
   });
 
-  // Export with count for scenario building
   window.Notepad = { pickContent, count: versions.length };
 })();

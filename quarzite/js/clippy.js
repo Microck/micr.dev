@@ -33,28 +33,39 @@ const quotes = [
   "The time will pass anyways.",
   "Comparison is the thief of joy.",
   "I’m the human embodiment of the sunk cost fallacy.",
-  "He did it well. He had to do it well. Some whispered about a supernatural skill on his part, that he was too talented for a fourteen-year-old boy. That infuriated him. It turned sweat into luck. Szeth hated that they thought he was something special. He wasn’t.", // Brandon Sanderson, *Wind and truth: Stormlight Archive Book 5*
+  "He did it well. He had to do it well. Some whispered about a supernatural skill on his part, that he was too talented for a fourteen-year-old boy. That infuriated him. It turned sweat into luck. Szeth hated that they thought he was something special. He wasn’t.", // Brandon Sanderson, *Wind and Truth: Stormlight Archive Book 5*
   "To go wrong in one's own way is better than to go right in someone else's.", // Fyodor Dostoevsky, *Crime and Punishment*
   "What do you do when there is an evil you cannot defeat by just means? Do you stain your hands with evil to destroy evil? Or do you remain steadfastly just and righteous even if it means surrendering to evil?", // Lelouch vi Britannia, *Code Geass*
   "You can't change the world without getting your hands dirty.", // Lelouch vi Britannia, *Code Geass*
   "And those who were seen dancing were thought to be insane by those who could not hear the music." // Friedrich Nietzsche
 ];
 
-// Typewriter effect
+// Track current quote index and typing state
+let currentQuoteIndex = 0;
+let currentTypingTimeouts = [];
+
+// Typewriter effect — interruptible
 function typeWriter(text, element, speed = 30) {
+  // Clear any in-progress timeouts immediately
+  for (const t of currentTypingTimeouts) clearTimeout(t);
+  currentTypingTimeouts = [];
+
   element.innerHTML = "";
   let i = 0;
+
   function typing() {
     if (i < text.length) {
       element.innerHTML += text.charAt(i);
       i++;
-      setTimeout(typing, speed);
+      const t = setTimeout(typing, speed);
+      currentTypingTimeouts.push(t);
     }
   }
+
   typing();
 }
 
-// Pick quote by index (or random if index not provided) and type it
+// Pick quote by index (or random if index not provided)
 function getQuote(index) {
   const element = document.getElementById("text");
   if (!element) {
@@ -65,10 +76,13 @@ function getQuote(index) {
   let quote;
   if (typeof index === "number" && index >= 0 && index < quotes.length) {
     quote = quotes[index];
+    currentQuoteIndex = index;
   } else {
     const random = Math.floor(Math.random() * quotes.length);
     quote = quotes[random];
+    currentQuoteIndex = random;
   }
+
   typeWriter(quote, element, 25);
 }
 
@@ -89,6 +103,21 @@ function positionClippy() {
   win.style.width = base.width + "px";
   win.style.height = base.height + "px";
 }
+
+// Keyboard controls — interrupt typing abruptly
+document.addEventListener("keydown", (event) => {
+  if (event.ctrlKey && event.key === "ArrowRight") {
+    event.preventDefault();
+    const next = (currentQuoteIndex + 1) % quotes.length;
+    getQuote(next);
+  }
+
+  if (event.ctrlKey && event.key === "ArrowLeft") {
+    event.preventDefault();
+    const prev = (currentQuoteIndex - 1 + quotes.length) % quotes.length;
+    getQuote(prev);
+  }
+});
 
 // Export with count for scenario building
 window.Clippy = { positionClippy, getQuote, count: quotes.length };
