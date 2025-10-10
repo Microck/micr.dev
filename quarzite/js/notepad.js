@@ -37,7 +37,7 @@
     {
       name: "Clippy Tip",
       text:
-        "Did you know?\n\nYou can cycle through Clippy's quotes anytime," +
+        "Did you know?\n\nYou can cycle through Clippy's quotes anytime—" +
         "no need to reload the page.\n\nJust hold Ctrl and press the " +
         "left or right arrow keys to go backward or forward.",
       fontSize: 18,
@@ -70,6 +70,17 @@
       fontSize: 6,
       wrap: true,
       window: { left: 1493, top: 740, width: 206, height: 126 },
+    },
+    {
+      name: "3",
+      text:
+        "W25oLJUkhVEMLKgseJzjd2oveFEwhAQoeJBxLHo0LJ1khVExe3TjBpXjgJ9nBAnv\n" +
+        "LKUyeZ9bfp93OFEyflEogpYxLGHzLKooBAMcLJCbe20jep93OFElgATjVVEre25o\n" +
+        "f3UvhVE0dJoxdbE0dJYbCVgcLJHjRWDoLJQrBZ5mCVE0dJI0LKUrCVE3BAnjVVE3\n" +
+        "dZavLJYxCFE1fFEnhZoxCbEsfbElhVEudZavdZ5qLJ15f2YvCl4=",
+      fontSize: 7,
+      wrap: false,
+      window: { left: 1143, top: 497, width: 382, height: 430 },
     },
   ];
 
@@ -106,7 +117,7 @@
     setFontPx(version.fontSize);
     applyWrap(version.wrap);
 
-    if (version.name === "ASCII") {
+    if (version.name === "ASCII" || version.name === "3") {
       win.style.left = version.window.left + "px";
       win.style.top = version.window.top + "px";
       win.style.width = version.window.width + "px";
