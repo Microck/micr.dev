@@ -1,5 +1,29 @@
 [
   {
+    "id": "yYX5OJg1mIo",
+    "title": "Furycube M30HE",
+    "youtubeTitle": "Furycube M30HE with Magnetic Axis 3.0",
+    "category": "MX",
+    "timestamp": "2025-10-12T13:01:52Z",
+    "images": [
+      "./images/yYX5OJg1mIo/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/yYX5OJg1mIo",
+    "specs": {
+      "Keyboard": "Furycube M30HE",
+      "Keycaps": "Keyreative Blanks + Yuzu Keycaps",
+      "Switches": "Magnetic Axis Algorithm 3.0 (?)",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Steel",
+      "Mount": "Tray Mount",
+      "Stabilizers": "Plate Mount stock",
+      "PCB": "-",
+      "Others": "dont buy this"
+    }
+  },
+  {
     "id": "MNhcefyyKrw",
     "title": "Oblique",
     "youtubeTitle": "Oblique with lubed Cherry MX Blacks",
