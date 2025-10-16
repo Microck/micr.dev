@@ -33,6 +33,16 @@ the “syro cd” artwork got replaced with a full-body commission of my charact
 all data is neatly organized into a `.json` file, so i can update stuff easily.  
 font used: **DecimaMono**, same as the *syro* cover.
 
+under the hood, the page is almost entirely data-driven. the main file, `index.html`, is more of a skeleton; mostly empty except for a few containers like `<div class="grid-container">`.  
+when the page loads, `script.js` fetches the contents of `data.json` asynchronously and uses `document.createElement()` to generate every entry on the fly. nothing is hardcoded. it loops through each section in the data and maps properties like `image`, `link`, and `name` to actual html attributes.  
+
+tooltip text is handled entirely in css using `content: attr(data-tooltip)` for hover states, and the layout runs on a single grid rule:  
+```css
+grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+```
+that one line makes the page automatically responsive without a single media query.  
+it’s a simple system, but it behaves more like a tiny single-page app than a traditional static webpage. content is completely separate from design, so it’s easy to grow, maintain, or redesign whenever i want.
+
 # micr.dev/quarzite
 ![chrome-capture-2025-08-23 (3)](https://github.com/user-attachments/assets/ceb2403f-74f3-43fb-8eec-49eb4db99ab3)
 
@@ -46,19 +56,22 @@ something that didn’t outshine the art, but still had interactivity and charm.
 i almost went full *neocities y2k*, but honestly, i didn’t have the hours & patience for that level of detail.  
 then i discovered [98.css](https://jdan.github.io/98.css): that sealed the deal.
 
-the gallery uses `200x200px` thumbnail containers; click one to open a popup with info (artist, date, notes, and sometimes little trivia).
+everything on the page is built from simple html components styled by it:  
+`<div class="window">`, `<div class="title-bar">`, and `<div class="window-body">` form the base structure.  
+each window is draggable, resizable, and layered using a small custom javascript file. internally, the script tracks one shared variable called `highestZ`. each time you click a window, its z-index updates to match that new number, keeping the active one on top. the drag behavior uses the standard `mousedown`, `mousemove`, and `mouseup` cycle: the script grabs your starting cursor position, calculates the offsets while moving, and updates the window coordinates in real time. letting go of the mouse ends the drag cleanly.  
 
-besides the gallery, there’s an “information” window describing quarzite’s appearance and personality.  
-then a playful one. it started empty but evolved into random quotes, [clippy](https://en.wikipedia.org/wiki/Office_Assistant)-like messages, and easter eggs.  
-even added a paint window via [jspaint](https://jspaint.app/) integration.  
-
-more than **40 random scenarios:**  
+a separate section of the code handles window content and randomness. when the page loads, the script runs a tiny randomizer that decides what fills the bottom right window. sometimes it’s a [clippy](https://en.wikipedia.org/wiki/Office_Assistant) quote, sometimes a notepad, and sometimes a small embedded [jspaint](https://jspaint.app/) session. more than **40 different scenarios** are possible:
 * 35+ clippy quotes  
 * 8 notepad layouts  
-* 1 paint window (3/30 chance of appearing)
+* 1 paint window *(3/30 chance of appearing)*  
 
-it’s all wrapped with authentic win98 tilesets, sound effects, draggable + resizable windows,  
-and yes, a tiny [neko cursor cat](https://en.wikipedia.org/wiki/Neko_(software)) running across the screen. although you do have to click it for it to chase your mouse.
+sound design comes from [howler.js](https://howlerjs.com/), giving each action (opening, clicking, closing...) a small audio response. it’s subtle but makes everything feel tactile.
+
+design-wise, the gallery follows a simple structure: `200x200px` thumbnails you can click to open a popup with more info. each one includes artist names, dates, and sometimes small trivia about how or why i commissioned that piece. there’s also an “information” window that describes quarzite’s character in more detail.
+
+then there’s the tiny [neko cursor cat](https://en.wikipedia.org/wiki/Neko_(software)). the script behind it loops every few milliseconds, switching sprite frames depending on what it’s doing. it checks your cursor’s position and follows it when you click to wake it up, or idles when the mouse is still. it’s simple, but it adds the illusion of a little companion quietly existing on your desktop.
+
+oh, and don’t forget neko. the small [neko cursor cat](https://en.wikipedia.org/wiki/Neko_(software)) quietly lives on the desktop, waiting to be clicked awake. it doesn’t do much on its own.
 
 # micr.dev/microkeebs
 <img width="1899" height="953" alt="Screenshot_1316" src="https://github.com/user-attachments/assets/c5cab624-7b15-4969-8996-3087c7e60623" />
