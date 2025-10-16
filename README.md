@@ -40,11 +40,7 @@ font used: **DecimaMono**, same as the *syro* cover.
 under the hood, the page is almost entirely data-driven. the main file, `index.html`, is more of a skeleton; mostly empty except for a few containers like `<div class="grid-container">`.  
 when the page loads, `script.js` fetches the contents of `data.json` asynchronously and uses `document.createElement()` to generate every entry on the fly. nothing is hardcoded. it loops through each section in the data and maps properties like `image`, `link`, and `name` to actual html attributes.  
 
-tooltip text is handled entirely in css using `content: attr(data-tooltip)` for hover states, and the layout runs on a single grid rule:
-
-```css
-grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-```
+tooltip text is handled entirely in css using `content: attr(data-tooltip)` for hover states, and the layout runs on a single grid rule: `grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));`
 
 that one line makes the page automatically responsive without a single media query.  
 it’s a simple system, but it behaves more like a tiny single-page app than a traditional static webpage. content is completely separate from design, so it’s easy to grow, maintain, or redesign whenever i want.
@@ -87,7 +83,28 @@ oh, and don’t forget neko. the small [neko cursor cat](https://en.wikipedia.or
 # micr.dev/microkeebs
 <img width="1899" height="953" alt="Screenshot_1316" src="https://github.com/user-attachments/assets/c5cab624-7b15-4969-8996-3087c7e60623" />
 
-[wip](https://micr.dev/microkeebs) → a work-in-progress section about my custom keyboards webpage.
+[**micr.dev/microkeebs**](https://micr.dev/microkeebs) is a complete system built to catalog, display, and rank my mechanical keyboards. it’s fully structured: every card, every filter, and every ranking is generated from data files, not static html. what looks like a simple gallery is actually an organized design and data layer built to scale as my collection grows.
+
+the main **builds page** shows all keyboards in a responsive grid. you can switch between **All**, **MX**, and **EC**, sort by **Newest** or **Oldest**, and optionally toggle **timestamps** (ex. _DD/MM/YYYY_) or **build info** (ex. _Cherry MX Blacks_ or _Lubed and Silenced_). the layout adapts automatically to either light or dark mode, managed by independent css variables rather than separate stylesheets.  
+
+each keyboard card links to its own page, following a clean, predictable url structure:  
+- base format: `https://micr.dev/microkeebs/#/builds/{slug}`  
+- each `slug` uses lowercase hyphenated names  
+- if a board has multiple builds, later ones append an index: `slug/2`, `slug/3`, etc  
+
+examples:  
+- [geonworks f1-8x v2 with dry cherry mx2a browns](https://micr.dev/microkeebs/#/builds/geonworks-f1-8x-v2) 
+- [lubed & silenced 2007 hhkb pro 2](https://micr.dev/microkeebs/#/builds/2007-hhkb-pro-2)  
+- [tgr jane v2 ce with lubed vintage cherry mx blacks](https://micr.dev/microkeebs/#/builds/tgr-jane-v2-ce/1)
+- [tgr jane v2 ce with lubed cherry razer oranges](https://micr.dev/microkeebs/#/builds/tgr-jane-v2-ce/2)  
+
+each build page contains a large image carousel with thumbnails, a sound test embed, and a detailed specification list. it always includes the keyboard model, switch type, lube method, plate, mount, caps, and any modifications. the goal is consistency: all data follows the same structure internally so new keyboards can be added instantly without manual layout edits.  
+
+next to the gallery is the **ranking system**, split into distinct categories: **All**, **Look**, **Sound**, **Feel**, **Mechanical**, and **Electrocapacitive**. builds appear depending on its position defined inside `rankings.json`, the file that drives the entire ranking page. internally, it uses the sound test youtube id (the one from the url). this file maps each board’s slug to its category and rank, along with an index-based logic system for sorting and rendering.  
+
+beneath all of that sits a small but consistent **design framework**. typography stays uniform with **Hubot Sans**, grid spacing is based on css variables, and both color palettes (light and dark) share a single root system. all keyboard data, rankings, and info arrays live in separate json files, keeping presentation fully detached from content.
+
+the result is a semi-automated and curated archive. simple to browse.
 
 ---
 
