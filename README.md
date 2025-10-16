@@ -12,7 +12,7 @@ here’s [micr.dev/tree](https://micr.dev/tree), a minimal landing page linking 
 basically an index.
 
 i made it because a lot of people thought the 3d site froze or crashed before realizing it just needed a few extra seconds.  
-this solves that. one link, no waiting, no gpu drama.
+this solves that. one link, no waiting.
 
 # micr.dev/about
 <img width="1843" height="983" alt="Screenshot_1325" src="https://github.com/user-attachments/assets/b0be87e9-e013-48db-94c0-17dfb1037adb" />
@@ -38,20 +38,20 @@ font used: **DecimaMono**, same as the *syro* cover.
 # micr.dev/quarzite
 ![chrome-capture-2025-08-23 (3)](https://github.com/user-attachments/assets/ceb2403f-74f3-43fb-8eec-49eb4db99ab3)
 
-i created [quarzite](https://micr.dev/quarzite) in 2022, a digital version of myself for online spaces.  
+i created [quarzite](https://micr.dev/quarzite) in +-2022, a sort-of digital version of myself for online spaces.  
 i slowly collected art and commissions but never had a good place to show them off.  
 that changed when i came across [dimden’s oc gallery](https://dimden.dev/gallery/) in early 2025.
 
 the simplicity of that site hit me, i wanted to recreate that same vibe.  
 something that didn’t outshine the art, but still had interactivity and charm.
 
-i almost went full *neocities y2k*, but honestly, i didn’t have the hours for that level of detail.  
+i almost went full *neocities y2k*, but honestly, i didn’t have the hours & patience for that level of detail.  
 then i discovered [98.css](https://jdan.github.io/98.css): that sealed the deal.
 
 the gallery uses `200x200px` thumbnail containers; click one to open a popup with info (artist, date, notes, and sometimes little trivia).
 
 besides the gallery, there’s an “information” window describing quarzite’s appearance and personality.  
-then a playful “notepad” one. it started empty but evolved into random quotes, [clippy](https://en.wikipedia.org/wiki/Office_Assistant)-like messages, and easter eggs.  
+then a playful one. it started empty but evolved into random quotes, [clippy](https://en.wikipedia.org/wiki/Office_Assistant)-like messages, and easter eggs.  
 even added a paint window via [jspaint](https://jspaint.app/) integration.  
 
 more than **40 random scenarios:**  
@@ -65,7 +65,7 @@ and yes, a tiny [neko cursor cat](https://en.wikipedia.org/wiki/Neko_(software))
 # micr.dev/microkeebs
 <img width="1899" height="953" alt="Screenshot_1316" src="https://github.com/user-attachments/assets/c5cab624-7b15-4969-8996-3087c7e60623" />
 
-[wip](https://micr.dev/microkeebs) → a work-in-progress section about my custom keyboards.
+[wip](https://micr.dev/microkeebs) → a work-in-progress section about my custom keyboards webpage.
 
 # micr.dev/wip
 [screenshot]
