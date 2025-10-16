@@ -20,10 +20,8 @@ this solves that. one link, no waiting.
 i’ve always had terrible passive recall; stuff like “what films inspire me?” or “what fragrance was that again?” just disappears.  
 so i made [micr.dev/about](https://micr.dev/about). part portfolio, part personal archive.
 
-the design pulls heavy inspiration from aphex twin’s *[syro](https://warp.net/releases/71826-aphex-twin-syro/)* album art.  
+the design pulls heavy inspiration from aphex twin’s *[syro](https://en.wikipedia.org/wiki/Syro)* album art.  
 side by side it’s pretty obvious. i fell in love with its minimalism, clean type, and neutral greens. so i decided to make my own version.
-
-<img width="500" height="auto" alt="SharpnelSampler - Aphex Twin - produk 29  101   u47GnMsgoCo - 1404x790 - 0m27s" src="https://github.com/user-attachments/assets/6be2fb36-7246-417e-98ad-c3430c1b91d9" />
 
 the page starts with a short intro (name, pronouns, quick overview),  
 then lists what i enjoy → series, anime, films, games, art styles, fashion, fonts, music, and random entries at the end.  
