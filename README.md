@@ -5,6 +5,8 @@ a small [3d portfolio site](https://micr.dev) made with [spline](https://spline.
 looks cool, runs smooth... *if* your browser’s hardware acceleration is on.  
 (if it’s not… well, that’s where the next part comes in.)
 
+---
+
 # micr.dev/tree
 ![chrome-capture-2025-08-23](https://github.com/user-attachments/assets/e2543240-0c2b-4825-bd31-b7e091c76c34)
 
@@ -13,6 +15,8 @@ basically an index.
 
 i made it because a lot of people thought the 3d site froze or crashed before realizing it just needed a few extra seconds.  
 this solves that. one link, no waiting.
+
+---
 
 # micr.dev/about
 <img width="1843" height="983" alt="Screenshot_1325" src="https://github.com/user-attachments/assets/b0be87e9-e013-48db-94c0-17dfb1037adb" />
@@ -36,12 +40,16 @@ font used: **DecimaMono**, same as the *syro* cover.
 under the hood, the page is almost entirely data-driven. the main file, `index.html`, is more of a skeleton; mostly empty except for a few containers like `<div class="grid-container">`.  
 when the page loads, `script.js` fetches the contents of `data.json` asynchronously and uses `document.createElement()` to generate every entry on the fly. nothing is hardcoded. it loops through each section in the data and maps properties like `image`, `link`, and `name` to actual html attributes.  
 
-tooltip text is handled entirely in css using `content: attr(data-tooltip)` for hover states, and the layout runs on a single grid rule:  
+tooltip text is handled entirely in css using `content: attr(data-tooltip)` for hover states, and the layout runs on a single grid rule:
+
 ```css
 grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
 ```
+
 that one line makes the page automatically responsive without a single media query.  
 it’s a simple system, but it behaves more like a tiny single-page app than a traditional static webpage. content is completely separate from design, so it’s easy to grow, maintain, or redesign whenever i want.
+
+---
 
 # micr.dev/quarzite
 ![chrome-capture-2025-08-23 (3)](https://github.com/user-attachments/assets/ceb2403f-74f3-43fb-8eec-49eb4db99ab3)
@@ -61,6 +69,7 @@ everything on the page is built from simple html components styled by it:
 each window is draggable, resizable, and layered using a small custom javascript file. internally, the script tracks one shared variable called `highestZ`. each time you click a window, its z-index updates to match that new number, keeping the active one on top. the drag behavior uses the standard `mousedown`, `mousemove`, and `mouseup` cycle: the script grabs your starting cursor position, calculates the offsets while moving, and updates the window coordinates in real time. letting go of the mouse ends the drag cleanly.  
 
 a separate section of the code handles window content and randomness. when the page loads, the script runs a tiny randomizer that decides what fills the bottom right window. sometimes it’s a [clippy](https://en.wikipedia.org/wiki/Office_Assistant) quote, sometimes a notepad, and sometimes a small embedded [jspaint](https://jspaint.app/) session. more than **40 different scenarios** are possible:
+
 * 35+ clippy quotes  
 * 8 notepad layouts  
 * 1 paint window *(3/30 chance of appearing)*  
@@ -73,10 +82,14 @@ then there’s the tiny [neko cursor cat](https://en.wikipedia.org/wiki/Neko_(so
 
 oh, and don’t forget neko. the small [neko cursor cat](https://en.wikipedia.org/wiki/Neko_(software)) quietly lives on the desktop, waiting to be clicked awake. it doesn’t do much on its own.
 
+---
+
 # micr.dev/microkeebs
 <img width="1899" height="953" alt="Screenshot_1316" src="https://github.com/user-attachments/assets/c5cab624-7b15-4969-8996-3087c7e60623" />
 
 [wip](https://micr.dev/microkeebs) → a work-in-progress section about my custom keyboards webpage.
+
+---
 
 # micr.dev/wip
 [screenshot]
