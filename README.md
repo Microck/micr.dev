@@ -56,7 +56,7 @@ even added a paint window via [jspaint](https://jspaint.app/) integration.
 
 more than **40 random scenarios:**  
 * +35 clippy quotes  
-* 5 notepad layouts  
+* 8 notepad layouts  
 * 1 paint window (3/30 chance of appearing)
 
 it’s all wrapped with authentic win98 tilesets, sound effects, draggable + resizable windows,  
