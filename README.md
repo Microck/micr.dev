@@ -102,13 +102,19 @@ examples:
   https://micr.dev/microkeebs/#/builds/tgr-jane-v2-ce/1  
   https://micr.dev/microkeebs/#/builds/tgr-jane-v2-ce/2
 
-each build page has a large image carousel with thumbnails, a sound test embed, and a clean specs list. fields are consistent across boards: `keyboard`, `switches` or `domes`, `lube`, `films`, `springs`, `plate`, `mount`, `stabilizers`, `pcb`, `artisans` or `notes`. empty or “-” values are hidden to keep it readable.
+each build page has a large **image carousel** with thumbnails, a **sound test embed**, and a clean **specs list**. fields are consistent across boards: `keyboard`, `switches` or `domes`, `lube`, `films`, `springs`, `plate`, `mount`, `stabilizers`, `pcb`, `artisans` or `notes`. empty or “-” values are hidden to keep it readable.
 
-the ranking view is split into categories: *all*, *look*,*sound*, *feel*, *mechanical*, and *electrocapacitive*. the source of truth for this is a single `rankings.json` file. it’s a simple system: each category is just an array of youtube video ids. the app reads those ids, finds the matching keyboard in `builds.json`, and renders the list in order. no complex logic, just a map. if i want to change the rankings, i just reorder the ids in that file.
+the ranking view is split into categories: *all*, *look*,*sound*, *feel*, *mechanical*, and *electrocapacitive*. the source of truth for this is a single `rankings.json` file. it’s a simple system: each category **is just an array of youtube video ids**. the app reads those ids, finds the matching keyboard in `builds.json`, and renders the list in order. no complex logic, just a map. if i want to change the rankings, i just reorder the ids in that file.
 
 the site runs on a simple `hash-based router`. all navigation, from the gallery to a specific build page, is handled by listening for changes in the url after the `#`. the rules for slugs live in `utils/slugUtils.ts`. a `slugify` function turns keyboard titles into clean, lowercase urls. if a board has multiple builds, the script sorts them by date and assigns a number, like `/tgr-jane-v2-ce/1` and `/tgr-jane-v2-ce/2`. it keeps the links stable and predictable.
 
-the data pipeline is semi-automated: a node script connects to the youtube api using a key and two playlist ids (one for `mx`, one for `ec`). it fetches all video metadata, cleans up the titles, parses the description for specs, downloads the highest-res thumbnail, and writes everything to `builds.json`. there are also two small python scripts for image management: one converts everything to lossless webp for performance, and the other cleans up the original files once the webp version is confirmed to exist.
+the data pipeline is **semi‑automated**:
+
+→ a node script connects to the youtube api using a key and two playlist ids *(one for `mx`, one for `ec`)*  
+→ it fetches all video metadata, cleans up the titles, parses the description for specs, downloads the highest‑res thumbnail, and writes everything to `builds.json`  
+→ two small python scripts handle image management:  
+ ↳ one converts everything to lossless webp for performance  
+ ↳ the other deletes the original file once the webp version is confirmed to exist
 
 `builds.json` is the catalog. each item includes `id` (youtube id), `title`, `youtubeTitle`, `category` (mx or ec), `timestamp`, `images[]`, `youtubeUrl`, and `specs{}`. build info under the card title is derived from the video title with small heuristics. for `ec` it recognizes “lubed and silenced”, “lubed”, and “stock”. for `mx` it grabs everything after “ with ” (also handles “ con ” for spanish titles), including “dry”, “unlubed”, etc.
 
