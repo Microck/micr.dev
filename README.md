@@ -100,11 +100,11 @@ examples:
   https://micr.dev/microkeebs/#/builds/tgr-jane-v2-ce/1  
   https://micr.dev/microkeebs/#/builds/tgr-jane-v2-ce/2
 
+the site runs on a simple `hash-based router`. all navigation, from the gallery to a specific build page, is handled by listening for changes in the url after the `#`. the rules for slugs live in `utils/slugUtils.ts`. a `slugify` function turns keyboard titles into clean, lowercase urls. if a board has multiple builds, the script sorts them by date and assigns a number, like `/tgr-jane-v2-ce/1` and `/tgr-jane-v2-ce/2`. it keeps the links stable and predictable.
+
 each build page has a large **image carousel** with thumbnails, a **sound test embed**, and a clean **specs list**. fields are consistent across boards: `keyboard`, `switches` or `domes`, `lube`, `films`, `springs`, `plate`, `mount`, `stabilizers`, `pcb`, `artisans` or `notes`. empty or “-” values are hidden to keep it readable.
 
 the ranking view is split into categories: *all*, *look*,*sound*, *feel*, *mechanical*, and *electrocapacitive*. the source of truth for this is a single `rankings.json` file. it’s a simple system: each category **is just an array of youtube video ids**. the app reads those ids, finds the matching keyboard in `builds.json`, and renders the list in order. no complex logic, just a map. if i want to change the rankings, i just reorder the ids in that file.
-
-the site runs on a simple `hash-based router`. all navigation, from the gallery to a specific build page, is handled by listening for changes in the url after the `#`. the rules for slugs live in `utils/slugUtils.ts`. a `slugify` function turns keyboard titles into clean, lowercase urls. if a board has multiple builds, the script sorts them by date and assigns a number, like `/tgr-jane-v2-ce/1` and `/tgr-jane-v2-ce/2`. it keeps the links stable and predictable.
 
 the data pipeline is **semi‑automated**:
 
