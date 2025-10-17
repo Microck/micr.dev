@@ -48,9 +48,9 @@ it’s a simple system, but it behaves more like a tiny single-page app than a t
 ---
 
 # micr.dev/quarzite
-<img width="1899" height="953" alt="Screenshot_1316" src="https://github.com/user-attachments/assets/ceb2403f-74f3-43fb-8eec-49eb4db99ab3" />
+<img width="1919" height="968" alt="Screenshot_1335" src="https://github.com/user-attachments/assets/ad2532d9-1932-485f-bd84-71ad160ddc21" />
 
-i created [quarzite](https://micr.dev/quarzite) in +-2022, a sort-of digital version of myself for online spaces.  
+i created [quarzite](https://micr.dev/quarzite) in +-2022, a sort-of digital version to represent myself in online spaces.  
 i slowly collected art and commissions but never had a good place to show them off.  
 that changed when i came across [dimden’s oc gallery](https://dimden.dev/gallery/) in early 2025.
 
@@ -70,7 +70,7 @@ a separate section of the code handles window content and randomness. when the p
 * 8 notepad layouts  
 * 1 paint window *(3/30 chance of appearing)*  
 
-sound design comes from [howler.js](https://howlerjs.com/), giving each action (opening, clicking, closing...) a small audio response. it’s subtle but makes everything feel tactile.
+sound design comes from [howler.js](https://howlerjs.com/), giving each action (opening, clicking, closing...) a small audio response from the original windows98 system. it’s subtle but makes everything feel tactile.
 
 design-wise, the gallery follows a simple structure: `200x200px` thumbnails you can click to open a popup with more info. each one includes artist names, dates, and sometimes small trivia about how or why i commissioned that piece. there’s also an “information” window that describes quarzite’s character in more detail.
 
