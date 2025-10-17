@@ -74,8 +74,6 @@ sound design comes from [howler.js](https://howlerjs.com/), giving each action (
 
 design-wise, the gallery follows a simple structure: `200x200px` thumbnails you can click to open a popup with more info. each one includes artist names, dates, and sometimes small trivia about how or why i commissioned that piece. there’s also an “information” window that describes quarzite’s character in more detail.
 
-then there’s the tiny [neko cursor cat](https://en.wikipedia.org/wiki/Neko_(software)). the script behind it loops every few milliseconds, switching sprite frames depending on what it’s doing. it checks your cursor’s position and follows it when you click to wake it up, or idles when the mouse is still. it’s simple, but it adds the illusion of a little companion quietly existing on your desktop.
-
 oh, and don’t forget neko. the small [neko cursor cat](https://en.wikipedia.org/wiki/Neko_(software)) quietly lives on the desktop, waiting to be clicked awake. it doesn’t do much on its own.
 
 ---
