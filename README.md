@@ -3,7 +3,7 @@
 
 a small [3d portfolio site](https://micr.dev) made with [spline](https://spline.design).  
 looks cool, runs smooth... *if* your browser’s hardware acceleration is on.  
-(if it’s not… well, that’s where the next part comes in.)
+(if it’s not… well, that’s where the next part comes in)
 
 ---
 
@@ -128,15 +128,13 @@ the whole system is designed to be easy to maintain. to add a new build, i just 
 # micr.dev/wip
 <img width="1919" height="395" alt="wip" src="https://github.com/user-attachments/assets/f51d2c95-7b60-4b55-aa04-49168b922dde" />
 
-
-
 self-explanatory placeholder me thinks.
 
 ---
 
 # license
 
-**© [micr.dev](https://micr.dev) 2025 ∷ all rights reserved.**
+**© _micr.dev_ 2025 ∷ all rights reserved.**
 
 all code, design, writing, and media assets in this repository are fully owned by me.  
 nothing in this repo may be copied, reused, modified, or distributed without my explicit written permission.  
