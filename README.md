@@ -48,7 +48,7 @@ it’s a simple system, but it behaves more like a tiny single-page app than a t
 ---
 
 # micr.dev/quarzite
-![chrome-capture-2025-08-23 (3)](https://github.com/user-attachments/assets/ceb2403f-74f3-43fb-8eec-49eb4db99ab3)
+<img width="1899" height="953" alt="Screenshot_1316" src="https://github.com/user-attachments/assets/ceb2403f-74f3-43fb-8eec-49eb4db99ab3" />
 
 i created [quarzite](https://micr.dev/quarzite) in +-2022, a sort-of digital version of myself for online spaces.  
 i slowly collected art and commissions but never had a good place to show them off.  
