@@ -110,11 +110,11 @@ the site runs on a simple `hash-based router`. all navigation, from the gallery 
 
 the data pipeline is **semi‑automated**:
 
-→ a node script connects to the youtube api using a key and two playlist ids *(one for `mx`, one for `ec`)*  
-→ it fetches all video metadata, cleans up the titles, parses the description for specs, downloads the highest‑res thumbnail, and writes everything to `builds.json`  
-→ two small python scripts handle image management:  
- ↳ one converts everything to lossless webp for performance  
- ↳ the other deletes the original file once the webp version is confirmed to exist
+1. a node script connects to the youtube api using a key and two playlist ids *(one for `mx`, one for `ec`)*  
+2. it fetches all video metadata, cleans up the titles, parses the description for specs, downloads the highest‑res thumbnail, and writes everything to `builds.json`  
+3. two small python scripts handle image management:  
+ → one converts everything to lossless webp for performance  
+ → the other deletes the original file once the webp version is confirmed to exist
 
 `builds.json` is the catalog. each item includes `id` (youtube id), `title`, `youtubeTitle`, `category` (mx or ec), `timestamp`, `images[]`, `youtubeUrl`, and `specs{}`. build info under the card title is derived from the video title with small heuristics. for `ec` it recognizes “lubed and silenced”, “lubed”, and “stock”. for `mx` it grabs everything after “ with ” (also handles “ con ” for spanish titles), including “dry”, “unlubed”, etc.
 
