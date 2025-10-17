@@ -85,12 +85,12 @@ oh, and don’t forget neko. the small [neko cursor cat](https://en.wikipedia.or
 
 [**micr.dev/microkeebs**](https://micr.dev/microkeebs) is a complete system built to catalog, display, and rank my mechanical keyboards. it’s fully structured: every card, every filter, and every ranking is generated from data files, not static html. what looks like a simple gallery is an organized design + data layer that scales as the collection grows.
 
-the **main builds page** shows everything in a responsive grid. you can switch between All, MX, and EC, sort by Newest or Oldest, and optionally toggle timestamps (your locale format) or build info (pulled from the video title — things like “Cherry MX Blacks” or “Lubed and Silenced”). theme switches between light and dark via a small react context and persists to localStorage.
+the main **builds page** shows all keyboards in a responsive grid. you can switch between `all`, `mx`, and `ec`, sort by **newest** or **oldest**, and optionally toggle **timestamps** (ex. _DD/MM/YYYY_) or **build info** (ex. _cherry mx blacks_ or _lubed and silenced_). theme switches between light and dark via a small react context and persists to localStorage.
 
 each keyboard card links to its own page with a predictable **url structure**:
-- base: `https://micr.dev/microkeebs/#/builds/{slug}`
-- slug is the lowercase, hyphenated title
-- if a model has multiple distinct builds, the path appends a counter in chronological order: `/{slug}/1`, `/{slug}/2`, `/{slug}/3`  
+1. base: `https://micr.dev/microkeebs/#/builds/{slug}`
+2. slug is the lowercase, hyphenated title
+3. if a model has multiple distinct builds, the path appends a counter in chronological order: `/{slug}/1`, `/{slug}/2`, `/{slug}/3`  
   the unsuffixed path resolves to the first build of that title
 
 examples:
@@ -102,21 +102,20 @@ examples:
   https://micr.dev/microkeebs/#/builds/tgr-jane-v2-ce/1  
   https://micr.dev/microkeebs/#/builds/tgr-jane-v2-ce/2
 
-each build page has a large image carousel with thumbnails, a sound test embed, and a clean specs list. fields are consistent across boards: keyboard, switches or domes, lube, films, springs, plate, mount, stabilizers, pcb, artisans or notes. empty or “-” values are hidden to keep it readable.
+each build page has a large image carousel with thumbnails, a sound test embed, and a clean specs list. fields are consistent across boards: `keyboard`, `switches` or `domes`, `lube`, `films`, `springs`, `plate`, `mount`, `stabilizers`, `pcb`, `artisans` or `notes`. empty or “-” values are hidden to keep it readable.
 
-the ranking view is split into categories: *all*, *look*, *sound*, *feel*, *mechanical*, and *electrocapacitive*. the source of truth for this is a single `rankings.json` file. it’s a simple system: each category is just an array of youtube video ids. the app reads those ids, finds the matching keyboard in `builds.json`, and renders the list in order. no complex logic, just a map. if i want to change the rankings, i just reorder the ids in that file.
+the ranking view is split into categories: *all*, *look*,*sound*, *feel*, *mechanical*, and *electrocapacitive*. the source of truth for this is a single `rankings.json` file. it’s a simple system: each category is just an array of youtube video ids. the app reads those ids, finds the matching keyboard in `builds.json`, and renders the list in order. no complex logic, just a map. if i want to change the rankings, i just reorder the ids in that file.
 
-the site runs on a simple hash-based router. all navigation, from the gallery to a specific build page, is handled by listening for changes in the url after the `#`. the rules for slugs live in `utils/slugUtils.ts`. a `slugify` function turns keyboard titles into clean, lowercase urls. if a board has multiple builds, the script sorts them by date and assigns a number, like `/tgr-jane-v2-ce/1` and `/tgr-jane-v2-ce/2`. it keeps the links stable and predictable.
+the site runs on a simple `hash-based router`. all navigation, from the gallery to a specific build page, is handled by listening for changes in the url after the `#`. the rules for slugs live in `utils/slugUtils.ts`. a `slugify` function turns keyboard titles into clean, lowercase urls. if a board has multiple builds, the script sorts them by date and assigns a number, like `/tgr-jane-v2-ce/1` and `/tgr-jane-v2-ce/2`. it keeps the links stable and predictable.
 
-the data pipeline is semi-automated. a node script connects to the youtube api using a key and two playlist ids (one for mx, one for ec). it fetches all video metadata, cleans up the titles, parses the description for specs, downloads the highest-res thumbnail, and writes everything to `builds.json`. there are also two small python scripts for image management: one converts everything to lossless webp for performance, and the other cleans up the original files once the webp version is confirmed to exist.
+the data pipeline is semi-automated: a node script connects to the youtube api using a key and two playlist ids (one for `mx`, one for `ec`). it fetches all video metadata, cleans up the titles, parses the description for specs, downloads the highest-res thumbnail, and writes everything to `builds.json`. there are also two small python scripts for image management: one converts everything to lossless webp for performance, and the other cleans up the original files once the webp version is confirmed to exist.
 
-`builds.json` is the catalog. each item includes `id` (youtube id), `title`, `youtubeTitle`, `category` (MX or EC), `timestamp`, `images[]`, `youtubeUrl`, `specs{}`. build info under the card title is derived from the video title with small heuristics. for EC it recognizes “lubed and silenced”, “lubed”, and “stock”. for MX it grabs everything after “ with ” (also handles “ con ” for spanish titles), including “dry”, “unlubed”, etc.
+`builds.json` is the catalog. each item includes `id` (youtube id), `title`, `youtubeTitle`, `category` (mx or ec), `timestamp`, `images[]`, `youtubeUrl`, and `specs{}`. build info under the card title is derived from the video title with small heuristics. for `ec` it recognizes “lubed and silenced”, “lubed”, and “stock”. for `mx` it grabs everything after “ with ” (also handles “ con ” for spanish titles), including “dry”, “unlubed”, etc.
 
-the design itself is built with tailwind, using **consolas** for body text and **share tech mono** for titles to keep that clean, technical feel. animations are handled with a few custom css classes for fades, slides, and a soft float on the ranking numbers. the gold, silver, and bronze gradients for the top three ranks are just a small touch to make the lists feel a bit more special. the theme toggle is a simple react context that writes `light` or `dark` to `localStorage`, so your choice is remembered. there’s also a small notice for mobile users that stores its dismissed state in `localStorage` so it doesn’t reappear. images are served from `public/images/{videoId}/`, with components showing a loading skeleton and a placeholder if an asset fails to load.
+the design itself is built with `tailwind`, using `consolas` for body text and `share tech mono` for titles. animations are handled with a few custom css classes for fades, slides, and a soft float on the ranking numbers. the gold, silver, and bronze gradients for the top three ranks are just a small touch to make the lists feel a bit more special.
+the theme toggle is a simple react context that writes `light` or `dark` to `localStorage`, so your choice is remembered. there’s also a small notice for mobile users that stores its dismissed state in `localStorage` so it doesn’t reappear. images are served from `public/images/{videoId}/`, with components showing a loading skeleton and a placeholder if an asset fails to load.
 
-the whole system is designed to be easy to maintain. to add a new build, i just upload the video to the right youtube playlist and run the node script. to change the rankings, i just edit the `rankings.json` file. the ui takes care of the rest.
-
-the result is a semi-automated archive that stays consistent. clean and easy to browse.
+the whole system is designed to be easy to maintain. to add a new build, i just upload the video to the right youtube playlist and run the node script. to change the rankings, i just edit the `rankings.json` file. the ui takes care of the rest. the result is a semi-automated archive that stays consistent. clean and easy to browse.
 
 ---
 
@@ -124,7 +123,8 @@ the result is a semi-automated archive that stays consistent. clean and easy to 
 <img width="1919" height="395" alt="wip" src="https://github.com/user-attachments/assets/f51d2c95-7b60-4b55-aa04-49168b922dde" />
 
 
-self-explanatory placeholder.
+
+self-explanatory placeholder me thinks.
 
 ---
 
