@@ -1,5 +1,29 @@
 [
   {
+    "id": "S3VDDnTtocI",
+    "title": "Leopold FC980M",
+    "youtubeTitle": "Leopold FC980M with Retooled Cherry MX Browns",
+    "category": "MX",
+    "timestamp": "2025-10-19T13:00:52Z",
+    "images": [
+      "./images/S3VDDnTtocI/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/S3VDDnTtocI",
+    "specs": {
+      "Keyboard": "Leopold FC980M (Blue-ish gray)",
+      "Keycaps": "Stock (PBT Doubleshot)",
+      "Switches": "Retooled Cherry MX Browns",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Full Steel",
+      "Mount": "Tray Mount",
+      "Stabilizers": "Plate Mount with Dialectric Grease",
+      "PCB": "Stock",
+      "Others": "Case Foam"
+    }
+  },
+  {
     "id": "yYX5OJg1mIo",
     "title": "Furycube M30HE",
     "youtubeTitle": "Furycube M30HE with Magnetic Axis 3.0",
