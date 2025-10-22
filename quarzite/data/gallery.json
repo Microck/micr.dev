@@ -148,6 +148,15 @@
         "name": "Asher",
         "url": ""
       }
+    },
+    {
+      "src": "assets/asher2.png",
+      "date": "2025-10-22",
+      "artist": {
+        "name": "Asher",
+        "url": ""
+      },
+      "desc": "<3"
     }
   ]
 }
