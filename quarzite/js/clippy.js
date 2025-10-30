@@ -47,6 +47,8 @@ const quotes = [
   "You know what a loser is? A real loser is somebody that is so afraid of not winning, they don't even try. Now, you're trying, right?", // *Little Miss Sunshine* (2006)
   "All animals are equal but some animals are more equal than others.", // George Orwell, *Animal Farm* (1945)
   "I know you. I know what you were, what you are. People don't change. You have regrets. And I'm telling you: don't bother. What's the point? You're just gonna keep hurting people. This is what you do. You hurt people, over and over and over. And then there's this show of remorse. I know you don't think it's a show. I don't doubt your emotions are real. But what's the point of all the sad faces and the gnashing of teeth? If you're not going to change your behavior — and you won't — why don't you skip the whole exercise? In the end, you're going to hurt everyone around you. You can't help it. So stop apologizing and accept it.", // Chuck McGill, *Better Call Saul* (Season 3, 2017)
+  "Chapter thirty-one: Nothing much else happened, all the rest of that night." // Ray bradbury, *Something Wicked This Way Comes* (1962)
+  "It just sits there instead. Like water that forgot how to fall but still remembers being heavy. I carry it well."
   "One day, you're gonna wake up, eat your breakfast, brush your teeth, go about your business. And sooner or later, you're gonna realize you haven't thought about it. None of it. And that's the moment you realize you can forget. When you know that's possible, it all gets easier." // Mike Ehrmantraut, *Better Call Saul* (Season 2, 2016)
 ];
 
