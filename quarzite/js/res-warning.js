@@ -1,10 +1,8 @@
 (() => {
   const OPT_OUT_KEY = "resWarn:optOut";
-  const TARGET = { w: 1920, h: 1080 };
-  // ±50 px on both width and height
-  const TOLERANCE = { w: 50, h: 50 };
-  // Initial load only (no resize re-check)
-  const USE_RESIZE_RECHECK = false;
+  const TARGET_W = 1920;
+  const TOLERANCE_W = 50; // width-only tolerance
+  const USE_RESIZE_RECHECK = false; // initial load only
 
   const storage = {
     get(key) {
@@ -25,10 +23,7 @@
 
   function isCompatible() {
     const w = window.innerWidth;
-    const h = window.innerHeight;
-    const wOk = Math.abs(w - TARGET.w) <= TOLERANCE.w;
-    const hOk = Math.abs(h - TARGET.h) <= TOLERANCE.h;
-    return wOk && hOk;
+    return Math.abs(w - TARGET_W) <= TOLERANCE_W;
   }
 
   function updateCurrent() {
@@ -41,6 +36,13 @@
     const backdrop = document.getElementById("res-warning-backdrop");
     const modal = document.getElementById("res-warning");
     if (!backdrop || !modal) return;
+
+    const msg = document.getElementById("res-warning-message");
+    if (msg) {
+      msg.textContent =
+        "Non-optimized width detected. For the best experience, set your " +
+        "browser zoom to around 50–80% or use a 1920 px-wide window/display.";
+    }
 
     updateCurrent();
     backdrop.hidden = false;
