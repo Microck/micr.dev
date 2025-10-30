@@ -15,29 +15,39 @@ const quotes = [
   "There is no audience to perform for, there is no approval, no admiration to attain. There is no role worth playing, there is no one to convince. Let it go.",
   "Do you remember the smell of sunscreen and chlorine? The warmth of the ground next to the pool? Your childhood has no idea who you are.",
   "For someone who plays the judge and jury, you sure are scared of being the executioner.",
-  "Should I kill myself or have a cup of coffee?", // Albert Camus, *The Myth of Sisyphus* (1942, paraphrased)
+  "Should I kill myself or have a cup of coffee?", // Albert Camus, *The Myth of Sisyphus* (1942)
   "The moment you stop fighting for what you believe in is the moment they take it away.",
-  "Black is modest and arrogant at the same time. Black is lazy and easy - but mysterious. But above all black says this: I don’t bother you - don’t bother me.", // Yohji Yamamoto
-  "You are alone, and below the stage the seats are empty. The theatre is dark. Why do you keep acting?", // Charles Bukowski
+  "Black is modest and arrogant at the same time. Black is lazy and easy - but mysterious. But above all black says this: I don’t bother you - don’t bother me.", // Yohji Yamamoto (1983)
+  "You are alone, and below the stage the seats are empty. The theatre is dark. Why do you keep acting?", // Charles Bukowski, *Love is a Dog from Hell* (1977)
   "For every push, there is a pull. A consequence.", // Brandon Sanderson, *Mistborn* (2006)
   "I became such a good swimmer that nobody thought to check if I was drowning.",
-  "And the only true justice was to let those dominant jackals feed on you. Survive off you.", // *Moral Orel* (2008)
+  "And the only true justice was to let those dominant jackals feed on you. Survive off you.", // *Moral Orel* (Season 3, 2008)
   "Despite everything, it's still you.", // Toby Fox, *Undertale* (2015)
   "Can you recall the last time someone looked at you and actually saw you? Not the mask, not the role, not the noise you put up to keep the room comfortable? That’s why you keep ending up here, feeling unseen in a crowded room.",
   "And what does that leave? A life where you’re crowded but hollow. Where every conversation feels like static. Where you go home at night with the sick realization that no one, not one person, knows the thoughts that keep you awake. You could disappear tomorrow, and they would only remember the outline you left behind, not the person who carried it.",
-  "This world is rotten, and those who are making it rot deserve to die.", // Light Yagami, *Death Note*
-  "I cannot make you understand. I cannot make anyone understand what is happening inside me. I cannot even explain it to myself.", // Franz Kafka
-  "Above all, avoid falsehood, every kind of falsehood, especially falseness to yourself.", // Fyodor Dostoevsky, *The Brothers Karamazov*
-  "Your worst sin is that you have destroyed and betrayed yourself for nothing.", // Fyodor Dostoevsky
+  "This world is rotten, and those who are making it rot deserve to die.", // Light Yagami, *Death Note* (2003)
+  "I cannot make you understand. I cannot make anyone understand what is happening inside me. I cannot even explain it to myself.", // Franz Kafka, *The Metamorphosis* (1915)
+  "Above all, avoid falsehood, every kind of falsehood, especially falseness to yourself.", // Fyodor Dostoevsky, *The Brothers Karamazov* (1880)
+  "Your worst sin is that you have destroyed and betrayed yourself for nothing.", // Fyodor Dostoevsky, *Crime and Punishment* (1866)
   "You didn't crawl through hell just to stop at the gates.",
   "The time will pass anyways.",
-  "Comparison is the thief of joy.",
+  "Comparison is the thief of joy.", // Theodore Roosevelt (1900s)
   "I’m the human embodiment of the sunk cost fallacy.",
-  "He did it well. He had to do it well. Some whispered about a supernatural skill on his part, that he was too talented for a fourteen-year-old boy. That infuriated him. It turned sweat into luck. Szeth hated that they thought he was something special. He wasn’t.", // Brandon Sanderson, *Wind and Truth: Stormlight Archive Book 5*
-  "To go wrong in one's own way is better than to go right in someone else's.", // Fyodor Dostoevsky, *Crime and Punishment*
-  "What do you do when there is an evil you cannot defeat by just means? Do you stain your hands with evil to destroy evil? Or do you remain steadfastly just and righteous even if it means surrendering to evil?", // Lelouch vi Britannia, *Code Geass*
-  "You can't change the world without getting your hands dirty.", // Lelouch vi Britannia, *Code Geass*
-  "And those who were seen dancing were thought to be insane by those who could not hear the music." // Friedrich Nietzsche
+  "He did it well. He had to do it well. Some whispered about a supernatural skill on his part, that he was too talented for a fourteen-year-old boy. That infuriated him. It turned sweat into luck. Szeth hated that they thought he was something special. He wasn’t.", // Brandon Sanderson, *Wind and Truth: Stormlight Archive Book 5* (2024)
+  "To go wrong in one's own way is better than to go right in someone else's.", // Fyodor Dostoevsky, *Crime and Punishment* (1866)
+  "What do you do when there is an evil you cannot defeat by just means? Do you stain your hands with evil to destroy evil? Or do you remain steadfastly just and righteous even if it means surrendering to evil?", // Lelouch vi Britannia, *Code Geass* (2006)
+  "You can't change the world without getting your hands dirty.", // Lelouch vi Britannia, *Code Geass* (2006)
+  "And those who were seen dancing were thought to be insane by those who could not hear the music.", // Friedrich Nietzsche, *Thus Spoke Zarathustra* (1885)
+  "I stopped explaining myself, because no matter what I said, people only heard what they wanted. I'm done giving pieces of my life; if you wanted to know me, you would.",
+  "Perhaps my only real expertise, my only talent, is to endure beyond the endurable. I have built a body that will not burn.",
+  "- Detention is so boring.\n+ Make a drawing! That’s what I do!\n- But we’re not allowed to have paper!\n+ Who needs paper? Draw on the desk!\n- Um… isn’t that vandalizing school property?\n+ Your heart’s not really in this, is it?", // Lincoln Peirce, *Big Nate* (1991)
+  "No no no no no no no no no no No no NO no, no no no no Nonono no no NO no No no no no no no No NO NO NO, no no no no Nonono no no NO no No no no no no no no no no no No nooo NO no, no no no no Nonono no no NO no", // glass beach, “bedroom community” (2019)
+  "What saved me is the idea of ███████. Without the idea of ███████ I would have surely ██████ ██████. What allowed me to keep on ██████ was knowing I had this option, always in sight. But really, without it I could have never endured ████. the impression of being stuck down here. For me the idea of ███████ is linked with the idea of freedom. With this idea, I could bear anything because everything depends on me.", // Emil Cioran, *The Trouble with Being Born* (1973)
+  "Only optimists commit suicide, optimists who no longer succeed at being optimists. The others, having no reason to live, why would they have any to die?", // Emil Cioran, *The Trouble with Being Born* (1973)
+  "You know what a loser is? A real loser is somebody that is so afraid of not winning, they don't even try. Now, you're trying, right?", // *Little Miss Sunshine* (2006)
+  "All animals are equal but some animals are more equal than others.", // George Orwell, *Animal Farm* (1945)
+  "I know you. I know what you were, what you are. People don't change. You have regrets. And I'm telling you: don't bother. What's the point? You're just gonna keep hurting people. This is what you do. You hurt people, over and over and over. And then there's this show of remorse. I know you don't think it's a show. I don't doubt your emotions are real. But what's the point of all the sad faces and the gnashing of teeth? If you're not going to change your behavior — and you won't — why don't you skip the whole exercise? In the end, you're going to hurt everyone around you. You can't help it. So stop apologizing and accept it.", // Chuck McGill, *Better Call Saul* (Season 3, 2017)
+  "One day, you're gonna wake up, eat your breakfast, brush your teeth, go about your business. And sooner or later, you're gonna realize you haven't thought about it. None of it. And that's the moment you realize you can forget. When you know that's possible, it all gets easier." // Mike Ehrmantraut, *Better Call Saul* (Season 2, 2016)
 ];
 
 // Track current quote index and typing state
