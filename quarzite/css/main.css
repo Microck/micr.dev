@@ -11,7 +11,7 @@
   --info-top: 148px;
   --info-width: 527px;
   --info-height: 403px;
-  
+
   --logo-top: 18px; /* adjust to move up/down */
 }
 
@@ -78,7 +78,7 @@
 --------------------------------*/
 #notepad-text {
   font-family: "FixedsysWin98", monospace;
-  font-size: 12px;   /* default, overridden by JS zoom */
+  font-size: 12px; /* default, overridden by JS zoom */
   line-height: 12px;
   white-space: pre;
   background: #fff;
@@ -174,7 +174,7 @@ body {
 
 body {
   margin: 0;
-  background-color: #56007e;                  /* fallback color */
+  background-color: #56007e; /* fallback color */
   background-image: url("../assets/tile.png"); /* ✅ tiled background */
   background-repeat: repeat;
   background-position: 0 0;
@@ -207,21 +207,21 @@ body {
 /* The container (your red box) */
 #logo-container {
   position: absolute;
-  top: -220px;                 /* stick to top */
-  left: 50%;              /* center horizontally */
+  top: -220px; /* stick to top */
+  left: 50%; /* center horizontally */
   transform: translateX(-50%);
-  width: 600px;           /* desired width */
-  height: 550px;          /* desired height */
+  width: 600px; /* desired width */
+  height: 550px; /* desired height */
   z-index: 1;
   padding: 20px;
-  overflow: hidden;       /* hide overflow if GIF is bigger */
+  overflow: hidden; /* hide overflow if GIF is bigger */
 }
 
 /* The GIF inside */
 #logo-img {
-  width: 100%;            /* stretch to container width */
-  height: 100%;           /* stretch to container height */
-  object-fit: fill;    /* keep aspect ratio, may letterbox */
+  width: 100%; /* stretch to container width */
+  height: 100%; /* stretch to container height */
+  object-fit: fill; /* keep aspect ratio, may letterbox */
   object-position: fill;
   image-rendering: pixelated;
 }
@@ -322,6 +322,23 @@ body {
   z-index: 9999;
 }
 
+/* Resolution warning modal */
+#res-warning-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 10000;
+}
+
+#res-warning {
+  position: fixed;
+  left: 50%;
+  top: 20vh;
+  transform: translateX(-50%);
+  width: min(560px, 92vw);
+  z-index: 10001;
+}
+
 [hidden] {
   display: none !important;
 }
@@ -367,14 +384,50 @@ body.debug-mode .app-window {
   z-index: 1002;
 }
 
-.dbg-nw { top: -6px; left: -6px; cursor: nwse-resize; }
-.dbg-ne { top: -6px; right: -6px; cursor: nesw-resize; }
-.dbg-sw { bottom: -6px; left: -6px; cursor: nesw-resize; }
-.dbg-se { bottom: -6px; right: -6px; cursor: nwse-resize; }
-.dbg-n  { top: -6px; left: 50%; transform: translateX(-50%); cursor: n-resize; }
-.dbg-s  { bottom: -6px; left: 50%; transform: translateX(-50%); cursor: s-resize; }
-.dbg-w  { left: -6px; top: 50%; transform: translateY(-50%); cursor: w-resize; }
-.dbg-e  { right: -6px; top: 50%; transform: translateY(-50%); cursor: e-resize; }
+.dbg-nw {
+  top: -6px;
+  left: -6px;
+  cursor: nwse-resize;
+}
+.dbg-ne {
+  top: -6px;
+  right: -6px;
+  cursor: nesw-resize;
+}
+.dbg-sw {
+  bottom: -6px;
+  left: -6px;
+  cursor: nesw-resize;
+}
+.dbg-se {
+  bottom: -6px;
+  right: -6px;
+  cursor: nwse-resize;
+}
+.dbg-n {
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: n-resize;
+}
+.dbg-s {
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: s-resize;
+}
+.dbg-w {
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: w-resize;
+}
+.dbg-e {
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: e-resize;
+}
 
 /* ------------------------------
    Clippy
@@ -519,7 +572,6 @@ body.debug-mode .app-window {
   line-height: 1.3;
 }
 
-
 /* Volume + animation buttons */
 
 /* Volume popup */
@@ -530,7 +582,6 @@ body.debug-mode .app-window {
   width: 160px;
   z-index: 3000;
 }
-
 
 /* Control buttons container */
 #control-buttons {
@@ -545,11 +596,11 @@ body.debug-mode .app-window {
 
 /* Each button */
 .control-btn {
-  width: 40px !important;   /* force exact width */
-  height: 40px !important;  /* force exact height */
-  min-width: 0 !important;  /* override 98.css min-width */
-  padding: 0 !important;    /* remove default padding */
-  box-sizing: border-box;   /* include border in size */
+  width: 40px !important; /* force exact width */
+  height: 40px !important; /* force exact height */
+  min-width: 0 !important; /* override 98.css min-width */
+  padding: 0 !important; /* remove default padding */
+  box-sizing: border-box; /* include border in size */
   border: 2px solid #000;
   background: #c0c0c0;
   display: flex;
@@ -568,8 +619,8 @@ body.debug-mode .app-window {
 /* Volume popup */
 #volume-popup {
   position: absolute;
-  right: 70px;   /* appear to the left of the buttons */
-  width: 140px;  /* slimmer */
+  right: 70px; /* appear to the left of the buttons */
+  width: 140px; /* slimmer */
   z-index: 1000;
 }
 
@@ -587,12 +638,16 @@ body.debug-mode .app-window {
 --------------------------------*/
 
 /* Default pointer */
-html, body {
+html,
+body {
   cursor: url("../assets/cursor/Cursor79.cur"), default !important;
 }
 
 /* Links, buttons, clickable */
-a, button, .control-btn, .title-bar-controls button {
+a,
+button,
+.control-btn,
+.title-bar-controls button {
   cursor: url("../assets/cursor/Cursor107.cur"), pointer !important;
 }
 
@@ -602,12 +657,15 @@ a, button, .control-btn, .title-bar-controls button {
 }
 
 /* Text areas, inputs */
-textarea, input, .notepad-body {
+textarea,
+input,
+.notepad-body {
   cursor: url("../assets/cursor/Cursor105.cur"), text !important;
 }
 
 /* Busy / loading */
-body.busy, .loading {
+body.busy,
+.loading {
   cursor: url("../assets/cursor/Cursor83.cur"), wait !important;
 }
 
@@ -617,7 +675,9 @@ body.busy, .loading {
 }
 
 /* Precision select (crosshair) */
-.crosshair, canvas, .paint-frame {
+.crosshair,
+canvas,
+.paint-frame {
   cursor: url("../assets/cursor/Cursor99.cur"), crosshair !important;
 }
 
@@ -633,10 +693,10 @@ body.busy, .loading {
 
 #easter-egg-tree {
   position: absolute;
-  left: 260px;   /* adjust so it's under the gallery */
-  top: 400px;    /* adjust so it's hidden behind gallery */
+  left: 260px; /* adjust so it's under the gallery */
+  top: 400px; /* adjust so it's hidden behind gallery */
   width: 120px;
   height: auto;
-  z-index: 1;    /* behind windows */
+  z-index: 1; /* behind windows */
   cursor: pointer;
 }

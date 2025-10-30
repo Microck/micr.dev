@@ -4,9 +4,10 @@
     <!-- Mobile redirect: runs before anything else loads -->
     <script>
       (function () {
-        const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
-        );
+        const isMobile =
+          /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent
+          );
         if (isMobile) {
           window.location.replace("assets/mobile.html");
         }
@@ -32,6 +33,9 @@
 
     <!-- Your main stylesheet -->
     <link rel="stylesheet" href="css/main.css" />
+
+    <!-- Oneko (replaces WebNeko) -->
+    <script async src="https://sleepie.uk/oneko.js"></script>
   </head>
 
   <body>
@@ -85,11 +89,7 @@
       </div>
 
       <!-- Character Information window -->
-      <div
-        class="window app-window resizable"
-        id="win-info"
-        data-title="Info"
-      >
+      <div class="window app-window resizable" id="win-info" data-title="Info">
         <div class="title-bar">
           <div class="title-bar-text">
             <img
@@ -199,10 +199,10 @@
           <div class="window" role="tabpanel" id="extra" hidden>
             <div class="window-body">
               <p>
-                I’m not really a furry (although I do have some kind of fursona), but I fw them a lot.
-                So even though I don’t have a Quarzite-inspired fursona right now, I could totally
-                see myself making one in the future. It
-                sounds like a fun thing to do!
+                I’m not really a furry (although I do have some kind of
+                fursona), but I fw them a lot. So even though I don’t have a
+                Quarzite-inspired fursona right now, I could totally see myself
+                making one in the future. It sounds like a fun thing to do!
               </p>
 
               <p>
@@ -220,12 +220,7 @@
       </div>
 
       <!-- Clippy -->
-      <div
-        class="window app-window"
-        id="win-clippy"
-        data-title="Clippy"
-        hidden
-      >
+      <div class="window app-window" id="win-clippy" data-title="Clippy" hidden>
         <div class="title-bar">
           <div class="title-bar-text">
             <img
@@ -258,11 +253,7 @@
       >
         <div class="title-bar">
           <div class="title-bar-text">
-            <img
-              src="assets/icons/notepad-1.png"
-              class="title-icon"
-              alt=""
-            />
+            <img src="assets/icons/notepad-1.png" class="title-icon" alt="" />
             <span class="title-label">Notepad</span>
           </div>
           <div class="title-bar-controls">
@@ -316,12 +307,7 @@
       </div>
 
       <!-- Gallery popup viewer -->
-      <div
-        class="window app-window"
-        id="win-viewer"
-        data-title="Viewer"
-        hidden
-      >
+      <div class="window app-window" id="win-viewer" data-title="Viewer" hidden>
         <div class="title-bar">
           <div class="title-bar-text">
             <img
@@ -384,14 +370,60 @@
         </div>
       </div>
 
+      <!-- Resolution warning modal -->
+      <div id="res-warning-backdrop" hidden></div>
+      <div
+        class="window modal"
+        id="res-warning"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="res-warning-title"
+        hidden
+      >
+        <div class="title-bar">
+          <div class="title-bar-text">
+            <span class="title-label" id="res-warning-title"
+              >Compatibility Notice</span
+            >
+          </div>
+          <div class="title-bar-controls">
+            <button aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="window-body">
+          <div class="field-row warning-row">
+            <img
+              src="assets/icons/msg_error-0.png"
+              alt="Warning"
+              class="warning-icon"
+              width="32"
+              height="32"
+            />
+            <div>
+              <div id="res-warning-message">
+                Non-optimized window size detected. For the best experience, try
+                setting your browser zoom to 50–80% or use a 1920×1080 display.
+              </div>
+              <div style="margin-top: 6px; opacity: 0.8">
+                Current viewport: <span id="res-current"></span>
+              </div>
+            </div>
+          </div>
+          <div class="field-row">
+            <input type="checkbox" id="res-dont-remind" />
+            <label for="res-dont-remind">Don't remind me again</label>
+          </div>
+          <div class="field-row" style="justify-content: flex-end">
+            <button id="res-accept" class="default" autofocus>OK</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Control buttons (stacked bottom-right) -->
       <div id="control-buttons">
         <!-- Tile switcher -->
         <button id="tile-toggle" class="control-btn">
-          <img
-            src="assets/icons/filepack-1.png"
-            alt="Change Background"
-          />
+          <img src="assets/icons/filepack-1.png" alt="Change Background" />
         </button>
 
         <!-- Volume -->
@@ -434,6 +466,7 @@
     <script src="js/tiles.js"></script>
     <script src="js/controls.js"></script>
     <script src="js/sounds.js"></script>
+    <script src="js/res-warning.js"></script>
 
     <!-- Logo loader -->
     <script>
@@ -465,46 +498,5 @@
         });
       })();
     </script>
-
-    <!-- WebNeko Cat (toggleable, new skin each enable) -->
-    <script>
-      const nekoTypes = ["calico", "white", "black", "marmalade"];
-      let nekoActive = true;
-
-      function pickRandomNeko() {
-        return nekoTypes[Math.floor(Math.random() * nekoTypes.length)];
-      }
-
-      function toggleNeko() {
-        const neko = document.getElementById("nl");
-        if (!neko) return;
-
-        if (nekoActive) {
-          neko.style.display = "none";
-          nekoActive = false;
-        } else {
-          window.NekoType = pickRandomNeko();
-          neko.style.display = "block";
-          neko.click();
-          nekoActive = true;
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", () => {
-        const btn = document.getElementById("neko-toggle");
-        if (btn) {
-          btn.addEventListener("click", toggleNeko);
-        }
-
-        // Auto-start with a random skin
-        window.NekoType = pickRandomNeko();
-      });
-
-      window.addEventListener("load", () => {
-        const neko = document.getElementById("nl");
-        if (neko) neko.click();
-      });
-    </script>
-    <script src="https://webneko.net/n20171213.js"></script>
   </body>
 </html>
