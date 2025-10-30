@@ -239,7 +239,9 @@
         </div>
         <div class="window-body">
           <div id="clippy-wrapper">
-            <div class="speech-bubble"><div id="text"></div></div>
+            <div class="speech-bubble">
+              <div id="clippy-text"></div>
+            </div>
             <div id="clippy"></div>
           </div>
         </div>
@@ -461,6 +463,21 @@
     <script src="js/tabs.js"></script>
     <script src="js/warning.js"></script>
     <script src="js/debug.js"></script>
+
+    <!-- Clippy compatibility shim: keep original behavior but avoid global collisions -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var el =
+          document.getElementById("clippy-text") ||
+          document.getElementById("text");
+        if (el) {
+          try {
+            window.text = el;
+          } catch (e) {}
+        }
+      });
+    </script>
+
     <script src="js/clippy.js"></script>
     <script src="js/notepad.js"></script>
     <script src="js/gallery.js"></script>

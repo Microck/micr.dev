@@ -64,7 +64,7 @@
   function accept() {
     const cb = document.getElementById("res-dont-remind");
     if (cb && cb.checked) {
-      storage.set(OPT_OUT_KEY, "1");
+      localStorage.setItem(OPT_OUT_KEY, "1");
     }
     hide();
   }
@@ -88,7 +88,7 @@
       window.addEventListener("resize", () => {
         updateCurrent();
         if (
-          storage.get(OPT_OUT_KEY) !== "1" &&
+          localStorage.getItem(OPT_OUT_KEY) !== "1" &&
           !isCompatible() &&
           document.getElementById("res-warning").hidden
         ) {
@@ -99,7 +99,7 @@
   }
 
   function maybeShowOnStart() {
-    if (storage.get(OPT_OUT_KEY) === "1") return;
+    if (localStorage.getItem(OPT_OUT_KEY) === "1") return;
 
     // Skip if the site already redirected to mobile.
     const isMobile =

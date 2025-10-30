@@ -203,7 +203,6 @@ body {
 /* ------------------------------
    Logo (Top Banner)
 --------------------------------*/
-/* The container (your red box) */
 #logo-container {
   position: absolute;
   top: -220px; /* stick to top */
