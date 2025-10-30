@@ -1,8 +1,6 @@
 (() => {
   const OPT_OUT_KEY = "resWarn:optOut";
-  const TARGET = { w: 1920, h: 1080 };
-  // ±50 px ONLY for width (1920). Height (1080) must match exactly.
-  const TOLERANCE_W = 50;
+  const TARGET_WIDTH = 1920;
   // Initial load only (no resize re-check)
   const USE_RESIZE_RECHECK = false;
 
@@ -23,12 +21,9 @@
     },
   };
 
+  // Compatible if width is exactly 1920; height can be anything.
   function isCompatible() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    const wOk = Math.abs(w - TARGET.w) <= TOLERANCE_W;
-    const hOk = h === TARGET.h;
-    return wOk && hOk;
+    return window.innerWidth === TARGET_WIDTH;
   }
 
   function updateCurrent() {
@@ -45,6 +40,12 @@
     updateCurrent();
     backdrop.hidden = false;
     modal.hidden = false;
+
+    // Play a warning sound on show
+    try {
+      // Reuse the same tone as other warnings
+      window.W98 && typeof W98.play === "function" && W98.play("chord");
+    } catch (_) {}
 
     const ok = document.getElementById("res-accept");
     if (ok) ok.focus();
