@@ -256,6 +256,11 @@
         "name": "wetdream - WillyRodriguezWasTaken",
         "image": "wetdream.jpg",
         "spotify": "https://open.spotify.com/album/7Mz3AROK1ffsZhTMaFCdvv?si=CvKF7sCTTXWo0nkfXWelVw"
+      },
+      {
+        "name": "Skitzofrenia Simulation - Sewerslvt",
+        "image": "skitzo.jpg",
+        "spotify": "https://open.spotify.com/album/1xPlkO690CiBEwodg1HaN7"
       }
     ]
   },
@@ -336,7 +341,7 @@
     "displayName": "Browser Extension",
     "type": "R",
     "items": [
-      { "title": "uBlock Origin" }
+      { "title": "Imagus, Violentmonkey" }
     ]
   },
   "keyboardSpring": {
@@ -364,7 +369,7 @@
     "displayName": "Material",
     "type": "R",
     "items": [
-      { "title": "Concrete" }
+      { "title": "Leather" }
     ]
   },
   "framing": {
@@ -435,6 +440,20 @@
     "type": "R",
     "items": [
       { "title": "Kim Wexler" }
+    ]
+  },
+  "overratedMod": {
+    "displayName": "Overrated Minecraft Mod",
+    "type": "R",
+    "items": [
+      { "title": "WTHIT / HWYLA / WAILA" }
+    ]
+  },
+  "underratedMod": {
+    "displayName": "Underrated Minecraft Mod",
+    "type": "R",
+    "items": [
+      { "title": "Chest Tracker, Tweakeroo" }
     ]
   }
 }
