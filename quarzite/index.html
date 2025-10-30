@@ -152,10 +152,9 @@
               <p>
                 Their outfit usually consists of a black-and-white oversized
                 hoodie with long sleeves featuring crisscross stitching and
-                lacing. They pair this with thigh-high socks and leg
-                accessories like straps or garters. Their go-to footwear is
-                winged sneakers, though in some artworks they’re drawn wearing
-                New Rocks instead.
+                lacing. They pair this with thigh-high socks and leg accessories
+                like straps or garters. Their go-to footwear is winged sneakers,
+                though in some artworks they’re drawn wearing New Rocks instead.
               </p>
 
               <p>
@@ -183,8 +182,8 @@
             <div class="window-body">
               <p>
                 I honestly never thought too deeply about it, since the
-                character is kind of just me, so there’s no real reason to
-                write out a personality.
+                character is kind of just me, so there’s no real reason to write
+                out a personality.
               </p>
               <p>
                 One thing I do enjoy, though, is giving full creative freedom to
@@ -239,9 +238,7 @@
         </div>
         <div class="window-body">
           <div id="clippy-wrapper">
-            <div class="speech-bubble">
-              <div id="clippy-text"></div>
-            </div>
+            <div class="speech-bubble"><div id="text"></div></div>
             <div id="clippy"></div>
           </div>
         </div>
@@ -279,12 +276,7 @@
       </div>
 
       <!-- Paint window -->
-      <div
-        class="window app-window resizable"
-        id="win-paint"
-        data-title="Paint"
-        hidden
-      >
+      <div class="window app-window resizable" id="win-paint" data-title="Paint" hidden>
         <div class="title-bar">
           <div class="title-bar-text">
             <img
@@ -404,12 +396,12 @@
             />
             <div>
               <div id="res-warning-message">
-                Non-optimized width detected. For the best experience, set your
-                browser zoom to around 50–80% or use a 1920 px-wide
-                window/display.
+                Incompatible resolution detected. For the best experience, try
+                setting your browser zoom to 50–80% or use a 1920×1080 display.
               </div>
               <div style="margin-top: 6px; opacity: 0.8">
-                Current viewport: <span id="res-current"></span>
+                Current viewport:
+                <span id="res-current"></span>
               </div>
             </div>
           </div>
@@ -463,21 +455,6 @@
     <script src="js/tabs.js"></script>
     <script src="js/warning.js"></script>
     <script src="js/debug.js"></script>
-
-    <!-- Clippy compatibility shim: keep original behavior but avoid global collisions -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var el =
-          document.getElementById("clippy-text") ||
-          document.getElementById("text");
-        if (el) {
-          try {
-            window.text = el;
-          } catch (e) {}
-        }
-      });
-    </script>
-
     <script src="js/clippy.js"></script>
     <script src="js/notepad.js"></script>
     <script src="js/gallery.js"></script>

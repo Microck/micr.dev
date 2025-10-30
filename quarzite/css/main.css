@@ -203,6 +203,8 @@ body {
 /* ------------------------------
    Logo (Top Banner)
 --------------------------------*/
+/* Logo container (the red box) */
+/* The container (your red box) */
 #logo-container {
   position: absolute;
   top: -220px; /* stick to top */
@@ -223,7 +225,6 @@ body {
   object-position: fill;
   image-rendering: pixelated;
 }
-
 /* ------------------------------
    Windows
 --------------------------------*/
@@ -321,7 +322,7 @@ body {
   z-index: 9999;
 }
 
-/* Resolution warning modal (centered) */
+/* Resolution warning modal */
 #res-warning-backdrop {
   position: fixed;
   inset: 0;
@@ -332,8 +333,8 @@ body {
 #res-warning {
   position: fixed;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 20vh;
+  transform: translateX(-50%);
   width: min(560px, 92vw);
   z-index: 10001;
 }
@@ -615,7 +616,7 @@ body.debug-mode .app-window {
   pointer-events: none;
 }
 
-/* Volume popup (overrides above, keep last) */
+/* Volume popup */
 #volume-popup {
   position: absolute;
   right: 70px; /* appear to the left of the buttons */

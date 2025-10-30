@@ -1,21 +1,23 @@
 (() => {
   const OPT_OUT_KEY = "resWarn:optOut";
-  const TARGET_W = 1920;
-  const TOLERANCE_W = 50; // width-only tolerance
-  const USE_RESIZE_RECHECK = false; // initial load only
+  const TARGET = { w: 1920, h: 1080 };
+  // ±50 px for both width and height
+  const TOLERANCE = { w: 50, h: 50 };
+  // Initial load only (no resize re-check)
+  const USE_RESIZE_RECHECK = false;
 
   const storage = {
     get(key) {
       try {
         return localStorage.getItem(key);
-      } catch {
+      } catch (_) {
         return null;
       }
     },
     set(key, val) {
       try {
         localStorage.setItem(key, val);
-      } catch {
+      } catch (_) {
         /* ignore */
       }
     },
@@ -23,7 +25,10 @@
 
   function isCompatible() {
     const w = window.innerWidth;
-    return Math.abs(w - TARGET_W) <= TOLERANCE_W;
+    const h = window.innerHeight;
+    const wOk = Math.abs(w - TARGET.w) <= TOLERANCE.w;
+    const hOk = Math.abs(h - TARGET.h) <= TOLERANCE.h;
+    return wOk && hOk;
   }
 
   function updateCurrent() {
@@ -36,13 +41,6 @@
     const backdrop = document.getElementById("res-warning-backdrop");
     const modal = document.getElementById("res-warning");
     if (!backdrop || !modal) return;
-
-    const msg = document.getElementById("res-warning-message");
-    if (msg) {
-      msg.textContent =
-        "Non-optimized width detected. For the best experience, set your " +
-        "browser zoom to around 50–80% or use a 1920 px-wide window/display.";
-    }
 
     updateCurrent();
     backdrop.hidden = false;
@@ -64,7 +62,7 @@
   function accept() {
     const cb = document.getElementById("res-dont-remind");
     if (cb && cb.checked) {
-      localStorage.setItem(OPT_OUT_KEY, "1");
+      storage.set(OPT_OUT_KEY, "1");
     }
     hide();
   }
@@ -88,7 +86,7 @@
       window.addEventListener("resize", () => {
         updateCurrent();
         if (
-          localStorage.getItem(OPT_OUT_KEY) !== "1" &&
+          storage.get(OPT_OUT_KEY) !== "1" &&
           !isCompatible() &&
           document.getElementById("res-warning").hidden
         ) {
@@ -99,15 +97,7 @@
   }
 
   function maybeShowOnStart() {
-    if (localStorage.getItem(OPT_OUT_KEY) === "1") return;
-
-    // Skip if the site already redirected to mobile.
-    const isMobile =
-      /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
-    if (isMobile) return;
-
+    if (storage.get(OPT_OUT_KEY) === "1") return;
     if (!isCompatible()) show();
   }
 
