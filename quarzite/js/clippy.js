@@ -56,7 +56,6 @@ let currentTypingTimeouts = [];
 
 // Typewriter effect — interruptible
 function typeWriter(text, element, speed = 30) {
-  // Clear any in-progress timeouts immediately
   for (const t of currentTypingTimeouts) clearTimeout(t);
   currentTypingTimeouts = [];
 
@@ -65,7 +64,14 @@ function typeWriter(text, element, speed = 30) {
 
   function typing() {
     if (i < text.length) {
-      element.innerHTML += text.charAt(i);
+      const char = text.charAt(i);
+
+      if (char === "\n") {
+        element.innerHTML += "<br>";
+      } else {
+        element.innerHTML += char;
+      }
+
       i++;
       const t = setTimeout(typing, speed);
       currentTypingTimeouts.push(t);
