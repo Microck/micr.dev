@@ -1,8 +1,8 @@
 (() => {
   const OPT_OUT_KEY = "resWarn:optOut";
   const TARGET = { w: 1920, h: 1080 };
-  // ±50 px for both width and height
-  const TOLERANCE = { w: 50, h: 50 };
+  // ±50 px ONLY for width (1920). Height (1080) must match exactly.
+  const TOLERANCE_W = 50;
   // Initial load only (no resize re-check)
   const USE_RESIZE_RECHECK = false;
 
@@ -26,8 +26,8 @@
   function isCompatible() {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const wOk = Math.abs(w - TARGET.w) <= TOLERANCE.w;
-    const hOk = Math.abs(h - TARGET.h) <= TOLERANCE.h;
+    const wOk = Math.abs(w - TARGET.w) <= TOLERANCE_W;
+    const hOk = h === TARGET.h;
     return wOk && hOk;
   }
 
