@@ -1,58 +1,119 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Keep Win98 look + animated background + sounds -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
     <title>Quarzite</title>
 
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="icons/windows_slanted-1.png" />
-    <link rel="stylesheet" href="https://unpkg.com/98.css@0.1.20/dist/98.css" />
+
+    <!-- 98.css -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/98.css@0.1.20/dist/98.css"
+    />
+    <!-- Mobile styling (keeps 98 vibe, responsive) -->
     <link rel="stylesheet" href="../css/mobile.css" />
+
+    <!-- Sounds from desktop site (kept) -->
+    <script defer src="../js/sounds.js"></script>
   </head>
 
   <body>
     <div class="mobile-container">
-      <!-- Logo -->
-      <div class="logo-mobile">
-        <img id="logo-img" alt="Quarzite Logo" />
-      </div>
-
-      <!-- Tab Navigation -->
-      <div class="tab-nav">
-        <button class="tab-btn active" data-tab="gallery">
-          <img src="icons/directory_closed-4.png" alt="" />
-          Gallery
-        </button>
-        <button class="tab-btn" data-tab="info">
-          <img src="icons/display_properties-2.png" alt="" />
-          Info
-        </button>
-      </div>
-
-      <!-- Gallery Tab -->
-      <div class="tab-content active" id="tab-gallery">
-        <div class="window mobile-window">
-          <div class="title-bar">
-            <div class="title-bar-text">
-              <img src="icons/directory_closed-4.png" class="title-icon" alt="" />
-              Gallery
-            </div>
+      <!-- Top logo window -->
+      <div class="window mobile-window">
+        <div class="title-bar">
+          <div class="title-bar-text">
+            <img
+              src="icons/computer_explorer-0.png"
+              class="title-icon"
+              alt=""
+            />
+            Quarzite
           </div>
-          <div class="window-body">
-            <div id="gallery-grid" class="gallery-grid"></div>
+        </div>
+        <div class="window-body logo-body">
+          <img id="logo-img" class="logo-img" alt="Quarzite Logo" />
+        </div>
+      </div>
+
+      <!-- Top-level nav (tabs) -->
+      <div class="window mobile-window">
+        <div class="title-bar">
+          <div class="title-bar-text">
+            <img
+              src="icons/filepack-1.png"
+              class="title-icon"
+              alt=""
+            />
+            Navigation
+          </div>
+        </div>
+        <div class="window-body">
+          <div class="tab-nav" role="tablist" aria-label="Main sections">
+            <button
+              class="tab-btn active"
+              role="tab"
+              aria-selected="true"
+              aria-controls="tab-gallery"
+              id="tabbtn-gallery"
+              data-tab="gallery"
+            >
+              <img src="icons/directory_closed-4.png" alt="" /> Gallery
+            </button>
+            <button
+              class="tab-btn"
+              role="tab"
+              aria-selected="false"
+              aria-controls="tab-info"
+              id="tabbtn-info"
+              data-tab="info"
+            >
+              <img src="icons/display_properties-2.png" alt="" /> Info
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- Info Tab -->
-      <div class="tab-content" id="tab-info">
+      <!-- Gallery -->
+      <div class="tab-content active" id="tab-gallery" role="tabpanel" aria-labelledby="tabbtn-gallery">
         <div class="window mobile-window">
           <div class="title-bar">
             <div class="title-bar-text">
-              <img src="icons/display_properties-2.png" class="title-icon" alt="" />
+              <img
+                src="icons/directory_closed-4.png"
+                class="title-icon"
+                alt=""
+              />
+              Gallery
+            </div>
+          </div>
+          <div class="window-body">
+            <div id="gallery-grid" class="gallery-grid" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="tab-content" id="tab-info" role="tabpanel" aria-labelledby="tabbtn-info">
+        <div class="window mobile-window">
+          <div class="title-bar">
+            <div class="title-bar-text">
+              <img
+                src="icons/display_properties-2.png"
+                class="title-icon"
+                alt=""
+              />
               Information
             </div>
           </div>
+
           <div class="window-body info-tabs">
             <menu role="tablist" class="tabs-menu">
               <li role="tab" aria-selected="true"><a href="#intro">Intro</a></li>
@@ -64,20 +125,21 @@
             <div class="window" role="tabpanel" id="intro">
               <div class="window-body">
                 <p>
-                  Welcome to the webpage dedicated to my original character/sona,
-                  Quarzite. Here you'll find more information about them, along
-                  with art and other commissions I've collected over the years.
+                  Welcome to the webpage dedicated to my original
+                  character/sona, Quarzite. Here you’ll find more information
+                  about them, along with art and other commissions I’ve
+                  collected over the years.
                 </p>
                 <p>
-                  I don't really care what pronouns you use for them (as you've
-                  probably noticed, I've been using they/them, but honestly I
+                  I don’t really care what pronouns you use for them (as you’ve
+                  probably noticed, I’ve been using they/them, but honestly I
                   cba). Their design is purposefully androgynous, aside from the
                   clothing.
                 </p>
                 <p>
-                  I actually came up with the name for them not too long ago, but
-                  I completely forgot the history behind it. It was really cool,
-                  but oh well it is what it is.
+                  I actually came up with the name for them not too long ago,
+                  but I completely forgot the history behind it. It was really
+                  cool, but oh well it is what it is.
                 </p>
               </div>
             </div>
@@ -86,36 +148,37 @@
               <div class="window-body">
                 <p>
                   They have a wolf/jellyfish-style haircut: white hair with
-                  lavender shading at the tips and along the lower half. Prominent
-                  black, devil-like horns with cross markings stand out on the
-                  sides of their head. Their long bangs partly cover tired, baggy
-                  eyes, usually a pinkish-red color, sometimes with heart-shaped
-                  pupils. They often have a relaxed & friendly smile, though their
-                  sharp teeth serve as a subtle warning.
+                  lavender shading at the tips and along the lower half.
+                  Prominent black, devil-like horns with cross markings stand
+                  out on the sides of their head. Their long bangs partly cover
+                  tired, baggy eyes, usually a pinkish-red color, sometimes with
+                  heart-shaped pupils. They often have a relaxed & friendly
+                  smile, though their sharp teeth serve as a subtle warning.
                 </p>
                 <p>
                   Their outfit usually consists of a black-and-white oversized
                   hoodie with long sleeves featuring crisscross stitching and
-                  lacing. They pair this with thigh-high socks and leg accessories
-                  like straps or garters. Their go-to footwear is winged sneakers,
-                  though in some artworks they're drawn wearing New Rocks instead.
+                  lacing. They pair this with thigh-high socks and leg
+                  accessories like straps or garters. Their go-to footwear is
+                  winged sneakers, though in some artworks they’re drawn wearing
+                  New Rocks instead.
                 </p>
                 <p>
                   Originally, their very long hair was sometimes interpreted by
-                  artists as a tail. While that wasn't intentional, it's been fun
-                  to see in retrospect (though nowadays I prefer commissioning
-                  them without the tail/extra-long hair). In earlier artworks,
-                  they were often accompanied by little ghost companions, but I've
-                  since stopped including them since I feel they clutter the
-                  design.
+                  artists as a tail. While that wasn’t intentional, it’s been
+                  fun to see in retrospect (though nowadays I prefer
+                  commissioning them without the tail/extra-long hair). In
+                  earlier artworks, they were often accompanied by little ghost
+                  companions, but I’ve since stopped including them since I feel
+                  they clutter the design.
                 </p>
                 <p>
-                  I've thought about changing their outfit, but I feel like the
-                  hoodie really fits the vibe it gives off. I'd love to add some
+                  I’ve thought about changing their outfit, but I feel like the
+                  hoodie really fits the vibe it gives off. I’d love to add some
                   facial piercings (like a lip piercing, an eyebrow piercing, or
-                  even an anti-eyebrow) but I'm not sure how different artists
-                  would interpret them, so I've decided to set that idea aside for
-                  now.
+                  even an anti-eyebrow) but I’m not sure how different artists
+                  would interpret them, so I’ve decided to set that idea aside
+                  for now.
                 </p>
               </div>
             </div>
@@ -124,16 +187,16 @@
               <div class="window-body">
                 <p>
                   I honestly never thought too deeply about it, since the
-                  character is kind of just me, so there's no real reason to write
-                  out a personality.
+                  character is kind of just me, so there’s no real reason to
+                  write out a personality.
                 </p>
                 <p>
-                  One thing I do enjoy, though, is giving full creative freedom to
-                  the artist and seeing how they interpret it based on past
-                  artworks. It's always interesting to see the final result,
+                  One thing I do enjoy, though, is giving full creative freedom
+                  to the artist and seeing how they interpret it based on past
+                  artworks. It’s always interesting to see the final result,
                   knowing the artist built a personality from scratch just from
-                  the vibes they picked up. There is a different interpretation of
-                  Quarzite's character in each artist that has drawn it.
+                  the vibes they picked up. There is a different interpretation
+                  of Quarzite’s character in each artist that has drawn it.
                 </p>
               </div>
             </div>
@@ -141,19 +204,20 @@
             <div class="window" role="tabpanel" id="extra" hidden>
               <div class="window-body">
                 <p>
-                  I'm not really a furry (although I do have some kind of
-                  fursona), but I fw them a lot. So even though I don't have a
-                  Quarzite-inspired fursona right now, I could totally see myself
-                  making one in the future. It sounds like a fun thing to do!
+                  I’m not really a furry (although I do have some kind of
+                  fursona), but I fw them a lot. So even though I don’t have a
+                  Quarzite-inspired fursona right now, I could totally see
+                  myself making one in the future. It sounds like a fun thing to
+                  do!
                 </p>
                 <p>
-                  Lastly, if you like my character and feel like drawing them, go
-                  for it! I'd be so happy to see any kind of art, memes, or
+                  Lastly, if you like my character and feel like drawing them,
+                  go for it! I’d be so happy to see any kind of art, memes, or
                   whatever you come up with. You can send it to me at
                   <b>contact@micr.dev</b>, or just drop it in my socials. If I
-                  don't reply, it probably got eaten by a spam filter or something
-                  like that, so don't stress about tagging me or trying again. I
-                  promise I'll appreciate it a ton.
+                  don’t reply, it probably got eaten by a spam filter or
+                  something like that, so don’t stress about tagging me or
+                  trying again. I promise I’ll appreciate it a ton.
                 </p>
               </div>
             </div>
@@ -161,41 +225,49 @@
         </div>
       </div>
 
-      <!-- Image Viewer Modal -->
+      <!-- Viewer modal -->
       <div id="viewer-backdrop" hidden></div>
-      <div class="window" id="viewer-modal" hidden>
+      <div class="window viewer-window" id="viewer-modal" hidden>
         <div class="title-bar">
           <div class="title-bar-text">
             <img src="icons/favicon-96x96.png" class="title-icon" alt="" />
             Image Viewer
           </div>
           <div class="title-bar-controls">
-            <button id="viewer-close" aria-label="Close">×</button>
+            <button id="viewer-close" aria-label="Close"></button>
           </div>
         </div>
         <div class="window-body">
-          <div class="viewer-content">
+          <figure class="viewer-figure">
             <img id="viewer-img" alt="" />
-          </div>
+          </figure>
           <div id="viewer-meta" class="viewer-meta"></div>
           <div id="viewer-desc" class="viewer-desc" hidden></div>
         </div>
       </div>
     </div>
 
-    <script src="../js/mobile-tabs.js"></script>
-    <script src="../js/mobile-gallery.js"></script>
-    <script src="../js/mobile-viewer.js"></script>
+    <!-- Scripts -->
+    <script src="../js/mobile-tabs.js" defer></script>
+    <script src="../js/mobile-gallery.js" defer></script>
+    <script src="../js/mobile-viewer.js" defer></script>
 
-    <!-- Logo loader -->
+    <!-- Logo loader (preload + pick random) -->
     <script>
       (function () {
         const LOGOS = ["quarzitelogo3.gif", "quarzitelogo4.gif"];
         const img = document.getElementById("logo-img");
         if (!img) return;
 
+        function setLogo(src) {
+          const pre = new Image();
+          pre.onload = () => (img.src = src);
+          pre.onerror = () => (img.src = src);
+          pre.src = src;
+        }
+
         const i = Math.floor(Math.random() * LOGOS.length);
-        img.src = LOGOS[i];
+        setLogo(LOGOS[i]);
       })();
     </script>
   </body>

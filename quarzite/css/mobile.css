@@ -1,4 +1,6 @@
-/* Reset */
+/* Keep Win98 vibe, responsive, animated background, proper font */
+
+/* Fixed width formatting with Prettier 80 chars */
 * {
   box-sizing: border-box;
 }
@@ -8,10 +10,11 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   overflow-x: hidden;
 }
 
+/* Animated tiled background (same as desktop) */
 body {
   background-color: #56007e;
   background-image: url("../assets/tile.png");
@@ -31,60 +34,81 @@ body {
   }
 }
 
-/* Mobile Container */
+/* Load Fixedsys to match desktop font availability */
+@font-face {
+  font-family: "FixedsysWin98";
+  src: url("../assets/fonts/Fixedsys62.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Container */
 .mobile-container {
   width: 100%;
   min-height: 100vh;
   padding: 12px;
-  padding-bottom: 60px;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-/* Logo */
-.logo-mobile {
+/* Windows */
+.mobile-window {
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto 20px;
-  text-align: center;
 }
 
-.logo-mobile img {
-  width: 100%;
+.title-bar-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.title-icon {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+}
+
+/* Logo */
+.logo-body {
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  padding: 8px;
+}
+
+.logo-img {
+  width: min(560px, 92vw);
   height: auto;
   image-rendering: pixelated;
 }
 
-/* Tab Navigation */
+/* Top-level tab nav styled like 98 buttons */
 .tab-nav {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
-  padding: 0 4px;
-  margin-bottom: 8px;
 }
 
 .tab-btn {
-  flex: 1;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 12px 8px;
+  padding: 10px 8px;
   font-size: 14px;
-  font-weight: bold;
   background: #c0c0c0;
   border: 2px solid #ffffff;
   border-right-color: #808080;
   border-bottom-color: #808080;
   cursor: pointer;
-  touch-action: manipulation;
   user-select: none;
 }
 
 .tab-btn img {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   image-rendering: pixelated;
 }
 
@@ -96,175 +120,88 @@ body {
   border-bottom-color: #ffffff;
 }
 
-.tab-btn:active {
-  border-style: inset;
-}
-
-/* Tab Content */
+/* Tab content visibility */
 .tab-content {
   display: none;
-  animation: fadeIn 0.2s ease-in;
 }
 
 .tab-content.active {
   display: block;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Mobile Windows */
-.mobile-window {
-  width: 100%;
-  margin-bottom: 12px;
-}
-
-.mobile-window .window-body {
-  max-height: 70vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Title Bar */
-.title-bar-text {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.title-icon {
-  width: 16px;
-  height: 16px;
-  image-rendering: pixelated;
-}
-
-/* Gallery Grid */
+/* Gallery grid: 1:1 squares, cover to fill */
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-  padding: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  gap: 8px;
 }
 
 .gallery-item {
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  aspect-ratio: 1 / 1;
   background: #ffffff;
   border: 2px inset #c0c0c0;
-  cursor: pointer;
   overflow: hidden;
 }
 
 .gallery-item img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* fill square completely */
   image-rendering: auto;
-}
-
-/* Info Tabs */
-.info-tabs .tabs-menu {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin: 8px 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
-.info-tabs .tabs-menu li {
-  flex: 1 1 auto;
-  min-width: 80px;
-}
-
-.info-tabs .tabs-menu a {
   display: block;
-  padding: 8px 12px;
-  text-align: center;
-  font-size: 13px;
 }
 
-.info-tabs [role="tabpanel"] {
-  margin: 8px;
-}
-
-.info-tabs [role="tabpanel"] .window-body {
-  padding: 12px;
-  line-height: 1.6;
-  font-size: 14px;
-}
-
-.info-tabs [role="tabpanel"] p {
-  margin: 0 0 12px;
-}
-
-/* Image Viewer Modal */
+/* Viewer (98 window) */
 #viewer-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 9998;
-  touch-action: none;
 }
 
-#viewer-modal {
+.viewer-window {
   position: fixed;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
-  width: 92vw;
-  max-width: 600px;
+  width: min(92vw, 840px);
   max-height: 90vh;
+  transform: translate(-50%, -50%);
   z-index: 9999;
   display: flex;
   flex-direction: column;
 }
 
-#viewer-modal .title-bar-controls button {
-  min-width: 40px;
-  min-height: 40px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-#viewer-modal .window-body {
-  overflow-y: auto;
+.viewer-window .window-body {
+  overflow: auto;
   -webkit-overflow-scrolling: touch;
   padding: 8px;
+  background: #c0c0c0;
 }
 
-.viewer-content {
+.viewer-figure {
+  margin: 0;
   background: #ffffff;
-  border: 1px solid #808080;
-  padding: 8px;
-  margin-bottom: 8px;
-  text-align: center;
+  border: 1px solid #bdbdbd;
+  padding: 6px;
+  display: grid;
+  place-items: center;
 }
 
-.viewer-content img {
+#viewer-img {
   max-width: 100%;
+  max-height: 62vh;
   height: auto;
-  max-height: 60vh;
   object-fit: contain;
 }
 
 .viewer-meta,
 .viewer-desc {
+  margin-top: 6px;
   font-size: 12px;
-  padding: 8px;
-  background: #c0c0c0;
-  border: 1px inset;
-  margin-top: 8px;
   line-height: 1.4;
   word-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .viewer-meta a {
@@ -272,42 +209,38 @@ body {
   text-decoration: underline;
 }
 
-[hidden] {
-  display: none !important;
+/* Info inner tabs (keep PC style) */
+.info-tabs .tabs-menu {
+  margin: 8px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
 }
 
-/* Tablet Landscape */
+.info-tabs .tabs-menu li a {
+  display: block;
+  padding: 6px 10px;
+}
+
+/* Tablet up */
 @media (min-width: 768px) {
-  .mobile-container {
-    padding: 20px;
-  }
-
-  .logo-mobile {
-    max-width: 500px;
-  }
-
   .gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 16px;
-  }
-
-  .tab-btn {
-    font-size: 16px;
-    padding: 14px 12px;
-  }
-
-  .info-tabs [role="tabpanel"] .window-body {
-    font-size: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
   }
 }
 
-/* Large Tablets/Small Desktops */
+/* Large tablet / small desktop */
 @media (min-width: 1024px) {
   .gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
   }
+}
 
-  #viewer-modal {
-    max-width: 800px;
-  }
+/* Utility */
+[hidden] {
+  display: none !important;
 }
