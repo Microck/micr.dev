@@ -1,9 +1,9 @@
-// Top-level tabs + inner info tabs with Sounds.play(...)
+// Top-level tabs + inner info tabs with W98 sounds
 (function () {
   function sfx(name) {
     try {
-      if (window.Sounds && typeof window.Sounds.play === "function") {
-        window.Sounds.play(name);
+      if (window.W98 && typeof window.W98.play === "function") {
+        window.W98.play("click"); // unify to desktop-style click
       }
     } catch (_) {}
   }

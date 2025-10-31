@@ -20,9 +20,9 @@
     <!-- Animated tiled background -->
     <div class="bg-tiles" aria-hidden="true"></div>
 
-    <!-- Standalone logo (not inside a window) -->
+    <!-- Standalone logo (fills a 195:46 box, not square) -->
     <div id="logo-container" aria-label="Quarzite Logo">
-      <div id="logo-img" class="logo-img"></div>
+      <div id="logo-img" class="logo-img" role="img"></div>
     </div>
 
     <div class="mobile-container">
@@ -220,7 +220,7 @@
         <div class="title-bar">
           <div class="title-bar-text">
             <img src="icons/favicon-96x96.png" class="title-icon" alt="" />
-            Image Viewer
+            <span id="viewer-title">Image Viewer</span>
           </div>
           <div class="title-bar-controls">
             <button id="viewer-close" aria-label="Close"></button>
@@ -242,7 +242,7 @@
     <script src="../js/mobile-gallery.js" defer></script>
     <script src="../js/mobile-viewer.js" defer></script>
 
-    <!-- Logo loader (set GIF as background) -->
+    <!-- Logo loader (set GIF as background of the div) -->
     <script>
       (function () {
         const LOGOS = ["quarzitelogo3.gif", "quarzitelogo4.gif"];

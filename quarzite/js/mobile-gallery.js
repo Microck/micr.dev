@@ -1,9 +1,9 @@
 // Load gallery from ../data/gallery.json (newest -> oldest), 1:1 contain
 (function () {
-  function sfx(name) {
+  function sfx() {
     try {
-      if (window.Sounds && typeof window.Sounds.play === "function") {
-        window.Sounds.play(name);
+      if (window.W98 && typeof window.W98.play === "function") {
+        window.W98.play("click");
       }
     } catch (_) {}
   }
@@ -50,7 +50,7 @@
             link: it.artist?.url || "",
             desc: it.desc || "",
           });
-          sfx("open");
+          sfx();
         });
 
         grid.appendChild(wrap);

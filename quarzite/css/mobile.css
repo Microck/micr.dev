@@ -34,7 +34,7 @@ body {
   }
 }
 
-/* Fonts (to match PC look if available) */
+/* Fonts */
 @font-face {
   font-family: "FixedsysWin98";
   src: url("../assets/fonts/Fixedsys62.ttf") format("truetype");
@@ -43,17 +43,16 @@ body {
   font-display: swap;
 }
 
-/* Logo (standalone, not in a window; rectangular area) */
+/* Logo container: fixed 195:46 box (not square) */
 #logo-container {
   width: min(720px, 92vw);
   margin: 12px auto 8px;
-  text-align: center;
 }
 
 .logo-img {
   width: 100%;
-  height: clamp(88px, 18vw, 190px);
-  background: transparent center/contain no-repeat;
+  aspect-ratio: 195 / 46; /* keeps the rectangular box */
+  background: center/cover no-repeat;
   image-rendering: pixelated;
 }
 
@@ -84,12 +83,12 @@ body {
   image-rendering: pixelated;
 }
 
-/* Make window bodies Win98 gray like desktop */
+/* Window body gray */
 .window .window-body {
   background: #c0c0c0;
 }
 
-/* Top-level tab nav styled like Win98 buttons */
+/* Tabs */
 .tab-nav {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -125,16 +124,14 @@ body {
   border-bottom-color: #ffffff;
 }
 
-/* Tab content visibility */
 .tab-content {
   display: none;
 }
-
 .tab-content.active {
   display: block;
 }
 
-/* Gallery grid: 1:1 squares, no bevel, gray background, contain images */
+/* Gallery grid (1:1 squares, no bevel, contain images) */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
@@ -144,8 +141,8 @@ body {
 .gallery-item {
   position: relative;
   aspect-ratio: 1 / 1;
-  background: #c0c0c0; /* same gray as windows */
-  border: none; /* no black/white bevel pixels */
+  background: #c0c0c0;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,16 +150,13 @@ body {
 }
 
 .gallery-item img {
-  max-width: 100%;
-  max-height: 100%;
   width: 100%;
   height: 100%;
-  object-fit: contain; /* show whole image, no crop */
-  image-rendering: auto;
+  object-fit: contain;
   display: block;
 }
 
-/* Viewer (98 window) */
+/* Viewer */
 #viewer-backdrop {
   position: fixed;
   inset: 0;
@@ -219,7 +213,7 @@ body {
   text-decoration: underline;
 }
 
-/* Info inner tabs: alignment and bigger text */
+/* Info tabs */
 .info-tabs .tabs-menu {
   margin: 8px 0;
   display: flex;
@@ -228,26 +222,22 @@ body {
   list-style: none;
   padding: 0;
 }
-
 .info-tabs .tabs-menu li {
   display: inline-flex;
-  align-items: center; /* aligns the small square/tab with text */
+  align-items: center;
 }
-
 .info-tabs .tabs-menu a {
   display: inline-flex;
   align-items: center;
   padding: 8px 12px;
-  font-size: 16px; /* slightly bigger */
+  font-size: 16px;
 }
 
-/* Bigger, readable content inside panels */
 .info-tabs [role="tabpanel"] .window-body {
   padding: 16px;
   line-height: 1.8;
   font-size: 17px;
 }
-
 .info-tabs [role="tabpanel"] p {
   margin: 0 0 14px;
 }
@@ -256,23 +246,12 @@ body {
 @media (min-width: 768px) {
   .gallery-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 10px;
   }
-
   .info-tabs .tabs-menu a {
     font-size: 17px;
   }
-
   .info-tabs [role="tabpanel"] .window-body {
     font-size: 18px;
-  }
-}
-
-/* Large tablet / small desktop */
-@media (min-width: 1024px) {
-  .gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 12px;
   }
 }
 

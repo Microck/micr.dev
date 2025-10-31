@@ -1,9 +1,9 @@
-// 98.css viewer modal with meta + desc + Sounds
+// 98.css viewer modal with meta + desc + W98 sounds and author title
 (function () {
-  function sfx(name) {
+  function sfx() {
     try {
-      if (window.Sounds && typeof window.Sounds.play === "function") {
-        window.Sounds.play(name);
+      if (window.W98 && typeof window.W98.play === "function") {
+        window.W98.play("click");
       }
     } catch (_) {}
   }
@@ -15,21 +15,23 @@
     const viewerImg = document.getElementById("viewer-img");
     const viewerMeta = document.getElementById("viewer-meta");
     const viewerDesc = document.getElementById("viewer-desc");
+    const viewerTitle = document.getElementById("viewer-title");
 
     function openViewer(payload) {
       if (!payload) return;
 
-      viewerImg.src = payload.src || "";
-      viewerImg.alt = payload.artist
-        ? `Artwork by ${payload.artist}`
-        : "Artwork";
-
-      // Meta
-      const parts = [];
       const artist = (payload.artist || "").trim();
       const url = (payload.link || "").trim();
       const date = (payload.date || "").trim();
 
+      viewerImg.src = payload.src || "";
+      viewerImg.alt = artist ? `Artwork by ${artist}` : "Artwork";
+
+      // Title: show author's name (fallback to default)
+      viewerTitle.textContent = artist || "Image Viewer";
+
+      // Meta
+      const parts = [];
       if (artist && artist !== "unknown" && artist !== "-") {
         if (url) {
           parts.push(
@@ -64,7 +66,7 @@
       backdrop.hidden = true;
       modal.hidden = true;
       document.body.style.overflow = "";
-      sfx("close");
+      sfx();
     }
 
     window.openViewer = openViewer;
