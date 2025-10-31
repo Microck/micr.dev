@@ -27,6 +27,28 @@
       { "title": "Takopi's Original Sin", "year": 2025 }
     ]
   },
+  "favouriteEpisodes": {
+    "displayName": "Episodes",
+    "type": "R",
+    "items": [
+      { "title": "407 Proxy Authentication Required", "right": "Mr Robot 4x07" },
+      { "title": "Perfect Game", "right": "Attack on Titan 3x16" },
+      { "title": "Plan and Execution", "right": "Better Call Saul 6x07" },
+      { "title": "Spring Breeze", "right": "Your Lie in April 1x22" },
+      { "title": "Zero", "right": "Code Geass 1x25" },
+      { "title": "Hello, Elliot", "right": "Mr Robot 4x13" },
+      { "title": "Hero", "right": "Attack on Titan 3x17" },
+      { "title": "Saul Gone", "right": "Better Call Saul 6x13" },
+      { "title": "Woe’s Hollow", "right": "Severance 2x04" },
+      { "title": "Ozymandias", "right": "Breaking Bad 5x14" },
+      { "title": "Review", "right": "The Bear 1x07" },
+      { "title": "Memories of the Future", "right": "Attack on Titan 4x20" },
+      { "title": "Fly", "right": "Breaking Bad 3x10" },
+      { "title": "2022-nen no kimi e", "right": "Takopi’s Original Sin 1x05" },
+      { "title": "Fishes", "right": "The Bear 2x06" },
+      { "title": "Gunfire", "right": "Chainsaw Man 1x08" }
+    ]
+  },
   "films": {
     "displayName": "Films",
     "type": "T",
