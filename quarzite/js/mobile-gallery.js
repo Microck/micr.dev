@@ -18,13 +18,13 @@
       const data = await res.json();
       const images = Array.isArray(data.images) ? data.images.slice() : [];
 
-      // Sort by date descending (YYYY-MM-DD strings)
+      // Sort by date descending (YYYY-MM-DD)
       images.sort((a, b) => String(b.date || "").localeCompare(a.date || ""));
 
       // Render
       for (let i = 0; i < images.length; i++) {
         const it = images[i];
-        const src = `../${it.src}`; // data uses "assets/...", page is at "assets/"
+        const src = `../${it.src}`;
 
         const wrap = document.createElement("div");
         wrap.className = "gallery-item";
@@ -36,8 +36,8 @@
         const img = document.createElement("img");
         img.src = src;
         img.loading = "lazy";
-        img.alt = `Artwork by ${it.artist?.name || "Unknown"}`;
         img.decoding = "async";
+        img.alt = `Artwork by ${it.artist?.name || "Unknown"}`;
         img.draggable = false;
 
         wrap.appendChild(img);

@@ -1,4 +1,4 @@
-// 98.css viewer modal with meta + desc, uses site sounds if present
+// 98.css viewer modal with meta + desc + SFX
 (function () {
   function sfx(name) {
     try {
@@ -24,7 +24,7 @@
         ? `Artwork by ${payload.artist}`
         : "Artwork";
 
-      // Meta: "By [link/name] • YYYY-MM-DD"
+      // Meta
       const parts = [];
       const artist = (payload.artist || "").trim();
       const url = (payload.link || "").trim();
@@ -49,7 +49,6 @@
       }
 
       if (payload.desc) {
-        // Keep author-provided HTML (e.g., links/strikethrough)
         viewerDesc.innerHTML = payload.desc;
         viewerDesc.hidden = false;
       } else {
@@ -68,18 +67,13 @@
       sfx("close");
     }
 
-    // Expose open function
     window.openViewer = openViewer;
 
-    // UI events
     closeBtn.addEventListener("click", closeViewer);
     backdrop.addEventListener("click", closeViewer);
 
-    // Escape to close
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !modal.hidden) {
-        closeViewer();
-      }
+      if (e.key === "Escape" && !modal.hidden) closeViewer();
     });
   });
 })();

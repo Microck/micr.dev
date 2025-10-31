@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Keep Win98 look + animated background + sounds -->
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -9,40 +8,25 @@
     />
     <title>Quarzite</title>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="icons/windows_slanted-1.png" />
-
-    <!-- 98.css -->
     <link
       rel="stylesheet"
       href="https://unpkg.com/98.css@0.1.20/dist/98.css"
     />
-    <!-- Mobile styling (keeps 98 vibe, responsive) -->
     <link rel="stylesheet" href="../css/mobile.css" />
-
-    <!-- Sounds from desktop site (kept) -->
     <script defer src="../js/sounds.js"></script>
   </head>
 
   <body>
-    <div class="mobile-container">
-      <!-- Top logo window -->
-      <div class="window mobile-window">
-        <div class="title-bar">
-          <div class="title-bar-text">
-            <img
-              src="icons/computer_explorer-0.png"
-              class="title-icon"
-              alt=""
-            />
-            Quarzite
-          </div>
-        </div>
-        <div class="window-body logo-body">
-          <img id="logo-img" class="logo-img" alt="Quarzite Logo" />
-        </div>
-      </div>
+    <!-- Animated tiled background (independent of body) -->
+    <div class="bg-tiles" aria-hidden="true"></div>
 
+    <!-- Standalone logo (not inside a window) -->
+    <div id="logo-container" aria-label="Quarzite Logo">
+      <img id="logo-img" class="logo-img" alt="Quarzite Logo" />
+    </div>
+
+    <div class="mobile-container">
       <!-- Top-level nav (tabs) -->
       <div class="window mobile-window">
         <div class="title-bar">
@@ -82,7 +66,12 @@
       </div>
 
       <!-- Gallery -->
-      <div class="tab-content active" id="tab-gallery" role="tabpanel" aria-labelledby="tabbtn-gallery">
+      <div
+        class="tab-content active"
+        id="tab-gallery"
+        role="tabpanel"
+        aria-labelledby="tabbtn-gallery"
+      >
         <div class="window mobile-window">
           <div class="title-bar">
             <div class="title-bar-text">
@@ -101,7 +90,12 @@
       </div>
 
       <!-- Info -->
-      <div class="tab-content" id="tab-info" role="tabpanel" aria-labelledby="tabbtn-info">
+      <div
+        class="tab-content"
+        id="tab-info"
+        role="tabpanel"
+        aria-labelledby="tabbtn-info"
+      >
         <div class="window mobile-window">
           <div class="title-bar">
             <div class="title-bar-text">
@@ -252,7 +246,7 @@
     <script src="../js/mobile-gallery.js" defer></script>
     <script src="../js/mobile-viewer.js" defer></script>
 
-    <!-- Logo loader (preload + pick random) -->
+    <!-- Logo loader -->
     <script>
       (function () {
         const LOGOS = ["quarzitelogo3.gif", "quarzitelogo4.gif"];
