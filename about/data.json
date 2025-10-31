@@ -27,6 +27,20 @@
       { "title": "Takopi's Original Sin", "year": 2025 }
     ]
   },
+
+  "films": {
+    "displayName": "Films",
+    "type": "T",
+    "items": [
+      { "title": "Inglourious Basterds", "year": 2009 },
+      { "title": "Puella Magi Madoka Magica: Rebellion III", "year": 2013 },
+      { "title": "Whiplash", "year": 2014 },
+      { "title": "Interstellar", "year": 2014 },
+      { "title": "Nightcrawler", "year": 2014 },
+      { "title": "Parasite", "year": 2019 },
+      { "title": "1917", "year": 2019 }
+    ]
+  },
   "favouriteEpisodes": {
     "displayName": "Episodes",
     "type": "R",
@@ -47,19 +61,6 @@
       { "title": "2022-nen no kimi e", "right": "Takopi’s Original Sin 1x05" },
       { "title": "Fishes", "right": "The Bear 2x06" },
       { "title": "Gunfire", "right": "Chainsaw Man 1x08" }
-    ]
-  },
-  "films": {
-    "displayName": "Films",
-    "type": "T",
-    "items": [
-      { "title": "Inglourious Basterds", "year": 2009 },
-      { "title": "Puella Magi Madoka Magica: Rebellion III", "year": 2013 },
-      { "title": "Whiplash", "year": 2014 },
-      { "title": "Interstellar", "year": 2014 },
-      { "title": "Nightcrawler", "year": 2014 },
-      { "title": "Parasite", "year": 2019 },
-      { "title": "1917", "year": 2019 }
     ]
   },
   "games": {
