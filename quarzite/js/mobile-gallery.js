@@ -1,4 +1,4 @@
-// Load gallery from ../data/gallery.json (newest -> oldest), 1:1 squares
+// Load gallery from ../data/gallery.json (newest -> oldest), 1:1 contain
 (function () {
   function sfx(name) {
     try {

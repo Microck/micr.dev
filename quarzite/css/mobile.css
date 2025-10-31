@@ -18,7 +18,7 @@ body {
   inset: 0;
   z-index: -1;
   background-color: #56007e;
-  background-image: url("../assets/tile.png");
+  background-image: url("../assets/tiles/tile1.png");
   background-repeat: repeat;
   background-position: 0 0;
   background-size: auto;
@@ -43,19 +43,18 @@ body {
   font-display: swap;
 }
 
-/* Logo (standalone, not in a window) */
+/* Logo (standalone, not in a window; rectangular area) */
 #logo-container {
-  width: min(620px, 92vw);
+  width: min(720px, 92vw);
   margin: 12px auto 8px;
   text-align: center;
-  padding: 6px;
 }
 
 .logo-img {
   width: 100%;
-  height: auto;
+  height: clamp(88px, 18vw, 190px);
+  background: transparent center/contain no-repeat;
   image-rendering: pixelated;
-  display: block;
 }
 
 /* Layout */
@@ -83,6 +82,11 @@ body {
   width: 16px;
   height: 16px;
   image-rendering: pixelated;
+}
+
+/* Make window bodies Win98 gray like desktop */
+.window .window-body {
+  background: #c0c0c0;
 }
 
 /* Top-level tab nav styled like Win98 buttons */
@@ -130,7 +134,7 @@ body {
   display: block;
 }
 
-/* Gallery grid: 1:1 squares, no cropping (contain) */
+/* Gallery grid: 1:1 squares, no bevel, gray background, contain images */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
@@ -140,8 +144,8 @@ body {
 .gallery-item {
   position: relative;
   aspect-ratio: 1 / 1;
-  background: #ffffff;
-  border: 2px inset #c0c0c0;
+  background: #c0c0c0; /* same gray as windows */
+  border: none; /* no black/white bevel pixels */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -215,26 +219,33 @@ body {
   text-decoration: underline;
 }
 
-/* Info inner tabs (PC style), bigger text for readability */
+/* Info inner tabs: alignment and bigger text */
 .info-tabs .tabs-menu {
   margin: 8px 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 6px;
   list-style: none;
   padding: 0;
 }
 
-.info-tabs .tabs-menu a {
-  display: block;
-  padding: 8px 10px;
+.info-tabs .tabs-menu li {
+  display: inline-flex;
+  align-items: center; /* aligns the small square/tab with text */
 }
 
-/* Bigger, readable content */
+.info-tabs .tabs-menu a {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 16px; /* slightly bigger */
+}
+
+/* Bigger, readable content inside panels */
 .info-tabs [role="tabpanel"] .window-body {
-  padding: 14px;
+  padding: 16px;
   line-height: 1.8;
-  font-size: 16px; /* larger text */
+  font-size: 17px;
 }
 
 .info-tabs [role="tabpanel"] p {
@@ -248,8 +259,12 @@ body {
     gap: 10px;
   }
 
-  .info-tabs [role="tabpanel"] .window-body {
+  .info-tabs .tabs-menu a {
     font-size: 17px;
+  }
+
+  .info-tabs [role="tabpanel"] .window-body {
+    font-size: 18px;
   }
 }
 
@@ -258,10 +273,6 @@ body {
   .gallery-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 12px;
-  }
-
-  .info-tabs [role="tabpanel"] .window-body {
-    font-size: 18px;
   }
 }
 

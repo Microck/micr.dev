@@ -1,4 +1,4 @@
-// 98.css viewer modal with meta + desc + SFX
+// 98.css viewer modal with meta + desc + Sounds
 (function () {
   function sfx(name) {
     try {

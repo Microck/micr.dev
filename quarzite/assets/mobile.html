@@ -14,16 +14,15 @@
       href="https://unpkg.com/98.css@0.1.20/dist/98.css"
     />
     <link rel="stylesheet" href="../css/mobile.css" />
-    <script defer src="../js/sounds.js"></script>
   </head>
 
   <body>
-    <!-- Animated tiled background (independent of body) -->
+    <!-- Animated tiled background -->
     <div class="bg-tiles" aria-hidden="true"></div>
 
     <!-- Standalone logo (not inside a window) -->
     <div id="logo-container" aria-label="Quarzite Logo">
-      <img id="logo-img" class="logo-img" alt="Quarzite Logo" />
+      <div id="logo-img" class="logo-img"></div>
     </div>
 
     <div class="mobile-container">
@@ -31,11 +30,7 @@
       <div class="window mobile-window">
         <div class="title-bar">
           <div class="title-bar-text">
-            <img
-              src="icons/filepack-1.png"
-              class="title-icon"
-              alt=""
-            />
+            <img src="icons/filepack-1.png" class="title-icon" alt="" />
             Navigation
           </div>
         </div>
@@ -242,26 +237,19 @@
     </div>
 
     <!-- Scripts -->
+    <script src="../js/mobile-sounds.js" defer></script>
     <script src="../js/mobile-tabs.js" defer></script>
     <script src="../js/mobile-gallery.js" defer></script>
     <script src="../js/mobile-viewer.js" defer></script>
 
-    <!-- Logo loader -->
+    <!-- Logo loader (set GIF as background) -->
     <script>
       (function () {
         const LOGOS = ["quarzitelogo3.gif", "quarzitelogo4.gif"];
-        const img = document.getElementById("logo-img");
-        if (!img) return;
-
-        function setLogo(src) {
-          const pre = new Image();
-          pre.onload = () => (img.src = src);
-          pre.onerror = () => (img.src = src);
-          pre.src = src;
-        }
-
+        const el = document.getElementById("logo-img");
+        if (!el) return;
         const i = Math.floor(Math.random() * LOGOS.length);
-        setLogo(LOGOS[i]);
+        el.style.backgroundImage = `url("${LOGOS[i]}")`;
       })();
     </script>
   </body>
