@@ -1,5 +1,29 @@
 [
   {
+    "id": "B2uPNSZHKuE",
+    "title": "Oblique",
+    "youtubeTitle": "Oblique with lubed Cherry MX Whites",
+    "category": "MX",
+    "timestamp": "2025-11-02T14:00:26Z",
+    "images": [
+      "./images/B2uPNSZHKuE/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/B2uPNSZHKuE",
+    "specs": {
+      "Keyboard": "Bowl Oblique (Cream Coat / Copper)",
+      "Keycaps": "GMK Symbiote",
+      "Switches": "Cherry MX Milk / White",
+      "Lube": "Trybosis 3204",
+      "Films": "Kelowna PC",
+      "Springs": "45g lubed with GPL 1055",
+      "Plate": "Full Aluminium",
+      "Mount": "60A Gasket Mount",
+      "Stabilizers": "JWK with 205g0",
+      "PCB": "Hotswap",
+      "Others": ""
+    }
+  },
+  {
     "id": "XlOtrfrMZA4",
     "title": "2022 HHKB Professional Hybrid Type-S Snow",
     "youtubeTitle": "Stock 2022 HHKB Professional Hybrid Type-S Snow",
