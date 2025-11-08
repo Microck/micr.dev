@@ -145,7 +145,7 @@
       "src": "assets/redacted.jpg",
       "date": "2025-09-20",
       "artist": {
-        "name": "-",
+        "name": "a",
         "url": ""
       }
     },
@@ -153,8 +153,16 @@
       "src": "assets/redacted2.png",
       "date": "2025-10-22",
       "artist": {
-        "name": "-",
+        "name": "a",
         "url": ""
+      }
+    },
+    {
+      "src": "assets/sqacecat.png",
+      "date": "2025-11-08",
+      "artist": {
+        "name": "sqacecat",
+        "url": "https://www.tiktok.com/@sqacecat"
       }
     }
   ]
