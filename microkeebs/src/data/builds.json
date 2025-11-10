@@ -1,5 +1,24 @@
 [
   {
+    "id": "hndpVp-5S_U",
+    "title": "Realforce R1 86u",
+    "youtubeTitle": "Lubed Realforce R1 86u with 35g Nissho Domes",
+    "category": "EC",
+    "timestamp": "2025-11-09T14:01:11Z",
+    "images": [
+      "./images/hndpVp-5S_U/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/hndpVp-5S_U",
+    "specs": {
+      "Keyboard": "Realforce R1 86ub",
+      "Keycaps": "Realforce R1 87ub + 7u X-Spacebar",
+      "Domes": "Nissho 35g",
+      "Sliders": "Stock (Non-Lubed (?), Non-Silenced (?))",
+      "Stabilizers": "Lubed with ???",
+      "Dampening": "Nothing"
+    }
+  },
+  {
     "id": "B2uPNSZHKuE",
     "title": "Oblique",
     "youtubeTitle": "Oblique with lubed Cherry MX Whites",
