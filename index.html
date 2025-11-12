@@ -1,15 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>micr.dev</title>
-    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
-    <link rel="shortcut icon" href="/favicons/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Micr.dev" />
-    <link rel="manifest" href="/site.webmanifest" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>micr.dev</title>
+
+  <meta
+    name="description"
+    content="a creative developer's portfolio blending technology, design, and innovation."
+  />
+  <meta name="author" content="Microck" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://micr.dev/" />
+  <meta property="og:title" content="micr.dev" />
+  <meta
+    property="og:description"
+    content="a creative developer's portfolio blending technology, design, and innovation."
+  />
+  <meta property="og:image" content="https://micr.dev/favicons/favicon-96x96.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="micr.dev" />
+  <meta
+    name="twitter:description"
+    content="a creative developer's portfolio blending technology, design, and innovation."
+  />
+  <meta name="twitter:image" content="https://micr.dev/favicons/favicon-96x96.png" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
+  <link rel="shortcut icon" href="/favicons/favicon.ico" />
+  <link rel="manifest" href="/favicons/site.webmanifest" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://micr.dev/" />
+
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "micr.dev",
+      "url": "https://micr.dev/",
+      "description": "a creative developer's portfolio blending technology, design, and innovation.",
+      "author": { "@type": "Person", "name": "Microck" }
+    }
+  </script>
+</head>
     <style>
       @font-face {
         font-family: 'TermiusTTF';
@@ -152,7 +192,6 @@
         }
       }
     </style>
-  </head>
   <body>
     <div id="loader">
       <div class="checkered-background"></div>
@@ -181,6 +220,7 @@
       </div>
     </div>
     
+	<script src="./run.js"></script>
     <!-- ADDED: Scene container with dither overlay -->
     <div id="scene-container">
       <canvas id="canvas3d"></canvas>

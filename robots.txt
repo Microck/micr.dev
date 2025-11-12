@@ -1,0 +1,11 @@
+# robots.txt for micr.dev
+
+User-agent: *
+Disallow: /assets/
+Disallow: /WIP/
+Disallow: /wip/
+Disallow: /frames-ascii/
+Allow: /
+
+# Point to sitemap (add once it's generated)
+Sitemap: https://micr.dev/sitemap.xml
