@@ -9,6 +9,7 @@
     content="a creative developer's portfolio blending technology, design, and innovation."
   />
   <meta name="author" content="Microck" />
+  <meta name="googlebot" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
@@ -226,7 +227,19 @@
       <canvas id="canvas3d"></canvas>
       <div id="dither-overlay"></div>
     </div>
-    
+	<!-- Suppress Spline / runtime.js color layer warnings -->
+	<script>
+	  const originalWarn = console.warn;
+	  console.warn = function (...args) {
+		if (
+		  typeof args[0] === "string" &&
+		  args[0].includes("Tried to create color layer params")
+		) {
+		  return; // ignore those specific warnings
+		}
+		originalWarn.apply(console, args);
+	  };
+	</script>
     <script type="module">
       import { Application } from './runtime.js';
       const canvas = document.getElementById('canvas3d');
@@ -236,7 +249,7 @@
 
       if (isMobile) {
         document.getElementById('loading-message').innerHTML = `
-          <p>
+          <p data-nosnippet>
             Thank you for visiting! This website is designed for desktop browsers.<br>
             Please use a PC to be able to access.
 			♡
