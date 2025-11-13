@@ -6,39 +6,43 @@ const indent = "        "; // 8 spaces before each animation frame
 // ==================
 
 // ===== Preload Buffer Config =====
-const preloadCount = fps * 4; // 2-second buffer
+// ===== Safe Preloader with timeout =====
+const preloadCount = fps * 4;
 const frameCache = new Map();
-const MAX_CONCURRENT_FETCHES = 3; // hard limit per domain
+const MAX_CONCURRENT_FETCHES = 2;
 let currentFetches = 0;
 let tabActive = true;
 
-// Pause preloading when tab not active
 window.addEventListener("blur", () => (tabActive = false));
 window.addEventListener("focus", () => (tabActive = true));
 
-// ===== Strict Throttled Preloader =====
 async function preloadFrames(startIndex) {
   const end = Math.min(startIndex + preloadCount, totalFrames);
+  const attempts = [];
 
   for (let i = startIndex; i < end; i++) {
-    // wait if tab inactive
-    while (!tabActive) await new Promise((r) => setTimeout(r, 100));
-
-    // wait until fewer than MAX_CONCURRENT_FETCHES running
-    while (currentFetches >= MAX_CONCURRENT_FETCHES) {
+    while (currentFetches >= MAX_CONCURRENT_FETCHES && tabActive) {
       await new Promise((r) => setTimeout(r, 25));
     }
 
     if (!frameCache.has(i)) {
       currentFetches++;
-      getFrame(i)
+      const p = getFrame(i)
         .catch(() => null)
         .finally(() => currentFetches--);
 
-      // 15 ms delay between each request start
+      attempts.push(
+        Promise.race([
+          p,
+          new Promise((resolve) => setTimeout(() => resolve(null), 2000)), // timeout per frame
+        ])
+      );
+
       await new Promise((r) => setTimeout(r, 15));
     }
   }
+
+  await Promise.allSettled(attempts);
 }
 
 // ===============================================
