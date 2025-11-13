@@ -102,7 +102,7 @@ async function playAscii() {
 		  firstFrame = false;
 		  requestAnimationFrame(() => {
 			if (window.playEggAudio)
-			  setTimeout(() => window.playEggAudio(), 550); // start 0.5 s later
+			  setTimeout(() => window.playEggAudio(), 650); // start 0.5 s later
 		  });
 		}
 
@@ -143,7 +143,7 @@ function makeLove() {
   console.log("\n".repeat(1) + "not war?");
   setTimeout(() => {
     playAscii(); // animation drives audio precisely on first frame
-  }, 2000);
+  }, 500);
 }
 
 // expose function
