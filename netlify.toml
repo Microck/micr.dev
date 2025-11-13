@@ -2,9 +2,6 @@
 # FINAL & FORCEFUL CONFIGURATION for a Monorepo with a Vite SPA
 # =============================================================================
 
-[[plugins]]
-package = "@netlify/plugin-gatsby"
-
 [build]
   command = "cd microkeebs && npm install && npm run build"
   publish = "."
