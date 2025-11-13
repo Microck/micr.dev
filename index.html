@@ -269,9 +269,13 @@
       }
     </script>
 	<script>
-	  const eggAudio = new Audio("./assets/run.ogg");
-	  eggAudio.preload = "auto";
-	  eggAudio.volume = 0.5;
+		const eggAudio = new Audio("./assets/run.ogg");
+		eggAudio.preload = "auto";
+		eggAudio.volume = 0.5;
+		window.playEggAudio = function () {
+		  eggAudio.currentTime = 0;
+		  eggAudio.play();
+		};
 
 	  // Detect when DevTools opens
 	  let devtoolsOpen = false;

@@ -8,47 +8,37 @@ const indent = "        "; // 8 spaces before each animation frame
 // ===== Preload Buffer Config =====
 const preloadCount = fps * 2; // 2-second buffer
 const frameCache = new Map();
-
-// ===== Adaptive Preloader (auto throttle) =====
-let avgLoadTime = 50; // initial estimate (ms per frame)
-const targetBufferTime = 2000; // aim for 2s total buffer load
-let concurrentFetches = 4; // starting parallel fetches
-let tabActive = true; // track tab focus
+const MAX_CONCURRENT_FETCHES = 3; // hard limit per domain
+let currentFetches = 0;
+let tabActive = true;
 
 // Pause preloading when tab not active
 window.addEventListener("blur", () => (tabActive = false));
 window.addEventListener("focus", () => (tabActive = true));
 
+// ===== Strict Throttled Preloader =====
 async function preloadFrames(startIndex) {
   const end = Math.min(startIndex + preloadCount, totalFrames);
-  let active = 0;
-  const queue = [];
 
-  async function loadFrame(i) {
-    active++;
-    const start = performance.now();
-    await getFrame(i);
-    const duration = performance.now() - start;
-    avgLoadTime = 0.8 * avgLoadTime + 0.2 * duration; // exponential smoothing
-    active--;
-  }
+  for (let i = startIndex; i < end; i++) {
+    // wait if tab inactive
+    while (!tabActive) await new Promise((r) => setTimeout(r, 100));
 
-  for (let i = startIndex; i < end; i++) queue.push(i);
+    // wait until fewer than MAX_CONCURRENT_FETCHES running
+    while (currentFetches >= MAX_CONCURRENT_FETCHES) {
+      await new Promise((r) => setTimeout(r, 25));
+    }
 
-  while (queue.length > 0 && tabActive) {
-    if (active < concurrentFetches) {
-      const i = queue.shift();
-      loadFrame(i);
-    } else {
-      await new Promise((r) => setTimeout(r, 10)); // brief pause
+    if (!frameCache.has(i)) {
+      currentFetches++;
+      getFrame(i)
+        .catch(() => null)
+        .finally(() => currentFetches--);
+
+      // 15 ms delay between each request start
+      await new Promise((r) => setTimeout(r, 15));
     }
   }
-
-  // Adjust concurrency based on observed speed
-  const estTime = (preloadCount * avgLoadTime) / concurrentFetches;
-  if (estTime > targetBufferTime && concurrentFetches > 2) concurrentFetches--;
-  else if (estTime < targetBufferTime / 2 && concurrentFetches < 10)
-    concurrentFetches++;
 }
 
 // ===============================================
@@ -80,10 +70,10 @@ async function playAscii() {
   stopFlag = false;
   frameIndex = 1;
 
-  // Preload the buffer first
+  // preload small buffer before starting
   await preloadFrames(frameIndex);
 
-  let firstFramePlayed = false;
+  let firstFrame = true;
 
   interval = setInterval(async () => {
     if (stopFlag || frameIndex > totalFrames) {
@@ -94,10 +84,12 @@ async function playAscii() {
 
     const frame = await getFrame(frameIndex);
     if (frame) {
-      // Play audio exactly when the first frame prints
-      if (!firstFramePlayed) {
-        firstFramePlayed = true;
-        if (window.playEggAudio) window.playEggAudio();
+      // Play audio exactly on first rendered frame
+      if (firstFrame) {
+        firstFrame = false;
+        requestAnimationFrame(() => {
+          if (window.playEggAudio) window.playEggAudio();
+        });
       }
 
       console.log(
@@ -105,7 +97,7 @@ async function playAscii() {
       );
     }
 
-    preloadFrames(frameIndex + 1); // keep loading ahead
+    preloadFrames(frameIndex + 1); // keep buffering ahead
     frameIndex++;
   }, 1000 / fps);
 }
@@ -136,8 +128,7 @@ _____________________________________________________________________/\\\\\\____
 function makeLove() {
   console.log("\n".repeat(1) + "not war?");
   setTimeout(() => {
-    if (window.playEggAudio) window.playEggAudio(); // play preloaded run.ogg @ 50% volume
-    playAscii();
+    playAscii(); // animation drives audio precisely on first frame
   }, 2000);
 }
 
