@@ -51,6 +51,34 @@ let frameIndex = 1;
 let interval = null;
 let stopFlag = false;
 
+// ===== Focus-based pause & reset =====
+window.addEventListener("blur", () => {
+  // Stop animation
+  stopFlag = true;
+
+  // Stop timed loop
+  if (interval) {
+    clearInterval(interval);
+    interval = null;
+  }
+
+  // Stop audio if playing
+  if (window.eggAudio && !window.eggAudio.paused) {
+    window.eggAudio.pause();
+    window.eggAudio.currentTime = 0;
+  }
+
+  // Return console to default intro
+  setTimeout(() => {
+    intro();
+  }, 200); // small delay for cleanliness
+});
+
+window.addEventListener("focus", () => {
+  // you could auto-restart, but safer to just idle at intro
+  console.log("(tab re-focused — Easter egg paused)");
+});
+
 function softClear(lines = 0) {
   console.log("\n".repeat("0"));
 }
