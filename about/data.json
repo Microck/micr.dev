@@ -47,12 +47,12 @@
     "items": [
       { "title": "407 Proxy Authentication Required", "right": "Mr Robot 4x07" },
       { "title": "Perfect Game", "right": "Attack on Titan 3x16" },
-      { "title": "Plan and Execution", "right": "Better Call Saul 6x07" },
+      { "title": "Saul Gone", "right": "Better Call Saul 6x13" },
       { "title": "Spring Breeze", "right": "Your Lie in April 1x22" },
       { "title": "Zero", "right": "Code Geass 1x25" },
       { "title": "Hello, Elliot", "right": "Mr Robot 4x13" },
       { "title": "Hero", "right": "Attack on Titan 3x17" },
-      { "title": "Saul Gone", "right": "Better Call Saul 6x13" },
+      { "title": "eps2.4_m4ster-s1ave.aes", "right": "Mr Robot 2x06" },
       { "title": "Woe’s Hollow", "right": "Severance 2x04" },
       { "title": "Ozymandias", "right": "Breaking Bad 5x14" },
       { "title": "Review", "right": "The Bear 1x07" },
@@ -284,6 +284,11 @@
         "name": "Skitzofrenia Simulation - Sewerslvt",
         "image": "skitzo.jpg",
         "spotify": "https://open.spotify.com/album/1xPlkO690CiBEwodg1HaN7"
+      },
+      {
+        "name": "Revengeseekerz - Jane Remover",
+        "image": "jane.jpg",
+        "spotify": "https://open.spotify.com/album/21b4cDNse2AMpj94ykfuON"
       }
     ]
   },

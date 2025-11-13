@@ -5,6 +5,20 @@ const fps = 30;
 const indent = "        "; // 8 spaces before each animation frame
 // ==================
 
+// ===== Preload Buffer Config =====
+const preloadCount = fps * 2; // 2-second buffer
+const frameCache = new Map();
+
+async function preloadFrames(startIndex) {
+  for (
+    let i = startIndex;
+    i < startIndex + preloadCount && i <= totalFrames;
+    i++
+  ) {
+    if (!frameCache.has(i)) getFrame(i);
+  }
+}
+
 let frameIndex = 1;
 let interval = null;
 let stopFlag = false;
@@ -14,10 +28,14 @@ function softClear(lines = 0) {
 }
 
 async function getFrame(idx) {
+  if (frameCache.has(idx)) return frameCache.get(idx);
+
   const path = `${asciiFolder}/out${idx.toString().padStart(4, "0")}.jpg.txt`;
   try {
     const res = await fetch(path);
-    return await res.text();
+    const text = await res.text();
+    frameCache.set(idx, text);
+    return text;
   } catch {
     return null;
   }
@@ -27,6 +45,8 @@ async function playAscii() {
   if (interval) return;
   stopFlag = false;
   frameIndex = 1;
+  
+  await preloadFrames(frameIndex);
 
   interval = setInterval(async () => {
     if (stopFlag || frameIndex > totalFrames) {
@@ -42,6 +62,7 @@ async function playAscii() {
       );
     }
 
+	preloadFrames(frameIndex + 1);
     frameIndex++;
   }, 1000 / fps);
 }
@@ -72,6 +93,7 @@ _____________________________________________________________________/\\\\\\____
 function makeLove() {
   console.log("\n".repeat(1) + "        not war?");
   setTimeout(() => {
+    if (window.playEggAudio) window.playEggAudio(); // play preloaded run.ogg
     playAscii();
   }, 2000);
 }

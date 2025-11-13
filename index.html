@@ -220,26 +220,28 @@
         </div>
       </div>
     </div>
-    
+    <!-- Suppress all warnings and errors -->
+	<script>
+	  // Keep original console methods
+	  const originalLog = console.log;
+	  const originalWarn = console.warn;
+	  const originalError = console.error;
+
+	  // Universal suppression for warnings and errors
+	  console.warn = function () {};
+	  console.error = function () {};
+
+	  // You can keep standard logs visible if you wish:
+	  // console.log = originalLog;
+	</script>
+	
 	<script src="./run.js"></script>
     <!-- ADDED: Scene container with dither overlay -->
     <div id="scene-container">
       <canvas id="canvas3d"></canvas>
       <div id="dither-overlay"></div>
     </div>
-	<!-- Suppress Spline / runtime.js color layer warnings -->
-	<script>
-	  const originalWarn = console.warn;
-	  console.warn = function (...args) {
-		if (
-		  typeof args[0] === "string" &&
-		  args[0].includes("Tried to create color layer params")
-		) {
-		  return; // ignore those specific warnings
-		}
-		originalWarn.apply(console, args);
-	  };
-	</script>
+
     <script type="module">
       import { Application } from './runtime.js';
       const canvas = document.getElementById('canvas3d');
@@ -266,5 +268,34 @@
         });
       }
     </script>
+	<script>
+	  const eggAudio = new Audio("./assets/run.ogg");
+	  eggAudio.preload = "auto";
+
+	  // Detect when DevTools opens
+	  let devtoolsOpen = false;
+	  const threshold = 160;
+	  setInterval(() => {
+		const widthDiff =
+		  window.outerWidth - window.innerWidth > threshold;
+		const heightDiff =
+		  window.outerHeight - window.innerHeight > threshold;
+
+		if ((widthDiff || heightDiff) && !devtoolsOpen) {
+		  devtoolsOpen = true;
+
+		  // Load your ascii easter egg script dynamically
+		  const script = document.createElement("script");
+		  script.src = "./ascii-easter-egg.js";
+		  document.body.appendChild(script);
+
+		  // Expose a global hook for the animation to play audio
+		  window.playEggAudio = function () {
+			eggAudio.currentTime = 0;
+			eggAudio.play();
+		  };
+		}
+	  }, 1000);
+	</script>
   </body>
 </html>
