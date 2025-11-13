@@ -6,7 +6,7 @@ const indent = "        "; // 8 spaces before each animation frame
 // ==================
 
 // ===== Preload Buffer Config =====
-const preloadCount = fps * 2; // 2-second buffer
+const preloadCount = fps * 4; // 2-second buffer
 const frameCache = new Map();
 const MAX_CONCURRENT_FETCHES = 3; // hard limit per domain
 let currentFetches = 0;
@@ -98,7 +98,7 @@ async function playAscii() {
 		  firstFrame = false;
 		  requestAnimationFrame(() => {
 			if (window.playEggAudio)
-			  setTimeout(() => window.playEggAudio(), 500); // start 0.5 s later
+			  setTimeout(() => window.playEggAudio(), 550); // start 0.5 s later
 		  });
 		}
 

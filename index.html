@@ -297,6 +297,8 @@
 		  window.playEggAudio = function () {
 			eggAudio.currentTime = 0;
 			eggAudio.play();
+		  script.onload = () => {
+			if (window.preloadFrames) window.preloadFrames(1);
 		  };
 		}
 	  }, 1000);
