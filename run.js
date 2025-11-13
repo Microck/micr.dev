@@ -80,7 +80,10 @@ async function playAscii() {
   stopFlag = false;
   frameIndex = 1;
 
-  await preloadFrames(frameIndex); // preload initial buffer
+  // Preload the buffer first
+  await preloadFrames(frameIndex);
+
+  let firstFramePlayed = false;
 
   interval = setInterval(async () => {
     if (stopFlag || frameIndex > totalFrames) {
@@ -91,12 +94,18 @@ async function playAscii() {
 
     const frame = await getFrame(frameIndex);
     if (frame) {
+      // Play audio exactly when the first frame prints
+      if (!firstFramePlayed) {
+        firstFramePlayed = true;
+        if (window.playEggAudio) window.playEggAudio();
+      }
+
       console.log(
         "\n".repeat(25) + indent + frame.replace(/\n/g, "\n" + indent)
       );
     }
 
-    preloadFrames(frameIndex + 1); // keep preloading ahead
+    preloadFrames(frameIndex + 1); // keep loading ahead
     frameIndex++;
   }, 1000 / fps);
 }
