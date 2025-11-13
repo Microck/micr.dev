@@ -269,34 +269,33 @@
       }
     </script>
 	<script>
-		const eggAudio = new Audio("./assets/run.ogg");
-		eggAudio.preload = "auto";
-		eggAudio.volume = 0.25;
-		window.playEggAudio = function () {
-		  eggAudio.currentTime = 0;
-		  eggAudio.play();
-		};
+	  const eggAudio = new Audio("./assets/run.ogg");
+	  eggAudio.preload = "auto";
+	  eggAudio.volume = 0.5;
 
-	  // Detect when DevTools opens
 	  let devtoolsOpen = false;
 	  const threshold = 160;
+
 	  setInterval(() => {
-		const widthDiff =
-		  window.outerWidth - window.innerWidth > threshold;
-		const heightDiff =
-		  window.outerHeight - window.innerHeight > threshold;
+		const widthDiff = window.outerWidth - window.innerWidth > threshold;
+		const heightDiff = window.outerHeight - window.innerHeight > threshold;
 
 		if ((widthDiff || heightDiff) && !devtoolsOpen) {
 		  devtoolsOpen = true;
+
+		  if (window.__asciiEggLoaded__) return;
+		  window.__asciiEggLoaded__ = true;
 
 		  const script = document.createElement("script");
 		  script.src = "./run.js";
 		  document.body.appendChild(script);
 
-		  // Expose a global hook for the animation to play audio
 		  window.playEggAudio = function () {
 			eggAudio.currentTime = 0;
 			eggAudio.play();
+		  };
+
+		  // ✅ Start preloading frames as soon as the script is loaded
 		  script.onload = () => {
 			if (window.preloadFrames) window.preloadFrames(1);
 		  };
