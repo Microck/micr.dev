@@ -235,7 +235,7 @@
 	  // console.log = originalLog;
 	</script>
 	
-	<script src="./run.js"></script>
+
     <!-- ADDED: Scene container with dither overlay -->
     <div id="scene-container">
       <canvas id="canvas3d"></canvas>
@@ -271,6 +271,7 @@
 	<script>
 	  const eggAudio = new Audio("./assets/run.ogg");
 	  eggAudio.preload = "auto";
+	  eggAudio.volume = 0.5;
 
 	  // Detect when DevTools opens
 	  let devtoolsOpen = false;

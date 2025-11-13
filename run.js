@@ -9,15 +9,49 @@ const indent = "        "; // 8 spaces before each animation frame
 const preloadCount = fps * 2; // 2-second buffer
 const frameCache = new Map();
 
+// ===== Adaptive Preloader (auto throttle) =====
+let avgLoadTime = 50; // initial estimate (ms per frame)
+const targetBufferTime = 2000; // aim for 2s total buffer load
+let concurrentFetches = 4; // starting parallel fetches
+let tabActive = true; // track tab focus
+
+// Pause preloading when tab not active
+window.addEventListener("blur", () => (tabActive = false));
+window.addEventListener("focus", () => (tabActive = true));
+
 async function preloadFrames(startIndex) {
-  for (
-    let i = startIndex;
-    i < startIndex + preloadCount && i <= totalFrames;
-    i++
-  ) {
-    if (!frameCache.has(i)) getFrame(i);
+  const end = Math.min(startIndex + preloadCount, totalFrames);
+  let active = 0;
+  const queue = [];
+
+  async function loadFrame(i) {
+    active++;
+    const start = performance.now();
+    await getFrame(i);
+    const duration = performance.now() - start;
+    avgLoadTime = 0.8 * avgLoadTime + 0.2 * duration; // exponential smoothing
+    active--;
   }
+
+  for (let i = startIndex; i < end; i++) queue.push(i);
+
+  while (queue.length > 0 && tabActive) {
+    if (active < concurrentFetches) {
+      const i = queue.shift();
+      loadFrame(i);
+    } else {
+      await new Promise((r) => setTimeout(r, 10)); // brief pause
+    }
+  }
+
+  // Adjust concurrency based on observed speed
+  const estTime = (preloadCount * avgLoadTime) / concurrentFetches;
+  if (estTime > targetBufferTime && concurrentFetches > 2) concurrentFetches--;
+  else if (estTime < targetBufferTime / 2 && concurrentFetches < 10)
+    concurrentFetches++;
 }
+
+// ===============================================
 
 let frameIndex = 1;
 let interval = null;
@@ -45,8 +79,8 @@ async function playAscii() {
   if (interval) return;
   stopFlag = false;
   frameIndex = 1;
-  
-  await preloadFrames(frameIndex);
+
+  await preloadFrames(frameIndex); // preload initial buffer
 
   interval = setInterval(async () => {
     if (stopFlag || frameIndex > totalFrames) {
@@ -62,7 +96,7 @@ async function playAscii() {
       );
     }
 
-	preloadFrames(frameIndex + 1);
+    preloadFrames(frameIndex + 1); // keep preloading ahead
     frameIndex++;
   }, 1000 / fps);
 }
@@ -91,9 +125,9 @@ _____________________________________________________________________/\\\\\\____
 }
 
 function makeLove() {
-  console.log("\n".repeat(1) + "        not war?");
+  console.log("\n".repeat(1) + "not war?");
   setTimeout(() => {
-    if (window.playEggAudio) window.playEggAudio(); // play preloaded run.ogg
+    if (window.playEggAudio) window.playEggAudio(); // play preloaded run.ogg @ 50% volume
     playAscii();
   }, 2000);
 }
