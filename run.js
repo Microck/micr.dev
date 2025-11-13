@@ -85,12 +85,13 @@ async function playAscii() {
     const frame = await getFrame(frameIndex);
     if (frame) {
       // Play audio exactly on first rendered frame
-      if (firstFrame) {
-        firstFrame = false;
-        requestAnimationFrame(() => {
-          if (window.playEggAudio) window.playEggAudio();
-        });
-      }
+		if (firstFrame) {
+		  firstFrame = false;
+		  requestAnimationFrame(() => {
+			if (window.playEggAudio)
+			  setTimeout(() => window.playEggAudio(), 500); // start 0.5 s later
+		  });
+		}
 
       console.log(
         "\n".repeat(25) + indent + frame.replace(/\n/g, "\n" + indent)
