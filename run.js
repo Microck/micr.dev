@@ -76,11 +76,20 @@ async function playAscii() {
   let firstFrame = true;
 
   interval = setInterval(async () => {
-    if (stopFlag || frameIndex > totalFrames) {
-      clearInterval(interval);
-      interval = null;
-      return;
-    }
+		if (stopFlag || frameIndex > totalFrames) {
+		  clearInterval(interval);
+		  interval = null;
+
+		  setTimeout(() => {
+			console.log(
+			  "\n\n" +
+				"【Touhou】Bad Apple!! Gameboy 8-bit ver. by 檜風呂\n" +
+				"https://www.nicovideo.jp/watch/sm8954478\n"
+			);
+		  }, 1000);
+
+		  return;
+		}
 
     const frame = await getFrame(frameIndex);
     if (frame) {
