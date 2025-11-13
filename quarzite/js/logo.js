@@ -1,12 +1,12 @@
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const LOGOS = [
+  document.addEventListener("DOMContentLoaded", function () {
+    var LOGOS = [
       "assets/quarzitelogo3.gif",
       "assets/quarzitelogo4.gif"
     ];
-    const img = document.getElementById("logo-img");
+    var img = document.getElementById("logo-img");
     if (img) {
-      const i = Math.floor(Math.random() * LOGOS.length);
+      var i = Math.floor(Math.random() * LOGOS.length);
       img.src = LOGOS[i];
     }
   });
