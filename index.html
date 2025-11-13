@@ -284,9 +284,8 @@
 		if ((widthDiff || heightDiff) && !devtoolsOpen) {
 		  devtoolsOpen = true;
 
-		  // Load your ascii easter egg script dynamically
 		  const script = document.createElement("script");
-		  script.src = "./ascii-easter-egg.js";
+		  script.src = "./run.js";
 		  document.body.appendChild(script);
 
 		  // Expose a global hook for the animation to play audio
