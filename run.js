@@ -70,6 +70,7 @@ window.addEventListener("blur", () => {
 
   // Return console to default intro
   setTimeout(() => {
+	softClear()
     intro();
   }, 200); // small delay for cleanliness
 });
