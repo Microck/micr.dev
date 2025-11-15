@@ -208,7 +208,7 @@
       const app = new Application(document.getElementById("canvas3d"));
 
       async function loadStream() {
-        const resp = await fetch("./scene.zip");
+        const resp = await fetch("./scene.dat");
         const reader = resp.body.getReader();
 
         let chunks = [];
