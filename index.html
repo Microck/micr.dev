@@ -297,21 +297,21 @@
 
 		await loadPromise;
 
-		// extra frame(s) for GPU settle
+		// let GPU settle 2 frames
 		await new Promise(r => requestAnimationFrame(() =>
 		  requestAnimationFrame(r)
 		));
 
-		// optional fake GPU padding
+		// optional small random delay to hide spike
 		await new Promise(r => setTimeout(r, 400 + Math.random() * 300));
 
-		// complete the bar
-		updateProgress(100);
+		// fill bar completely
+		drawProgress(100);
 
-		// small hold so user sees 100 %
+		// hold 100 % for a short moment
 		await new Promise(r => setTimeout(r, 150));
 
-		// then fade
+		// fade out smoothly
 		loader.classList.add("fade-out");
 		setTimeout(() => {
 		  loader.style.display = "none";
