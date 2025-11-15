@@ -2,409 +2,209 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>micr.dev</title>
 
-    <meta
-      name="description"
-      content="a creative developer's portfolio blending technology, design, and innovation."
-    />
-    <meta name="author" content="Microck" />
-    <meta name="googlebot" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://micr.dev/" />
-    <meta property="og:title" content="micr.dev" />
-    <meta
-      property="og:description"
-      content="a creative developer's portfolio blending technology, design, and innovation."
-    />
-    <meta property="og:image" content="https://micr.dev/favicons/favicon-96x96.png" />
-
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="micr.dev" />
-    <meta
-      name="twitter:description"
-      content="a creative developer's portfolio blending technology, design, and innovation."
-    />
-    <meta name="twitter:image" content="https://micr.dev/favicons/favicon-96x96.png" />
-
-    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
-    <link rel="shortcut icon" href="/favicons/favicon.ico" />
-    <link rel="manifest" href="/favicons/site.webmanifest" />
-
-    <link rel="canonical" href="https://micr.dev/" />
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "micr.dev",
-        "url": "https://micr.dev/",
-        "description": "a creative developer's portfolio blending technology, design, and innovation.",
-        "author": { "@type": "Person", "name": "Microck" }
-      }
-    </script>
-
     <style>
-			  /* dotted background (white base, gray dots) */
-		body {
-		  --dot-bg: #ffffff;          /* white canvas */
-		  --dot-color: #c0c0c0;       /* light‑gray dots */
-		  --dot-size: 1px;
-		  --dot-space: 22px;
-
-		  background:
-			linear-gradient(
-			  90deg,
-			  var(--dot-color) calc(var(--dot-space) - var(--dot-size)),
-			  transparent 1%
-			)
-			  center / var(--dot-space) var(--dot-space),
-			linear-gradient(
-			  var(--dot-color) calc(var(--dot-space) - var(--dot-size)),
-			  transparent 1%
-			)
-			  center / var(--dot-space) var(--dot-space),
-			var(--dot-bg);
-
-		  animation: dotsMove 20s linear infinite;
-		}
-
-		/* gentle drifting motion */
-		@keyframes dotsMove {
-		  0%   { background-position: 0 0, 0 0; }
-		  50%  { background-position: 12px 10px, -12px 10px; }
-		  100% { background-position: 0 0, 0 0; }
-		}
-	  
-	  @font-face {
-        font-family: "TermiusTTF";
-        src: url("fonts/TermiusTTF-bold.ttf") format("truetype");
-        font-weight: bold;
-        font-style: normal;
-      }
-
-      html,
+      /* gently moving gray‑dot pattern on white */
       body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
+        --dot-bg:#fff;
+        --dot-color:#bbb;
+        --dot-size:1px;
+        --dot-space:22px;
+        background:
+          linear-gradient(90deg,var(--dot-color) calc(var(--dot-space)-var(--dot-size)),transparent 1%)
+            center/var(--dot-space) var(--dot-space),
+          linear-gradient(var(--dot-color) calc(var(--dot-space)-var(--dot-size)),transparent 1%)
+            center/var(--dot-space) var(--dot-space),
+          var(--dot-bg);
+        animation:dotsMove 25s linear infinite;
+        margin:0;overflow:hidden;
+        font-family:"TermiusTTF","Courier New",monospace;
+      }
+      @keyframes dotsMove{
+        0%{background-position:0 0,0 0}
+        50%{background-position:12px 10px,-12px 10px}
+        100%{background-position:0 0,0 0}
       }
 
-      body {
-        overflow: hidden;
-        font-family: "TermiusTTF", "Courier New", monospace;
+      @font-face{
+        font-family:"TermiusTTF";
+        src:url("fonts/TermiusTTF-bold.ttf") format("truetype");
+        font-weight:bold;
       }
 
-      canvas {
-        display: block;
+      /* global dither overlay */
+      #dither-overlay{
+        position:fixed;inset:0;
+        background:repeating-conic-gradient(
+            rgba(255,0,0,.1)0%25%,
+            rgba(0,255,0,.1)0%50%,
+            rgba(0,0,255,.1)0%75%,
+            rgba(255,255,0,.1)0%100%)
+          0 0/4px 4px;
+        mix-blend-mode:overlay;
+        pointer-events:none;
+        z-index:10000;
       }
 
-      /* Scene container (fade-in target) */
-      #scene-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        transition: opacity 1.5s ease;
+      #loader{
+        position:fixed;inset:0;
+        z-index:9999;
+        display:flex;align-items:center;justify-content:center;
+        background:transparent;
       }
+      #loader.fade-out{opacity:0;transition:opacity 1s ease;pointer-events:none}
 
-      #dither-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: repeating-conic-gradient(
-            rgba(255, 0, 0, 0.1) 0% 25%,
-            rgba(0, 255, 0, 0.1) 0% 50%,
-            rgba(0, 0, 255, 0.1) 0% 75%,
-            rgba(255, 255, 0, 0.1) 0% 100%
-          )
-          0 0 / 4px 4px;
-        mix-blend-mode: overlay;
-        pointer-events: none;
-        z-index: 1;
-        display: none;
+      .dialog-box{
+        background:linear-gradient(to bottom,#fff,#999);
+        border:4px solid #000;border-radius:1rem;
+        padding:3rem;max-width:48rem;width:100%;
+        box-shadow:0 25px 50px -12px rgba(0,0,0,.25);
       }
+      #progress-bar{width:100%;height:22px;background:#e0e0e0;border:3px solid #000;border-radius:12px;overflow:hidden;margin-top:2rem}
+      #progress-fill{width:0;height:100%;background:#23272e;transition:width .1s linear}
+      #percent-text{font-size:20px;margin-top:1rem;font-weight:bold}
 
-      /* Loader */
-      #loader {
-        position: fixed;
-        inset: 0;
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: white;
-      }
-
-      #loader.fade-out {
-        opacity: 0;
-        transition: opacity 1s ease;
-        pointer-events: none;
-      }
-
-      #loader .dialog-box {
-        background: linear-gradient(to bottom, #ffffff, #959595);
-        border: 4px solid black;
-        border-radius: 1rem;
-        padding: 3rem;
-        max-width: 48rem;
-        width: 100%;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      }
-
-      /* Progress bar */
-      #progress-bar {
-        width: 100%;
-        height: 22px;
-        background: #e0e0e0;
-        border: 3px solid black;
-        border-radius: 12px;
-        overflow: hidden;
-        margin-top: 2rem;
-      }
-
-      #progress-fill {
-        width: 0%;
-        height: 100%;
-        background: #23272e;
-        transition: width 0.1s linear;
-      }
-
-      #percent-text {
-        font-size: 20px;
-        margin-top: 1rem;
-        font-weight: bold;
-      }
+      #scene-container{position:relative;width:100%;height:100%;opacity:0;transition:opacity 1.5s ease}
+      canvas{display:block}
     </style>
   </head>
 
   <body>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/fflate/esm/browser.js"></script>
+    <div id="dither-overlay"></div>
 
-    <!-- Loader -->
     <div id="loader">
-      <div class="checkered-background"></div>
-      <div class="loading-container">
-        <div class="dialog-box">
-          <div class="content">
-            <div class="loading-text" id="loading-message">
-              <p>The scene is currently loading. Loading times may vary depending on your internet speed.</p>
-              <p>You can orbit vertically by holding the left mouse button, this feature is intended only for the "Setup" area. You won't be able to use it elsewhere.</p>
-              <p>This website is best viewed on a PC browser at 100% zoom. If you experience lag, I recommend enabling "Hardware acceleration."</p>
-            </div>
-
-            <div id="progress-bar">
-              <div id="progress-fill"></div>
-            </div>
-
-            <div id="percent-text">0%</div>
-          </div>
+      <div class="dialog-box">
+        <div class="content">
+          <p>The scene is currently loading. Loading times may vary depending on your internet speed.</p>
+          <p>You can orbit vertically by holding the left mouse button, this feature is intended only for the "Setup" area.</p>
+          <p>This website is best viewed on a PC browser at 100 % zoom. If you experience lag, enable “Hardware acceleration.”</p>
+          <div id="progress-bar"><div id="progress-fill"></div></div>
+          <div id="percent-text">0%</div>
         </div>
       </div>
     </div>
 
-    <!-- Suppress warnings -->
-    <script>
-      console.warn = () => {};
-      console.error = () => {};
+    <div id="scene-container"><canvas id="canvas3d"></canvas></div>
+
+    <script type="module">
+      import {Application} from "./runtime.js";
+      import {unzipSync} from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js";
+
+      const loader=document.getElementById("loader"),
+            fill=document.getElementById("progress-fill"),
+            pctText=document.getElementById("percent-text"),
+            scene=document.getElementById("scene-container"),
+            canvas=document.getElementById("canvas3d"),
+            app=new Application(canvas);
+
+      const DL_END=72+Math.random()*10, UNZIP_END=87+Math.random()*7;
+      let fake=0;
+      function bar(v){
+        fake+=(v-fake)*0.25;
+        const p=Math.min(100,fake);
+        fill.style.width=p+"%"; pctText.textContent=p.toFixed(0)+"%";
+      }
+
+      async function loadStream(){
+        const r=await fetch("./scene.dat"), rd=r.body.getReader();
+        const len=Number(r.headers.get("Content-Length"));
+        const hasLen=!isNaN(len)&&len>0;
+        const chunks=[];let got=0;
+
+        while(true){
+          const {value,done}=await rd.read();
+          if(done)break;
+          chunks.push(value); got+=value.length;
+          const prog=hasLen?(got/len)*DL_END:Math.min(DL_END,got/50000);
+          bar(prog);
+        }
+
+        // fake unzip creep
+        let creep=DL_END;
+        const creepT=setInterval(()=>{
+          creep+=0.3+Math.random()*0.3;
+          if(creep>=UNZIP_END)clearInterval(creepT); else bar(creep);
+        },100);
+
+        // merge
+        const total=chunks.reduce((t,c)=>t+c.length,0);
+        const merged=new Uint8Array(total);
+        let off=0;for(const c of chunks){merged.set(c,off);off+=c.length;}
+
+        // worker unzip
+        const workerBlob=new Blob([`
+          importScripts("https://cdn.jsdelivr.net/npm/fflate/umd/index.js");
+          onmessage=e=>{
+            const f=fflate.unzipSync(new Uint8Array(e.data));
+            postMessage(f["scene.splinecode"].buffer,[f["scene.splinecode"].buffer]);
+          };`],{type:"application/javascript"});
+        const wURL=URL.createObjectURL(workerBlob);
+        const worker=new Worker(wURL);
+        const sceneBytes=await new Promise(res=>{
+          worker.onmessage=e=>res(new Uint8Array(e.data));
+          worker.postMessage(merged.buffer,[merged.buffer]);
+        });
+        worker.terminate();URL.revokeObjectURL(wURL);clearInterval(creepT);
+
+        // phase 3 : load scene
+        const blob=new Blob([sceneBytes],{type:"application/octet-stream"});
+        const bURL=URL.createObjectURL(blob);
+        const loadP=app.load(bURL);
+        URL.revokeObjectURL(bURL);
+
+        let phase3=UNZIP_END;
+        const gpuT=setInterval(()=>{
+          phase3+=(95-phase3)*0.08;
+          bar(phase3);
+        },80);
+
+        await loadP; clearInterval(gpuT);
+
+        // wait 2 frames + short delay
+        await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+        await new Promise(r=>setTimeout(r,400+Math.random()*300));
+
+        // finish cleanly
+        let done=false;
+        const fin=setInterval(()=>{
+          fake+=(100-fake)*0.15;
+          let p=fake;
+          if(p>99.8){p=100;fake=100;done=true;clearInterval(fin);}
+          fill.style.width=p+"%";pctText.textContent=p.toFixed(0)+"%";
+        },50);
+
+        while(!done)await new Promise(r=>setTimeout(r,60));
+        await new Promise(r=>setTimeout(r,1000+Math.random()*1000));
+
+        loader.classList.add("fade-out");
+        setTimeout(()=>{
+          loader.style.display="none";
+          scene.style.opacity=1;
+        },1000);
+      }
+      loadStream();
     </script>
 
-    <!-- Scene -->
-    <div id="scene-container">
-      <canvas id="canvas3d"></canvas>
-      <div id="dither-overlay"></div>
-    </div>
-
-    <!-- Streaming ZIP Loader -->
-	<script type="module">
-	  import { Application } from "./runtime.js";
-	  import { unzipSync } from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js"; // used only in worker
-
-	  const loader         = document.getElementById("loader");
-	  const progressFill   = document.getElementById("progress-fill");
-	  const percentText    = document.getElementById("percent-text");
-	  const sceneContainer = document.getElementById("scene-container");
-	  const overlay        = document.getElementById("dither-overlay");
-	  const canvas         = document.getElementById("canvas3d");
-	  const app            = new Application(canvas);
-
-	  // ---- random realistic ranges per session -----------------------------
-	  const DL_LIMIT  = 72 + Math.random() * 10; // finish download ~72–82%
-	  const UNZIP_MAX = 87 + Math.random() * 7;  // "unzip/parse" ~87–94%
-	  //-----------------------------------------------------------------------
-
-	  let fakeProgress = 0;
-	  function drawProgress(target) {
-		fakeProgress += (target - fakeProgress) * 0.25;
-		const pct = Math.min(100, fakeProgress);
-		progressFill.style.width = pct + "%";
-		percentText.textContent  = pct.toFixed(0) + "%";
-	  }
-
-	  async function loadStream() {
-		const resp   = await fetch("./scene.dat");
-		const reader = resp.body.getReader();
-		const total  = Number(resp.headers.get("Content-Length"));
-		const hasLen = !isNaN(total) && total > 0;
-
-		const chunks = [];
-		let received = 0;
-
-		// ---- PHASE 1: network download ------------------------------------
-		while (true) {
-		  const { value, done } = await reader.read();
-		  if (done) break;
-		  chunks.push(value);
-		  received += value.length;
-
-		  const progress = hasLen
-			? (received / total) * DL_LIMIT
-			: Math.min(DL_LIMIT, received / 50000);
-		  drawProgress(progress);
-		}
-
-		// ---- PHASE 2: fake unzip creep ------------------------------------
-		let creep = DL_LIMIT;
-		const creepTimer = setInterval(() => {
-		  creep += 0.3 + Math.random() * 0.3;
-		  if (creep >= UNZIP_MAX) {
-			clearInterval(creepTimer);
-		  } else {
-			drawProgress(creep);
-		  }
-		}, 100);
-
-		// ---- join chunks into one array -----------------------------------
-		const totalSize = chunks.reduce((t, c) => t + c.length, 0);
-		const merged = new Uint8Array(totalSize);
-		let offset = 0;
-		for (const c of chunks) {
-		  merged.set(c, offset);
-		  offset += c.length;
-		}
-
-		// ---- OFF-MAIN-THREAD UNZIP (Web Worker) ---------------------------
-		const workerBlob = new Blob(
-		  [`
-			importScripts("https://cdn.jsdelivr.net/npm/fflate/umd/index.js");
-			self.onmessage = e => {
-			  const files = fflate.unzipSync(new Uint8Array(e.data));
-			  self.postMessage(files["scene.splinecode"].buffer, [files["scene.splinecode"].buffer]);
-			};`
-		  ],
-		  { type: "application/javascript" }
-		);
-		const workerURL = URL.createObjectURL(workerBlob);
-		const worker = new Worker(workerURL);
-
-		const sceneBytes = await new Promise(resolve => {
-		  worker.onmessage = e => resolve(new Uint8Array(e.data));
-		  worker.postMessage(merged.buffer, [merged.buffer]);
-		});
-
-		worker.terminate();
-		URL.revokeObjectURL(workerURL);
-		clearInterval(creepTimer);
-
-		// ---- PHASE 3: load scene + finish bar -----------------------------
-		const blob = new Blob([sceneBytes], { type: "application/octet-stream" });
-		const blobUrl = URL.createObjectURL(blob);
-
-		const loadPromise = app.load(blobUrl);
-		URL.revokeObjectURL(blobUrl);
-
-		// while GPU compiles, ease bar to ~95%
-		let phase3 = UNZIP_MAX;
-		const gpuTimer = setInterval(() => {
-		  phase3 += (95 - phase3) * 0.08;
-		  drawProgress(phase3);
-		}, 80);
-
-		await loadPromise;
-
-		// let GPU settle 2 frames
-		await new Promise(r =>
-		  requestAnimationFrame(() => requestAnimationFrame(r))
-		);
-
-		// optional small random delay (hide the spike)
-		await new Promise(r =>
-		  setTimeout(r, 400 + Math.random() * 300)
-		);
-
-		// ─── Drive progress smoothly all the way to 100 ─────────────
-		let done = false;
-		const finishTimer = setInterval(() => {
-		  fakeProgress += (100 - fakeProgress) * 0.15;
-		  const pct = Math.min(100, fakeProgress);
-		  progressFill.style.width = pct + "%";
-		  percentText.textContent = pct.toFixed(0) + "%";
-
-		  if (pct >= 99.8) {
-			clearInterval(finishTimer);
-			done = true;
-		  }
-		}, 50);
-
-		// ─── Poll until the bar has visually reached 100 ─────────────
-		async function waitUntilFull() {
-		  while (!done) {
-			await new Promise(r => setTimeout(r, 50));
-		  }
-		}
-		await waitUntilFull();
-
-		// hold for 1–2 seconds before fading
-		await new Promise(r => setTimeout(r, 1000 + Math.random() * 1000));
-
-		// now fade out and reveal scene
-		loader.classList.add("fade-out");
-		setTimeout(() => {
-		  loader.style.display = "none";
-		  sceneContainer.style.opacity = 1;
-		  overlay.style.display = "block";
-		}, 1000);
-	 }
-
-	  loadStream();
-	</script>
-
-    <!-- ASCII Easter Egg loader -->
+    <!-- devtools easter egg -->
     <script>
-      const eggAudio = new Audio("./assets/run.ogg");
-      eggAudio.preload = "auto";
-      eggAudio.volume = 0.25;
-
-      let devtoolsOpen = false;
-      const threshold = 160;
-
-      setInterval(() => {
-        const widthDiff = window.outerWidth - window.innerWidth > threshold;
-        const heightDiff = window.outerHeight - window.innerHeight > threshold;
-
-        if ((widthDiff || heightDiff) && !devtoolsOpen) {
-          devtoolsOpen = true;
-
-          if (window.__asciiEggLoaded__) return;
-          window.__asciiEggLoaded__ = true;
-
-          const script = document.createElement("script");
-          script.type = "module";
-          script.src = "./run.js";
-          document.body.appendChild(script);
-
-          window.playEggAudio = function () {
-            eggAudio.currentTime = 0;
-            eggAudio.play();
-          };
+      const eggAudio=new Audio("./assets/run.ogg");
+      eggAudio.preload="auto";
+      eggAudio.volume=0.25;
+      let dev=false,th=160;
+      setInterval(()=>{
+        const w=window.outerWidth-window.innerWidth>th,
+              h=window.outerHeight-window.innerHeight>th;
+        if((w||h)&&!dev){
+          dev=true;if(window.__asciiEggLoaded__)return;
+          window.__asciiEggLoaded__=true;
+          const s=document.createElement("script");
+          s.type="module";s.src="./run.js";
+          document.body.appendChild(s);
+          window.playEggAudio=()=>{eggAudio.currentTime=0;eggAudio.play();};
         }
-      }, 1000);
+      },1000);
     </script>
   </body>
 </html>
