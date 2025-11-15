@@ -91,7 +91,21 @@
     <script type="module">
       import {Application} from "./runtime.js";
       import {unzipSync} from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js";
+	  
+	console.warn = () => {};
+	console.error = () => {};
 
+	  const originalWarn = console.warn;
+	  console.warn = function (...args) {
+		const msg = args[0];
+		if (
+		  typeof msg === "string" &&
+		  (msg.includes("Spline Runtime only accepts") ||
+		   msg.includes("color layer params"))
+		) return; // ignore these Spline messages only
+		originalWarn.apply(console, args);
+	  };
+		
       const loader=document.getElementById("loader"),
             fill=document.getElementById("progress-fill"),
             pctText=document.getElementById("percent-text"),
@@ -176,7 +190,7 @@
         },50);
 
         while(!done)await new Promise(r=>setTimeout(r,60));
-        await new Promise(r=>setTimeout(r,1000+Math.random()*1000));
+        await new Promise(r=>setTimeout(r,1000+Math.random()*100));
 
         loader.classList.add("fade-out");
         setTimeout(()=>{
