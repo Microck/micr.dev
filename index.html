@@ -238,9 +238,15 @@
           off += c.length;
         }
 
-		const files = unzipSync(merged);              // <‑ use unzipSync here
+		const files = unzipSync(merged);
 		const rawScene = strFromU8(files["scene.splinecode"]);
-		await app.loadFromJSON(rawScene);
+
+		// Create a temporary blob, so Spline’s normal loader can read it
+		const blob = new Blob([rawScene], { type: "application/json" });
+		const blobUrl = URL.createObjectURL(blob);
+
+		await app.load(blobUrl);
+		URL.revokeObjectURL(blobUrl);
 
         // Fade-out and reveal scene
         loader.classList.add("fade-out");
