@@ -155,7 +155,6 @@
 
   <body>
     <script type="module" src="https://cdn.jsdelivr.net/npm/fflate/esm/browser.js"></script>
-    <script type="module" src="./run.js"></script>
 
     <!-- Loader -->
     <div id="loader">
@@ -214,7 +213,8 @@
 
         let chunks = [];
         let received = 0;
-        const total = Number(resp.headers.get("Content-Length")) || 1;
+        const total = Number(resp.headers.get("Content-Length"));
+		let hasLength = !isNaN(total) && total > 0;
 
         while (true) {
           const { value, done } = await reader.read();
@@ -223,7 +223,12 @@
           chunks.push(value);
           received += value.length;
 
-          updateProgress(Math.floor((received / total) * 100));
+          if (hasLength) {
+			  updateProgress(Math.min(100, Math.floor((received / total) * 100)));
+			} else {
+			  // If server doesn't send Content-Length, animate smoothly
+			  updateProgress(Math.min(99, Math.floor(received / 50000))); 
+}
         }
 
         const merged = new Uint8Array(received);
