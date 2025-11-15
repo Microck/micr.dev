@@ -193,7 +193,7 @@
     <!-- Streaming ZIP Loader -->
     <script type="module">
       import { Application } from "./runtime.js";
-      import { unzipSync, strFromU8 } from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js";
+      import { unzipSync } from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js";
 
       const loader = document.getElementById("loader");
       const progressFill = document.getElementById("progress-fill");
@@ -239,10 +239,15 @@
         }
 
 		const files = unzipSync(merged);
-		const rawScene = strFromU8(files["scene.splinecode"]);
+		const sceneBytes = files["scene.splinecode"]; // Uint8Array
 
-		// Create a temporary blob, so Spline’s normal loader can read it
-		const blob = new Blob([rawScene], { type: "application/json" });
+		if (!sceneBytes) {
+		  console.error("scene.splinecode not found in archive");
+		  return;
+		}
+
+		// feed original binary bytes back to Spline
+		const blob = new Blob([sceneBytes], { type: "application/octet-stream" });
 		const blobUrl = URL.createObjectURL(blob);
 
 		await app.load(blobUrl);
