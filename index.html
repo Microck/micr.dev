@@ -194,6 +194,8 @@
       }
     </style>
   <body>
+	<script type="module" src="https://cdn.jsdelivr.net/npm/fflate/esm/browser.js"></script>
+	<script type="module" src="./run.js"></script>
     <div id="loader">
       <div class="checkered-background"></div>
       <div class="loading-container">
@@ -230,6 +232,8 @@
 	  // Universal suppression for warnings and errors
 	  console.warn = function () {};
 	  console.error = function () {};
+	  console.error = () => {};
+	  console.warn = () => {};
 
 	  // You can keep standard logs visible if you wish:
 	  // console.log = originalLog;
@@ -286,9 +290,11 @@
 		  if (window.__asciiEggLoaded__) return;
 		  window.__asciiEggLoaded__ = true;
 
-		  const script = document.createElement("script");
-		  script.src = "./run.js";
-		  document.body.appendChild(script);
+
+			const script = document.createElement("script");
+			script.type = "module";      // <‑‑ REQUIRED
+			script.src = "./run.js";
+			document.body.appendChild(script);
 
 		  window.playEggAudio = function () {
 			eggAudio.currentTime = 0;

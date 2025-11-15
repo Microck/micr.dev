@@ -1,153 +1,142 @@
-// ===== CONFIG =====
-const asciiFolder = "./assets";
+// ==========================================================
+// ZIP‑BASED ASCII ANIMATION LOADER (fflate)
+// ==========================================================
+
+import {
+  unzipSync,
+  strFromU8,
+} from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js";
+
+const ZIP_PATH = "./assets/frames.zip";
 const totalFrames = 6572;
 const fps = 30;
-const indent = "        "; // 8 spaces before each animation frame
-// ==================
+const indent = "        ";
 
-// ===== Preload Buffer Config =====
-// ===== Safe Preloader with timeout =====
-const preloadCount = fps * 4;
-const frameCache = new Map();
-const MAX_CONCURRENT_FETCHES = 2;
-let currentFetches = 0;
-let tabActive = true;
+let FRAME_MAP = null;
+let zipReady = false;
 
-window.addEventListener("blur", () => (tabActive = false));
-window.addEventListener("focus", () => (tabActive = true));
+// ---- Load ZIP once ----
+async function loadZip() {
+  if (zipReady) return;
 
-async function preloadFrames(startIndex) {
-  const end = Math.min(startIndex + preloadCount, totalFrames);
-  const attempts = [];
+  const res = await fetch(ZIP_PATH);
+  const buf = new Uint8Array(await res.arrayBuffer());
 
-  for (let i = startIndex; i < end; i++) {
-    while (currentFetches >= MAX_CONCURRENT_FETCHES && tabActive) {
-      await new Promise((r) => setTimeout(r, 25));
-    }
+  FRAME_MAP = unzipSync(buf);
+  zipReady = true;
 
-    if (!frameCache.has(i)) {
-      currentFetches++;
-      const p = getFrame(i)
-        .catch(() => null)
-        .finally(() => currentFetches--);
-
-      attempts.push(
-        Promise.race([
-          p,
-          new Promise((resolve) => setTimeout(() => resolve(null), 2000)), // timeout per frame
-        ])
-      );
-
-      await new Promise((r) => setTimeout(r, 15));
-    }
-  }
-
-  await Promise.allSettled(attempts);
+  console.log(
+    "(ASCII ZIP extracted:",
+    Object.keys(FRAME_MAP).length,
+    "frames)"
+  );
 }
 
-// ===============================================
+// ---- Get frame text ----
+async function getFrame(idx) {
+  if (!zipReady) await loadZip();
+
+  const name = "out" + idx.toString().padStart(4, "0") + ".jpg.txt";
+  const entry = FRAME_MAP[name];
+  if (!entry) return null;
+
+  return strFromU8(entry);
+}
+
+// Dummy (ZIP removes need for network preloading)
+async function preloadFrames() {
+  return;
+}
+
+// ==========================================================
+// ANIMATION LOGIC
+// ==========================================================
 
 let frameIndex = 1;
 let interval = null;
 let stopFlag = false;
 
-// ===== Focus-based pause & reset =====
+// FIXED: only stop animation on blur *if animation is running*
 window.addEventListener("blur", () => {
-  // Stop animation
+  if (!interval) return; // do nothing unless animation running
+
   stopFlag = true;
+  clearInterval(interval);
+  interval = null;
 
-  // Stop timed loop
-  if (interval) {
-    clearInterval(interval);
-    interval = null;
-  }
-
-  // Stop audio if playing
-  if (window.eggAudio && !window.eggAudio.paused) {
+  if (window.eggAudio) {
     window.eggAudio.pause();
     window.eggAudio.currentTime = 0;
   }
 
-  // Return console to default intro
   setTimeout(() => {
-	softClear()
+    softClear();
     intro();
-  }, 200); // small delay for cleanliness
+  }, 200);
 });
 
-window.addEventListener("focus", () => {
-  // you could auto-restart, but safer to just idle at intro
-  console.log("(tab re-focused — Easter egg paused)");
-});
+// On refocus, do nothing.
+window.addEventListener("focus", () => {});
 
-function softClear(lines = 0) {
-  console.log("\n".repeat("0"));
+function softClear() {
+  console.log("\n");
 }
 
-async function getFrame(idx) {
-  if (frameCache.has(idx)) return frameCache.get(idx);
-
-  const path = `${asciiFolder}/out${idx.toString().padStart(4, "0")}.jpg.txt`;
-  try {
-    const res = await fetch(path);
-    const text = await res.text();
-    frameCache.set(idx, text);
-    return text;
-  } catch {
-    return null;
-  }
-}
+// ==========================================================
+// PLAYBACK
+// ==========================================================
 
 async function playAscii() {
   if (interval) return;
   stopFlag = false;
   frameIndex = 1;
 
-  // preload small buffer before starting
-  await preloadFrames(frameIndex);
+  await preloadFrames();
 
   let firstFrame = true;
 
   interval = setInterval(async () => {
-		if (stopFlag || frameIndex > totalFrames) {
-		  clearInterval(interval);
-		  interval = null;
+    if (stopFlag || frameIndex > totalFrames) {
+      clearInterval(interval);
+      interval = null;
 
-		  setTimeout(() => {
-			console.log(
-			  "\n\n" +
-				"【Touhou】Bad Apple!! Gameboy 8-bit ver. by 檜風呂\n" +
-				"https://www.nicovideo.jp/watch/sm8954478\n"
-			);
-		  }, 1000);
+      setTimeout(() => {
+        console.log(
+          "\n\n" +
+            "【Touhou】Bad Apple!! Gameboy 8-bit ver. by 檜風呂\n" +
+            "https://www.nicovideo.jp/watch/sm8954478\n"
+        );
+      }, 1000);
 
-		  return;
-		}
+      return;
+    }
 
     const frame = await getFrame(frameIndex);
     if (frame) {
-      // Play audio exactly on first rendered frame
-		if (firstFrame) {
-		  firstFrame = false;
-		  requestAnimationFrame(() => {
-			if (window.playEggAudio)
-			  setTimeout(() => window.playEggAudio(), 650); // start 0.5 s later
-		  });
-		}
+      if (firstFrame) {
+        firstFrame = false;
+        requestAnimationFrame(() => {
+          if (window.playEggAudio)
+            setTimeout(() => window.playEggAudio(), 700);
+        });
+      }
 
       console.log(
         "\n".repeat(25) + indent + frame.replace(/\n/g, "\n" + indent)
       );
     }
 
-    preloadFrames(frameIndex + 1); // keep buffering ahead
     frameIndex++;
   }, 1000 / fps);
 }
 
+// ==========================================================
+// INTRO + PUBLIC API
+// ==========================================================
+
 function intro() {
   console.log(
-    "\n".repeat(1) +
+    "\n" +
       `
 _____________________________________________________________________/\\\\\\_______________________________        
  ____________________________________________________________________\\/\\\\\\_______________________________       
@@ -169,14 +158,24 @@ _____________________________________________________________________/\\\\\\____
 }
 
 function makeLove() {
-  console.log("\n".repeat(1) + "not war?");
+  console.log("\nnot war?");
   setTimeout(() => {
-    playAscii(); // animation drives audio precisely on first frame
+    playAscii();
   }, 500);
 }
 
-// expose function
 window.makeLove = makeLove;
-
-// run intro
 intro();
+
+// ==========================================================
+// AUDIO HANDLER
+// ==========================================================
+
+const eggAudio = new Audio("./assets/run.ogg");
+eggAudio.preload = "auto";
+eggAudio.volume = 0.25;
+
+window.playEggAudio = function () {
+  eggAudio.currentTime = 0;
+  eggAudio.play();
+};
