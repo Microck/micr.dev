@@ -193,91 +193,124 @@
     <!-- Streaming ZIP Loader -->
 	<script type="module">
 	  import { Application } from "./runtime.js";
-	  import { unzipSync } from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js";
+	  import { unzipSync } from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js"; // used only in worker
 
-	  const loader = document.getElementById("loader");
-	  const progressFill = document.getElementById("progress-fill");
-	  const percentText = document.getElementById("percent-text");
+	  const loader         = document.getElementById("loader");
+	  const progressFill   = document.getElementById("progress-fill");
+	  const percentText    = document.getElementById("percent-text");
 	  const sceneContainer = document.getElementById("scene-container");
-	  const overlay = document.getElementById("dither-overlay");
-	  const canvas = document.getElementById("canvas3d");
-	  const app = new Application(canvas);
+	  const overlay        = document.getElementById("dither-overlay");
+	  const canvas         = document.getElementById("canvas3d");
+	  const app            = new Application(canvas);
 
-	  
-	  const DL_LIMIT   = 74 + Math.random() * 8; 
-	  const UNZIP_MAX  = 88 + Math.random() * 7; 
+	  // ---- random realistic ranges per session -----------------------------
+	  const DL_LIMIT  = 72 + Math.random() * 10; // finish download ~72–82%
+	  const UNZIP_MAX = 87 + Math.random() * 7;  // "unzip/parse" ~87–94%
+	  //-----------------------------------------------------------------------
 
-	  
 	  let fakeProgress = 0;
-	  function updateBar(target) {
-		fakeProgress += (target - fakeProgress) * 0.2;
+	  function drawProgress(target) {
+		fakeProgress += (target - fakeProgress) * 0.25;
 		const pct = Math.min(100, fakeProgress);
 		progressFill.style.width = pct + "%";
-		percentText.textContent = pct.toFixed(0) + "%";
+		percentText.textContent  = pct.toFixed(0) + "%";
 	  }
 
 	  async function loadStream() {
-		const resp = await fetch("./scene.dat");
+		const resp   = await fetch("./scene.dat");
 		const reader = resp.body.getReader();
+		const total  = Number(resp.headers.get("Content-Length"));
+		const hasLen = !isNaN(total) && total > 0;
 
-		const total = Number(resp.headers.get("Content-Length"));
-		let chunks = [], received = 0;
-		let hasLength = !isNaN(total) && total > 0;
+		const chunks = [];
+		let received = 0;
 
-		
+		// ---- PHASE 1: network download ------------------------------------
 		while (true) {
 		  const { value, done } = await reader.read();
 		  if (done) break;
-
 		  chunks.push(value);
 		  received += value.length;
 
-		  const realPct = hasLength ? (received / total) * 100 : received / 50000;
-		  const target = Math.min(DL_LIMIT, realPct * (DL_LIMIT / 100)); // cap to DL_LIMIT
-		  updateBar(target);
+		  const progress = hasLen
+			? (received / total) * DL_LIMIT
+			: Math.min(DL_LIMIT, received / 50000);
+		  drawProgress(progress);
 		}
 
-		
-		let phase2 = DL_LIMIT;
-		const unzipTicker = setInterval(() => {
-		  phase2 += 0.3 + Math.random() * 0.3; 
-		  if (phase2 >= UNZIP_MAX) {
-			clearInterval(unzipTicker);
+		// ---- PHASE 2: fake unzip creep ------------------------------------
+		let creep = DL_LIMIT;
+		const creepTimer = setInterval(() => {
+		  creep += 0.3 + Math.random() * 0.3;
+		  if (creep >= UNZIP_MAX) {
+			clearInterval(creepTimer);
 		  } else {
-			updateBar(phase2);
+			drawProgress(creep);
 		  }
 		}, 100);
 
-		
-		const merged = new Uint8Array(chunks.reduce((t, c) => t + c.length, 0));
+		// ---- join chunks into one array -----------------------------------
+		const totalSize = chunks.reduce((t, c) => t + c.length, 0);
+		const merged = new Uint8Array(totalSize);
 		let offset = 0;
-		for (const chunk of chunks) {
-		  merged.set(chunk, offset);
-		  offset += chunk.length;
+		for (const c of chunks) {
+		  merged.set(c, offset);
+		  offset += c.length;
 		}
 
-		const files = unzipSync(merged);
-		const sceneBytes = files["scene.splinecode"];
+		// ---- OFF-MAIN-THREAD UNZIP (Web Worker) ---------------------------
+		const workerBlob = new Blob(
+		  [`
+			importScripts("https://cdn.jsdelivr.net/npm/fflate/umd/index.js");
+			self.onmessage = e => {
+			  const files = fflate.unzipSync(new Uint8Array(e.data));
+			  self.postMessage(files["scene.splinecode"].buffer, [files["scene.splinecode"].buffer]);
+			};`
+		  ],
+		  { type: "application/javascript" }
+		);
+		const workerURL = URL.createObjectURL(workerBlob);
+		const worker = new Worker(workerURL);
+
+		const sceneBytes = await new Promise(resolve => {
+		  worker.onmessage = e => resolve(new Uint8Array(e.data));
+		  worker.postMessage(merged.buffer, [merged.buffer]);
+		});
+
+		worker.terminate();
+		URL.revokeObjectURL(workerURL);
+		clearInterval(creepTimer);
+
+		// ---- PHASE 3: load scene + finish bar -----------------------------
 		const blob = new Blob([sceneBytes], { type: "application/octet-stream" });
 		const blobUrl = URL.createObjectURL(blob);
 
-		await app.load(blobUrl); 
+		const loadPromise = app.load(blobUrl);
 		URL.revokeObjectURL(blobUrl);
 
-		clearInterval(unzipTicker);
+		// while GPU compiles, ease bar to ~95%
+		let phase3 = UNZIP_MAX;
+		const gpuTimer = setInterval(() => {
+		  phase3 += (95 - phase3) * 0.08;
+		  drawProgress(phase3);
+		}, 80);
 
-		
-		let finish = setInterval(() => {
-		  fakeProgress += (100 - fakeProgress) * 0.1;
+		await loadPromise; // heavy GPU stage
+		clearInterval(gpuTimer);
+
+		// give the browser one frame to breathe before fade
+		await new Promise(r => requestAnimationFrame(r));
+
+		// smooth finish to 100%
+		const finishTimer = setInterval(() => {
+		  fakeProgress += (100 - fakeProgress) * 0.15;
 		  const pct = Math.min(100, fakeProgress);
 		  progressFill.style.width = pct + "%";
-		  percentText.textContent = pct.toFixed(0) + "%";
-		  if (pct > 99.5) {
-			clearInterval(finish);
-		  }
-		}, 60);
+		  percentText.textContent  = pct.toFixed(0) + "%";
+		  if (pct >= 99.5) clearInterval(finishTimer);
+		}, 50);
 
-		
+		// ---- FADE -------------------------------
 		loader.classList.add("fade-out");
 		setTimeout(() => {
 		  loader.style.display = "none";
