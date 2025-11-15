@@ -1,97 +1,98 @@
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>micr.dev</title>
+    <title>micr.dev</title>
 
-  <meta
-    name="description"
-    content="a creative developer's portfolio blending technology, design, and innovation."
-  />
-  <meta name="author" content="Microck" />
-  <meta name="googlebot" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta
+      name="description"
+      content="a creative developer's portfolio blending technology, design, and innovation."
+    />
+    <meta name="author" content="Microck" />
+    <meta name="googlebot" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://micr.dev/" />
-  <meta property="og:title" content="micr.dev" />
-  <meta
-    property="og:description"
-    content="a creative developer's portfolio blending technology, design, and innovation."
-  />
-  <meta property="og:image" content="https://micr.dev/favicons/favicon-96x96.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://micr.dev/" />
+    <meta property="og:title" content="micr.dev" />
+    <meta
+      property="og:description"
+      content="a creative developer's portfolio blending technology, design, and innovation."
+    />
+    <meta property="og:image" content="https://micr.dev/favicons/favicon-96x96.png" />
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="micr.dev" />
-  <meta
-    name="twitter:description"
-    content="a creative developer's portfolio blending technology, design, and innovation."
-  />
-  <meta name="twitter:image" content="https://micr.dev/favicons/favicon-96x96.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="micr.dev" />
+    <meta
+      name="twitter:description"
+      content="a creative developer's portfolio blending technology, design, and innovation."
+    />
+    <meta name="twitter:image" content="https://micr.dev/favicons/favicon-96x96.png" />
 
-  <!-- Favicons -->
-  <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
-  <link rel="shortcut icon" href="/favicons/favicon.ico" />
-  <link rel="manifest" href="/favicons/site.webmanifest" />
+    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
+    <link rel="shortcut icon" href="/favicons/favicon.ico" />
+    <link rel="manifest" href="/favicons/site.webmanifest" />
 
-  <!-- Canonical -->
-  <link rel="canonical" href="https://micr.dev/" />
+    <link rel="canonical" href="https://micr.dev/" />
 
-  <!-- Schema Markup -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "micr.dev",
-      "url": "https://micr.dev/",
-      "description": "a creative developer's portfolio blending technology, design, and innovation.",
-      "author": { "@type": "Person", "name": "Microck" }
-    }
-  </script>
-</head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "micr.dev",
+        "url": "https://micr.dev/",
+        "description": "a creative developer's portfolio blending technology, design, and innovation.",
+        "author": { "@type": "Person", "name": "Microck" }
+      }
+    </script>
+
     <style>
       @font-face {
-        font-family: 'TermiusTTF';
-        src: url('fonts/TermiusTTF-bold.ttf') format('truetype');
+        font-family: "TermiusTTF";
+        src: url("fonts/TermiusTTF-bold.ttf") format("truetype");
         font-weight: bold;
         font-style: normal;
       }
 
-      html, body {
+      html,
+      body {
         height: 100%;
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
       }
+
       body {
         overflow: hidden;
-        font-family: 'TermiusTTF', 'Courier New', monospace;
+        font-family: "TermiusTTF", "Courier New", monospace;
       }
+
       canvas {
         display: block;
       }
-      
-      /* ADDED: Scene container and dither overlay */
+
+      /* Scene container (fade-in target) */
       #scene-container {
         position: relative;
         width: 100%;
         height: 100%;
+        opacity: 0;
+        transition: opacity 1.5s ease;
       }
+
       #dither-overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: 
-          repeating-conic-gradient(
-            rgba(255, 0, 0, 0.1) 0% 25%, 
+        background: repeating-conic-gradient(
+            rgba(255, 0, 0, 0.1) 0% 25%,
             rgba(0, 255, 0, 0.1) 0% 50%,
             rgba(0, 0, 255, 0.1) 0% 75%,
             rgba(255, 255, 0, 0.1) 0% 100%
-          ) 
+          )
           0 0 / 4px 4px;
         mix-blend-mode: overlay;
         pointer-events: none;
@@ -99,38 +100,23 @@
         display: none;
       }
 
+      /* Loader */
       #loader {
         position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
+        inset: 0;
         z-index: 9999;
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 100vh;
+        background: white;
       }
-      #loader .checkered-background {
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        opacity: 0.3;
-        background-image: 
-          linear-gradient(45deg, #e4e4e4 25%, transparent 25%),
-          linear-gradient(-45deg, #e4e4e4 25%, transparent 25%),
-          linear-gradient(45deg, transparent 75%, #e4e4e4 75%),
-          linear-gradient(-45deg, transparent 75%, #e4e4e4 75%);
-        background-size: 40px 40px;
-        background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+
+      #loader.fade-out {
+        opacity: 0;
+        transition: opacity 1s ease;
         pointer-events: none;
       }
-      #loader .loading-container {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-        position: relative;
-        z-index: 10;
-        width: 100vw;
-      }
+
       #loader .dialog-box {
         background: linear-gradient(to bottom, #ffffff, #959595);
         border: 4px solid black;
@@ -140,173 +126,160 @@
         width: 100%;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
       }
-      #loader .content {
-        text-align: center;
+
+      /* Progress bar */
+      #progress-bar {
+        width: 100%;
+        height: 22px;
+        background: #e0e0e0;
+        border: 3px solid black;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-top: 2rem;
       }
-      #loader .loading-text {
-        color: black;
-        font-size: 1.125rem;
+
+      #progress-fill {
+        width: 0%;
+        height: 100%;
+        background: #23272e;
+        transition: width 0.1s linear;
+      }
+
+      #percent-text {
+        font-size: 20px;
+        margin-top: 1rem;
         font-weight: bold;
-        line-height: 1.4;
-        margin-bottom: 2rem;
-      }
-      #loader .loading-text p {
-        margin-bottom: 1.5rem;
-        font-weight: bold;
-      }
-      #spinner-container {
-        display: flex;
-        justify-content: center;
-        padding-top: 1rem;
-      }
-      #spinner-container .spinner {
-        position: relative;
-      }
-      #spinner-container .spinner-bg {
-        width: 5rem;
-        height: 5rem;
-        border: 4px solid white;
-        border-radius: 50%;
-      }
-      #spinner-container .spinner-fg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 5rem;
-        height: 5rem;
-        border: 4px solid #23272e;
-        border-top-color: transparent;
-        border-radius: 50%;
-        animation: spin 2s linear infinite;
-      }
-      @keyframes spin {
-        0% { transform: rotate(0deg);}
-        100% { transform: rotate(360deg);}
-      }
-      @media (max-width: 768px) {
-        #loader .dialog-box {
-          padding: 2rem;
-          margin: 1rem;
-        }
-        #loader .loading-text {
-          font-size: 1rem;
-        }
       }
     </style>
+  </head>
+
   <body>
-	<script type="module" src="https://cdn.jsdelivr.net/npm/fflate/esm/browser.js"></script>
-	<script type="module" src="./run.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/fflate/esm/browser.js"></script>
+    <script type="module" src="./run.js"></script>
+
+    <!-- Loader -->
     <div id="loader">
       <div class="checkered-background"></div>
       <div class="loading-container">
         <div class="dialog-box">
           <div class="content">
             <div class="loading-text" id="loading-message">
-              <p>
-                The scene is currently loading. Loading times may vary depending on your internet speed.
-              </p>
-              <p>
-                You can orbit vertically by holding the left mouse button, this feature is intended only for the "Setup" area. You won't be able to use it elsewhere.
-              </p>
-              <p>
-                This website is best viewed on a PC browser at 100% zoom. If you experience lag, I recommend enabling "Hardware acceleration."
-              </p>
+              <p>The scene is currently loading. Loading times may vary depending on your internet speed.</p>
+              <p>You can orbit vertically by holding the left mouse button, this feature is intended only for the "Setup" area. You won't be able to use it elsewhere.</p>
+              <p>This website is best viewed on a PC browser at 100% zoom. If you experience lag, I recommend enabling "Hardware acceleration."</p>
             </div>
-            <div class="spinner-container" id="spinner-container">
-              <div class="spinner">
-                <div class="spinner-bg"></div>
-                <div class="spinner-fg"></div>
-              </div>
+
+            <div id="progress-bar">
+              <div id="progress-fill"></div>
             </div>
+
+            <div id="percent-text">0%</div>
           </div>
         </div>
       </div>
     </div>
-    <!-- Suppress all warnings and errors -->
-	<script>
-	  // Keep original console methods
-	  const originalLog = console.log;
-	  const originalWarn = console.warn;
-	  const originalError = console.error;
 
-	  // Universal suppression for warnings and errors
-	  console.warn = function () {};
-	  console.error = function () {};
-	  console.error = () => {};
-	  console.warn = () => {};
+    <!-- Suppress warnings -->
+    <script>
+      console.warn = () => {};
+      console.error = () => {};
+    </script>
 
-	  // You can keep standard logs visible if you wish:
-	  // console.log = originalLog;
-	</script>
-	
-
-    <!-- ADDED: Scene container with dither overlay -->
+    <!-- Scene -->
     <div id="scene-container">
       <canvas id="canvas3d"></canvas>
       <div id="dither-overlay"></div>
     </div>
 
+    <!-- Streaming ZIP Loader -->
     <script type="module">
-      import { Application } from './runtime.js';
-      const canvas = document.getElementById('canvas3d');
-      const isMobile = /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(
-        navigator.userAgent
-      );
+      import { Application } from "./runtime.js";
+      import { unzip, strFromU8 } from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js";
 
-      if (isMobile) {
-        document.getElementById('loading-message').innerHTML = `
-          <p data-nosnippet>
-            Thank you for visiting! This website is designed for desktop browsers.<br>
-            Please use a PC to be able to access.
-			♡
-          </p>
-        `;
-        document.getElementById('spinner-container').style.display = 'none';
-        // Do NOT load the Spline scene
-      } else {
-        const app = new Application(canvas);
-        app.load('./scene.splinecode').then(() => {
-          document.getElementById('loader').style.display = 'none';
-          // Enable dither effect on scene
-          document.getElementById('dither-overlay').style.display = 'block';
-        });
+      const loader = document.getElementById("loader");
+      const progressFill = document.getElementById("progress-fill");
+      const percentText = document.getElementById("percent-text");
+      const sceneContainer = document.getElementById("scene-container");
+
+      function updateProgress(pct) {
+        progressFill.style.width = pct + "%";
+        percentText.textContent = pct + "%";
       }
+
+      const app = new Application(document.getElementById("canvas3d"));
+
+      async function loadStream() {
+        const resp = await fetch("./scene.zip");
+        const reader = resp.body.getReader();
+
+        let chunks = [];
+        let received = 0;
+        const total = Number(resp.headers.get("Content-Length")) || 1;
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+
+          chunks.push(value);
+          received += value.length;
+
+          updateProgress(Math.floor((received / total) * 100));
+        }
+
+        const merged = new Uint8Array(received);
+        let off = 0;
+        for (const c of chunks) {
+          merged.set(c, off);
+          off += c.length;
+        }
+
+        const files = unzip(merged);
+        const rawScene = strFromU8(files["scene.splinecode"]);
+
+        await app.loadFromJSON(rawScene);
+
+        // Fade-out and reveal scene
+        loader.classList.add("fade-out");
+        setTimeout(() => {
+          loader.style.display = "none";
+          sceneContainer.style.opacity = 1;
+          document.getElementById("dither-overlay").style.display = "block";
+        }, 1000);
+      }
+
+      loadStream();
     </script>
-	<script>
-	  const eggAudio = new Audio("./assets/run.ogg");
-	  eggAudio.preload = "auto";
-	  eggAudio.volume = 0.25;
 
-	  let devtoolsOpen = false;
-	  const threshold = 160;
+    <!-- ASCII Easter Egg loader -->
+    <script>
+      const eggAudio = new Audio("./assets/run.ogg");
+      eggAudio.preload = "auto";
+      eggAudio.volume = 0.25;
 
-	  setInterval(() => {
-		const widthDiff = window.outerWidth - window.innerWidth > threshold;
-		const heightDiff = window.outerHeight - window.innerHeight > threshold;
+      let devtoolsOpen = false;
+      const threshold = 160;
 
-		if ((widthDiff || heightDiff) && !devtoolsOpen) {
-		  devtoolsOpen = true;
+      setInterval(() => {
+        const widthDiff = window.outerWidth - window.innerWidth > threshold;
+        const heightDiff = window.outerHeight - window.innerHeight > threshold;
 
-		  if (window.__asciiEggLoaded__) return;
-		  window.__asciiEggLoaded__ = true;
+        if ((widthDiff || heightDiff) && !devtoolsOpen) {
+          devtoolsOpen = true;
 
+          if (window.__asciiEggLoaded__) return;
+          window.__asciiEggLoaded__ = true;
 
-			const script = document.createElement("script");
-			script.type = "module";      // <‑‑ REQUIRED
-			script.src = "./run.js";
-			document.body.appendChild(script);
+          const script = document.createElement("script");
+          script.type = "module";
+          script.src = "./run.js";
+          document.body.appendChild(script);
 
-		  window.playEggAudio = function () {
-			eggAudio.currentTime = 0;
-			eggAudio.play();
-		  };
-
-		  // ✅ Start preloading frames as soon as the script is loaded
-		  script.onload = () => {
-			if (window.preloadFrames) window.preloadFrames(1);
-		  };
-		}
-	  }, 1000);
-	</script>
+          window.playEggAudio = function () {
+            eggAudio.currentTime = 0;
+            eggAudio.play();
+          };
+        }
+      }, 1000);
+    </script>
   </body>
 </html>
