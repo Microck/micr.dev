@@ -1,75 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>micr.dev</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style>
-      /* gently moving gray‑dot pattern on white */
-      body {
-        --dot-bg:#fff;
-        --dot-color:#bbb;
-        --dot-size:1px;
-        --dot-space:22px;
-        background:
-          linear-gradient(90deg,var(--dot-color) calc(var(--dot-space)-var(--dot-size)),transparent 1%)
-            center/var(--dot-space) var(--dot-space),
-          linear-gradient(var(--dot-color) calc(var(--dot-space)-var(--dot-size)),transparent 1%)
-            center/var(--dot-space) var(--dot-space),
-          var(--dot-bg);
-        animation:dotsMove 25s linear infinite;
-        margin:0;overflow:hidden;
-        font-family:"TermiusTTF","Courier New",monospace;
-      }
-      @keyframes dotsMove{
-        0%{background-position:0 0,0 0}
-        50%{background-position:12px 10px,-12px 10px}
-        100%{background-position:0 0,0 0}
-      }
+  <title>micr.dev</title>
 
-      @font-face{
-        font-family:"TermiusTTF";
-        src:url("fonts/TermiusTTF-bold.ttf") format("truetype");
-        font-weight:bold;
-      }
+  <meta
+    name="description"
+    content="a creative developer's portfolio blending technology, design, and innovation."
+  />
+  <meta name="author" content="Microck" />
+  <meta name="googlebot" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
-      /* global dither overlay */
-      #dither-overlay{
-        position:fixed;inset:0;
-        background:repeating-conic-gradient(
-            rgba(255,0,0,.1)0%25%,
-            rgba(0,255,0,.1)0%50%,
-            rgba(0,0,255,.1)0%75%,
-            rgba(255,255,0,.1)0%100%)
-          0 0/4px 4px;
-        mix-blend-mode:overlay;
-        pointer-events:none;
-        z-index:10000;
-      }
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://micr.dev/" />
+  <meta property="og:title" content="micr.dev" />
+  <meta
+    property="og:description"
+    content="a creative developer's portfolio blending technology, design, and innovation."
+  />
+  <meta property="og:image" content="https://micr.dev/favicons/favicon-96x96.png" />
 
-      #loader{
-        position:fixed;inset:0;
-        z-index:9999;
-        display:flex;align-items:center;justify-content:center;
-        background:transparent;
-      }
-      #loader.fade-out{opacity:0;transition:opacity 1s ease;pointer-events:none}
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="micr.dev" />
+  <meta
+    name="twitter:description"
+    content="a creative developer's portfolio blending technology, design, and innovation."
+  />
+  <meta name="twitter:image" content="https://micr.dev/favicons/favicon-96x96.png" />
 
-      .dialog-box{
-        background:linear-gradient(to bottom,#fff,#999);
-        border:4px solid #000;border-radius:1rem;
-        padding:3rem;max-width:48rem;width:100%;
-        box-shadow:0 25px 50px -12px rgba(0,0,0,.25);
-      }
-      #progress-bar{width:100%;height:22px;background:#e0e0e0;border:3px solid #000;border-radius:12px;overflow:hidden;margin-top:2rem}
-      #progress-fill{width:0;height:100%;background:#23272e;transition:width .1s linear}
-      #percent-text{font-size:20px;margin-top:1rem;font-weight:bold}
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
+  <link rel="shortcut icon" href="/favicons/favicon.ico" />
+  <link rel="manifest" href="/favicons/site.webmanifest" />
 
-      #scene-container{position:relative;width:100%;height:100%;opacity:0;transition:opacity 1.5s ease}
-      canvas{display:block}
-    </style>
-  </head>
+  <!-- Canonical -->
+  <link rel="canonical" href="https://micr.dev/" />
+
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "micr.dev",
+      "url": "https://micr.dev/",
+      "description": "a creative developer's portfolio blending technology, design, and innovation.",
+      "author": { "@type": "Person", "name": "Microck" }
+    }
+  </script>
+</head>
 
   <body>
     <div id="dither-overlay"></div>
