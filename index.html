@@ -295,22 +295,23 @@
 		  drawProgress(phase3);
 		}, 80);
 
-		await loadPromise; // heavy GPU stage
-		clearInterval(gpuTimer);
+		await loadPromise;
 
-		// give the browser one frame to breathe before fade
-		await new Promise(r => requestAnimationFrame(r));
+		// extra frame(s) for GPU settle
+		await new Promise(r => requestAnimationFrame(() =>
+		  requestAnimationFrame(r)
+		));
 
-		// smooth finish to 100%
-		const finishTimer = setInterval(() => {
-		  fakeProgress += (100 - fakeProgress) * 0.15;
-		  const pct = Math.min(100, fakeProgress);
-		  progressFill.style.width = pct + "%";
-		  percentText.textContent  = pct.toFixed(0) + "%";
-		  if (pct >= 99.5) clearInterval(finishTimer);
-		}, 50);
+		// optional fake GPU padding
+		await new Promise(r => setTimeout(r, 400 + Math.random() * 300));
 
-		// ---- FADE -------------------------------
+		// complete the bar
+		updateProgress(100);
+
+		// small hold so user sees 100 %
+		await new Promise(r => setTimeout(r, 150));
+
+		// then fade
 		loader.classList.add("fade-out");
 		setTimeout(() => {
 		  loader.style.display = "none";
