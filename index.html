@@ -193,7 +193,7 @@
     <!-- Streaming ZIP Loader -->
     <script type="module">
       import { Application } from "./runtime.js";
-      import { unzip, strFromU8 } from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js";
+      iimport { unzipSync, strFromU8 } from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js";
 
       const loader = document.getElementById("loader");
       const progressFill = document.getElementById("progress-fill");
@@ -238,10 +238,9 @@
           off += c.length;
         }
 
-        const files = unzip(merged);
-        const rawScene = strFromU8(files["scene.splinecode"]);
-
-        await app.loadFromJSON(rawScene);
+		const files = unzipSync(merged);              // <‑ use unzipSync here
+		const rawScene = strFromU8(files["scene.splinecode"]);
+		await app.loadFromJSON(rawScene);
 
         // Fade-out and reveal scene
         loader.classList.add("fade-out");
