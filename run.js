@@ -44,9 +44,7 @@ async function getFrame(idx) {
 }
 
 // Dummy (ZIP removes need for network preloading)
-async function preloadFrames() {
-  return;
-}
+async function preloadFrames() { return; }
 
 // ==========================================================
 // ANIMATION LOGIC
@@ -56,9 +54,8 @@ let frameIndex = 1;
 let interval = null;
 let stopFlag = false;
 
-// FIXED: only stop animation on blur *if animation is running*
 window.addEventListener("blur", () => {
-  if (!interval) return; // do nothing unless animation running
+  if (!interval) return;
 
   stopFlag = true;
   clearInterval(interval);
@@ -70,13 +67,15 @@ window.addEventListener("blur", () => {
   }
 
   setTimeout(() => {
-    softClear();
+    console.clear();   // ← ONLY here
     intro();
   }, 200);
 });
 
-// On refocus, do nothing.
-window.addEventListener("focus", () => {});
+// ★ UPDATED — nothing restarts automatically on focus
+window.addEventListener("focus", () => {
+  console.log("(animation paused — tab re‑focused)");
+});
 
 function softClear() {
   console.log("\n");
@@ -113,6 +112,7 @@ async function playAscii() {
 
     const frame = await getFrame(frameIndex);
     if (frame) {
+      // ★ UPDATED — delay audio by 0.5s after frame 1
       if (firstFrame) {
         firstFrame = false;
         requestAnimationFrame(() => {
