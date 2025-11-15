@@ -49,7 +49,38 @@
     </script>
 
     <style>
-      @font-face {
+			  /* dotted background (white base, gray dots) */
+		body {
+		  --dot-bg: #ffffff;          /* white canvas */
+		  --dot-color: #c0c0c0;       /* light‑gray dots */
+		  --dot-size: 1px;
+		  --dot-space: 22px;
+
+		  background:
+			linear-gradient(
+			  90deg,
+			  var(--dot-color) calc(var(--dot-space) - var(--dot-size)),
+			  transparent 1%
+			)
+			  center / var(--dot-space) var(--dot-space),
+			linear-gradient(
+			  var(--dot-color) calc(var(--dot-space) - var(--dot-size)),
+			  transparent 1%
+			)
+			  center / var(--dot-space) var(--dot-space),
+			var(--dot-bg);
+
+		  animation: dotsMove 20s linear infinite;
+		}
+
+		/* gentle drifting motion */
+		@keyframes dotsMove {
+		  0%   { background-position: 0 0, 0 0; }
+		  50%  { background-position: 12px 10px, -12px 10px; }
+		  100% { background-position: 0 0, 0 0; }
+		}
+	  
+	  @font-face {
         font-family: "TermiusTTF";
         src: url("fonts/TermiusTTF-bold.ttf") format("truetype");
         font-weight: bold;
@@ -339,6 +370,7 @@
 		  sceneContainer.style.opacity = 1;
 		  overlay.style.display = "block";
 		}, 1000);
+	 }
 
 	  loadStream();
 	</script>
