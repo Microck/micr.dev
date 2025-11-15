@@ -298,27 +298,47 @@
 		await loadPromise;
 
 		// let GPU settle 2 frames
-		await new Promise(r => requestAnimationFrame(() =>
-		  requestAnimationFrame(r)
-		));
+		await new Promise(r =>
+		  requestAnimationFrame(() => requestAnimationFrame(r))
+		);
 
-		// optional small random delay to hide spike
-		await new Promise(r => setTimeout(r, 400 + Math.random() * 300));
+		// optional small random delay (hide the spike)
+		await new Promise(r =>
+		  setTimeout(r, 400 + Math.random() * 300)
+		);
 
-		// fill bar completely
-		drawProgress(100);
+		// ─── Drive progress smoothly all the way to 100 ─────────────
+		let done = false;
+		const finishTimer = setInterval(() => {
+		  fakeProgress += (100 - fakeProgress) * 0.15;
+		  const pct = Math.min(100, fakeProgress);
+		  progressFill.style.width = pct + "%";
+		  percentText.textContent = pct.toFixed(0) + "%";
 
-		// hold 100 % for a short moment
-		await new Promise(r => setTimeout(r, 150));
+		  if (pct >= 99.8) {
+			clearInterval(finishTimer);
+			done = true;
+		  }
+		}, 50);
 
-		// fade out smoothly
+		// ─── Poll until the bar has visually reached 100 ─────────────
+		async function waitUntilFull() {
+		  while (!done) {
+			await new Promise(r => setTimeout(r, 50));
+		  }
+		}
+		await waitUntilFull();
+
+		// hold for 1–2 seconds before fading
+		await new Promise(r => setTimeout(r, 1000 + Math.random() * 1000));
+
+		// now fade out and reveal scene
 		loader.classList.add("fade-out");
 		setTimeout(() => {
 		  loader.style.display = "none";
 		  sceneContainer.style.opacity = 1;
 		  overlay.style.display = "block";
 		}, 1000);
-	  }
 
 	  loadStream();
 	</script>
