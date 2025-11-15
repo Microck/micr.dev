@@ -1,4 +1,4 @@
-# micr.dev
+# micr.dev 
 ![portfolio](https://github.com/user-attachments/assets/1ec0295e-3ea7-4a8c-961d-9bcf9ca4d1eb)
 
 a small [3d portfolio site](https://micr.dev) made with [spline](https://spline.design).  
