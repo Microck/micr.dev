@@ -1,5 +1,28 @@
 [
   {
+    "id": "Vgo9UKqfSbI",
+    "title": "√ƒ1-8x",
+    "youtubeTitle": "√ƒ1-8x with lubed Cherry MX2A Browns, Hyperglide MX Blacks & Retooled MX Blues",
+    "category": "MX",
+    "timestamp": "2025-11-16T14:00:50Z",
+    "images": [
+      "./images/Vgo9UKqfSbI/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/Vgo9UKqfSbI",
+    "specs": {
+      "Keyboard": "√ƒ1-8x / f1-09 by olivious / 키요미",
+      "Keycaps": "GMK Hineybeige + OG Doubleshots",
+      "Switches": "Retooled Cherry MX Blue",
+      "Lube": "GHv4",
+      "Films": "TX 0.15",
+      "Springs": "TX L 55g lubed with GPL 105",
+      "Plate": "Full Polypropylene",
+      "Mount": "Tadpole Mount",
+      "PCB": "GEON 2025 USER NETWORKING (Solder)",
+      "Others": "SLA, 9600 Resin, Matte White, Spray Painted Matte Red; SLA, Grey Resin, Grey, General Sanding"
+    }
+  },
+  {
     "id": "hndpVp-5S_U",
     "title": "Realforce R1 86u",
     "youtubeTitle": "Lubed Realforce R1 86u with 35g Nissho Domes",
