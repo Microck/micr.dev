@@ -2,75 +2,46 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>Quarzite</title>
 
     <!-- Favicon -->
-    <link
-      rel="icon"
-      type="image/png"
-      href="assets/icons/windows_slanted-1.png"
-    />
+    <link rel="icon" type="image/png" href="assets/icons/windows_slanted-1.png" />
 
-    <!-- 98.css (Win98 look) -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/98.css@0.1.20/dist/98.css"
-    />
+    <!-- 98.css (Shared by both) -->
+    <link rel="stylesheet" href="https://unpkg.com/98.css@0.1.20/dist/98.css" />
 
-    <!-- Desktop Stylesheet (Always loaded for base styles) -->
-    <link rel="stylesheet" href="css/main.css" />
-
+    <!-- CRITICAL: Mode Detection & Style Injection -->
     <script>
-      (function() {
-        const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-        
-        if (isMobile) {
-          // 1. Inject Mobile CSS immediately
-          var link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = 'css/mobile.css'; 
-          document.head.appendChild(link);
+      // Global detection
+      window.isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-          // 2. Inject CSS to Toggle Visibility immediately (prevents flash)
-          document.write('<style>#desktop { display: none !important; } #mobile-content { display: block !important; }</style>');
-
-          // 3. Queue Mobile JS files to load
-          window.addEventListener('DOMContentLoaded', () => {
-             const scripts = [
-               'js/mobile-sounds.js', 
-               'js/mobile-tabs.js', 
-               'js/mobile-gallery.js', 
-               'js/mobile-viewer.js'
-             ];
-             scripts.forEach(src => {
-               var s = document.createElement('script');
-               s.src = src;
-               document.body.appendChild(s);
-             });
-          });
-
-        } else {
-          // If Desktop, ensure mobile is hidden
-          document.write('<style>#mobile-content { display: none !important; }</style>');
-        }
-      })();
+      // 1. Inject the correct CSS based on mode
+      if (window.isMobile) {
+        document.write('<link rel="stylesheet" href="css/mobile.css">');
+        // Hide desktop root immediately
+        document.write('<style>#desktop-root { display: none !important; } #mobile-root { display: block !important; }</style>');
+      } else {
+        document.write('<link rel="stylesheet" href="css/main.css">');
+        // Hide mobile root immediately
+        document.write('<style>#mobile-root { display: none !important; } #desktop-root { display: block !important; }</style>');
+      }
     </script>
-
-    <!-- Oneko (replaces WebNeko) - Optional: You might want to wrap this in !isMobile check if you don't want cat on phone -->
-    <script async src="https://sleepie.uk/oneko.js"></script>
   </head>
 
   <body>
 
-    <!-- ==================== DESKTOP CONTENT ==================== -->
-    <div class="desktop" id="desktop">
+    <!-- ==================================================================
+         DESKTOP INTERFACE
+         ================================================================== -->
+    <div id="desktop-root">
+      
       <!-- Logo container -->
       <div class="logo" id="logo-container" aria-label="Quarzite Logo">
         <img id="logo-img" class="logo-img" alt="Quarzite Logo" />
       </div>
 
-      <!-- Easter Egg: hidden behind the Gallery window -->
+      <!-- Easter Egg -->
       <img
         id="easter-egg-tree"
         src="assets/tree.webp"
@@ -88,18 +59,10 @@
       />
 
       <!-- Gallery window -->
-      <div
-        class="window app-window resizable"
-        id="win-gallery"
-        data-title="Gallery"
-      >
+      <div class="window app-window resizable" id="win-gallery" data-title="Gallery">
         <div class="title-bar">
           <div class="title-bar-text">
-            <img
-              src="assets/icons/directory_closed-4.png"
-              class="title-icon"
-              alt=""
-            />
+            <img src="assets/icons/directory_closed-4.png" class="title-icon" alt="" />
             <span class="title-label">Gallery</span>
           </div>
           <div class="title-bar-controls">
@@ -117,11 +80,7 @@
       <div class="window app-window resizable" id="win-info" data-title="Info">
         <div class="title-bar">
           <div class="title-bar-text">
-            <img
-              src="assets/icons/display_properties-2.png"
-              class="title-icon"
-              alt=""
-            />
+            <img src="assets/icons/display_properties-2.png" class="title-icon" alt="" />
             <span class="title-label">Information</span>
           </div>
           <div class="title-bar-controls">
@@ -146,18 +105,9 @@
                 Quarzite. Here you’ll find more information about them, along
                 with art and other commissions I’ve collected over the years.
               </p>
-
               <p>
-                I don’t really care what pronouns you use for them (as you’ve
-                probably noticed, I’ve been using they/them, but honestly I
-                cba). Their design is purposefully androgynous, aside from the
-                clothing.
-              </p>
-
-              <p>
-                I actually came up with the name for them not too long ago, but
-                I completely forgot the history behind it. It was really cool,
-                but oh well it is what it is.
+                I don’t really care what pronouns you use for them. Their design is 
+                purposefully androgynous, aside from the clothing.
               </p>
             </div>
           </div>
@@ -166,39 +116,10 @@
             <div class="window-body">
               <p>
                 They have a wolf/jellyfish-style haircut: white hair with
-                lavender shading at the tips and along the lower half. Prominent
-                black, devil-like horns with cross markings stand out on the
-                sides of their head. Their long bangs partly cover tired, baggy
-                eyes, usually a pinkish-red color, sometimes with heart-shaped
-                pupils. They often have a relaxed & friendly smile, though their
-                sharp teeth serve as a subtle warning.
+                lavender shading. Prominent black, devil-like horns with cross markings.
               </p>
-
               <p>
-                Their outfit usually consists of a black-and-white oversized
-                hoodie with long sleeves featuring crisscross stitching and
-                lacing. They pair this with thigh-high socks and leg accessories
-                like straps or garters. Their go-to footwear is winged sneakers,
-                though in some artworks they’re drawn wearing New Rocks instead.
-              </p>
-
-              <p>
-                Originally, their very long hair was sometimes interpreted by
-                artists as a tail. While that wasn’t intentional, it’s been fun
-                to see in retrospect (though nowadays I prefer commissioning
-                them without the tail/extra-long hair). In earlier artworks,
-                they were often accompanied by little ghost companions, but I’ve
-                since stopped including them since I feel they clutter the
-                design.
-              </p>
-
-              <p>
-                I’ve thought about changing their outfit, but I feel like the
-                hoodie really fits the vibe it gives off. I’d love to add some
-                facial piercings (like a lip piercing, an eyebrow piercing, or
-                even an anti-eyebrow) but I’m not sure how different artists
-                would interpret them, so I’ve decided to set that idea aside for
-                now.
+                Outfit: black-and-white oversized hoodie, thigh-high socks, winged sneakers.
               </p>
             </div>
           </div>
@@ -207,16 +128,7 @@
             <div class="window-body">
               <p>
                 I honestly never thought too deeply about it, since the
-                character is kind of just me, so there’s no real reason to write
-                out a personality.
-              </p>
-              <p>
-                One thing I do enjoy, though, is giving full creative freedom to
-                the artist and seeing how they interpret it based on past
-                artworks. It’s always interesting to see the final result,
-                knowing the artist built a personality from scratch just from
-                the vibes they picked up. There is a different interpretation of
-                Quarzite’s character in each artist that has drawn it.
+                character is kind of just me.
               </p>
             </div>
           </div>
@@ -224,20 +136,8 @@
           <div class="window" role="tabpanel" id="extra" hidden>
             <div class="window-body">
               <p>
-                I’m not really a furry (although I do have some kind of
-                fursona), but I fw them a lot. So even though I don’t have a
-                Quarzite-inspired fursona right now, I could totally see myself
-                making one in the future. It sounds like a fun thing to do!
-              </p>
-
-              <p>
-                Lastly, if you like my character and feel like drawing them, go
-                for it! I’d be so happy to see any kind of art, memes, or
-                whatever you come up with. You can send it to me at
-                <b>contact@micr.dev</b> , or just drop it in my socials. If I
-                don’t reply, it probably got eaten by a spam filter or something
-                like that, so don’t stress about tagging me or trying again. I
-                promise I’ll appreciate it a ton.
+                If you like my character and feel like drawing them, go for it! 
+                You can send it to <b>contact@micr.dev</b>.
               </p>
             </div>
           </div>
@@ -248,11 +148,7 @@
       <div class="window app-window" id="win-clippy" data-title="Clippy" hidden>
         <div class="title-bar">
           <div class="title-bar-text">
-            <img
-              src="assets/icons/computer_explorer-0.png"
-              class="title-icon"
-              alt=""
-            />
+            <img src="assets/icons/computer_explorer-0.png" class="title-icon" alt="" />
             <span class="title-label">Clippy</span>
           </div>
           <div class="title-bar-controls">
@@ -269,13 +165,8 @@
         </div>
       </div>
 
-      <!-- Notepad window -->
-      <div
-        class="window app-window resizable"
-        id="win-notepad"
-        data-title="Notepad"
-        hidden
-      >
+      <!-- Notepad -->
+      <div class="window app-window resizable" id="win-notepad" data-title="Notepad" hidden>
         <div class="title-bar">
           <div class="title-bar-text">
             <img src="assets/icons/notepad-1.png" class="title-icon" alt="" />
@@ -287,28 +178,22 @@
             <button aria-label="Close"></button>
           </div>
         </div>
-
         <menu role="menubar" class="notepad-menu">
           <li role="menuitem"><u>F</u>ile</li>
           <li role="menuitem"><u>E</u>dit</li>
           <li role="menuitem"><u>S</u>earch</li>
           <li role="menuitem"><u>H</u>elp</li>
         </menu>
-
         <div class="window-body notepad-body">
           <textarea id="notepad-text" class="notepad-wrap"></textarea>
         </div>
       </div>
 
-      <!-- Paint window -->
+      <!-- Paint -->
       <div class="window app-window resizable" id="win-paint" data-title="Paint" hidden>
         <div class="title-bar">
           <div class="title-bar-text">
-            <img
-              src="assets/icons/paint_file-1.png"
-              class="title-icon"
-              alt=""
-            />
+            <img src="assets/icons/paint_file-1.png" class="title-icon" alt="" />
             <span class="title-label">Paint</span>
           </div>
           <div class="title-bar-controls">
@@ -318,23 +203,15 @@
           </div>
         </div>
         <div class="window-body paint-body">
-          <iframe
-            src="jspaint/index.html"
-            class="paint-frame"
-            title="MS Paint"
-          ></iframe>
+          <iframe src="jspaint/index.html" class="paint-frame" title="MS Paint"></iframe>
         </div>
       </div>
 
-      <!-- Gallery popup viewer -->
+      <!-- Viewer -->
       <div class="window app-window" id="win-viewer" data-title="Viewer" hidden>
         <div class="title-bar">
           <div class="title-bar-text">
-            <img
-              src="assets/icons/favicon-96x96.png"
-              class="title-icon"
-              alt=""
-            />
+            <img src="assets/icons/favicon-96x96.png" class="title-icon" alt="" />
             <span class="title-label">Image Viewer</span>
           </div>
           <div class="title-bar-controls">
@@ -352,362 +229,153 @@
         </div>
       </div>
 
-      <!-- Warning modal -->
+      <!-- Modals (Warnings, etc) -->
       <div id="warning-backdrop" hidden></div>
-      <div
-        class="window modal"
-        id="warning"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="warning-title"
-        hidden
-      >
+      <div class="window modal" id="warning" role="dialog" aria-modal="true" hidden>
         <div class="title-bar">
-          <div class="title-bar-text">
-            <span class="title-label" id="warning-title">Warning</span>
-          </div>
-          <div class="title-bar-controls">
-            <button aria-label="Close"></button>
-          </div>
+            <div class="title-bar-text">Warning</div>
+            <div class="title-bar-controls"><button aria-label="Close"></button></div>
         </div>
         <div class="window-body">
           <div class="field-row warning-row">
-            <img
-              src="assets/icons/msg_error-0.png"
-              alt="Error"
-              class="warning-icon"
-              width="32"
-              height="32"
-            />
-            <div id="warning-message">
-              You can move windows; but minimizing, maximizing or closing isn’t
-              allowed. Some windows can be resized.
-            </div>
+            <img src="assets/icons/msg_error-0.png" alt="Error" width="32" height="32" />
+            <div id="warning-message">Window locked.</div>
           </div>
-          <div class="field-row" style="justify-content: flex-end">
-            <button id="warning-ok" class="default" autofocus>OK</button>
-          </div>
+          <div class="field-row" style="justify-content: flex-end"><button id="warning-ok">OK</button></div>
         </div>
       </div>
 
-      <!-- Resolution warning modal -->
       <div id="res-warning-backdrop" hidden></div>
-      <div
-        class="window modal"
-        id="res-warning"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="res-warning-title"
-        hidden
-      >
+      <div class="window modal" id="res-warning" role="dialog" aria-modal="true" hidden>
         <div class="title-bar">
-          <div class="title-bar-text">
-            <span class="title-label" id="res-warning-title"
-              >Compatibility Notice</span
-            >
-          </div>
-          <div class="title-bar-controls">
-            <button aria-label="Close"></button>
-          </div>
+            <div class="title-bar-text">Compatibility Notice</div>
+            <div class="title-bar-controls"><button aria-label="Close"></button></div>
         </div>
         <div class="window-body">
           <div class="field-row warning-row">
-            <img
-              src="assets/icons/msg_error-0.png"
-              alt="Warning"
-              class="warning-icon"
-              width="32"
-              height="32"
-            />
-            <div>
-              <div id="res-warning-message">
-                Incompatible resolution detected. For the best experience, try
-                setting your browser zoom to 50–80% or use a 1920×1080 display.
-              </div>
-              <div style="margin-top: 6px; opacity: 0.8">
-                Current viewport:
-                <span id="res-current"></span>
-              </div>
-            </div>
+            <img src="assets/icons/msg_error-0.png" width="32" height="32" />
+            <div><div id="res-warning-message">Incompatible resolution.</div><span id="res-current"></span></div>
           </div>
           <div class="field-row">
-            <input type="checkbox" id="res-dont-remind" />
-            <label for="res-dont-remind">Don't remind me again</label>
+            <input type="checkbox" id="res-dont-remind" /> <label for="res-dont-remind">Don't remind me</label>
           </div>
-          <div class="field-row" style="justify-content: flex-end">
-            <button id="res-accept" class="default" autofocus>OK</button>
-          </div>
+          <div class="field-row" style="justify-content: flex-end"><button id="res-accept">OK</button></div>
         </div>
       </div>
 
-      <!-- Control buttons (stacked bottom-right) -->
+      <!-- Control buttons -->
       <div id="control-buttons">
-        <!-- Tile switcher -->
-        <button id="tile-toggle" class="control-btn">
-          <img src="assets/icons/filepack-1.png" alt="Change Background" />
-        </button>
-
-        <!-- Volume -->
-        <button id="volume-toggle" class="control-btn">
-          <img
-            id="volume-icon"
-            src="assets/icons/loudspeaker_rays-0.png"
-            alt="Volume"
-          />
-        </button>
-
-        <!-- Stop animation -->
-        <button id="anim-toggle" class="control-btn">
-          <img
-            src="assets/icons/gears_tweakui_a-1.png"
-            alt="Toggle Animations"
-          />
-        </button>
+        <button id="tile-toggle" class="control-btn"><img src="assets/icons/filepack-1.png" alt="BG" /></button>
+        <button id="volume-toggle" class="control-btn"><img id="volume-icon" src="assets/icons/loudspeaker_rays-0.png" alt="Vol" /></button>
+        <button id="anim-toggle" class="control-btn"><img src="assets/icons/gears_tweakui_a-1.png" alt="Anim" /></button>
       </div>
-
-      <!-- Volume popup -->
       <div id="volume-popup" class="window" hidden>
-        <div class="window-body">
-          <div class="field-row">
-            <input type="range" id="volume-slider" min="0" max="100" />
-          </div>
-        </div>
+        <div class="window-body"><input type="range" id="volume-slider" min="0" max="100" /></div>
       </div>
 
-      <!-- Desktop Scripts (Only loaded if NOT mobile) -->
-      <script>
-        if (!/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-           // Helper to load script
-           function loadScript(src) {
-             var s = document.createElement('script');
-             s.src = src;
-             document.body.appendChild(s);
-           }
-           
-           // Load desktop scripts
-           loadScript('js/run.js');
-           loadScript('js/drag.js');
-           loadScript('js/tabs.js');
-           loadScript('js/warning.js');
-           loadScript('js/debug.js');
-           loadScript('js/clippy.js');
-           loadScript('js/notepad.js');
-           loadScript('js/gallery.js');
-           loadScript('js/app.js');
-           loadScript('js/tiles.js');
-           loadScript('js/controls.js');
-           loadScript('js/sounds.js');
-           loadScript('js/res-warning.js');
+    </div> <!-- End Desktop Root -->
 
-           // Logo loader for desktop
-           (function () {
-            const LOGOS = [
-              "assets/quarzitelogo3.gif",
-              "assets/quarzitelogo4.gif",
-            ];
-            const img = document.getElementById("logo-img");
-            if (!img) return;
 
-            function setLogo(indexOrSrc) {
-              const src =
-                typeof indexOrSrc === "number"
-                  ? LOGOS[
-                      Math.max(0, Math.min(LOGOS.length - 1, indexOrSrc | 0))
-                    ]
-                  : String(indexOrSrc);
-              const pre = new Image();
-              pre.onload = () => (img.src = src);
-              pre.onerror = () => (img.src = src);
-              pre.src = src;
-            }
-
-            document.addEventListener("DOMContentLoaded", () => {
-              const i = Math.floor(Math.random() * LOGOS.length);
-              setLogo(i);
-              window.setQuarziteLogo = setLogo;
-            });
-          })();
-        }
-      </script>
-    </div>
-
-    <!-- ==================== MOBILE CONTENT ==================== -->
-    <div id="mobile-content" hidden>
-        <!-- Animated tiled background -->
+    <!-- ==================================================================
+         MOBILE INTERFACE
+         ================================================================== -->
+    <div id="mobile-root">
+        <!-- Background -->
         <div class="bg-tiles" aria-hidden="true"></div>
 
-        <!-- Standalone logo (fills a 195:46 box, not square) -->
+        <!-- Logo -->
         <div id="logo-container-mobile" aria-label="Quarzite Logo" style="margin-top: 20px;">
-            <div id="logo-img-mobile" class="logo-img" role="img" style="width: 195px; height: 46px; margin: 0 auto; background-size: cover;"></div>
+            <div id="logo-img-mobile" class="logo-img" role="img" style="width: 195px; height: 46px; margin: 0 auto; background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
         </div>
 
         <div class="mobile-container">
-            <!-- Top-level nav (tabs) -->
+            <!-- Nav -->
             <div class="window mobile-window">
                 <div class="title-bar">
                     <div class="title-bar-text">
-                        <img src="assets/icons/filepack-1.png" class="title-icon" alt="" />
-                        Navigation
+                        <img src="assets/icons/filepack-1.png" class="title-icon" alt="" /> Navigation
                     </div>
                 </div>
                 <div class="window-body">
-                    <div class="tab-nav" role="tablist" aria-label="Main sections">
-                        <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-gallery" id="tabbtn-gallery" data-tab="gallery">
+                    <div class="tab-nav" role="tablist">
+                        <button class="tab-btn active" role="tab" id="tabbtn-gallery" data-tab="gallery">
                             <img src="assets/icons/directory_closed-4.png" alt="" /> Gallery
                         </button>
-                        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-info" id="tabbtn-info" data-tab="info">
+                        <button class="tab-btn" role="tab" id="tabbtn-info" data-tab="info">
                             <img src="assets/icons/display_properties-2.png" alt="" /> Info
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Gallery -->
-            <div class="tab-content active" id="tab-gallery" role="tabpanel" aria-labelledby="tabbtn-gallery">
+            <!-- Gallery Tab -->
+            <div class="tab-content active" id="tab-gallery" role="tabpanel">
                 <div class="window mobile-window">
                     <div class="title-bar">
                         <div class="title-bar-text">
-                            <img src="assets/icons/directory_closed-4.png" class="title-icon" alt="" />
-                            Gallery
+                            <img src="assets/icons/directory_closed-4.png" class="title-icon" alt="" /> Gallery
                         </div>
                     </div>
                     <div class="window-body">
-                        <div id="gallery-grid" class="gallery-grid" aria-live="polite"></div>
+                        <div id="gallery-grid-mobile" class="gallery-grid" aria-live="polite"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Info -->
-            <div class="tab-content" id="tab-info" role="tabpanel" aria-labelledby="tabbtn-info">
+            <!-- Info Tab -->
+            <div class="tab-content" id="tab-info" role="tabpanel">
                 <div class="window mobile-window">
                     <div class="title-bar">
                         <div class="title-bar-text">
-                            <img src="assets/icons/display_properties-2.png" class="title-icon" alt="" />
-                            Information
+                            <img src="assets/icons/display_properties-2.png" class="title-icon" alt="" /> Information
                         </div>
                     </div>
-
                     <div class="window-body info-tabs">
                         <menu role="tablist" class="tabs-menu">
-                            <li role="tab" aria-selected="true"><a href="#intro">Intro</a></li>
-                            <li role="tab"><a href="#appearance">Appearance</a></li>
-                            <li role="tab"><a href="#personality">Personality</a></li>
-                            <li role="tab"><a href="#extra">Extra</a></li>
+                            <li role="tab" aria-selected="true"><a href="#intro-m">Intro</a></li>
+                            <li role="tab"><a href="#appearance-m">Appearance</a></li>
+                            <li role="tab"><a href="#personality-m">Personality</a></li>
+                            <li role="tab"><a href="#extra-m">Extra</a></li>
                         </menu>
 
-                        <div class="window" role="tabpanel" id="intro">
+                        <div class="window" role="tabpanel" id="intro-m">
                             <div class="window-body">
-                                <p>
-                                    Welcome to the webpage dedicated to my original
-                                    character/sona, Quarzite. Here you’ll find more information
-                                    about them, along with art and other commissions I’ve
-                                    collected over the years.
-                                </p>
-                                <p>
-                                    I don’t really care what pronouns you use for them (as you’ve
-                                    probably noticed, I’ve been using they/them, but honestly I
-                                    cba). Their design is purposefully androgynous, aside from the
-                                    clothing.
-                                </p>
-                                <p>
-                                    I actually came up with the name for them not too long ago,
-                                    but I completely forgot the history behind it. It was really
-                                    cool, but oh well it is what it is.
-                                </p>
+                                <p>Welcome to the webpage dedicated to my original character/sona, Quarzite.</p>
+                                <p>I don’t really care what pronouns you use for them.</p>
                             </div>
                         </div>
 
-                        <div class="window" role="tabpanel" id="appearance" hidden>
+                        <div class="window" role="tabpanel" id="appearance-m" hidden>
                             <div class="window-body">
-                                <p>
-                                    They have a wolf/jellyfish-style haircut: white hair with
-                                    lavender shading at the tips and along the lower half.
-                                    Prominent black, devil-like horns with cross markings stand
-                                    out on the sides of their head. Their long bangs partly cover
-                                    tired, baggy eyes, usually a pinkish-red color, sometimes with
-                                    heart-shaped pupils. They often have a relaxed & friendly
-                                    smile, though their sharp teeth serve as a subtle warning.
-                                </p>
-                                <p>
-                                    Their outfit usually consists of a black-and-white oversized
-                                    hoodie with long sleeves featuring crisscross stitching and
-                                    lacing. They pair this with thigh-high socks and leg
-                                    accessories like straps or garters. Their go-to footwear is
-                                    winged sneakers, though in some artworks they’re drawn wearing
-                                    New Rocks instead.
-                                </p>
-                                <p>
-                                    Originally, their very long hair was sometimes interpreted by
-                                    artists as a tail. While that wasn’t intentional, it’s been
-                                    fun to see in retrospect (though nowadays I prefer
-                                    commissioning them without the tail/extra-long hair). In
-                                    earlier artworks, they were often accompanied by little ghost
-                                    companions, but I’ve since stopped including them since I feel
-                                    they clutter the design.
-                                </p>
-                                <p>
-                                    I’ve thought about changing their outfit, but I feel like the
-                                    hoodie really fits the vibe it gives off. I’d love to add some
-                                    facial piercings (like a lip piercing, an eyebrow piercing, or
-                                    even an anti-eyebrow) but I’m not sure how different artists
-                                    would interpret them, so I’ve decided to set that idea aside
-                                    for now.
-                                </p>
+                                <p>They have a wolf/jellyfish-style haircut: white hair with lavender shading.</p>
+                                <p>Outfit: black-and-white oversized hoodie, thigh-high socks.</p>
                             </div>
                         </div>
 
-                        <div class="window" role="tabpanel" id="personality" hidden>
+                        <div class="window" role="tabpanel" id="personality-m" hidden>
                             <div class="window-body">
-                                <p>
-                                    I honestly never thought too deeply about it, since the
-                                    character is kind of just me, so there’s no real reason to
-                                    write out a personality.
-                                </p>
-                                <p>
-                                    One thing I do enjoy, though, is giving full creative freedom
-                                    to the artist and seeing how they interpret it based on past
-                                    artworks. It’s always interesting to see the final result,
-                                    knowing the artist built a personality from scratch just from
-                                    the vibes they picked up. There is a different interpretation
-                                    of Quarzite’s character in each artist that has drawn it.
-                                </p>
+                                <p>I honestly never thought too deeply about it, since the character is kind of just me.</p>
                             </div>
                         </div>
 
-                        <div class="window" role="tabpanel" id="extra" hidden>
+                        <div class="window" role="tabpanel" id="extra-m" hidden>
                             <div class="window-body">
-                                <p>
-                                    I’m not really a furry (although I do have some kind of
-                                    fursona), but I fw them a lot. So even though I don’t have a
-                                    Quarzite-inspired fursona right now, I could totally see
-                                    myself making one in the future. It sounds like a fun thing to
-                                    do!
-                                </p>
-                                <p>
-                                    Lastly, if you like my character and feel like drawing them,
-                                    go for it! I’d be so happy to see any kind of art, memes, or
-                                    whatever you come up with. You can send it to me at
-                                    <b>contact@micr.dev</b>, or just drop it in my socials. If I
-                                    don’t reply, it probably got eaten by a spam filter or
-                                    something like that, so don’t stress about tagging me or
-                                    trying again. I promise I’ll appreciate it a ton.
-                                </p>
+                                <p>If you like my character, go for it! Contact: <b>contact@micr.dev</b>.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Viewer modal -->
-            <div id="viewer-backdrop" hidden></div>
-            <div class="window viewer-window" id="viewer-modal" hidden>
+            <!-- Mobile Viewer Modal (Unique IDs to prevent conflict) -->
+            <div id="viewer-backdrop-mobile" hidden></div>
+            <div class="window viewer-window" id="viewer-modal-mobile" hidden>
                 <div class="title-bar">
                     <div class="title-bar-text">
-                        <img src="assets/icons/favicon-96x96.png" class="title-icon" alt="" />
-                        <span id="viewer-title">Image Viewer</span>
+                        <img src="assets/icons/favicon-96x96.png" class="title-icon" alt="" /> Image Viewer
                     </div>
                     <div class="title-bar-controls">
-                        <button id="viewer-close" aria-label="Close"></button>
+                        <button id="viewer-close-mobile" aria-label="Close"></button>
                     </div>
                 </div>
                 <div class="window-body">
@@ -719,19 +387,87 @@
                 </div>
             </div>
         </div>
+    </div> <!-- End Mobile Root -->
 
-        <!-- Logo loader for mobile -->
-        <script>
-            if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                (function () {
-                    const LOGOS = ["assets/quarzitelogo3.gif", "assets/quarzitelogo4.gif"];
-                    const el = document.getElementById("logo-img-mobile");
-                    if (!el) return;
-                    const i = Math.floor(Math.random() * LOGOS.length);
-                    el.style.backgroundImage = `url("${LOGOS[i]}")`;
-                })();
-            }
-        </script>
-    </div>
+
+    <!-- ==================================================================
+         JAVASCRIPT LOADER (Strict Separation)
+         ================================================================== -->
+    <script>
+      (function() {
+        function loadScript(src) {
+          var s = document.createElement('script');
+          s.src = src;
+          s.async = false; // Load in order
+          document.body.appendChild(s);
+        }
+
+        if (window.isMobile) {
+          // --- MOBILE SCRIPTS ONLY ---
+          console.log("Mobile mode detected. Loading mobile scripts...");
+          
+          // 1. Mobile Logic
+          loadScript('js/mobile-sounds.js');
+          loadScript('js/mobile-tabs.js');
+          
+          // Note: You might need to ensure mobile-gallery.js targets 'gallery-grid-mobile'
+          // If the JS file is hardcoded to 'gallery-grid', you might need to edit the JS file too.
+          // Assuming the JS is flexible or we patch it here:
+          loadScript('js/mobile-gallery.js');
+          loadScript('js/mobile-viewer.js');
+
+          // 2. Mobile Logo Loader
+          document.addEventListener("DOMContentLoaded", () => {
+             const logos = ["assets/quarzitelogo3.gif", "assets/quarzitelogo4.gif"];
+             const el = document.getElementById("logo-img-mobile");
+             if (el) {
+                const i = Math.floor(Math.random() * logos.length);
+                el.style.backgroundImage = `url("${logos[i]}")`;
+             }
+          });
+
+        } else {
+          // --- DESKTOP SCRIPTS ONLY ---
+          console.log("Desktop mode detected. Loading desktop scripts...");
+
+          // 1. Oneko (Cat) - Desktop only
+          var neko = document.createElement('script');
+          neko.src = "https://sleepie.uk/oneko.js";
+          neko.async = true;
+          document.head.appendChild(neko);
+
+          // 2. App Logic
+          const desktopScripts = [
+            'js/run.js',
+            'js/drag.js',
+            'js/tabs.js',
+            'js/warning.js',
+            'js/debug.js',
+            'js/clippy.js',
+            'js/notepad.js',
+            'js/gallery.js',
+            'js/app.js',
+            'js/tiles.js',
+            'js/controls.js',
+            'js/sounds.js',
+            'js/res-warning.js'
+          ];
+
+          desktopScripts.forEach(loadScript);
+
+          // 3. Desktop Logo Loader
+          document.addEventListener("DOMContentLoaded", () => {
+             const logos = ["assets/quarzitelogo3.gif", "assets/quarzitelogo4.gif"];
+             const img = document.getElementById("logo-img");
+             if (img) {
+               const src = logos[Math.floor(Math.random() * logos.length)];
+               const pre = new Image();
+               pre.onload = () => (img.src = src);
+               pre.src = src;
+             }
+          });
+        }
+      })();
+    </script>
   </body>
 </html>
