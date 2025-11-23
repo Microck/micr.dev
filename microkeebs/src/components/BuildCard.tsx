@@ -1,7 +1,6 @@
 import React from "react";
 import { KeyboardBuild } from "../types/Build";
 import { useTheme } from "../contexts/ThemeContext";
-import { AuraSparkleIcon, AuraStarIcon } from "./icons";
 import { AuraSpinner } from "./AuraSpinner";
 
 interface BuildCardProps {
@@ -49,57 +48,58 @@ export function BuildCard({
   const buildDescription = extractBuildDescription(build);
 
   return (
-    <div onClick={onClick} className="cursor-pointer aura-morph group">
-      <div className="w-full h-64 mb-4 overflow-hidden relative rounded-lg">
-        {/* Loading skeleton */}
-        <div
-          className={`absolute inset-0 animate-pulse rounded-lg ${
-            isDark ? "bg-[#2a2a2a]" : "bg-[#b5b3a7]"
-          }`}
-        >
+    <div onClick={onClick} className="cursor-pointer">
+      <div className="w-full h-64 mb-4 overflow-hidden relative">
+        <div className={`gallery-media ${isDark ? 'gallery-media--dark' : 'gallery-media--light'}`}>
           <div
-            className={`w-full h-full flex items-center justify-center ${
-              isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+            className={`absolute inset-0 animate-pulse ${
+              isDark ? "bg-[#2a2a2a]" : "bg-[#b5b3a7]"
             }`}
           >
-            <AuraSpinner size="medium" />
+            <div
+              className={`w-full h-full flex items-center justify-center ${
+                isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+              }`}
+            >
+              <AuraSpinner size="medium" />
+            </div>
           </div>
-        </div>
-        <img
-          src={coverImage}
-          alt={build.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 transition-opacity duration-300 opacity-0 rounded-lg"
-          loading="eager"
-          decoding="sync"
-          onLoad={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.classList.remove("opacity-0");
-            const skeleton = target.previousElementSibling as HTMLElement;
-            if (skeleton) skeleton.style.display = "none";
-          }}
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.style.display = "none";
-            const placeholder = target.nextElementSibling as HTMLElement;
-            if (placeholder) placeholder.style.display = "flex";
-          }}
-        />
-        <div className="placeholder-bg w-full h-full hidden items-center justify-center rounded-lg">
-          <span
-            className={`text-lg font-normal ${
-              isDark ? "text-[#1c1c1c]" : "text-[#1c1c1c]"
-            }`}
-          >
-            COVER IMAGE
-          </span>
-        </div>
-        
-        {/* Floating sparkle icon */}
-        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <AuraSparkleIcon 
-            size={16} 
-            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} drop-shadow-lg`}
+          <img
+            src={coverImage}
+            alt={build.title}
+            className="gallery-media__image opacity-0"
+            loading="eager"
+            decoding="sync"
+            onLoad={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.classList.remove("opacity-0");
+              const skeleton = target.previousElementSibling as HTMLElement;
+              if (skeleton) skeleton.style.display = "none";
+            }}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = "none";
+              const placeholder = target.nextElementSibling as HTMLElement;
+              if (placeholder) placeholder.style.display = "flex";
+            }}
           />
+          <div className="placeholder-bg w-full h-full hidden items-center justify-center">
+            <span
+              className={`text-lg font-normal ${
+                isDark ? "text-[#1c1c1c]" : "text-[#1c1c1c]"
+              }`}
+            >
+              COVER IMAGE
+            </span>
+          </div>
+          <div className="gallery-media__corner gallery-media__corner--tl"></div>
+          <div className="gallery-media__corner gallery-media__corner--tr"></div>
+          <div className="gallery-media__corner gallery-media__corner--bl"></div>
+          <div className="gallery-media__corner gallery-media__corner--br"></div>
+          <div className="gallery-media__edge gallery-media__edge--top"></div>
+          <div className="gallery-media__edge gallery-media__edge--right"></div>
+          <div className="gallery-media__edge gallery-media__edge--bottom"></div>
+          <div className="gallery-media__edge gallery-media__edge--left"></div>
         </div>
       </div>
 
@@ -108,11 +108,7 @@ export function BuildCard({
           isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
         }`}
       >
-        <span className="flex items-center justify-center gap-2">
-          <AuraStarIcon size={16} className="opacity-70" />
-          {build.title}
-          <AuraStarIcon size={16} className="opacity-70" />
-        </span>
+        {build.title}
       </h3>
 
       {showBuild && buildDescription && (
