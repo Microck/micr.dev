@@ -2,7 +2,6 @@ import { useState } from "react";
 import { BuildCard } from "./BuildCard";
 import { Footer } from "./Footer";
 import { useTheme } from "../contexts/ThemeContext";
-import { AuraStarIcon, AuraDiamondIcon } from "./icons";
 import builds from "../data/builds.json";
 
 interface BuildGalleryProps {
@@ -14,11 +13,15 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
   const [showBuild, setShowBuild] = useState(false);
   const [sortBy, setSortBy] = useState("newest");
   const [activeFilter, setActiveFilter] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const { isDark } = useTheme();
 
   const filteredBuilds = builds.filter((build) => {
-    if (activeFilter === "All") return true;
-    return build.category === activeFilter;
+    const matchesFilter = activeFilter === "All" || build.category === activeFilter;
+    const matchesSearch = searchQuery === "" || 
+      build.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (build.youtubeTitle && build.youtubeTitle.toLowerCase().includes(searchQuery.toLowerCase()));
+    return matchesFilter && matchesSearch;
   });
 
   const sortedBuilds = [...filteredBuilds].sort((a, b) => {
@@ -32,56 +35,59 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
     <div className={`${isDark ? "bg-[#1c1c1c]" : "bg-[#a7a495]"} min-h-screen`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
         {/* Controls */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-12 aura-bounce-in">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-12">
           {/* Toggle controls */}
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-            <label className="flex items-center space-x-2 cursor-pointer aura-morph p-2 rounded-lg">
+            <label className="flex items-center space-x-2 cursor-pointer p-2">
               <div className="relative">
                 <input type="checkbox" checked={showTimestamps} onChange={(e) => setShowTimestamps(e.target.checked)} className="sr-only" />
                 <div className={`w-4 h-4 border transition-all duration-300 ${showTimestamps ? (isDark ? "bg-[#a7a495] scale-110 border-[#a7a495]" : "bg-[#1c1c1c] scale-110 border-[#1c1c1c]") : isDark ? "bg-[#2a2a2a] border-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c]"}`}>
                   {showTimestamps && <div className="w-full h-full flex items-center justify-center"><div className={`w-2 h-2 ${isDark ? "bg-[#1c1c1c]" : "bg-[#b5b3a7]"}`}></div></div>}
                 </div>
               </div>
-              <span className={`text-sm font-normal ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Show timestamps</span>
+              <span className={`text-sm font-normal aura-slide ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Show timestamps</span>
             </label>
-            <label className="flex items-center space-x-2 cursor-pointer aura-morph p-2 rounded-lg">
+            <label className="flex items-center space-x-2 cursor-pointer p-2">
               <div className="relative">
                 <input type="checkbox" checked={showBuild} onChange={(e) => setShowBuild(e.target.checked)} className="sr-only" />
                 <div className={`w-4 h-4 border transition-all duration-300 ${showBuild ? (isDark ? "bg-[#a7a495] scale-110 border-[#a7a495]" : "bg-[#1c1c1c] scale-110 border-[#1c1c1c]") : isDark ? "bg-[#2a2a2a] border-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c]"}`}>
                   {showBuild && <div className="w-full h-full flex items-center justify-center"><div className={`w-2 h-2 ${isDark ? "bg-[#1c1c1c]" : "bg-[#b5b3a7]"}`}></div></div>}
                 </div>
               </div>
-              <span className={`text-sm font-normal ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Show build</span>
+              <span className={`text-sm font-normal aura-slide ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Show build</span>
             </label>
           </div>
           {/* Sort dropdown */}
           <div className="flex items-center space-x-2">
             <span className={`text-sm font-normal ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Sort by:</span>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={`border px-3 py-1 text-sm aura-morph ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c]"}`}>
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={`border px-3 py-1 text-sm transition-shadow duration-300 hover:shadow-lg ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c]"}`}>
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
             </select>
           </div>
-          {/* Filter buttons */}
-          <div className="flex items-center space-x-0">
-            <button onClick={() => setActiveFilter("All")} className={`px-3 sm:px-4 py-1 text-sm font-normal aura-morph ${activeFilter === "All" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
-              <span className="flex items-center gap-1">
-                <AuraDiamondIcon size={12} />
+          <div className="flex flex-col lg:flex-row lg:items-center gap-4 w-full">
+            {/* Filter buttons */}
+            <div className="flex items-center space-x-0">
+              <button onClick={() => setActiveFilter("All")} className={`px-3 sm:px-4 py-1 text-sm font-normal aura-morph ${activeFilter === "All" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
                 All
-              </span>
-            </button>
-            <button onClick={() => setActiveFilter("MX")} className={`px-3 sm:px-4 py-1 text-sm font-normal aura-morph ${activeFilter === "MX" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
-              <span className="flex items-center gap-1">
-                <AuraStarIcon size={12} />
+              </button>
+              <button onClick={() => setActiveFilter("MX")} className={`px-3 sm:px-4 py-1 text-sm font-normal aura-morph ${activeFilter === "MX" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
                 MX
-              </span>
-            </button>
-            <button onClick={() => setActiveFilter("EC")} className={`px-3 sm:px-4 py-1 text-sm font-normal aura-morph ${activeFilter === "EC" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
-              <span className="flex items-center gap-1">
-                <AuraStarIcon size={12} />
+              </button>
+              <button onClick={() => setActiveFilter("EC")} className={`px-3 sm:px-4 py-1 text-sm font-normal aura-morph ${activeFilter === "EC" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
                 EC
-              </span>
-            </button>
+              </button>
+            </div>
+            {/* Search bar */}
+            <div className="flex-1 min-w-[200px]">
+              <input
+                type="text"
+                placeholder="Search keyboards..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={`w-full border px-3 py-2 text-sm transition-all duration-300 focus:outline-none focus:ring-2 rounded ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495] placeholder-[#a7a495]/50 focus:ring-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c] placeholder-[#1c1c1c]/50 focus:ring-[#1c1c1c]"}`}
+              />
+            </div>
           </div>
         </div>
 

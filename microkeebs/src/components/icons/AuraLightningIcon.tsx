@@ -17,7 +17,7 @@ export const AuraLightningIcon: React.FC<AuraLightningIconProps> = ({
       height={size}
       viewBox="0 0 24 24"
       fill="currentColor"
-      className={`${className} ${animated ? 'aura-bounce-in' : ''}`}
+      className={`${className} ${animated ? 'fade-in' : ''}`}
     >
       <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
     </svg>
