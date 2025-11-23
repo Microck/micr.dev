@@ -9,4 +9,7 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ["lucide-react"],
   },
+  preview: {
+    allowedHosts: ['deba3a14-bc5d-4fc4-a980-75ca051d822a.enginelabs.link']
+  }
 });

@@ -1,6 +1,8 @@
 import React from "react";
 import { KeyboardBuild } from "../types/Build";
 import { useTheme } from "../contexts/ThemeContext";
+import { AuraSparkleIcon, AuraStarIcon } from "./icons";
+import { AuraSpinner } from "./AuraSpinner";
 
 interface BuildCardProps {
   build: KeyboardBuild;
@@ -47,11 +49,11 @@ export function BuildCard({
   const buildDescription = extractBuildDescription(build);
 
   return (
-    <div onClick={onClick} className="cursor-pointer card-hover group">
-      <div className="w-full h-64 mb-4 overflow-hidden relative">
+    <div onClick={onClick} className="cursor-pointer aura-morph group">
+      <div className="w-full h-64 mb-4 overflow-hidden relative rounded-lg">
         {/* Loading skeleton */}
         <div
-          className={`absolute inset-0 animate-pulse rounded ${
+          className={`absolute inset-0 animate-pulse rounded-lg ${
             isDark ? "bg-[#2a2a2a]" : "bg-[#b5b3a7]"
           }`}
         >
@@ -60,13 +62,13 @@ export function BuildCard({
               isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
             }`}
           >
-            <div className="w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+            <AuraSpinner size="medium" />
           </div>
         </div>
         <img
           src={coverImage}
           alt={build.title}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 transition-opacity duration-300 opacity-0"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 transition-opacity duration-300 opacity-0 rounded-lg"
           loading="eager"
           decoding="sync"
           onLoad={(e) => {
@@ -82,7 +84,7 @@ export function BuildCard({
             if (placeholder) placeholder.style.display = "flex";
           }}
         />
-        <div className="placeholder-bg w-full h-full hidden items-center justify-center">
+        <div className="placeholder-bg w-full h-full hidden items-center justify-center rounded-lg">
           <span
             className={`text-lg font-normal ${
               isDark ? "text-[#1c1c1c]" : "text-[#1c1c1c]"
@@ -91,14 +93,26 @@ export function BuildCard({
             COVER IMAGE
           </span>
         </div>
+        
+        {/* Floating sparkle icon */}
+        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <AuraSparkleIcon 
+            size={16} 
+            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} drop-shadow-lg`}
+          />
+        </div>
       </div>
 
       <h3
-        className={`card-title text-lg text-center slide-up ${
+        className={`card-title text-lg text-center aura-slide ${
           isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
         }`}
       >
-        {build.title}
+        <span className="flex items-center justify-center gap-2">
+          <AuraStarIcon size={16} className="opacity-70" />
+          {build.title}
+          <AuraStarIcon size={16} className="opacity-70" />
+        </span>
       </h3>
 
       {showBuild && buildDescription && (

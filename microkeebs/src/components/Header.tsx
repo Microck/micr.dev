@@ -1,7 +1,7 @@
 import React from 'react';
 import { Youtube, Instagram } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { LogoIcon } from './icons';
+import { LogoIcon, AuraSparkleIcon, AuraDiamondIcon, AuraStarIcon, AuraHeartIcon } from './icons';
 
 // TikTok icon component since it's not in lucide-react
 const TikTokIcon = ({
@@ -35,17 +35,25 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
         {/* Logo */}
         <div className="flex items-center float-animation">
-          <LogoIcon 
-            size={48}
-            className={`h-10 sm:h-12 w-auto ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}
-          />
+          <div className="relative">
+            <LogoIcon 
+              size={48}
+              className={`h-10 sm:h-12 w-auto ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-glow`}
+            />
+            <div className="absolute -top-2 -right-2">
+              <AuraSparkleIcon 
+                size={16} 
+                className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}
+              />
+            </div>
+          </div>
         </div>
         
         {/* Navigation */}
         <nav className="flex space-x-0 order-last sm:order-none">
           <button
             onClick={() => onNavigate('builds')}
-            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal button-morph ${
+            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal aura-morph ${
               currentPage === 'builds'
                 ? isDark
                   ? 'bg-[#a7a495] text-[#1c1c1c]'
@@ -55,11 +63,14 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
                   : 'text-[#1c1c1c] hover:bg-[#a7a495]'
             }`}
           >
-            Builds
+            <span className="flex items-center gap-2">
+              <AuraDiamondIcon size={14} />
+              Builds
+            </span>
           </button>
           <button
             onClick={() => onNavigate('rankings')}
-            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal button-morph ${
+            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal aura-morph ${
               currentPage === 'rankings'
                 ? isDark
                   ? 'bg-[#a7a495] text-[#1c1c1c]'
@@ -69,11 +80,14 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
                   : 'text-[#1c1c1c] hover:bg-[#a7a495]'
             }`}
           >
-            Ranking
+            <span className="flex items-center gap-2">
+              <AuraStarIcon size={14} />
+              Ranking
+            </span>
           </button>
           <button
             onClick={() => onNavigate('contact')}
-            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal button-morph ${
+            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal aura-morph ${
               currentPage === 'contact'
                 ? isDark
                   ? 'bg-[#a7a495] text-[#1c1c1c]'
@@ -83,7 +97,10 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
                   : 'text-[#1c1c1c] hover:bg-[#a7a495]'
             }`}
           >
-            Contact
+            <span className="flex items-center gap-2">
+              <AuraHeartIcon size={14} />
+              Contact
+            </span>
           </button>
         </nav>
 
@@ -93,7 +110,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             href="https://www.youtube.com/@microkeebs"
             target="_blank"
             rel="noopener noreferrer"
-            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} smooth-bounce transition-opacity hover:opacity-70`}
+            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
           >
             <Youtube size={20} />
           </a>
@@ -101,7 +118,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             href="https://www.instagram.com/microkeebs/"
             target="_blank"
             rel="noopener noreferrer"
-            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} smooth-bounce transition-opacity hover:opacity-70`}
+            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
           >
             <Instagram size={20} />
           </a>
@@ -109,7 +126,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             href="https://www.tiktok.com/@microkeebs"
             target="_blank"
             rel="noopener noreferrer"
-            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} smooth-bounce transition-opacity hover:opacity-70`}
+            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
           >
             <TikTokIcon size={20} />
           </a>
