@@ -4,6 +4,7 @@ import { KeyboardBuild } from '../types/Build';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
 import { CherryIcon, DomeIcon } from './icons';
+import { ShinyText } from './ShinyText';
 import builds from '../data/builds.json';
 import rankings from '../data/rankings.json';
 
@@ -84,7 +85,7 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
               <span className={`text-xl sm:text-2xl font-bold w-6 sm:w-8 float-animation ${
                 getMetalGradient(index)
               }`} style={{ animationDelay: `${index * 0.2}s` }}>
-                {index + 1}
+                {index < 3 ? <ShinyText>{index + 1}</ShinyText> : index + 1}
               </span>
               <div className="w-12 sm:w-16 h-9 sm:h-12 overflow-hidden rounded flex-shrink-0">
                 {/* Loading skeleton */}

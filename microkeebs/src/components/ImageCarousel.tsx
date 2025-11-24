@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { MagnifyImage } from './MagnifyImage';
 
 interface ImageCarouselProps {
   images: string[];
@@ -31,7 +32,35 @@ export function ImageCarousel({ images, title }: ImageCarouselProps) {
     );
   };
 
-  const renderImage = (imageSrc: string, index: number, className = '') => (
+  const renderMainImage = (imageSrc: string, index: number) => (
+    <>
+      <div className={`carousel-skeleton ${loadedMap[index] ? 'carousel-skeleton--hidden' : ''}`}>
+        <div className="carousel-skeleton__shine" />
+      </div>
+      <MagnifyImage
+        key={imageSrc}
+        src={imageSrc}
+        alt={`${title} - Image ${index + 1}`}
+        className={`carousel-main-image ${loadedMap[index] ? 'is-loaded' : ''}`}
+      />
+      <img
+        src={imageSrc}
+        alt={`${title} - Image ${index + 1}`}
+        style={{ display: 'none' }}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => markLoaded(index)}
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.style.display = 'none';
+          const placeholder = target.nextElementSibling as HTMLElement;
+          if (placeholder) placeholder.style.display = 'flex';
+        }}
+      />
+    </>
+  );
+
+  const renderThumbnail = (imageSrc: string, index: number) => (
     <>
       <div className={`carousel-skeleton ${loadedMap[index] ? 'carousel-skeleton--hidden' : ''}`}>
         <div className="carousel-skeleton__shine" />
@@ -40,7 +69,7 @@ export function ImageCarousel({ images, title }: ImageCarouselProps) {
         key={imageSrc}
         src={imageSrc}
         alt={`${title} - Image ${index + 1}`}
-        className={`${className} ${loadedMap[index] ? 'is-loaded' : ''}`}
+        className={`carousel-thumb__image ${loadedMap[index] ? 'is-loaded' : ''}`}
         loading="lazy"
         decoding="async"
         onLoad={() => markLoaded(index)}
@@ -59,7 +88,7 @@ export function ImageCarousel({ images, title }: ImageCarouselProps) {
       <div className="space-y-4">
         <div className="carousel-frame">
           <div className="carousel-zoom">
-            {renderImage(images[0], 0, 'carousel-main-image')}
+            {renderMainImage(images[0], 0)}
             <div className="placeholder-bg carousel-placeholder">
               <span className={`text-2xl font-normal ${isDark ? 'text-[#1c1c1c]' : 'text-[#1c1c1c]'}`}>
                 THUMBNAIL
@@ -75,7 +104,7 @@ export function ImageCarousel({ images, title }: ImageCarouselProps) {
     <div className="space-y-4">
       <div className="relative carousel-frame">
         <div className="carousel-zoom">
-          {renderImage(images[currentIndex], currentIndex, 'carousel-main-image')}
+          {renderMainImage(images[currentIndex], currentIndex)}
           <div className="placeholder-bg carousel-placeholder absolute inset-0">
             <span className={`text-2xl font-normal ${isDark ? 'text-[#1c1c1c]' : 'text-[#1c1c1c]'}`}>
               {currentIndex === 0 ? 'THUMBNAIL' : `IMAGE ${currentIndex + 1}`}
@@ -115,7 +144,7 @@ export function ImageCarousel({ images, title }: ImageCarouselProps) {
             }`}
           >
             <div className="carousel-thumb__inner">
-              {renderImage(image, index, 'carousel-thumb__image')}
+              {renderThumbnail(image, index)}
               <div className="placeholder-bg carousel-placeholder">
                 <span className={`text-xs ${isDark ? 'text-[#1c1c1c]' : 'text-[#1c1c1c]'}`}>
                   {index === 0 ? 'THUMB' : index + 1}

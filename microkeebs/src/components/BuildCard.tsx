@@ -2,6 +2,7 @@ import React from "react";
 import { KeyboardBuild } from "../types/Build";
 import { useTheme } from "../contexts/ThemeContext";
 import { AuraSpinner } from "./AuraSpinner";
+import { MaskedText } from "./MaskedText";
 
 interface BuildCardProps {
   build: KeyboardBuild;
@@ -103,17 +104,18 @@ export function BuildCard({
         </div>
       </div>
 
-      <h3
-        className={`card-title text-lg text-center aura-slide ${
+      <MaskedText
+        className={`card-title text-lg text-center ${
           isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
         }`}
+        delay={100}
       >
         {build.title}
-      </h3>
+      </MaskedText>
 
       {showBuild && buildDescription && (
         <p
-          className={`text-xs text-center mt-1 px-2 leading-relaxed ${
+          className={`text-xs text-center mt-1 px-2 leading-relaxed aura-slide ${
             isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
           } opacity-70`}
         >
