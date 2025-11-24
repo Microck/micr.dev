@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Search } from "lucide-react";
 import { BuildCard } from "./BuildCard";
 import { Footer } from "./Footer";
 import { useTheme } from "../contexts/ThemeContext";
@@ -14,6 +15,7 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
   const [sortBy, setSortBy] = useState("newest");
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchExpanded, setSearchExpanded] = useState(false);
   const { isDark } = useTheme();
 
   const filteredBuilds = builds.filter((build) => {
@@ -60,7 +62,7 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
           {/* Sort dropdown */}
           <div className="flex items-center space-x-2">
             <span className={`text-sm font-normal ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Sort by:</span>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={`border px-3 py-1 text-sm transition-shadow duration-300 hover:shadow-lg ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c]"}`}>
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={`border px-3 py-1 text-sm transition-all duration-300 ease-out cursor-pointer hover:scale-105 hover:-translate-y-0.5 ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c]"}`}>
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
             </select>
@@ -68,25 +70,45 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
           <div className="flex flex-col lg:flex-row lg:items-center gap-4 w-full">
             {/* Filter buttons */}
             <div className="flex items-center space-x-0">
-              <button onClick={() => setActiveFilter("All")} className={`px-3 sm:px-4 py-1 text-sm font-normal aura-morph ${activeFilter === "All" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
+              <button onClick={() => setActiveFilter("All")} className={`px-3 sm:px-4 py-1 text-sm font-normal transition-all duration-300 ease-out ${activeFilter === "All" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
                 All
               </button>
-              <button onClick={() => setActiveFilter("MX")} className={`px-3 sm:px-4 py-1 text-sm font-normal aura-morph ${activeFilter === "MX" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
+              <button onClick={() => setActiveFilter("MX")} className={`px-3 sm:px-4 py-1 text-sm font-normal transition-all duration-300 ease-out ${activeFilter === "MX" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
                 MX
               </button>
-              <button onClick={() => setActiveFilter("EC")} className={`px-3 sm:px-4 py-1 text-sm font-normal aura-morph ${activeFilter === "EC" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
+              <button onClick={() => setActiveFilter("EC")} className={`px-3 sm:px-4 py-1 text-sm font-normal transition-all duration-300 ease-out ${activeFilter === "EC" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
                 EC
               </button>
             </div>
             {/* Search bar */}
-            <div className="flex-1 min-w-[200px]">
-              <input
-                type="text"
-                placeholder="Search keyboards..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full border px-3 py-2 text-sm transition-all duration-300 focus:outline-none focus:ring-2 rounded ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495] placeholder-[#a7a495]/50 focus:ring-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c] placeholder-[#1c1c1c]/50 focus:ring-[#1c1c1c]"}`}
-              />
+            <div className="flex-1 min-w-[200px] flex justify-end">
+              <div 
+                className="relative flex items-center"
+                onMouseEnter={() => setSearchExpanded(true)}
+                onMouseLeave={() => {
+                  if (!searchQuery) setSearchExpanded(false);
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Search keyboards..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setSearchExpanded(true)}
+                  onBlur={() => {
+                    if (!searchQuery) setSearchExpanded(false);
+                  }}
+                  className={`border-b-2 px-0 py-2 text-sm transition-all duration-500 ease-out focus:outline-none bg-transparent ${
+                    searchExpanded ? "w-64 opacity-100" : "w-0 opacity-0"
+                  } ${isDark ? "border-[#a7a495] text-[#a7a495] placeholder-[#a7a495]/50" : "border-[#1c1c1c] text-[#1c1c1c] placeholder-[#1c1c1c]/50"}`}
+                />
+                <Search 
+                  size={20} 
+                  className={`transition-all duration-300 ease-out cursor-pointer ${
+                    isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+                  } ${searchExpanded ? "ml-2" : ""}`}
+                />
+              </div>
             </div>
           </div>
         </div>

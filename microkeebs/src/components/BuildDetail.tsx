@@ -5,6 +5,7 @@ import { ImageCarousel } from './ImageCarousel';
 import { YouTubeEmbed } from './YouTubeEmbed';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
+import { MaskedText } from './MaskedText';
 
 interface BuildDetailProps {
   build: KeyboardBuild;
@@ -28,11 +29,14 @@ export function BuildDetail({ build, onBack }: BuildDetailProps) {
           <span>Back to Gallery</span>
         </button>
         
-        <h1 className={`text-4xl font-bold text-center mb-12 slide-up ${
-          isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
-        }`}>
+        <MaskedText 
+          className={`text-4xl font-bold text-center mb-12 ${
+            isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+          }`}
+          delay={100}
+        >
           {build.title}
-        </h1>
+        </MaskedText>
         
         <div className="space-y-8">
           <div className="fade-in">
