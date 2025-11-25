@@ -39,8 +39,8 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
         {/* Controls */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-12">
           {/* Toggle controls */}
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-            <label className="flex items-center space-x-2 cursor-pointer p-2">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <label className="flex items-center space-x-2 cursor-pointer p-2 whitespace-nowrap">
               <div className="relative">
                 <input type="checkbox" checked={showTimestamps} onChange={(e) => setShowTimestamps(e.target.checked)} className="sr-only" />
                 <div className={`w-4 h-4 border transition-all duration-300 ${showTimestamps ? (isDark ? "bg-[#a7a495] scale-110 border-[#a7a495]" : "bg-[#1c1c1c] scale-110 border-[#1c1c1c]") : isDark ? "bg-[#2a2a2a] border-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c]"}`}>
@@ -49,7 +49,7 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
               </div>
               <span className={`text-sm font-normal aura-slide ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Show timestamps</span>
             </label>
-            <label className="flex items-center space-x-2 cursor-pointer p-2">
+            <label className="flex items-center space-x-2 cursor-pointer p-2 whitespace-nowrap">
               <div className="relative">
                 <input type="checkbox" checked={showBuild} onChange={(e) => setShowBuild(e.target.checked)} className="sr-only" />
                 <div className={`w-4 h-4 border transition-all duration-300 ${showBuild ? (isDark ? "bg-[#a7a495] scale-110 border-[#a7a495]" : "bg-[#1c1c1c] scale-110 border-[#1c1c1c]") : isDark ? "bg-[#2a2a2a] border-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c]"}`}>
@@ -58,14 +58,14 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
               </div>
               <span className={`text-sm font-normal aura-slide ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Show build</span>
             </label>
-          </div>
-          {/* Sort dropdown */}
-          <div className="flex items-center space-x-2">
-            <span className={`text-sm font-normal ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Sort by:</span>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={`border px-3 py-1 text-sm transition-all duration-300 ease-out cursor-pointer hover:scale-105 hover:-translate-y-0.5 ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c]"}`}>
-              <option value="newest">Newest</option>
-              <option value="oldest">Oldest</option>
-            </select>
+            {/* Sort dropdown */}
+            <div className="flex items-center space-x-2 whitespace-nowrap">
+              <span className={`text-sm font-normal ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Sort by:</span>
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={`border px-3 py-1 text-sm transition-all duration-300 ease-out cursor-pointer hover:scale-105 hover:-translate-y-0.5 ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c]"}`}>
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+              </select>
+            </div>
           </div>
           <div className="flex flex-col lg:flex-row lg:items-center gap-4 w-full">
             {/* Filter buttons */}
@@ -116,17 +116,19 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {sortedBuilds.map((build, index) => (
-            <div key={build.id} className="stagger-item" style={{ animationDelay: `${index * 0.1}s` }}>
+            <div key={build.id} className="stagger-item transition-all duration-500 ease-out" style={{ animationDelay: `${index * 0.1}s` }}>
               <BuildCard
                 build={build}
                 onClick={() => onBuildSelect(build)}
                 showBuild={showBuild}
               />
-              {showTimestamps && (
-                <div className={`text-xs text-center mt-2 ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"} aura-slide`}>
-                  {new Date(build.timestamp).toLocaleDateString()}
-                </div>
-              )}
+              <div 
+                className={`text-xs text-center overflow-hidden transition-all duration-500 ease-out ${
+                  showTimestamps ? 'max-h-8 opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'
+                } ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}
+              >
+                {new Date(build.timestamp).toLocaleDateString()}
+              </div>
             </div>
           ))}
         </div>

@@ -1,8 +1,7 @@
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
 import { SplitText } from './SplitText';
-import { MaskedText } from './MaskedText';
-import { ScrollVelocity } from './ScrollVelocity';
+import { VariableProximity } from './VariableProximity';
 import { LogoTicker } from './LogoTicker';
 import { Youtube, Instagram } from 'lucide-react';
 
@@ -50,136 +49,125 @@ export function Contact() {
   const { isDark } = useTheme();
 
   return (
-    <div className={`${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} min-h-screen relative overflow-hidden`}>
-      <div className="contact-grid" aria-hidden="true" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-16 relative z-10">
+    <div className={`${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} min-h-screen`}>
+      <div className="max-w-6xl mx-auto px-8 sm:px-12 lg:px-16 py-24 sm:py-32">
         
-        {/* Hero Section */}
-        <div className="max-w-5xl mx-auto mb-24">
+        {/* Minimalist Hero */}
+        <div className="mb-32 sm:mb-48">
           <SplitText 
-            className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-center mb-8 ${
+            className={`text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-[0.9] mb-12 ${
               isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
             }`}
           >
             Building Keyboards Creating Content
           </SplitText>
-          
-          <p className={`text-center text-lg sm:text-xl max-w-3xl mx-auto ${
-            isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'
-          }`}>
-            A passion project turned into a journey through mechanical keyboards, sound design, and content creation
-          </p>
         </div>
 
-        {/* About Me Section */}
-        <div className="max-w-4xl mx-auto mb-24">
-          <MaskedText 
-            className={`text-3xl sm:text-4xl font-bold mb-8 ${
-              isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
-            }`}
-            delay={200}
-          >
-            About Me
-          </MaskedText>
+        {/* About Section */}
+        <div className="mb-32 sm:mb-48">
+          <h2 className={`text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem] font-bold mb-16 leading-none ${
+            isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+          }`}>
+            About
+          </h2>
           
-          <div className={`space-y-6 text-base sm:text-lg leading-relaxed ${
+          <div className={`space-y-8 text-xl sm:text-2xl md:text-3xl leading-relaxed max-w-4xl ${
             isDark ? 'text-[#a7a495]/90' : 'text-[#1c1c1c]/90'
           }`}>
             {aboutText.split('\n\n').map((paragraph, index) => (
-              <MaskedText 
-                key={index} 
-                delay={400 + index * 100}
-              >
-                {paragraph}
-              </MaskedText>
+              <VariableProximity
+                key={index}
+                text={paragraph}
+                className="block"
+                radius={200}
+                falloff="exponential"
+                minWeight={300}
+                maxWeight={700}
+              />
             ))}
           </div>
         </div>
 
-        {/* Email Section with Scroll Velocity */}
-        <div className="max-w-4xl mx-auto mb-24">
-          <h2 className={`text-2xl sm:text-3xl font-bold mb-8 text-center ${
-            isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
-          }`}>
-            Get in Touch
-          </h2>
-          
-          <div className={`text-center p-12 rounded-3xl border ${
-            isDark 
-              ? 'bg-[#121212] border-[#2f2f2f]' 
-              : 'bg-[#d6d3c4] border-[#c7c3b3]'
-          }`}>
-            <ScrollVelocity 
-              className={`text-3xl sm:text-4xl md:text-5xl font-bold ${
-                isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
-              }`}
-              baseVelocity={0.5}
-            >
+        {/* Email Section */}
+        <div className="mb-32 sm:mb-48 py-24 border-y-2" style={{
+          borderColor: isDark ? '#a7a495' : '#1c1c1c'
+        }}>
+          <div className="text-center">
+            <h3 className={`text-3xl sm:text-4xl font-light mb-8 uppercase tracking-widest ${
+              isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+            }`}>
+              Get in Touch
+            </h3>
+            
+            <div className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-12 ${
+              isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+            }`}>
               microkeebs@gmail.com
-            </ScrollVelocity>
+            </div>
             
             <a
               href="mailto:microkeebs@gmail.com"
-              className={`inline-block mt-8 px-8 py-4 rounded-full border-2 transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-1 ${
+              className={`inline-block px-12 py-5 text-xl transition-all duration-300 ease-out cursor-target border-2 ${
                 isDark
                   ? 'border-[#a7a495] text-[#a7a495] hover:bg-[#a7a495] hover:text-[#1c1c1c]'
-                  : 'border-[#1c1c1c] text-[#1c1c1c] hover:bg-[#1c1c1c] hover:text-[#b5b3a7]'
+                  : 'border-[#1c1c1c] text-[#1c1c1c] hover:bg-[#1c1c1c] hover:text-[#a7a495]'
               }`}
             >
-              Send an Email
+              Send Email
             </a>
           </div>
         </div>
 
         {/* Social Links */}
-        <div className="max-w-4xl mx-auto mb-24">
-          <h3 className={`text-xl sm:text-2xl font-bold mb-8 text-center ${
-            isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
-          }`}>
-            Follow the Journey
-          </h3>
-          
-          <div className="flex justify-center gap-8">
+        <div className="mb-32 sm:mb-48">
+          <div className="flex justify-center gap-16 sm:gap-24">
             <a
               href="https://www.youtube.com/@microkeebs"
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex flex-col items-center gap-2 transition-all duration-300 ease-out hover:scale-110 ${
+              className={`flex flex-col items-center gap-4 transition-all duration-300 ease-out hover:scale-110 cursor-target ${
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <Youtube size={32} />
-              <span className="text-sm">YouTube</span>
+              <Youtube size={48} />
+              <span className="text-sm uppercase tracking-wider">YouTube</span>
             </a>
             
             <a
               href="https://www.instagram.com/microkeebs/"
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex flex-col items-center gap-2 transition-all duration-300 ease-out hover:scale-110 ${
+              className={`flex flex-col items-center gap-4 transition-all duration-300 ease-out hover:scale-110 cursor-target ${
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <Instagram size={32} />
-              <span className="text-sm">Instagram</span>
+              <Instagram size={48} />
+              <span className="text-sm uppercase tracking-wider">Instagram</span>
             </a>
             
             <a
               href="https://www.tiktok.com/@microkeebs"
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex flex-col items-center gap-2 transition-all duration-300 ease-out hover:scale-110 ${
+              className={`flex flex-col items-center gap-4 transition-all duration-300 ease-out hover:scale-110 cursor-target ${
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <TikTokIcon size={32} />
-              <span className="text-sm">TikTok</span>
+              <TikTokIcon size={48} />
+              <span className="text-sm uppercase tracking-wider">TikTok</span>
             </a>
           </div>
         </div>
 
         {/* Clients Ticker */}
-        <LogoTicker items={clients} title="Worked with" />
+        <div className="mb-16">
+          <h3 className={`text-2xl sm:text-3xl font-light mb-8 text-center uppercase tracking-widest ${
+            isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+          }`}>
+            Worked With
+          </h3>
+          <LogoTicker items={clients} title="Worked with" />
+        </div>
 
         <Footer />
       </div>

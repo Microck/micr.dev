@@ -9,6 +9,7 @@ import { AuraBackground } from './components/AuraBackground';
 // import { CatIcon } from './components/icons';
 import { ThemeToggle } from './components/ThemeToggle';
 import { MobilePopup } from './components/MobilePopup';
+import { TargetCursor } from './components/TargetCursor';
 import { KeyboardBuild } from './types/Build';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { findBuildBySlug } from './utils/slugUtils';
@@ -125,6 +126,7 @@ function AppContent() {
         </main>
         <ThemeToggle />
         <MobilePopup />
+        <TargetCursor />
       </div>
     </div>
   );
