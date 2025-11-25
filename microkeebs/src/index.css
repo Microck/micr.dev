@@ -316,6 +316,17 @@
     animation: shiny 2.5s ease-in-out infinite;
   }
 
+  .shiny-bg {
+    background: linear-gradient(
+      110deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    animation: shiny 2.5s ease-in-out infinite;
+  }
+
   .animate-scroll {
     animation: scroll 40s linear infinite;
   }
@@ -621,7 +632,8 @@ body[data-theme="dark"] .gallery-media {
   transition-delay: calc(var(--gallery-line-speed) * 0.6 + 0.2s);
 }
 
-.gallery-media:has(.gallery-media__image:hover) .gallery-media__corner {
+/* Disabled square-lines animation on hover */
+/* .gallery-media:has(.gallery-media__image:hover) .gallery-media__corner {
   opacity: 1;
   transform: translate(0, 0) scale(1);
 }
@@ -629,7 +641,7 @@ body[data-theme="dark"] .gallery-media {
 .gallery-media:has(.gallery-media__image:hover) .gallery-media__edge {
   opacity: 1;
   transform: scale(1);
-}
+} */
 
 /* Contact Page Styles */
 .contact-grid {
@@ -741,7 +753,7 @@ body[data-theme="light"] .contact-link {
 .carousel-main-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: opacity 0.3s ease;
   opacity: 0;
 }

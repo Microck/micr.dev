@@ -49,7 +49,7 @@ export function BuildCard({
   const buildDescription = extractBuildDescription(build);
 
   return (
-    <div onClick={onClick} className="cursor-pointer">
+    <div onClick={onClick} className="cursor-pointer cursor-target">
       <div className="w-full h-64 mb-4 overflow-hidden relative">
         <div className={`gallery-media ${isDark ? 'gallery-media--dark' : 'gallery-media--light'}`}>
           <div
@@ -69,8 +69,9 @@ export function BuildCard({
             src={coverImage}
             alt={build.title}
             className="gallery-media__image opacity-0"
-            loading="eager"
-            decoding="sync"
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
             onLoad={(e) => {
               const target = e.target as HTMLImageElement;
               target.classList.remove("opacity-0");
@@ -113,15 +114,13 @@ export function BuildCard({
         {build.title}
       </MaskedText>
 
-      {showBuild && buildDescription && (
-        <p
-          className={`text-xs text-center mt-1 px-2 leading-relaxed aura-slide ${
-            isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
-          } opacity-70`}
-        >
-          {buildDescription}
-        </p>
-      )}
+      <div 
+        className={`text-xs text-center px-2 leading-relaxed overflow-hidden transition-all duration-500 ease-out ${
+          showBuild && buildDescription ? 'max-h-20 opacity-70 mt-1' : 'max-h-0 opacity-0 mt-0'
+        } ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}
+      >
+        {buildDescription}
+      </div>
     </div>
   );
 }
