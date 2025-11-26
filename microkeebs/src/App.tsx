@@ -10,6 +10,7 @@ import { AuraBackground } from './components/AuraBackground';
 import { ThemeToggle } from './components/ThemeToggle';
 import { MobilePopup } from './components/MobilePopup';
 import { TargetCursor } from './components/TargetCursor';
+import { SmoothScroll } from './components/SmoothScroll';
 import { KeyboardBuild } from './types/Build';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { findBuildBySlug } from './utils/slugUtils';
@@ -119,15 +120,17 @@ function AppContent() {
   return (
     <div className={`min-h-screen ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} relative`}>
       <AuraBackground />
-      <div className="relative z-10">
-        <Header currentPage={currentPage} onNavigate={handleNavigate} />
-        <main>
-          {renderContent()}
-        </main>
-        <ThemeToggle />
-        <MobilePopup />
-        <TargetCursor />
-      </div>
+      <SmoothScroll>
+        <div className="relative z-10">
+          <Header currentPage={currentPage} onNavigate={handleNavigate} />
+          <main>
+            {renderContent()}
+          </main>
+        </div>
+      </SmoothScroll>
+      <ThemeToggle />
+      <MobilePopup />
+      <TargetCursor />
     </div>
   );
 }
