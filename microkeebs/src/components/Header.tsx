@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Youtube, Instagram } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { LogoIcon } from './icons';
@@ -68,13 +69,20 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
         
         {/* Navigation */}
         <nav ref={navRef} className="flex space-x-0 order-last sm:order-none relative">
-          <div
-            className={`absolute bottom-0 h-full transition-all duration-300 ease-out ${
+          <motion.div
+            className={`absolute bottom-0 h-full ${
               isDark ? 'bg-[#a7a495]' : 'bg-[#1c1c1c]'
             }`}
+            animate={{
+              left: indicatorStyle.left,
+              width: indicatorStyle.width,
+            }}
+            transition={{
+              type: 'tween',
+              ease: 'easeOut',
+              duration: 0.3,
+            }}
             style={{
-              left: `${indicatorStyle.left}px`,
-              width: `${indicatorStyle.width}px`,
               zIndex: 0,
             }}
           />
