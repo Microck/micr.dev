@@ -119,20 +119,18 @@ function AppContent() {
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} relative`}>
-      <div className="microkeebs-container">
-        <AuraBackground />
-        <SmoothScroll>
-          <div className="relative z-10">
-            <Header currentPage={currentPage} onNavigate={handleNavigate} />
-            <main>
-              {renderContent()}
-            </main>
-          </div>
-        </SmoothScroll>
-        <MobilePopup />
-        <TargetCursor />
-      </div>
+      <AuraBackground />
+      <SmoothScroll>
+        <div className="relative z-10">
+          <Header currentPage={currentPage} onNavigate={handleNavigate} />
+          <main>
+            {renderContent()}
+          </main>
+        </div>
+      </SmoothScroll>
       <ThemeToggle />
+      <MobilePopup />
+      <TargetCursor />
     </div>
   );
 }
