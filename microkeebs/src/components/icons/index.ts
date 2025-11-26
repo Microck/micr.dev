@@ -8,3 +8,4 @@ export { AuraDiamondIcon } from './AuraDiamondIcon';
 export { AuraHeartIcon } from './AuraHeartIcon';
 export { AuraLightningIcon } from './AuraLightningIcon';
 export { AuraRocketIcon } from './AuraRocketIcon';
+export { AnimatedIcon } from './AnimatedIcon';

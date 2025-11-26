@@ -89,6 +89,25 @@
 - Rounded thumbs with hover effect
 - Supports both webkit and Firefox scrollbar properties
 
+### 14. ✅ Animated Icon System
+- **Removed `lucide-react` dependency** - Replaced with custom AnimatedIcon component
+- Created `AnimatedIcon.tsx` - Reusable icon loader with 14 animated icons
+- All icons feature smooth CSS animations (pulse, glow, rotation, slide, wave, etc.)
+- Theme-aware via `currentColor` inheritance
+- Automatic `prefers-reduced-motion` support for accessibility
+- Replaced icons in 8 components:
+  - BuildDetail: arrow-left
+  - BuildGallery: search
+  - Contact: youtube, instagram, tiktok
+  - Header: youtube, instagram, tiktok
+  - ImageCarousel: chevron-left, chevron-right
+  - Rankings: trophy, eye, volume, hand
+  - MobilePopup: monitor, close
+  - ThemeToggle: sun, moon
+- Added 18+ animation keyframes to index.css
+- Created comprehensive documentation (ANIMATED_ICONS_GUIDE.md)
+- Reduced bundle size by ~50KB
+
 ## New Components Created
 
 1. **MagnifyImage.tsx** - Magnifying glass effect for images
@@ -98,11 +117,16 @@
 5. **ScrollVelocity.tsx** - Scroll-velocity-based text movement
 6. **LogoTicker.tsx** - Auto-scrolling logo/text banner
 7. **SmoothScroll.tsx** - GSAP smooth scroll wrapper (created but not implemented)
+8. **AnimatedIcon.tsx** - Reusable animated icon component with 14+ icons
 
 ## New Dependencies Installed
 
 - `gsap` (^3.x) - For advanced animations
 - `framer-motion` (^11.x) - For React animations
+
+## Dependencies Removed
+
+- `lucide-react` (^0.554.0) - Replaced with custom AnimatedIcon component
 
 ## CSS Animations Added
 
@@ -112,6 +136,13 @@
 - `.shiny-text` - Shiny gradient text class
 - `.animate-scroll` - Auto-scroll animation class
 - Custom scrollbar styles
+- Icon animations (18+ keyframes):
+  - `arrow-slide`, `pulse-glow`, `pulse-ring`, `bounce-gentle`
+  - `rotate-slow`, `dash-animate`, `slide-left`, `slide-right`
+  - `shine-sweep`, `scale-pulse`, `iris-pulse`
+  - `wave-1`, `wave-2`, `wave-hand`
+  - `draw-1`, `draw-2`, `glow-pulse`
+  - `rays-rotate`, `glow-moon`
 
 ## Notes
 

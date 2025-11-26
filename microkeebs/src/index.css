@@ -900,3 +900,299 @@ body[data-theme="dark"] .carousel-skeleton {
 .carousel-thumb:hover .carousel-thumb__image.is-loaded {
   transform: scale(1.1);
 }
+
+/* Animated Icon Keyframes */
+@keyframes arrow-slide {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-4px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 0 currentColor);
+  }
+  50% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+}
+
+@keyframes pulse-ring {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulse-ring-delayed {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash-animate {
+  0%, 100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  50% {
+    stroke-dashoffset: 10;
+    opacity: 0.7;
+  }
+}
+
+@keyframes slide-left {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-3px);
+  }
+}
+
+@keyframes slide-right {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes shine-sweep {
+  0% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+}
+
+@keyframes scale-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes iris-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes wave-1 {
+  0%, 100% {
+    opacity: 1;
+    stroke-dasharray: 20;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    opacity: 0.6;
+    stroke-dasharray: 20;
+    stroke-dashoffset: 10;
+  }
+}
+
+@keyframes wave-2 {
+  0%, 100% {
+    opacity: 1;
+    stroke-dasharray: 30;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    opacity: 0.5;
+    stroke-dasharray: 30;
+    stroke-dashoffset: 15;
+  }
+}
+
+@keyframes wave-hand {
+  0%, 100% {
+    transform: rotate(0deg);
+    transform-origin: bottom center;
+  }
+  25% {
+    transform: rotate(10deg);
+    transform-origin: bottom center;
+  }
+  75% {
+    transform: rotate(-10deg);
+    transform-origin: bottom center;
+  }
+}
+
+@keyframes draw-1 {
+  0% {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+  }
+  50%, 100% {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes draw-2 {
+  0%, 50% {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+  }
+  100% {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px currentColor);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+}
+
+@keyframes rays-rotate {
+  from {
+    transform: rotate(0deg);
+    transform-origin: center;
+  }
+  to {
+    transform: rotate(360deg);
+    transform-origin: center;
+  }
+}
+
+@keyframes glow-moon {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+  50% {
+    filter: drop-shadow(0 0 12px currentColor);
+  }
+}
+
+/* Apply animations to icon classes */
+.arrow-slide {
+  animation: arrow-slide 1.5s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.pulse-ring {
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+.pulse-ring-delayed {
+  animation: pulse-ring-delayed 2s ease-in-out infinite 0.2s;
+}
+
+.bounce-gentle {
+  animation: bounce-gentle 2s ease-in-out infinite;
+}
+
+.rotate-slow {
+  animation: rotate-slow 8s linear infinite;
+}
+
+.dash-animate {
+  animation: dash-animate 2s ease-in-out infinite;
+}
+
+.slide-left {
+  animation: slide-left 1s ease-in-out infinite;
+}
+
+.slide-right {
+  animation: slide-right 1s ease-in-out infinite;
+}
+
+.shine-sweep {
+  animation: shine-sweep 3s ease-in-out infinite;
+}
+
+.scale-pulse {
+  animation: scale-pulse 2s ease-in-out infinite;
+}
+
+.iris-pulse {
+  animation: iris-pulse 2s ease-in-out infinite 0.3s;
+}
+
+.wave-1 {
+  animation: wave-1 1.5s ease-in-out infinite;
+}
+
+.wave-2 {
+  animation: wave-2 1.5s ease-in-out infinite 0.2s;
+}
+
+.wave-hand {
+  animation: wave-hand 1.5s ease-in-out infinite;
+}
+
+.draw-1 {
+  animation: draw-1 2s ease-in-out infinite;
+}
+
+.draw-2 {
+  animation: draw-2 2s ease-in-out infinite;
+}
+
+.glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.rays-rotate {
+  animation: rays-rotate 20s linear infinite;
+  transform-origin: center;
+}
+
+.glow-moon {
+  animation: glow-moon 3s ease-in-out infinite;
+}
