@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
+import { motion, LayoutGroup } from "framer-motion";
 import { BuildCard } from "./BuildCard";
 import { Footer } from "./Footer";
 import { useTheme } from "../contexts/ThemeContext";
@@ -37,101 +38,116 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
     <div className={`${isDark ? "bg-[#1c1c1c]" : "bg-[#a7a495]"} min-h-screen`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
         {/* Controls */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-12">
-          {/* Toggle controls */}
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-            <label className="flex items-center space-x-2 cursor-pointer p-2 whitespace-nowrap">
-              <div className="relative">
-                <input type="checkbox" checked={showTimestamps} onChange={(e) => setShowTimestamps(e.target.checked)} className="sr-only" />
-                <div className={`w-4 h-4 border transition-all duration-300 ${showTimestamps ? (isDark ? "bg-[#a7a495] scale-110 border-[#a7a495]" : "bg-[#1c1c1c] scale-110 border-[#1c1c1c]") : isDark ? "bg-[#2a2a2a] border-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c]"}`}>
-                  {showTimestamps && <div className="w-full h-full flex items-center justify-center"><div className={`w-2 h-2 ${isDark ? "bg-[#1c1c1c]" : "bg-[#b5b3a7]"}`}></div></div>}
-                </div>
+        <div className="flex flex-wrap items-center gap-4 mb-12">
+          {/* Show timestamps toggle */}
+          <label className="flex items-center gap-2 cursor-pointer whitespace-nowrap">
+            <div className="relative">
+              <input type="checkbox" checked={showTimestamps} onChange={(e) => setShowTimestamps(e.target.checked)} className="sr-only" />
+              <div className={`w-4 h-4 border transition-all duration-300 ${showTimestamps ? (isDark ? "bg-[#a7a495] scale-110 border-[#a7a495]" : "bg-[#1c1c1c] scale-110 border-[#1c1c1c]") : isDark ? "bg-[#2a2a2a] border-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c]"}`}>
+                {showTimestamps && <div className="w-full h-full flex items-center justify-center"><div className={`w-2 h-2 ${isDark ? "bg-[#1c1c1c]" : "bg-[#b5b3a7]"}`}></div></div>}
               </div>
-              <span className={`text-sm font-normal aura-slide ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Show timestamps</span>
-            </label>
-            <label className="flex items-center space-x-2 cursor-pointer p-2 whitespace-nowrap">
-              <div className="relative">
-                <input type="checkbox" checked={showBuild} onChange={(e) => setShowBuild(e.target.checked)} className="sr-only" />
-                <div className={`w-4 h-4 border transition-all duration-300 ${showBuild ? (isDark ? "bg-[#a7a495] scale-110 border-[#a7a495]" : "bg-[#1c1c1c] scale-110 border-[#1c1c1c]") : isDark ? "bg-[#2a2a2a] border-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c]"}`}>
-                  {showBuild && <div className="w-full h-full flex items-center justify-center"><div className={`w-2 h-2 ${isDark ? "bg-[#1c1c1c]" : "bg-[#b5b3a7]"}`}></div></div>}
-                </div>
-              </div>
-              <span className={`text-sm font-normal aura-slide ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Show build</span>
-            </label>
-            {/* Sort dropdown */}
-            <div className="flex items-center space-x-2 whitespace-nowrap">
-              <span className={`text-sm font-normal ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Sort by:</span>
-              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={`border px-3 py-1 text-sm transition-all duration-300 ease-out cursor-pointer hover:scale-105 hover:-translate-y-0.5 ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c]"}`}>
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-              </select>
             </div>
+            <span className={`text-sm font-normal ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Show timestamps</span>
+          </label>
+
+          {/* Show build toggle */}
+          <label className="flex items-center gap-2 cursor-pointer whitespace-nowrap">
+            <div className="relative">
+              <input type="checkbox" checked={showBuild} onChange={(e) => setShowBuild(e.target.checked)} className="sr-only" />
+              <div className={`w-4 h-4 border transition-all duration-300 ${showBuild ? (isDark ? "bg-[#a7a495] scale-110 border-[#a7a495]" : "bg-[#1c1c1c] scale-110 border-[#1c1c1c]") : isDark ? "bg-[#2a2a2a] border-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c]"}`}>
+                {showBuild && <div className="w-full h-full flex items-center justify-center"><div className={`w-2 h-2 ${isDark ? "bg-[#1c1c1c]" : "bg-[#b5b3a7]"}`}></div></div>}
+              </div>
+            </div>
+            <span className={`text-sm font-normal ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Show build</span>
+          </label>
+
+          {/* Sort dropdown */}
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span className={`text-sm font-normal ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Sort by:</span>
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={`border px-3 py-1 text-sm transition-all duration-300 ease-out cursor-pointer hover:scale-105 hover:-translate-y-0.5 ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c]"}`}>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
           </div>
-          <div className="flex flex-col lg:flex-row lg:items-center gap-4 w-full">
-            {/* Filter buttons */}
-            <div className="flex items-center space-x-0">
-              <button onClick={() => setActiveFilter("All")} className={`px-3 sm:px-4 py-1 text-sm font-normal transition-all duration-300 ease-out ${activeFilter === "All" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
-                All
-              </button>
-              <button onClick={() => setActiveFilter("MX")} className={`px-3 sm:px-4 py-1 text-sm font-normal transition-all duration-300 ease-out ${activeFilter === "MX" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
-                MX
-              </button>
-              <button onClick={() => setActiveFilter("EC")} className={`px-3 sm:px-4 py-1 text-sm font-normal transition-all duration-300 ease-out ${activeFilter === "EC" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
-                EC
-              </button>
-            </div>
-            {/* Search bar */}
-            <div className="flex-1 min-w-[200px] flex justify-end">
-              <div 
-                className="relative flex items-center"
-                onMouseEnter={() => setSearchExpanded(true)}
-                onMouseLeave={() => {
+
+          {/* Filter buttons */}
+          <div className="flex items-center">
+            <button onClick={() => setActiveFilter("All")} className={`px-4 py-1 text-sm font-normal transition-all duration-300 ease-out ${activeFilter === "All" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
+              All
+            </button>
+            <button onClick={() => setActiveFilter("MX")} className={`px-4 py-1 text-sm font-normal transition-all duration-300 ease-out ${activeFilter === "MX" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
+              MX
+            </button>
+            <button onClick={() => setActiveFilter("EC")} className={`px-4 py-1 text-sm font-normal transition-all duration-300 ease-out ${activeFilter === "EC" ? (isDark ? "bg-[#a7a495] text-[#1c1c1c]" : "bg-[#1c1c1c] text-[#b5b3a7]") : isDark ? "bg-[#2a2a2a] text-[#a7a495] hover:opacity-70" : "bg-[#b5b3a7] text-[#1c1c1c] hover:opacity-70"}`}>
+              EC
+            </button>
+          </div>
+
+          {/* Search bar - pushed to the right */}
+          <div className="ml-auto">
+            <div 
+              className="relative flex items-center"
+              onMouseEnter={() => setSearchExpanded(true)}
+              onMouseLeave={() => {
+                if (!searchQuery) setSearchExpanded(false);
+              }}
+            >
+              <input
+                type="text"
+                placeholder="Search keyboards..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setSearchExpanded(true)}
+                onBlur={() => {
                   if (!searchQuery) setSearchExpanded(false);
                 }}
-              >
-                <input
-                  type="text"
-                  placeholder="Search keyboards..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setSearchExpanded(true)}
-                  onBlur={() => {
-                    if (!searchQuery) setSearchExpanded(false);
-                  }}
-                  className={`border-b-2 px-0 py-2 text-sm transition-all duration-500 ease-out focus:outline-none bg-transparent ${
-                    searchExpanded ? "w-64 opacity-100" : "w-0 opacity-0"
-                  } ${isDark ? "border-[#a7a495] text-[#a7a495] placeholder-[#a7a495]/50" : "border-[#1c1c1c] text-[#1c1c1c] placeholder-[#1c1c1c]/50"}`}
-                />
-                <Search 
-                  size={20} 
-                  className={`transition-all duration-300 ease-out cursor-pointer ${
-                    isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
-                  } ${searchExpanded ? "ml-2" : ""}`}
-                />
-              </div>
+                className={`border-b-2 px-0 py-2 text-sm transition-all duration-500 ease-out focus:outline-none bg-transparent ${
+                  searchExpanded ? "w-64 opacity-100" : "w-0 opacity-0"
+                } ${isDark ? "border-[#a7a495] text-[#a7a495] placeholder-[#a7a495]/50" : "border-[#1c1c1c] text-[#1c1c1c] placeholder-[#1c1c1c]/50"}`}
+              />
+              <Search 
+                size={20} 
+                className={`transition-all duration-300 ease-out cursor-pointer ${
+                  isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+                } ${searchExpanded ? "ml-2" : ""}`}
+              />
             </div>
           </div>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {sortedBuilds.map((build, index) => (
-            <div key={build.id} className="stagger-item transition-all duration-500 ease-out" style={{ animationDelay: `${index * 0.1}s` }}>
-              <BuildCard
-                build={build}
-                onClick={() => onBuildSelect(build)}
-                showBuild={showBuild}
-              />
-              <div 
-                className={`text-xs text-center overflow-hidden transition-all duration-500 ease-out ${
-                  showTimestamps ? 'max-h-8 opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'
-                } ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}
+        <LayoutGroup>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {sortedBuilds.map((build, index) => (
+              <motion.div 
+                key={build.id} 
+                layout
+                transition={{ layout: { duration: 0.3, ease: "easeOut" } }}
+                className="stagger-item" 
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                {new Date(build.timestamp).toLocaleDateString()}
-              </div>
-            </div>
-          ))}
-        </div>
+                <BuildCard
+                  build={build}
+                  onClick={() => onBuildSelect(build)}
+                  showBuild={showBuild}
+                />
+                <motion.div 
+                  layout
+                  transition={{ layout: { duration: 0.3, ease: "easeOut" } }}
+                  className={`text-xs text-center overflow-hidden ${
+                    showTimestamps ? 'opacity-100 mt-2' : 'opacity-0'
+                  } ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}
+                  style={{
+                    height: showTimestamps ? 'auto' : 0,
+                    marginTop: showTimestamps ? '0.5rem' : 0,
+                  }}
+                >
+                  {new Date(build.timestamp).toLocaleDateString()}
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
+        </LayoutGroup>
       </div>
       <Footer />
     </div>

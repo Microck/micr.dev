@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { KeyboardBuild } from "../types/Build";
 import { useTheme } from "../contexts/ThemeContext";
 import { AuraSpinner } from "./AuraSpinner";
@@ -114,13 +115,19 @@ export function BuildCard({
         {build.title}
       </MaskedText>
 
-      <div 
-        className={`text-xs text-center px-2 leading-relaxed overflow-hidden transition-all duration-500 ease-out ${
-          showBuild && buildDescription ? 'max-h-20 opacity-70 mt-1' : 'max-h-0 opacity-0 mt-0'
+      <motion.div 
+        layout
+        transition={{ layout: { duration: 0.3, ease: "easeOut" } }}
+        className={`text-xs text-center px-2 leading-relaxed overflow-hidden ${
+          showBuild && buildDescription ? 'opacity-70' : 'opacity-0'
         } ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}
+        style={{
+          height: showBuild && buildDescription ? 'auto' : 0,
+          marginTop: showBuild && buildDescription ? '0.25rem' : 0,
+        }}
       >
         {buildDescription}
-      </div>
+      </motion.div>
     </div>
   );
 }
