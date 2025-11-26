@@ -22,6 +22,15 @@
     color: #a7a495;
   }
 
+  #smooth-wrapper {
+    overflow: hidden;
+  }
+
+  #smooth-content {
+    overflow: visible;
+    will-change: transform;
+  }
+
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
     width: 12px;
