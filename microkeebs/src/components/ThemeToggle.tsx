@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { AnimatedIcon } from './icons';
 
 export function ThemeToggle() {
   const { isDark, toggleTheme } = useTheme();
@@ -58,7 +58,7 @@ export function ThemeToggle() {
         aria-label="Toggle theme"
       >
         <div className={`transition-transform duration-300 ease-out ${isAnimating ? 'rotate-180' : ''}`}>
-          {isDark ? <AnimatedIcon name="sun" size={24} /> : <AnimatedIcon name="moon" size={24} />}
+          {isDark ? <Sun size={24} /> : <Moon size={24} />}
         </div>
       </button>
 

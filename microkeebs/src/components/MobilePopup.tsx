@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Monitor, X } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { AnimatedIcon } from './icons';
 
 export function MobilePopup() {
   const [isVisible, setIsVisible] = useState(false);
@@ -37,7 +37,7 @@ export function MobilePopup() {
       }`}>
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center space-x-3">
-            <AnimatedIcon name="monitor" className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`} size={32} />
+            <Monitor className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`} size={32} />
             <h3 className="text-lg font-bold">Desktop Recommended</h3>
           </div>
           <button
@@ -46,7 +46,7 @@ export function MobilePopup() {
               isDark ? 'hover:bg-[#a7a495] hover:bg-opacity-20' : 'hover:bg-[#1c1c1c] hover:bg-opacity-20'
             } transition-colors`}
           >
-            <AnimatedIcon name="close" size={20} />
+            <X size={20} />
           </button>
         </div>
         

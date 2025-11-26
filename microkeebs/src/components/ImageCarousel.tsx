@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { MagnifyImage } from './MagnifyImage';
-import { AnimatedIcon } from './icons';
 
 interface ImageCarouselProps {
   images: string[];
@@ -115,13 +115,13 @@ export function ImageCarousel({ images, title }: ImageCarouselProps) {
           onClick={goToPrevious}
           className={`carousel-nav carousel-nav--left ${isDark ? 'text-[#a7a495]' : 'text-white'}`}
         >
-          <AnimatedIcon name="chevron-left" size={24} />
+          <ChevronLeft size={24} />
         </button>
         <button
           onClick={goToNext}
           className={`carousel-nav carousel-nav--right ${isDark ? 'text-[#a7a495]' : 'text-white'}`}
         >
-          <AnimatedIcon name="chevron-right" size={24} />
+          <ChevronRight size={24} />
         </button>
       </div>
 
