@@ -2,7 +2,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import { KeyboardBuild } from "../types/Build";
 import { useTheme } from "../contexts/ThemeContext";
-import { AuraSpinner } from "./AuraSpinner";
 import { MaskedText } from "./MaskedText";
 
 interface BuildCardProps {
@@ -63,7 +62,7 @@ export function BuildCard({
                 isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
               }`}
             >
-              <AuraSpinner size="medium" />
+              <div className="w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
             </div>
           </div>
           <img
