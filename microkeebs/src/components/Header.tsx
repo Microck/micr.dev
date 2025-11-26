@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Youtube, Instagram, Music } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { LogoIcon, AnimatedIcon } from './icons';
+import { LogoIcon } from './icons';
 
 interface HeaderProps {
   currentPage: string;
@@ -121,7 +122,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             rel="noopener noreferrer"
             className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
           >
-            <AnimatedIcon name="youtube" size={20} />
+            <Youtube size={20} />
           </a>
           <a
             href="https://www.instagram.com/microkeebs/"
@@ -129,7 +130,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             rel="noopener noreferrer"
             className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
           >
-            <AnimatedIcon name="instagram" size={20} />
+            <Instagram size={20} />
           </a>
           <a
             href="https://www.tiktok.com/@microkeebs"
@@ -137,7 +138,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             rel="noopener noreferrer"
             className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
           >
-            <AnimatedIcon name="tiktok" size={20} />
+            <Music size={20} />
           </a>
         </div>
       </div>

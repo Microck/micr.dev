@@ -1,9 +1,9 @@
+import { Youtube, Instagram, Music } from 'lucide-react';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
 import { SplitText } from './SplitText';
 import { VariableProximity } from './VariableProximity';
 import { LogoTicker } from './LogoTicker';
-import { AnimatedIcon } from './icons';
 
 const aboutText = `I'm Marcos, also known as Microkeebs. I joined the keyboard hobby in early 2021 and have been active since then, but I didn't build my first custom keyboard until mid-2022, when I also started Microkeebs as a way to showcase my keyboards.
 
@@ -111,7 +111,7 @@ export function Contact() {
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <AnimatedIcon name="youtube" size={48} />
+              <Youtube size={48} />
               <span className="text-sm uppercase tracking-wider">YouTube</span>
             </a>
             
@@ -123,7 +123,7 @@ export function Contact() {
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <AnimatedIcon name="instagram" size={48} />
+              <Instagram size={48} />
               <span className="text-sm uppercase tracking-wider">Instagram</span>
             </a>
             
@@ -135,7 +135,7 @@ export function Contact() {
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <AnimatedIcon name="tiktok" size={48} />
+              <Music size={48} />
               <span className="text-sm uppercase tracking-wider">TikTok</span>
             </a>
           </div>
