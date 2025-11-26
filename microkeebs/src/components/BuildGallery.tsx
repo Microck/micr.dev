@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, LayoutGroup } from "framer-motion";
-import { AnimatedSearchIcon } from "./icons";
+import { Search } from "lucide-react";
 import { BuildCard } from "./BuildCard";
 import { Footer } from "./Footer";
 import { useTheme } from "../contexts/ThemeContext";
@@ -105,7 +105,7 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
                   searchExpanded ? "w-64 opacity-100" : "w-0 opacity-0"
                 } ${isDark ? "border-[#a7a495] text-[#a7a495] placeholder-[#a7a495]/50" : "border-[#1c1c1c] text-[#1c1c1c] placeholder-[#1c1c1c]/50"}`}
               />
-              <AnimatedSearchIcon
+              <Search
                 size={20}
                 className={`transition-all duration-300 ease-out cursor-pointer ${
                   isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
