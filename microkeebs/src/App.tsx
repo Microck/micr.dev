@@ -5,7 +5,6 @@ import { BuildDetail } from './components/BuildDetail';
 import { Rankings } from './components/Rankings';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
-import { AuraBackground } from './components/AuraBackground';
 // import { CatIcon } from './components/icons';
 import { ThemeToggle } from './components/ThemeToggle';
 import { MobilePopup } from './components/MobilePopup';
@@ -119,7 +118,6 @@ function AppContent() {
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} relative`}>
-      <AuraBackground />
       <SmoothScroll>
         <div className="relative z-10">
           <Header currentPage={currentPage} onNavigate={handleNavigate} />
