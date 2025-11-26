@@ -3,7 +3,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { SplitText } from './SplitText';
 import { VariableProximity } from './VariableProximity';
 import { LogoTicker } from './LogoTicker';
-import { Youtube, Instagram } from 'lucide-react';
+import { AnimatedIcon } from './icons';
 
 const aboutText = `I'm Marcos, also known as Microkeebs. I joined the keyboard hobby in early 2021 and have been active since then, but I didn't build my first custom keyboard until mid-2022, when I also started Microkeebs as a way to showcase my keyboards.
 
@@ -26,24 +26,6 @@ const clients = [
   'Lemokey',
   'Monsgeek'
 ];
-
-const TikTokIcon = ({
-  size = 20,
-  className = "",
-}: {
-  size?: number;
-  className?: string;
-}) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className={className}
-  >
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-.88-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43V7.56a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04.01z"/>
-  </svg>
-);
 
 export function Contact() {
   const { isDark } = useTheme();
@@ -129,7 +111,7 @@ export function Contact() {
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <Youtube size={48} />
+              <AnimatedIcon name="youtube" size={48} />
               <span className="text-sm uppercase tracking-wider">YouTube</span>
             </a>
             
@@ -141,7 +123,7 @@ export function Contact() {
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <Instagram size={48} />
+              <AnimatedIcon name="instagram" size={48} />
               <span className="text-sm uppercase tracking-wider">Instagram</span>
             </a>
             
@@ -153,7 +135,7 @@ export function Contact() {
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <TikTokIcon size={48} />
+              <AnimatedIcon name="tiktok" size={48} />
               <span className="text-sm uppercase tracking-wider">TikTok</span>
             </a>
           </div>

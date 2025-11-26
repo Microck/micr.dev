@@ -1,27 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Youtube, Instagram } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { LogoIcon } from './icons';
-
-// TikTok icon component since it's not in lucide-react
-const TikTokIcon = ({
-  size = 20,
-  className = "",
-}: {
-  size?: number;
-  className?: string;
-}) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className={className}
-  >
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-.88-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43V7.56a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04.01z"/>
-  </svg>
-);
+import { LogoIcon, AnimatedIcon } from './icons';
 
 interface HeaderProps {
   currentPage: string;
@@ -141,7 +121,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             rel="noopener noreferrer"
             className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
           >
-            <Youtube size={20} />
+            <AnimatedIcon name="youtube" size={20} />
           </a>
           <a
             href="https://www.instagram.com/microkeebs/"
@@ -149,7 +129,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             rel="noopener noreferrer"
             className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
           >
-            <Instagram size={20} />
+            <AnimatedIcon name="instagram" size={20} />
           </a>
           <a
             href="https://www.tiktok.com/@microkeebs"
@@ -157,7 +137,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             rel="noopener noreferrer"
             className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
           >
-            <TikTokIcon size={20} />
+            <AnimatedIcon name="tiktok" size={20} />
           </a>
         </div>
       </div>

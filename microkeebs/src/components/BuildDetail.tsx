@@ -1,11 +1,11 @@
 import React from 'react';
-import { ArrowLeft } from 'lucide-react';
 import { KeyboardBuild } from '../types/Build';
 import { Carousel3D } from './Carousel3D';
 import { YouTubeEmbed } from './YouTubeEmbed';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
 import { MaskedText } from './MaskedText';
+import { AnimatedIcon } from './icons';
 
 interface BuildDetailProps {
   build: KeyboardBuild;
@@ -25,7 +25,7 @@ export function BuildDetail({ build, onBack }: BuildDetailProps) {
             isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
           }`}
         >
-          <ArrowLeft size={20} />
+          <AnimatedIcon name="arrow-left" size={20} />
           <span>Back to Gallery</span>
         </button>
         
