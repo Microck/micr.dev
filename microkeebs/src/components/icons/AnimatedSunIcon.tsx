@@ -12,11 +12,25 @@ export function AnimatedSunIcon({ size = 24, className = '' }: AnimatedSunIconPr
       height={size}
       viewBox="0 0 24 24"
       fill="none"
-      className={className}
+      className={`sun-icon ${className}`}
       xmlns="http://www.w3.org/2000/svg"
     >
       <style>
         {`
+          .sun-icon:hover .sun-rays {
+            transform-origin: center;
+            animation: sunRotate 2s linear infinite;
+          }
+          .sun-icon:hover .sun-core {
+            animation: sunPulse 1.5s ease-in-out infinite;
+          }
+          .sun-rays {
+            transform-origin: center;
+            transition: transform 0.3s ease;
+          }
+          .sun-core {
+            transition: all 0.3s ease;
+          }
           @keyframes sunRotate {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -25,15 +39,8 @@ export function AnimatedSunIcon({ size = 24, className = '' }: AnimatedSunIconPr
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
           }
-          .sun-rays {
-            transform-origin: center;
-            animation: sunRotate 20s linear infinite;
-          }
-          .sun-core {
-            animation: sunPulse 3s ease-in-out infinite;
-          }
           @media (prefers-reduced-motion: reduce) {
-            .sun-rays, .sun-core {
+            .sun-icon:hover .sun-rays, .sun-icon:hover .sun-core {
               animation: none;
             }
           }

@@ -12,11 +12,29 @@ export function AnimatedMoonStarsIcon({ size = 24, className = '' }: AnimatedMoo
       height={size}
       viewBox="0 0 24 24"
       fill="none"
-      className={className}
+      className={`moon-stars-icon ${className}`}
       xmlns="http://www.w3.org/2000/svg"
     >
       <style>
         {`
+          .moon-stars-icon:hover .star {
+            animation: twinkle 1s ease-in-out infinite;
+          }
+          .moon-stars-icon:hover .star:nth-child(2) {
+            animation-delay: 0.3s;
+          }
+          .moon-stars-icon:hover .star:nth-child(3) {
+            animation-delay: 0.6s;
+          }
+          .moon-stars-icon:hover .moon {
+            animation: moonGlow 2s ease-in-out infinite;
+          }
+          .star {
+            transition: all 0.3s ease;
+          }
+          .moon {
+            transition: all 0.3s ease;
+          }
           @keyframes twinkle {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.3; transform: scale(0.8); }
@@ -25,20 +43,8 @@ export function AnimatedMoonStarsIcon({ size = 24, className = '' }: AnimatedMoo
             0%, 100% { opacity: 0.8; }
             50% { opacity: 1; }
           }
-          .star {
-            animation: twinkle 2s ease-in-out infinite;
-          }
-          .star:nth-child(2) {
-            animation-delay: 0.5s;
-          }
-          .star:nth-child(3) {
-            animation-delay: 1s;
-          }
-          .moon {
-            animation: moonGlow 4s ease-in-out infinite;
-          }
           @media (prefers-reduced-motion: reduce) {
-            .star, .moon {
+            .moon-stars-icon:hover .star, .moon-stars-icon:hover .moon {
               animation: none;
             }
           }

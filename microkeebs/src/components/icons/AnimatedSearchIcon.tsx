@@ -12,11 +12,25 @@ export function AnimatedSearchIcon({ size = 24, className = '' }: AnimatedSearch
       height={size}
       viewBox="0 0 24 24"
       fill="none"
-      className={className}
+      className={`search-icon ${className}`}
       xmlns="http://www.w3.org/2000/svg"
     >
       <style>
         {`
+          .search-icon:hover .search-circle {
+            animation: searchPulse 1s ease-in-out infinite;
+            transform-origin: center;
+          }
+          .search-icon:hover .search-handle {
+            animation: searchRotate 1.5s ease-in-out infinite alternate;
+            transform-origin: 17px 17px;
+          }
+          .search-circle {
+            transition: all 0.3s ease;
+          }
+          .search-handle {
+            transition: all 0.3s ease;
+          }
           @keyframes searchPulse {
             0%, 100% { 
               transform: scale(1);
@@ -31,16 +45,8 @@ export function AnimatedSearchIcon({ size = 24, className = '' }: AnimatedSearch
             0% { transform: rotate(-45deg); }
             100% { transform: rotate(45deg); }
           }
-          .search-circle {
-            animation: searchPulse 2s ease-in-out infinite;
-            transform-origin: center;
-          }
-          .search-handle {
-            animation: searchRotate 3s ease-in-out infinite alternate;
-            transform-origin: 17px 17px;
-          }
           @media (prefers-reduced-motion: reduce) {
-            .search-circle, .search-handle {
+            .search-icon:hover .search-circle, .search-icon:hover .search-handle {
               animation: none;
             }
           }
