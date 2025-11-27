@@ -1,4 +1,5 @@
-import { Youtube, Instagram, Music } from 'lucide-react';
+import { Youtube, Instagram } from 'lucide-react';
+import { TikTokIcon } from './icons';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
 import { SplitText } from './SplitText';
@@ -135,7 +136,7 @@ export function Contact() {
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <Music size={48} />
+              <TikTokIcon size={48} />
               <span className="text-sm uppercase tracking-wider">TikTok</span>
             </a>
           </div>
