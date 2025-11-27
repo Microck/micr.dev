@@ -8,7 +8,7 @@ interface AnimatedMoonStarsIconProps {
 export function AnimatedMoonStarsIcon({ size = 24, className = '' }: AnimatedMoonStarsIconProps) {
   return (
     <img
-      src="/microkeebs/public/icons/moon.svg"
+      src="/moon-stars.svg"
       alt="Moon and stars icon"
       width={size}
       height={size}
