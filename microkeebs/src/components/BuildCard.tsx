@@ -1,6 +1,8 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { KeyboardBuild } from "../types/Build";
 import { useTheme } from "../contexts/ThemeContext";
+import { MaskedText } from "./MaskedText";
 
 interface BuildCardProps {
   build: KeyboardBuild;
@@ -47,69 +49,84 @@ export function BuildCard({
   const buildDescription = extractBuildDescription(build);
 
   return (
-    <div onClick={onClick} className="cursor-pointer card-hover group">
+    <div onClick={onClick} className="cursor-pointer cursor-target">
       <div className="w-full h-64 mb-4 overflow-hidden relative">
-        {/* Loading skeleton */}
-        <div
-          className={`absolute inset-0 animate-pulse rounded ${
-            isDark ? "bg-[#2a2a2a]" : "bg-[#b5b3a7]"
-          }`}
-        >
+        <div className={`gallery-media ${isDark ? 'gallery-media--dark' : 'gallery-media--light'}`}>
           <div
-            className={`w-full h-full flex items-center justify-center ${
-              isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+            className={`absolute inset-0 animate-pulse ${
+              isDark ? "bg-[#2a2a2a]" : "bg-[#b5b3a7]"
             }`}
           >
-            <div className="w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+            <div
+              className={`w-full h-full flex items-center justify-center ${
+                isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+              }`}
+            >
+              <div className="w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+            </div>
           </div>
-        </div>
-        <img
-          src={coverImage}
-          alt={build.title}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 transition-opacity duration-300 opacity-0"
-          loading="eager"
-          decoding="sync"
-          onLoad={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.classList.remove("opacity-0");
-            const skeleton = target.previousElementSibling as HTMLElement;
-            if (skeleton) skeleton.style.display = "none";
-          }}
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.style.display = "none";
-            const placeholder = target.nextElementSibling as HTMLElement;
-            if (placeholder) placeholder.style.display = "flex";
-          }}
-        />
-        <div className="placeholder-bg w-full h-full hidden items-center justify-center">
-          <span
-            className={`text-lg font-normal ${
-              isDark ? "text-[#1c1c1c]" : "text-[#1c1c1c]"
-            }`}
-          >
-            COVER IMAGE
-          </span>
+          <img
+            src={coverImage}
+            alt={build.title}
+            className="gallery-media__image opacity-0"
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+            onLoad={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.classList.remove("opacity-0");
+              const skeleton = target.previousElementSibling as HTMLElement;
+              if (skeleton) skeleton.style.display = "none";
+            }}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = "none";
+              const placeholder = target.nextElementSibling as HTMLElement;
+              if (placeholder) placeholder.style.display = "flex";
+            }}
+          />
+          <div className="placeholder-bg w-full h-full hidden items-center justify-center">
+            <span
+              className={`text-lg font-normal ${
+                isDark ? "text-[#1c1c1c]" : "text-[#1c1c1c]"
+              }`}
+            >
+              COVER IMAGE
+            </span>
+          </div>
+          <div className="gallery-media__corner gallery-media__corner--tl"></div>
+          <div className="gallery-media__corner gallery-media__corner--tr"></div>
+          <div className="gallery-media__corner gallery-media__corner--bl"></div>
+          <div className="gallery-media__corner gallery-media__corner--br"></div>
+          <div className="gallery-media__edge gallery-media__edge--top"></div>
+          <div className="gallery-media__edge gallery-media__edge--right"></div>
+          <div className="gallery-media__edge gallery-media__edge--bottom"></div>
+          <div className="gallery-media__edge gallery-media__edge--left"></div>
         </div>
       </div>
 
-      <h3
-        className={`card-title text-lg text-center slide-up ${
+      <MaskedText
+        className={`card-title text-lg text-center ${
           isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
         }`}
+        delay={100}
       >
         {build.title}
-      </h3>
+      </MaskedText>
 
-      {showBuild && buildDescription && (
-        <p
-          className={`text-xs text-center mt-1 px-2 leading-relaxed ${
-            isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
-          } opacity-70`}
-        >
-          {buildDescription}
-        </p>
-      )}
+      <motion.div 
+        layout
+        transition={{ layout: { duration: 0.3, ease: "easeOut" } }}
+        className={`text-xs text-center px-2 leading-relaxed overflow-hidden ${
+          showBuild && buildDescription ? 'opacity-70' : 'opacity-0'
+        } ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}
+        style={{
+          height: showBuild && buildDescription ? 'auto' : 0,
+          marginTop: showBuild && buildDescription ? '0.25rem' : 0,
+        }}
+      >
+        {buildDescription}
+      </motion.div>
     </div>
   );
 }

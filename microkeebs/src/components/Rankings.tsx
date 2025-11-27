@@ -4,6 +4,7 @@ import { KeyboardBuild } from '../types/Build';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
 import { CherryIcon, DomeIcon } from './icons';
+import { ShinyText } from './ShinyText';
 import builds from '../data/builds.json';
 import rankings from '../data/rankings.json';
 
@@ -64,7 +65,7 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
   }) => (
     <div className={`p-4 sm:p-6 card-hover slide-up ${isLarge ? 'col-span-1 sm:col-span-2' : 'text-[#1c1c1c]'} ${
       isDark ? 'bg-[#2a2a2a]' : 'bg-[#b5b3a7]'
-    } rounded-3xl`} style={{ animationDelay: `${delay}s` }}>
+    } rounded-3xl cursor-target`} style={{ animationDelay: `${delay}s` }}>
       <div className="flex items-center space-x-3 mb-4 sm:mb-6">
         <div className="smooth-bounce">
           {React.cloneElement(icon as React.ReactElement, { 
@@ -79,14 +80,19 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
           <div key={build.id}>
             <div
               onClick={() => onBuildSelect(build)}
-              className="ranking-item flex items-center space-x-3 sm:space-x-4 cursor-pointer p-2 sm:p-3 transition-all duration-300"
+              className={`ranking-item flex items-center space-x-3 sm:space-x-4 cursor-pointer p-2 sm:p-3 transition-all duration-300 ${
+                index < 3 ? 'relative overflow-hidden' : ''
+              }`}
             >
+              {index < 3 && (
+                <div className="absolute inset-0 shiny-bg opacity-20 pointer-events-none" />
+              )}
               <span className={`text-xl sm:text-2xl font-bold w-6 sm:w-8 float-animation ${
                 getMetalGradient(index)
-              }`} style={{ animationDelay: `${index * 0.2}s` }}>
+              } relative z-10`} style={{ animationDelay: `${index * 0.2}s` }}>
                 {index + 1}
               </span>
-              <div className="w-12 sm:w-16 h-9 sm:h-12 overflow-hidden rounded flex-shrink-0">
+              <div className="w-12 sm:w-16 h-9 sm:h-12 overflow-hidden rounded flex-shrink-0 relative z-10">
                 {/* Loading skeleton */}
                 <div className={`absolute inset-0 animate-pulse rounded ${isDark ? "bg-[#2a2a2a]" : "bg-[#b5b3a7]"}`}>
                   <div className={`w-full h-full flex items-center justify-center ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>
@@ -113,7 +119,7 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
                   <span className={`text-xs ${isDark ? 'text-[#1c1c1c]' : 'text-[#1c1c1c]'}`}>PLACEHOLDER</span>
                 </div>
               </div>
-              <span className={`font-normal text-sm sm:text-base ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>{build.title}</span>
+              <span className={`font-normal text-sm sm:text-base ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} relative z-10`}>{build.title}</span>
             </div>
             {index < rankings.length - 1 && (
               <div className={`border-b mx-2 sm:mx-3 ${

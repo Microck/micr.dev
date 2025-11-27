@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Monitor } from 'lucide-react';
+import { Monitor, X } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
 export function MobilePopup() {
@@ -37,7 +37,7 @@ export function MobilePopup() {
       }`}>
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center space-x-3">
-            <Monitor className={`w-8 h-8 ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`} />
+            <Monitor className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`} size={32} />
             <h3 className="text-lg font-bold">Desktop Recommended</h3>
           </div>
           <button
@@ -46,7 +46,7 @@ export function MobilePopup() {
               isDark ? 'hover:bg-[#a7a495] hover:bg-opacity-20' : 'hover:bg-[#1c1c1c] hover:bg-opacity-20'
             } transition-colors`}
           >
-            <X className="w-5 h-5" />
+            <X size={20} />
           </button>
         </div>
         

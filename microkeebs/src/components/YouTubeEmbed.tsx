@@ -31,7 +31,7 @@ export function YouTubeEmbed({ youtubeUrl, title }: YouTubeEmbedProps) {
   const embedUrl = `https://www.youtube.com/embed/${videoId}`;
 
   return (
-    <div className="w-full h-64 card-hover">
+    <div className="w-full aspect-video">
       <iframe
         src={embedUrl}
         title={title}

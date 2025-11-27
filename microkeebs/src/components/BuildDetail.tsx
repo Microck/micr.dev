@@ -1,10 +1,11 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { KeyboardBuild } from '../types/Build';
-import { ImageCarousel } from './ImageCarousel';
+import { Carousel3D } from './Carousel3D';
 import { YouTubeEmbed } from './YouTubeEmbed';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
+import { MaskedText } from './MaskedText';
 
 interface BuildDetailProps {
   build: KeyboardBuild;
@@ -20,7 +21,7 @@ export function BuildDetail({ build, onBack }: BuildDetailProps) {
       <div className="max-w-4xl mx-auto px-8 py-8">
         <button
           onClick={onBack}
-          className={`flex items-center space-x-2 hover:opacity-70 mb-8 transition-all duration-300 smooth-bounce ${
+          className={`flex items-center space-x-2 hover:opacity-70 mb-8 transition-all duration-300 smooth-bounce cursor-target ${
             isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
           }`}
         >
@@ -28,15 +29,18 @@ export function BuildDetail({ build, onBack }: BuildDetailProps) {
           <span>Back to Gallery</span>
         </button>
         
-        <h1 className={`text-4xl font-bold text-center mb-12 slide-up ${
-          isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
-        }`}>
+        <MaskedText 
+          className={`text-4xl font-bold text-center mb-12 ${
+            isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+          }`}
+          delay={100}
+        >
           {build.title}
-        </h1>
+        </MaskedText>
         
         <div className="space-y-8">
-          <div className="fade-in">
-            <ImageCarousel images={build.images} title={build.title} />
+          <div className="fade-in flex justify-center">
+            <Carousel3D images={build.images} title={build.title} />
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
