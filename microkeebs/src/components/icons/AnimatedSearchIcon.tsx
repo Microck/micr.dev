@@ -8,7 +8,7 @@ interface AnimatedSearchIconProps {
 export function AnimatedSearchIcon({ size = 24, className = '' }: AnimatedSearchIconProps) {
   return (
     <img
-      src="/microkeebs/public/icons/icons8-search.gif"
+      src="/microkeebs/public/icons/search.svg"
       alt="Search icon"
       width={size}
       height={size}

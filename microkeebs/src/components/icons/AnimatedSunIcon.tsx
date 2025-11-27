@@ -8,7 +8,7 @@ interface AnimatedSunIconProps {
 export function AnimatedSunIcon({ size = 24, className = '' }: AnimatedSunIconProps) {
   return (
     <img
-      src="/microkeebs/public/icons/icons8-sun.gif"
+      src="/microkeebs/public/icons/sun.svg"
       alt="Sun icon"
       width={size}
       height={size}
