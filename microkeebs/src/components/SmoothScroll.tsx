@@ -29,6 +29,7 @@ declare global {
     ScrollSmoother?: {
       create: (config: ScrollSmootherConfig) => ScrollSmootherType;
     };
+    gsap?: typeof gsap;
   }
 }
 
@@ -51,6 +52,10 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
 
     const loadScrollSmoother = async () => {
       if (window.ScrollSmoother) {
+        // Register ScrollSmoother with GSAP if GSAP is available
+        if (window.gsap && window.gsap.registerPlugin) {
+          window.gsap.registerPlugin(window.ScrollSmoother);
+        }
         setIsLoaded(true);
         return;
       }
@@ -62,6 +67,10 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
         
         scriptElement.onload = () => {
           if (window.ScrollSmoother) {
+            // Register ScrollSmoother with GSAP after script loads
+            if (window.gsap && window.gsap.registerPlugin) {
+              window.gsap.registerPlugin(window.ScrollSmoother);
+            }
             setIsLoaded(true);
           } else {
             setLoadError(true);
