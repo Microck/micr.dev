@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Youtube, Instagram, Music } from 'lucide-react';
+import { Youtube, Instagram } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { LogoIcon } from './icons';
+import { LogoIcon, TikTokIcon } from './icons';
 
 interface HeaderProps {
   currentPage: string;
@@ -138,7 +138,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             rel="noopener noreferrer"
             className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
           >
-            <Music size={20} />
+            <TikTokIcon size={20} />
           </a>
         </div>
       </div>
