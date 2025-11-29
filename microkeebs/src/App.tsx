@@ -4,11 +4,11 @@ import { BuildGallery } from './components/BuildGallery';
 import { BuildDetail } from './components/BuildDetail';
 import { Rankings } from './components/Rankings';
 import { Contact } from './components/Contact';
-import { Footer } from './components/Footer';
 // import { CatIcon } from './components/icons';
 import { ThemeToggle } from './components/ThemeToggle';
 import { MobilePopup } from './components/MobilePopup';
 import { TargetCursor } from './components/TargetCursor';
+import { TransitionLayout } from './components/layout/TransitionLayout';
 import { KeyboardBuild } from './types/Build';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { useLenis } from './contexts/LenisContext';
@@ -20,6 +20,7 @@ function AppContent() {
   const [selectedBuild, setSelectedBuild] = useState<KeyboardBuild | null>(null);
   const { isDark } = useTheme();
   const lenis = useLenis();
+  const activeRouteKey = selectedBuild ? `build-detail-${selectedBuild.id}` : currentPage;
 
   // Handle URL-based navigation
   useEffect(() => {
@@ -130,7 +131,9 @@ function AppContent() {
       <div className="relative z-10">
         <Header currentPage={currentPage} onNavigate={handleNavigate} />
         <main>
-          {renderContent()}
+          <TransitionLayout routeKey={activeRouteKey}>
+            {renderContent()}
+          </TransitionLayout>
         </main>
       </div>
       <ThemeToggle />
