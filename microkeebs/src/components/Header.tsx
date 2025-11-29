@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Youtube, Instagram } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { LogoIcon, TikTokIcon } from './icons';
+import { LogoIcon, TikTokIcon, AnimatedYoutubeIcon, AnimatedInstagramIcon } from './icons';
 
 interface HeaderProps {
   currentPage: string;
@@ -120,23 +119,23 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             href="https://www.youtube.com/@microkeebs"
             target="_blank"
             rel="noopener noreferrer"
-            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
+            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70 interactive`}
           >
-            <Youtube size={20} />
+            <AnimatedYoutubeIcon size={20} />
           </a>
           <a
             href="https://www.instagram.com/microkeebs/"
             target="_blank"
             rel="noopener noreferrer"
-            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
+            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70 interactive`}
           >
-            <Instagram size={20} />
+            <AnimatedInstagramIcon size={20} />
           </a>
           <a
             href="https://www.tiktok.com/@microkeebs"
             target="_blank"
             rel="noopener noreferrer"
-            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70`}
+            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70 interactive`}
           >
             <TikTokIcon size={20} />
           </a>

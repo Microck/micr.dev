@@ -9,10 +9,9 @@ interface TargetCursorProps {
 }
 
 export function TargetCursor({
-  spinDuration = 8,
+  spinDuration = 2.7,
   hideDefaultCursor = true,
   hoverDuration = 0.3,
-  parallaxOn = false,
 }: TargetCursorProps) {
   const { isDark } = useTheme();
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -63,7 +62,12 @@ export function TargetCursor({
       mousePos.current = { x: e.clientX, y: e.clientY };
 
       const target = e.target as HTMLElement;
-      const isTargetElement = target.closest('.cursor-target') !== null;
+      const isButton = target.closest('button') !== null;
+      const isLink = target.closest('a') !== null;
+      const isInteractive = target.closest('.interactive') !== null;
+      const isCursorTarget = target.closest('.cursor-target') !== null;
+      
+      const isTargetElement = isButton || isLink || isInteractive || isCursorTarget;
       setIsHovering(isTargetElement);
     };
 

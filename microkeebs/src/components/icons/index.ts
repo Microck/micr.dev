@@ -6,3 +6,5 @@ export { AnimatedSunIcon } from './AnimatedSunIcon';
 export { AnimatedMoonStarsIcon } from './AnimatedMoonStarsIcon';
 export { AnimatedSearchIcon } from './AnimatedSearchIcon';
 export { TikTokIcon } from './TikTokIcon';
+export { AnimatedYoutubeIcon } from './AnimatedYoutubeIcon';
+export { AnimatedInstagramIcon } from './AnimatedInstagramIcon';
