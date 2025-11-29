@@ -1,5 +1,9 @@
-import React, { createContext, useContext, useEffect, useRef, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState, ReactNode } from 'react';
 import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface LenisContextType {
   lenis: Lenis | null;
@@ -13,49 +17,52 @@ interface LenisProviderProps {
 
 export function LenisProvider({ children }: LenisProviderProps) {
   const lenisRef = useRef<Lenis | null>(null);
-  const rafId = useRef<number | null>(null);
+  const gsapUpdateRef = useRef<((time: number) => void) | null>(null);
+  const [lenisInstance, setLenisInstance] = useState<Lenis | null>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    lenisRef.current = new Lenis({
+
+    const lenis = new Lenis({
       duration: prefersReducedMotion ? 0 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: !prefersReducedMotion,
+      syncTouch: false,
+      touchMultiplier: prefersReducedMotion ? 1 : 2,
+      wheelMultiplier: 1,
       infinite: false,
     });
 
-    const raf = (time: number) => {
-      lenisRef.current?.raf(time);
-      rafId.current = requestAnimationFrame(raf);
-    };
-    
-    rafId.current = requestAnimationFrame(raf);
+    lenisRef.current = lenis;
+    setLenisInstance(lenis);
 
-    // Restore scroll position on mount
     const scrollPosition = sessionStorage.getItem('scrollPosition');
     if (scrollPosition) {
-      lenisRef.current?.scrollTo(parseInt(scrollPosition), { immediate: true });
+      lenis.scrollTo(parseInt(scrollPosition, 10), { immediate: true });
       sessionStorage.removeItem('scrollPosition');
     }
 
+    const update = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsapUpdateRef.current = update;
+    gsap.ticker.add(update);
+    gsap.ticker.lagSmoothing(0);
+
     return () => {
-      if (rafId.current) {
-        cancelAnimationFrame(rafId.current);
+      if (gsapUpdateRef.current) {
+        gsap.ticker.remove(gsapUpdateRef.current);
+        gsapUpdateRef.current = null;
       }
-      if (lenisRef.current) {
-        lenisRef.current.destroy();
-        lenisRef.current = null;
-      }
+      lenis.destroy();
+      lenisRef.current = null;
+      setLenisInstance(null);
     };
   }, []);
 
-  // Save scroll position before unload
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (lenisRef.current) {
@@ -67,9 +74,9 @@ export function LenisProvider({ children }: LenisProviderProps) {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, []);
 
-  const value = {
-    lenis: lenisRef.current,
-  };
+  const value = useMemo(() => ({
+    lenis: lenisInstance,
+  }), [lenisInstance]);
 
   return (
     <LenisContext.Provider value={value}>

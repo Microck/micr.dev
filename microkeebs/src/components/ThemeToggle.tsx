@@ -50,7 +50,7 @@ export function ThemeToggle() {
       <button
         ref={buttonRef}
         onClick={handleToggle}
-        className={`fixed bottom-6 right-6 p-4 rounded-full shadow-lg transition-all duration-300 ease-out z-[101] hover:scale-110 active:scale-95 cursor-target ${
+        className={`fixed bottom-6 right-6 p-4 rounded-full shadow-lg transition-all duration-300 ease-out z-[10000] pointer-events-auto hover:scale-110 active:scale-95 cursor-target ${
           isDark 
             ? 'bg-[#2a2a2a] text-[#a7a495] hover:bg-[#1c1c1c] shadow-black/20' 
             : 'bg-[#b5b3a7] text-[#1c1c1c] hover:bg-[#a7a495] shadow-black/10'
