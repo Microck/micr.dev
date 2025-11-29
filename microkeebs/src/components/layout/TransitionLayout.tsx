@@ -2,8 +2,8 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { useLenis } from '../../contexts/LenisContext';
 
-const EXIT_DURATION = 0.35;
-const ENTER_DURATION = 0.45;
+const EXIT_DURATION = 0.25;
+const ENTER_DURATION = 0.75;
 const SCROLL_STORAGE_PREFIX = 'route-scroll::';
 
 interface TransitionLayoutProps {
@@ -108,10 +108,9 @@ export function TransitionLayout({ children, routeKey, className }: TransitionLa
 
       entryTweenRef.current = gsap.fromTo(
         contentRef.current,
-        { autoAlpha: 0, y: 24 },
+        { autoAlpha: 0 },
         {
           autoAlpha: 1,
-          y: 0,
           duration: ENTER_DURATION,
           ease: 'power2.out',
           onComplete: () => {
@@ -146,7 +145,6 @@ export function TransitionLayout({ children, routeKey, className }: TransitionLa
 
     exitTimeline.to(contentRef.current, {
       autoAlpha: 0,
-      y: -24,
       duration: EXIT_DURATION,
     });
 
@@ -170,10 +168,9 @@ export function TransitionLayout({ children, routeKey, className }: TransitionLa
 
     const introTween = gsap.fromTo(
       contentRef.current,
-      { autoAlpha: 0, y: 24 },
+      { autoAlpha: 0 },
       {
         autoAlpha: 1,
-        y: 0,
         duration: ENTER_DURATION,
         ease: 'power2.out',
         delay: 0.1,
