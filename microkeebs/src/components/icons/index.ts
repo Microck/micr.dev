@@ -8,3 +8,7 @@ export { AnimatedSearchIcon } from './AnimatedSearchIcon';
 export { TikTokIcon } from './TikTokIcon';
 export { AnimatedYoutubeIcon } from './AnimatedYoutubeIcon';
 export { AnimatedInstagramIcon } from './AnimatedInstagramIcon';
+export { AnimatedSunIconLucide } from './AnimatedSunIconLucide';
+export { AnimatedMoonIconLucide } from './AnimatedMoonIconLucide';
+export { AnimatedSearchIconLucide } from './AnimatedSearchIconLucide';
+export { AnimatedTikTokIcon } from './AnimatedTikTokIcon';
