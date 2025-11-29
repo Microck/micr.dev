@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { LenisProvider } from './contexts/LenisContext';
 
 // Theme switching logic
 const getInitialTheme = (): string => {
@@ -48,13 +49,8 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
   return newTheme;
 };
 
-// Smooth scroll restoration logic
+// Smooth scroll for internal links (will be handled by Lenis)
 const enableSmoothScroll = () => {
-  if (!('scrollBehavior' in document.documentElement.style)) {
-    // Add smooth scroll polyfill
-    (document.documentElement as any).style.scrollBehavior = 'smooth';
-  }
-  
   // Smooth scroll for internal links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e: Event) {
@@ -76,27 +72,12 @@ const enableSmoothScroll = () => {
 // Initialize smooth scroll
 enableSmoothScroll();
 
-// Restore scroll position
-const restoreScrollPosition = () => {
-  const scrollPosition = sessionStorage.getItem('scrollPosition');
-  if (scrollPosition) {
-    window.scrollTo(0, parseInt(scrollPosition));
-    sessionStorage.removeItem('scrollPosition');
-  }
-};
-
-// Save scroll position before unload
-window.addEventListener('beforeunload', () => {
-  sessionStorage.setItem('scrollPosition', window.scrollY.toString());
-});
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider>
-      <App />
+      <LenisProvider>
+        <App />
+      </LenisProvider>
     </ThemeProvider>
   </React.StrictMode>,
 );
-
-// Restore scroll position after mount
-restoreScrollPosition();
