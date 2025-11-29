@@ -28,7 +28,7 @@ export function TransitionLayout({ children, routeKey, className }: TransitionLa
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   };
 
-  const storeScrollPosition = (key: string) => {
+  const storeScrollPosition = React.useCallback((key: string) => {
     if (typeof window === 'undefined') {
       return;
     }
@@ -39,7 +39,7 @@ export function TransitionLayout({ children, routeKey, className }: TransitionLa
     } catch {
       return;
     }
-  };
+  }, [lenis]);
 
   const getStoredScrollPosition = (key: string) => {
     if (typeof scrollPositionsRef.current[key] === 'number') {
@@ -63,13 +63,13 @@ export function TransitionLayout({ children, routeKey, className }: TransitionLa
     return 0;
   };
 
-  const applyScrollPosition = (value: number) => {
+  const applyScrollPosition = React.useCallback((value: number) => {
     if (lenis) {
       lenis.scrollTo(value, { immediate: true });
     } else if (typeof window !== 'undefined') {
       window.scrollTo({ top: value });
     }
-  };
+  }, [lenis]);
 
   useEffect(() => {
     return () => {
@@ -115,6 +115,10 @@ export function TransitionLayout({ children, routeKey, className }: TransitionLa
           ease: 'power2.out',
           onComplete: () => {
             entryTweenRef.current = null;
+            // Clear GSAP properties to prevent stacking context issues
+            if (contentRef.current) {
+              gsap.set(contentRef.current, { clearProps: "all" });
+            }
           },
         },
       );
@@ -159,7 +163,7 @@ export function TransitionLayout({ children, routeKey, className }: TransitionLa
         entryTweenRef.current = null;
       }
     };
-  }, [routeKey, children, lenis]);
+  }, [routeKey, children, lenis, storeScrollPosition, applyScrollPosition]);
 
   useEffect(() => {
     if (shouldReduceMotion() || !contentRef.current) {
@@ -174,6 +178,12 @@ export function TransitionLayout({ children, routeKey, className }: TransitionLa
         duration: ENTER_DURATION,
         ease: 'power2.out',
         delay: 0.1,
+        onComplete: () => {
+          // Clear GSAP properties to prevent stacking context issues
+          if (contentRef.current) {
+            gsap.set(contentRef.current, { clearProps: "all" });
+          }
+        },
       },
     );
 

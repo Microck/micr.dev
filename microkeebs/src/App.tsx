@@ -32,7 +32,7 @@ function AppContent() {
         const baseSlug = parts[0];
         const counter = parts[1];
         
-        const build = findBuildBySlug(baseSlug, counter, builds as any);
+        const build = findBuildBySlug(baseSlug, counter, builds as KeyboardBuild[]);
         if (build) {
           setSelectedBuild(build);
           setCurrentPage('builds');
@@ -72,7 +72,6 @@ function AppContent() {
   };
 
   const handleBuildSelect = (build: KeyboardBuild) => {
-    const slugInfo = findBuildBySlug(build.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'), undefined, builds as any);
     const baseSlug = build.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const sameTitleBuilds = builds
       .filter(b => b.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === baseSlug)
@@ -128,6 +127,12 @@ function AppContent() {
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} relative`}>
+      {/* Fixed position elements - OUTSIDE of TransitionLayout to avoid stacking context issues */}
+      <ThemeToggle />
+      <MobilePopup />
+      <TargetCursor />
+      
+      {/* Normal flow content - INSIDE TransitionLayout for smooth page transitions */}
       <div className="relative z-10">
         <Header currentPage={currentPage} onNavigate={handleNavigate} />
         <main>
@@ -136,9 +141,6 @@ function AppContent() {
           </TransitionLayout>
         </main>
       </div>
-      <ThemeToggle />
-      <MobilePopup />
-      <TargetCursor />
     </div>
   );
 }
