@@ -1,52 +1,32 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { AnimatedSunIcon, AnimatedMoonStarsIcon } from './icons';
+import React, { useRef } from 'react';
+import { AnimatedSunIconLucide, AnimatedMoonIconLucide } from './icons';
 import { useTheme } from '../contexts/ThemeContext';
 
 export function ThemeToggle() {
   const { isDark, toggleTheme } = useTheme();
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const buttonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setMousePos({
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2,
-      });
-    }
-  }, []);
 
   const handleToggle = (e: React.MouseEvent) => {
     const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect();
-    setMousePos({
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-    });
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
 
-    setIsAnimating(true);
-    setTimeout(() => {
+    // Use View Transition API if available
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        // Store transition origin for CSS animation
+        document.documentElement.style.setProperty('--transition-x', `${x}px`);
+        document.documentElement.style.setProperty('--transition-y', `${y}px`);
+        toggleTheme();
+      });
+    } else {
+      // Fallback for browsers without View Transition API
       toggleTheme();
-      setTimeout(() => setIsAnimating(false), 1000);
-    }, 500);
+    }
   };
-
-  const centerX = (mousePos.x / window.innerWidth) * 100;
-  const centerY = (mousePos.y / window.innerHeight) * 100;
 
   return (
     <>
-      {isAnimating && (
-        <div 
-          className="fixed inset-0 z-[100] pointer-events-none"
-          style={{
-            background: isDark ? '#a7a495' : '#1c1c1c',
-            clipPath: `circle(0% at ${centerX}% ${centerY}%)`,
-            animation: 'themeRadialWipe 1s cubic-bezier(0.4, 0, 0.2, 1) forwards'
-          }}
-        />
-      )}
       <button
         ref={buttonRef}
         onClick={handleToggle}
@@ -57,18 +37,25 @@ export function ThemeToggle() {
         }`}
         aria-label="Toggle theme"
       >
-        <div className={`transition-transform duration-300 ease-out ${isAnimating ? 'rotate-180' : ''}`}>
-          {isDark ? <AnimatedSunIcon size={24} /> : <AnimatedMoonStarsIcon size={24} />}
+        <div className="transition-transform duration-300 ease-out">
+          {isDark ? <AnimatedSunIconLucide size={24} /> : <AnimatedMoonIconLucide size={24} />}
         </div>
       </button>
 
       <style>{`
-        @keyframes themeRadialWipe {
-          0% {
-            clip-path: circle(0% at ${centerX}% ${centerY}%);
-          }
-          100% {
-            clip-path: circle(150% at ${centerX}% ${centerY}%);
+        ::view-transition-old(root) {
+          animation: none;
+          z-index: -1;
+        }
+
+        ::view-transition-new(root) {
+          mask: url('/logo.svg') center / 0 no-repeat;
+          animation: scale 1s ease-out forwards;
+        }
+
+        @keyframes scale {
+          to {
+            mask-size: 200vmax;
           }
         }
       `}</style>
