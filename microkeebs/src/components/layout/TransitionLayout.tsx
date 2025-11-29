@@ -186,7 +186,7 @@ export function TransitionLayout({ children, routeKey, className }: TransitionLa
 
   return (
     <div className={wrapperClassName}>
-      <div ref={contentRef} className="transition-layout__content will-change-transform">
+      <div ref={contentRef} className="transition-layout__content">
         {displayedChildren}
       </div>
     </div>
