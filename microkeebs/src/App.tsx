@@ -5,7 +5,7 @@ import { BuildDetail } from './components/BuildDetail';
 import { Rankings } from './components/Rankings';
 import { Contact } from './components/Contact';
 import { ThemeToggle } from './components/ThemeToggle';
-import { MobilePopup } from './components/MobilePopup';
+import { MobilePopup } from './components/mobilePopup';
 import { TargetCursor } from './components/TargetCursor';
 import { LenisScroll } from './components/LenisScroll';
 import { PageTransitions } from './components/PageTransitions';
@@ -31,6 +31,10 @@ function AppContent() {
         
         const build = findBuildBySlug(baseSlug, counter, builds as any);
         if (build) {
+          // Update URL with PageTransitions
+          const newHash = `#/builds/${build?.slug || ''}`;
+          window.location.hash = newHash;
+
           setSelectedBuild(build);
           setCurrentPage('builds');
         }
@@ -41,7 +45,7 @@ function AppContent() {
         setCurrentPage('contact');
         setSelectedBuild(null);
       } else {
-        setCurrentPage('builds');
+        handleNavigate('builds');
         setSelectedBuild(null);
       }
     };
@@ -55,12 +59,10 @@ function AppContent() {
   }, []);
 
   const handleNavigate = (page: string) => {
-    if (page === 'builds') {
-      window.location.hash = '#/builds';
-    } else if (page === 'rankings') {
-      window.location.hash = '#/rankings';
-    } else if (page === 'contact') {
-      window.location.hash = '#/contact';
+    if (currentPage !== page) {
+      // Update URL with PageTransitions
+      const newHash = `#/${page}`;
+      window.location.hash = newHash;
     }
   };
 

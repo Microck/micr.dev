@@ -1,5 +1,4 @@
-import { Youtube, Instagram } from 'lucide-react';
-import { TikTokIcon } from './icons';
+import { AnimatedIcon } from './icons/AnimatedIcon';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
 import { SplitText } from './SplitText';
@@ -112,10 +111,10 @@ export function Contact() {
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <Youtube size={48} />
+              <AnimatedIcon name="youtube" size={48} />
               <span className="text-sm uppercase tracking-wider">YouTube</span>
             </a>
-            
+
             <a
               href="https://www.instagram.com/microkeebs/"
               target="_blank"
@@ -124,10 +123,10 @@ export function Contact() {
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <Instagram size={48} />
+              <AnimatedIcon name="instagram" size={48} />
               <span className="text-sm uppercase tracking-wider">Instagram</span>
             </a>
-            
+
             <a
               href="https://www.tiktok.com/@microkeebs"
               target="_blank"
@@ -136,7 +135,7 @@ export function Contact() {
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
             >
-              <TikTokIcon size={48} />
+              <AnimatedIcon name="tiktok" size={48} />
               <span className="text-sm uppercase tracking-wider">TikTok</span>
             </a>
           </div>

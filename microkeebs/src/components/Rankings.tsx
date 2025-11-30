@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trophy, Eye, Volume2, Hand } from 'lucide-react';
+import { AnimatedIcon } from './icons/AnimatedIcon';
 import { KeyboardBuild } from '../types/Build';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
@@ -138,7 +138,7 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-8">
           <RankingCard
             title="All"
-            icon={<Trophy size={24} />}
+            icon={<AnimatedIcon name="trophy" size={24} />}
             rankings={allRankings}
             isLarge={true}
             delay={0.1}
@@ -148,21 +148,21 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
           <RankingCard
             title="Look"
-            icon={<Eye size={24} />}
+            icon={<AnimatedIcon name="eye" size={24} />}
             rankings={lookRankings}
             delay={0.3}
           />
-          
+
           <RankingCard
             title="Sound"
-            icon={<Volume2 size={24} />}
+            icon={<AnimatedIcon name="volume" size={24} />}
             rankings={soundRankings}
             delay={0.5}
           />
-          
+
           <RankingCard
             title="Feel"
-            icon={<Hand size={24} />}
+            icon={<AnimatedIcon name="hand" size={24} />}
             rankings={feelRankings}
             delay={0.7}
           />
