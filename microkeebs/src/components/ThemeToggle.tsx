@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { AnimatedSunIconLucide, AnimatedMoonIconLucide } from './icons';
+import { AnimatedSunIcon, AnimatedMoonStarsIcon } from './icons';
 import { useTheme } from '../contexts/ThemeContext';
 
 export function ThemeToggle() {
@@ -38,7 +38,7 @@ export function ThemeToggle() {
         aria-label="Toggle theme"
       >
         <div className="transition-transform duration-300 ease-out">
-          {isDark ? <AnimatedSunIconLucide size={24} /> : <AnimatedMoonIconLucide size={24} />}
+          {isDark ? <AnimatedSunIcon size={24} /> : <AnimatedMoonStarsIcon size={24} />}
         </div>
       </button>
 

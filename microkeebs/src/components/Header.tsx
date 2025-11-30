@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import { LogoIcon, AnimatedYoutubeIcon, AnimatedInstagramIcon, AnimatedTikTokIcon } from './icons';
+import { LogoIcon, TikTokIcon, AnimatedYoutubeIcon, AnimatedInstagramIcon } from './icons';
 
 interface HeaderProps {
   currentPage: string;
@@ -137,7 +137,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             rel="noopener noreferrer"
             className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70 interactive`}
           >
-            <AnimatedTikTokIcon size={20} />
+            <TikTokIcon size={20} />
           </a>
         </div>
       </div>

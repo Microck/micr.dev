@@ -1,4 +1,4 @@
-import { ReactLenis } from 'lenis/react';
+import { ReactLenis } from '@studio-freight/react-lenis';
 import React from 'react';
 
 interface LenisScrollProps {
