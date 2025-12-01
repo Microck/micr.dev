@@ -6,6 +6,10 @@ interface LenisScrollProps {
 }
 
 export function LenisScroll({ children }: LenisScrollProps) {
+  const prefersReducedMotion = typeof window !== 'undefined'
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    : false;
+
   return (
     <ReactLenis
       rootOptions={{
