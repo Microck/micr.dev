@@ -11,55 +11,53 @@ export function PageTransitions({ children, direction = 'up' }: PageTransitionsP
   const barsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    // Animate the curtain bars on mount
-    if (curtainRef.current) {
-      const bars = barsRef.current;
+    // Only animate if we have both the curtain container and all bar elements
+    if (!curtainRef.current) return;
+    
+    const bars = barsRef.current.filter((bar): bar is HTMLDivElement => bar !== null);
+    
+    // Ensure all bars are mounted before animating
+    if (bars.length !== 4) return;
 
-      // Animate bars sliding up (reveal animation)
-      const animationConfig = {
-        y: '100%',
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'expo.inOut',
-      };
+    // Define animation properties based on direction
+    let fromVars: gsap.TweenVars = {};
+    let toVars: gsap.TweenVars = {
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'expo.inOut',
+    };
 
-      if (direction === 'left') {
-        gsap.fromTo(bars, {
-          x: '-100%',
-          ...animationConfig,
-        });
-      } else if (direction === 'right') {
-        gsap.fromTo(bars, {
-          x: '100%',
-          ...animationConfig,
-        });
-      } else if (direction === 'up') {
-        gsap.fromTo(bars, {
-          y: '-100%',
-          ...animationConfig,
-        });
-      } else if (direction === 'down') {
-        gsap.fromTo(bars, {
-          y: '100%',
-          ...animationConfig,
-        });
-      } else {
-        gsap.fromTo(bars, animationConfig);
-      }
-
-      const onComplete = () => {
-        // Hide curtain after animation
-        gsap.to(curtainRef.current, {
-          opacity: 0,
-          pointerEvents: 'none',
-          duration: 0.3,
-          delay: 0.2,
-        });
-      };
-
-      gsap.fromTo(bars, animationConfig).eventCallback('onComplete', onComplete);
+    if (direction === 'left') {
+      fromVars = { x: '-100%' };
+      toVars = { ...toVars, x: '0%' };
+    } else if (direction === 'right') {
+      fromVars = { x: '100%' };
+      toVars = { ...toVars, x: '0%' };
+    } else if (direction === 'up') {
+      fromVars = { y: '-100%' };
+      toVars = { ...toVars, y: '0%' };
+    } else if (direction === 'down') {
+      fromVars = { y: '100%' };
+      toVars = { ...toVars, y: '0%' };
     }
-  }, []);
+
+    // Perform the animation with proper from/to values
+    const tl = gsap.timeline({
+      onComplete: () => {
+        // Hide curtain after animation completes
+        if (curtainRef.current) {
+          gsap.to(curtainRef.current, {
+            opacity: 0,
+            pointerEvents: 'none',
+            duration: 0.3,
+            delay: 0.2,
+          });
+        }
+      }
+    });
+
+    tl.fromTo(bars, fromVars, toVars);
+  }, [direction]);
 
   return (
     <div>
