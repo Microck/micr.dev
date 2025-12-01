@@ -1,17 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { KeyboardBuild } from '../types/Build';
 import { AnimatedIcon } from './icons/AnimatedIcon';
 import { useTheme } from '../contexts/ThemeContext';
+import gsap from 'gsap';
 
 interface BuildTimelineProps {
   builds: KeyboardBuild[];
   onBuildSelect: (build: KeyboardBuild) => void;
-}
-
-interface TimelineMarker {
-  build: KeyboardBuild;
-  position: number;
-  totalBuilds: number;
 }
 
 export function BuildTimeline({ builds, onBuildSelect }: BuildTimelineProps) {
@@ -34,66 +29,45 @@ export function BuildTimeline({ builds, onBuildSelect }: BuildTimelineProps) {
 
   // Animate timeline on mount
   useEffect(() => {
-    if (timelineRef.current && markersRef.current) {
-      // Animate timeline line
-      const timelineHeight = timelineRef.current.offsetHeight;
-      markersRef.current.forEach((marker, index) => {
-        const targetPosition = calculatePosition(index, sortedBuilds.length);
-        const markerPosition = calculatePosition(index, sortedBuilds.length);
+    if (!timelineRef.current) return;
+    
+    const validMarkers = markersRef.current.filter((marker): marker is HTMLDivElement => marker !== null);
+    if (validMarkers.length === 0) return;
 
-        // Set initial position (off-screen)
-        gsap.set(marker, {
-          y: `${targetPosition}%`,
-        ease: 'power2.inOut',
-          duration: 0.8,
-        delay: index * 0.1,
-        });
-
-        // Animate to final position with stagger
-        gsap.to(marker, {
-          y: `${markerPosition}%`,
-          ease: 'power2.inOut',
-          duration: 0.6,
-          delay: 0.2,
-        });
-      });
-
-      // Animate timeline line
-      gsap.fromTo(timelineRef.current, {
-        scaleY: 0,
-        duration: 1.2,
-        ease: 'power2.inOut',
-      });
-
-      gsap.to(timelineRef.current, {
+    // Animate timeline line
+    gsap.fromTo(
+      timelineRef.current,
+      { scaleY: 0 },
+      {
         scaleY: 1,
         duration: 1.2,
         ease: 'power2.inOut',
         delay: 0.4,
-      });
+      }
+    );
 
-      // Animate markers with fade-in
-      gsap.fromTo(markersRef.current, {
-        opacity: 0,
-        y: -20,
-      });
-
-      gsap.to(markersRef.current, {
+    // Animate markers with fade-in
+    gsap.fromTo(
+      validMarkers,
+      { opacity: 0, y: -20 },
+      {
         opacity: 1,
         y: 0,
         duration: 0.8,
         stagger: 0.05,
         onComplete: () => {
           // Animate timeline line growth
-          gsap.to(timelineRef.current, {
-            height: 'auto',
-            duration: 0.6,
-            ease: 'power2.out',
-          });
+          if (timelineRef.current) {
+            gsap.to(timelineRef.current, {
+              height: 'auto',
+              duration: 0.6,
+              ease: 'power2.out',
+            });
+          }
         }
-      });
-    }
-  }, []);
+      }
+    );
+  }, [sortedBuilds.length]);
 
   const handleMarkerClick = (build: KeyboardBuild, index: number) => {
     // Scroll to build with smooth animation
@@ -104,7 +78,7 @@ export function BuildTimeline({ builds, onBuildSelect }: BuildTimelineProps) {
         duration: 1.5,
         ease: 'power2.inOut',
         onUpdate: () => {
-          if (timelineRef.current) {
+          if (timelineRef.current && timelineRef.current.parentElement) {
             const scrollProgress = targetPosition / 100;
             const scrollTo = document.documentElement.scrollHeight * scrollProgress;
 
@@ -182,7 +156,7 @@ export function BuildTimeline({ builds, onBuildSelect }: BuildTimelineProps) {
                   const skeleton = target.previousElementSibling as HTMLElement;
                   if (skeleton) skeleton.style.display = 'none';
                 }}
-                onError={() => {
+                onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';
                   const placeholder = target.nextElementSibling as HTMLElement;
