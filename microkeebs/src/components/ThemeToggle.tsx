@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { Icon } from '@iconify/react';
 
