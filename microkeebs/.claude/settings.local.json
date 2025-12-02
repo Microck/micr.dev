@@ -10,7 +10,8 @@
       "Bash(npm run dev:*)",
       "mcp__firecrawl-mcp__firecrawl_search",
       "Bash(npm run build:*)",
-      "mcp__sequential-thinking__sequentialthinking"
+      "mcp__sequential-thinking__sequentialthinking",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

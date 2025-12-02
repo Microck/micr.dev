@@ -5,6 +5,7 @@ import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
 import { CherryIcon, DomeIcon } from './icons';
 import { ShinyText } from './ShinyText';
+import { Icon } from '@iconify/react';
 import builds from '../data/builds.json';
 import rankings from '../data/rankings.json';
 
@@ -148,21 +149,21 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
           <RankingCard
             title="Look"
-            icon={<AnimatedIcon name="eye" size={24} />}
+            icon={<Icon icon="mingcute:eye-line" className="w-6 h-6" />}
             rankings={lookRankings}
             delay={0.3}
           />
 
           <RankingCard
             title="Sound"
-            icon={<AnimatedIcon name="volume" size={24} />}
+            icon={<Icon icon="mingcute:volume-line" className="w-6 h-6" />}
             rankings={soundRankings}
             delay={0.5}
           />
 
           <RankingCard
             title="Feel"
-            icon={<VolumeIcon size={24} />}
+            icon={<Icon icon="mingcute:hand-heart-line" className="w-6 h-6" />}
             rankings={feelRankings}
             delay={0.7}
           />

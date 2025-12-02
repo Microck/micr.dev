@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Youtube, Instagram, Music } from 'lucide-react';
+import { Icon } from '@iconify/react';
 
 interface SocialIconsProps {
   isDark: boolean;
@@ -35,7 +35,7 @@ export function SocialIcons({ isDark, className = '' }: SocialIconsProps) {
         whileHover="hover"
         whileTap="tap"
       >
-        <Youtube size={20} />
+        <Icon icon="mingcute:youtube-line" className="w-5 h-5" />
       </motion.a>
       <motion.a
         href="https://www.instagram.com/microkeebs/"
@@ -46,7 +46,7 @@ export function SocialIcons({ isDark, className = '' }: SocialIconsProps) {
         whileHover="hover"
         whileTap="tap"
       >
-        <Instagram size={20} />
+        <Icon icon="mingcute:instagram-line" className="w-5 h-5" />
       </motion.a>
       <motion.a
         href="https://www.tiktok.com/@microkeebs"
@@ -57,7 +57,7 @@ export function SocialIcons({ isDark, className = '' }: SocialIconsProps) {
         whileHover="hover"
         whileTap="tap"
       >
-        <Music size={20} />
+        <Icon icon="mingcute:tiktok-line" className="w-5 h-5" />
       </motion.a>
     </div>
   );

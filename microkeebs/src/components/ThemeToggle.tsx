@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import { Icon } from '@iconify/react';
 
 export function ThemeToggle() {
   const { isDark, toggleTheme } = useTheme();
