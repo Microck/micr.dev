@@ -129,7 +129,6 @@ function AppContent() {
         </PageTransitions>
         <ThemeToggle />
         <MobilePopup />
-        <TargetCursor />
       </div>
     </LenisScroll>
   );

@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import { LogoIcon, TikTokIcon, AnimatedYoutubeIcon, AnimatedInstagramIcon } from './icons';
+import { LogoIcon } from './icons';
+import { SocialIcons } from './icons/SocialIcons';
 
 interface HeaderProps {
   currentPage: string;
@@ -114,32 +115,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
         </nav>
 
         {/* Social Icons */}
-        <div className="hidden sm:flex items-center space-x-4">
-          <a
-            href="https://www.youtube.com/@microkeebs"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70 interactive`}
-          >
-            <AnimatedYoutubeIcon size={20} />
-          </a>
-          <a
-            href="https://www.instagram.com/microkeebs/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70 interactive`}
-          >
-            <AnimatedInstagramIcon size={20} />
-          </a>
-          <a
-            href="https://www.tiktok.com/@microkeebs"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} aura-scale transition-opacity hover:opacity-70 interactive`}
-          >
-            <TikTokIcon size={20} />
-          </a>
-        </div>
+        <SocialIcons isDark={isDark} />
       </div>
     </header>
   );

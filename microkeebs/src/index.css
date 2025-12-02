@@ -22,14 +22,7 @@
     color: #a7a495;
   }
 
-  #smooth-wrapper {
-    overflow: hidden;
-  }
-
-  #smooth-content {
-    overflow: visible;
-    will-change: transform;
-  }
+  /* Lenis handles smooth scrolling, no manual overflow needed */
 
   /* Custom Scrollbar */
   ::-webkit-scrollbar {

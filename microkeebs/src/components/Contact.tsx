@@ -1,4 +1,5 @@
-import { AnimatedIcon } from './icons/AnimatedIcon';
+import { motion } from 'framer-motion';
+import { Youtube, Instagram, Music } from 'lucide-react';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
 import { SplitText } from './SplitText';
@@ -103,41 +104,80 @@ export function Contact() {
         {/* Social Links */}
         <div className="mb-32 sm:mb-48">
           <div className="flex justify-center gap-16 sm:gap-24">
-            <a
+            <motion.a
               href="https://www.youtube.com/@microkeebs"
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex flex-col items-center gap-4 transition-all duration-300 ease-out hover:scale-110 cursor-target ${
+              className={`flex flex-col items-center gap-4 cursor-target ${
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <AnimatedIcon name="youtube" size={48} />
+              <motion.div
+                whileHover={{
+                  rotate: [0, 10, -10, 0],
+                  scale: 1.2
+                }}
+                transition={{
+                  rotate: { duration: 0.5, ease: "easeInOut" },
+                  scale: { duration: 0.2 }
+                }}
+              >
+                <Youtube size={48} />
+              </motion.div>
               <span className="text-sm uppercase tracking-wider">YouTube</span>
-            </a>
+            </motion.a>
 
-            <a
+            <motion.a
               href="https://www.instagram.com/microkeebs/"
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex flex-col items-center gap-4 transition-all duration-300 ease-out hover:scale-110 cursor-target ${
+              className={`flex flex-col items-center gap-4 cursor-target ${
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <AnimatedIcon name="instagram" size={48} />
+              <motion.div
+                whileHover={{
+                  rotate: [0, -10, 10, 0],
+                  scale: 1.2
+                }}
+                transition={{
+                  rotate: { duration: 0.5, ease: "easeInOut" },
+                  scale: { duration: 0.2 }
+                }}
+              >
+                <Instagram size={48} />
+              </motion.div>
               <span className="text-sm uppercase tracking-wider">Instagram</span>
-            </a>
+            </motion.a>
 
-            <a
+            <motion.a
               href="https://www.tiktok.com/@microkeebs"
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex flex-col items-center gap-4 transition-all duration-300 ease-out hover:scale-110 cursor-target ${
+              className={`flex flex-col items-center gap-4 cursor-target ${
                 isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
               }`}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <AnimatedIcon name="tiktok" size={48} />
+              <motion.div
+                whileHover={{
+                  rotate: [0, 15, -15, 0],
+                  scale: 1.2
+                }}
+                transition={{
+                  rotate: { duration: 0.6, ease: "easeInOut" },
+                  scale: { duration: 0.2 }
+                }}
+              >
+                <Music size={48} />
+              </motion.div>
               <span className="text-sm uppercase tracking-wider">TikTok</span>
-            </a>
+            </motion.a>
           </div>
         </div>
 
