@@ -7,7 +7,9 @@
       "Bash(npx shadcn@latest add:*)",
       "Bash(npx shadcn@latest init:*)",
       "Bash(npm run build)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "mcp__firecrawl-mcp__firecrawl_search",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []

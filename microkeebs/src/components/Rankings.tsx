@@ -138,7 +138,7 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-8">
           <RankingCard
             title="All"
-            icon={<AnimatedIcon name="trophy" size={24} />}
+            icon={<CherryIcon size={24} />}
             rankings={allRankings}
             isLarge={true}
             delay={0.1}
@@ -162,7 +162,7 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
 
           <RankingCard
             title="Feel"
-            icon={<AnimatedIcon name="hand" size={24} />}
+            icon={<VolumeIcon size={24} />}
             rankings={feelRankings}
             delay={0.7}
           />

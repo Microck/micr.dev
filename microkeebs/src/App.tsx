@@ -6,7 +6,6 @@ import { Rankings } from './components/Rankings';
 import { Contact } from './components/Contact';
 import { ThemeToggle } from './components/ThemeToggle';
 import { MobilePopup } from './components/MobilePopup';
-import { TargetCursor } from './components/TargetCursor';
 import { LenisScroll } from './components/LenisScroll';
 import { PageTransitions } from './components/PageTransitions';
 import { KeyboardBuild } from './types/Build';
