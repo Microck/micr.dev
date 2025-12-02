@@ -120,7 +120,7 @@ function AppContent() {
   return (
     <LenisScroll>
       <div className={`min-h-screen ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} relative`}>
-        <PageTransitions>
+        <PageTransitions currentPage={currentPage} onNavigate={handleNavigate}>
           <div className="relative z-10">
             <Header currentPage={currentPage} onNavigate={handleNavigate} />
             <main>

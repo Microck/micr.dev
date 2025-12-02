@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__firecrawl-mcp__firecrawl_scrape",
+      "Bash(pnpm add:*)",
+      "Bash(npm install:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npx shadcn@latest init:*)",
+      "Bash(npm run build)",
+      "Bash(npm run dev:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
