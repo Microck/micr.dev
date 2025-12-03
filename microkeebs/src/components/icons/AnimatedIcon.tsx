@@ -3,6 +3,7 @@ import * as LucideIcons from 'lucide-react';
 import { GithubIcon } from '@/components/ui/github';
 import { YoutubeIcon } from '@/components/ui/youtube';
 import { InstagramIcon } from '@/components/ui/instagram';
+import { Icon } from '@iconify/react';
 
 export interface AnimatedIconProps {
   name: string;

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Youtube, Instagram, Music } from 'lucide-react';
+import { Icon } from '@iconify/react';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
 import { SplitText } from './SplitText';
@@ -124,7 +124,7 @@ export function Contact() {
                   scale: { duration: 0.2 }
                 }}
               >
-                <Youtube size={48} />
+                <Icon icon="mingcute:youtube-line" className="w-12 h-12" />
               </motion.div>
               <span className="text-sm uppercase tracking-wider">YouTube</span>
             </motion.a>
@@ -149,7 +149,7 @@ export function Contact() {
                   scale: { duration: 0.2 }
                 }}
               >
-                <Instagram size={48} />
+                <Icon icon="mingcute:instagram-line" className="w-12 h-12" />
               </motion.div>
               <span className="text-sm uppercase tracking-wider">Instagram</span>
             </motion.a>
@@ -174,7 +174,7 @@ export function Contact() {
                   scale: { duration: 0.2 }
                 }}
               >
-                <Music size={48} />
+                <Icon icon="mingcute:tiktok-line" className="w-12 h-12" />
               </motion.div>
               <span className="text-sm uppercase tracking-wider">TikTok</span>
             </motion.a>

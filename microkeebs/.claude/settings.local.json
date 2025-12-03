@@ -11,7 +11,8 @@
       "mcp__firecrawl-mcp__firecrawl_search",
       "Bash(npm run build:*)",
       "mcp__sequential-thinking__sequentialthinking",
-      "WebSearch"
+      "WebSearch",
+      "Bash(tasklist:*)"
     ],
     "deny": [],
     "ask": []
