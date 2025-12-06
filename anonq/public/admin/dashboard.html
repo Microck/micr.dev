@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - anonq</title>
+    <link rel="stylesheet" href="/styles/globals.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        card: 'hsl(var(--card))',
+                        'card-foreground': 'hsl(var(--card-foreground))',
+                        primary: 'hsl(var(--primary))',
+                        'primary-foreground': 'hsl(var(--primary-foreground))',
+                        secondary: 'hsl(var(--secondary))',
+                        'secondary-foreground': 'hsl(var(--secondary-foreground))',
+                        muted: 'hsl(var(--muted))',
+                        'muted-foreground': 'hsl(var(--muted-foreground))',
+                        accent: 'hsl(var(--accent))',
+                        'accent-foreground': 'hsl(var(--accent-foreground))',
+                        border: 'hsl(var(--border))',
+                        input: 'hsl(var(--input))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --background: 240 10% 3.9%;
+            --foreground: 0 0% 98%;
+            --card: 240 10% 3.9%;
+            --card-foreground: 0 0% 98%;
+            --primary: 0 0% 98%;
+            --primary-foreground: 240 5.9% 10%;
+            --secondary: 240 3.7% 15.9%;
+            --secondary-foreground: 0 0% 98%;
+            --muted: 240 3.7% 15.9%;
+            --muted-foreground: 240 5% 64.9%;
+            --accent: 240 3.7% 15.9%;
+            --accent-foreground: 0 0% 98%;
+            --destructive: 0 62.8% 30.6%;
+            --destructive-foreground: 0 0% 98%;
+            --border: 240 3.7% 15.9%;
+            --input: 240 3.7% 15.9%;
+            --ring: 240 4.9% 83.9%;
+            --radius: 0.5rem;
+        }
+        
+        * {
+            border-color: hsl(var(--border));
+        }
+        
+        body {
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-background">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-foreground">Admin Dashboard</h1>
+            <button 
+                id="logoutBtn"
+                class="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors"
+            >
+                Logout
+            </button>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Left Column: Unanswered Questions -->
+            <div class="bg-card border rounded-lg p-6">
+                <h2 class="text-xl font-bold text-card-foreground mb-4">Unanswered Questions</h2>
+                <div id="questionsList" class="space-y-3 max-h-[600px] overflow-y-auto">
+                    <!-- Questions will be loaded here -->
+                </div>
+                
+                <div id="noQuestions" class="text-center py-8 text-muted-foreground hidden">
+                    <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                    </svg>
+                    <p>No unanswered questions</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Answer Form -->
+            <div class="bg-card border rounded-lg p-6">
+                <div id="answerSection">
+                    <h2 class="text-xl font-bold text-card-foreground mb-4">Post Your Answer</h2>
+                    
+                    <div id="noQuestionSelected" class="text-center py-8 text-muted-foreground">
+                        <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p>Select a question to answer</p>
+                    </div>
+                    
+                    <div id="answerForm" class="hidden">
+                        <div class="mb-4">
+                            <h3 class="font-semibold text-card-foreground mb-2">Selected Question</h3>
+                            <div id="selectedQuestion" class="p-3 bg-muted rounded-md text-muted-foreground"></div>
+                            <p id="questionDate" class="text-xs text-muted-foreground mt-2"></p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="answerInput" class="block text-sm font-medium text-card-foreground mb-2">
+                                Your Answer
+                            </label>
+                            <textarea 
+                                id="answerInput"
+                                placeholder="Write your answer..."
+                                class="w-full min-h-[150px] px-3 py-2 bg-background border rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+                                maxlength="2000"
+                            ></textarea>
+                            <div class="text-right mt-1">
+                                <span id="answerCharCount" class="text-xs text-muted-foreground">0 / 2000</span>
+                            </div>
+                        </div>
+                        
+                        <button 
+                            id="postAnswerBtn"
+                            class="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium"
+                        >
+                            Post Answer Publicly
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 transform translate-y-full transition-transform duration-300 z-50">
+        <div class="bg-card border rounded-lg shadow-lg p-4 flex items-center space-x-3 min-w-[300px]">
+            <div id="toastIcon"></div>
+            <div>
+                <p id="toastMessage" class="text-sm font-medium"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = '/admin';
+        }
+
+        // Elements
+        const logoutBtn = document.getElementById('logoutBtn');
+        const questionsList = document.getElementById('questionsList');
+        const noQuestions = document.getElementById('noQuestions');
+        const noQuestionSelected = document.getElementById('noQuestionSelected');
+        const answerForm = document.getElementById('answerForm');
+        const selectedQuestion = document.getElementById('selectedQuestion');
+        const questionDate = document.getElementById('questionDate');
+        const answerInput = document.getElementById('answerInput');
+        const answerCharCount = document.getElementById('answerCharCount');
+        const postAnswerBtn = document.getElementById('postAnswerBtn');
+        
+        let selectedQuestionId = null;
+        let questions = [];
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('adminLoggedIn');
+            window.location.href = '/admin';
+        });
+
+        // Character counter
+        answerInput.addEventListener('input', () => {
+            const length = answerInput.value.length;
+            answerCharCount.textContent = `${length} / 2000`;
+            
+            if (length > 2000) {
+                answerCharCount.classList.add('text-destructive');
+            } else {
+                answerCharCount.classList.remove('text-destructive');
+            }
+        });
+
+        // Toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            
+            toastMessage.textContent = message;
+            
+            if (type === 'success') {
+                toastIcon.innerHTML = '<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+            } else if (type === 'error') {
+                toastIcon.innerHTML = '<svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+            } else {
+                toastIcon.innerHTML = '<svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+            }
+            
+            toast.classList.remove('translate-y-full');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-full');
+            }, 3000);
+        }
+
+        // Load questions
+        async function loadQuestions() {
+            try {
+                const response = await fetch('/api/admin/questions');
+                if (response.ok) {
+                    questions = await response.json();
+                    
+                    if (questions.length === 0) {
+                        noQuestions.classList.remove('hidden');
+                        questionsList.style.display = 'none';
+                    } else {
+                        noQuestions.classList.add('hidden');
+                        questionsList.style.display = 'block';
+                        
+                        questionsList.innerHTML = questions.map(q => `
+                            <div class="p-3 bg-muted rounded-md cursor-pointer hover:bg-muted/80 transition-colors ${selectedQuestionId === q.id ? 'ring-2 ring-ring' : ''}" 
+                                 onclick="selectQuestion('${q.id}')">
+                                <p class="text-sm text-card-foreground mb-2">${q.content}</p>
+                                <p class="text-xs text-muted-foreground">
+                                    ${new Date(q.timestamp).toLocaleDateString()} ${new Date(q.timestamp).toLocaleTimeString()}
+                                </p>
+                            </div>
+                        `).join('');
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load questions:', error);
+                showToast('Failed to load questions', 'error');
+            }
+        }
+
+        // Select question
+        window.selectQuestion = function(questionId) {
+            selectedQuestionId = questionId;
+            const question = questions.find(q => q.id === questionId);
+            
+            if (question) {
+                selectedQuestion.textContent = question.content;
+                questionDate.textContent = `Asked on ${new Date(question.timestamp).toLocaleDateString()} at ${new Date(question.timestamp).toLocaleTimeString()}`;
+                
+                noQuestionSelected.classList.add('hidden');
+                answerForm.classList.remove('hidden');
+                
+                // Update selection UI
+                document.querySelectorAll('#questionsList > div').forEach(el => {
+                    el.classList.remove('ring-2', 'ring-ring');
+                });
+                event.target.closest('div').classList.add('ring-2', 'ring-ring');
+                
+                answerInput.value = '';
+                answerCharCount.textContent = '0 / 2000';
+            }
+        };
+
+        // Post answer
+        postAnswerBtn.addEventListener('click', async () => {
+            const content = answerInput.value.trim();
+            
+            if (!content) {
+                showToast('Please enter an answer', 'error');
+                return;
+            }
+            
+            if (content.length > 2000) {
+                showToast('Answer must be less than 2000 characters', 'error');
+                return;
+            }
+            
+            if (!selectedQuestionId) {
+                showToast('Please select a question first', 'error');
+                return;
+            }
+            
+            postAnswerBtn.disabled = true;
+            postAnswerBtn.textContent = 'Posting...';
+            
+            try {
+                const response = await fetch('/api/admin/answer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        questionId: selectedQuestionId, 
+                        content 
+                    }),
+                });
+                
+                if (response.ok) {
+                    showToast('Answer posted successfully!', 'success');
+                    
+                    // Reset form
+                    selectedQuestionId = null;
+                    answerInput.value = '';
+                    answerCharCount.textContent = '0 / 2000';
+                    noQuestionSelected.classList.remove('hidden');
+                    answerForm.classList.add('hidden');
+                    
+                    // Reload questions
+                    loadQuestions();
+                } else {
+                    const error = await response.json();
+                    showToast(error.error || 'Failed to post answer', 'error');
+                }
+            } catch (error) {
+                showToast('Network error. Please try again.', 'error');
+            } finally {
+                postAnswerBtn.disabled = false;
+                postAnswerBtn.textContent = 'Post Answer Publicly';
+            }
+        });
+
+        // Initial load
+        loadQuestions();
+        
+        // Refresh questions every 30 seconds
+        setInterval(loadQuestions, 30000);
+    </script>
+</body>
+</html>
