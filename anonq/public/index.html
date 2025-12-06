@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>anonq - Ask Me Anything, Anonymously</title>
+    <link rel="stylesheet" href="/styles/globals.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        card: 'hsl(var(--card))',
+                        'card-foreground': 'hsl(var(--card-foreground))',
+                        primary: 'hsl(var(--primary))',
+                        'primary-foreground': 'hsl(var(--primary-foreground))',
+                        secondary: 'hsl(var(--secondary))',
+                        'secondary-foreground': 'hsl(var(--secondary-foreground))',
+                        muted: 'hsl(var(--muted))',
+                        'muted-foreground': 'hsl(var(--muted-foreground))',
+                        accent: 'hsl(var(--accent))',
+                        'accent-foreground': 'hsl(var(--accent-foreground))',
+                        border: 'hsl(var(--border))',
+                        input: 'hsl(var(--input))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --background: 240 10% 3.9%;
+            --foreground: 0 0% 98%;
+            --card: 240 10% 3.9%;
+            --card-foreground: 0 0% 98%;
+            --primary: 0 0% 98%;
+            --primary-foreground: 240 5.9% 10%;
+            --secondary: 240 3.7% 15.9%;
+            --secondary-foreground: 0 0% 98%;
+            --muted: 240 3.7% 15.9%;
+            --muted-foreground: 240 5% 64.9%;
+            --accent: 240 3.7% 15.9%;
+            --accent-foreground: 0 0% 98%;
+            --destructive: 0 62.8% 30.6%;
+            --destructive-foreground: 0 0% 98%;
+            --border: 240 3.7% 15.9%;
+            --input: 240 3.7% 15.9%;
+            --ring: 240 4.9% 83.9%;
+            --radius: 0.5rem;
+        }
+        
+        * {
+            border-color: hsl(var(--border));
+        }
+        
+        body {
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-background">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-foreground mb-2">anonq</h1>
+            <p class="text-muted-foreground text-lg">Ask Me Anything, Anonymously.</p>
+        </header>
+
+        <!-- Question Form -->
+        <section class="mb-12">
+            <div class="bg-card border rounded-lg p-6">
+                <h2 class="text-2xl font-bold text-card-foreground mb-2">Ask a Question</h2>
+                <p class="text-muted-foreground mb-6">No strings, no names. Just curiosity.</p>
+                
+                <div class="space-y-4">
+                    <textarea 
+                        id="questionInput"
+                        placeholder="Type your question here..."
+                        class="w-full min-h-[120px] px-3 py-2 bg-background border rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+                        maxlength="1000"
+                    ></textarea>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <button 
+                                id="regenerateBtn"
+                                class="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors flex items-center space-x-2"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                </svg>
+                                <span>Regenerate Message</span>
+                            </button>
+                            
+                            <div class="relative group">
+                                <button class="p-1 text-muted-foreground hover:text-foreground transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </button>
+                                <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-popover border rounded-md text-popover-foreground text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                                    <p class="mb-2">How do I know it's anonymous?</p>
+                                    <p class="text-xs">Technically, it's not 100% foolproof. I *could* log your IP or use browser fingerprinting, but that would defeat the entire purpose and ruin the trust we're building here. I won't do that. Your privacy is respected.</p>
+                                    <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-popover border-r border-t rotate-45"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button 
+                            id="sendBtn"
+                            class="px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium"
+                        >
+                            Send Question
+                        </button>
+                    </div>
+                    
+                    <div class="text-right">
+                        <span id="charCount" class="text-xs text-muted-foreground">0 / 1000</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Separator -->
+        <div class="border-t mb-12"></div>
+
+        <!-- Q&A Section -->
+        <section>
+            <h2 class="text-2xl font-bold text-foreground mb-6">Questions & Answers</h2>
+            <div id="qaContainer" class="space-y-6">
+                <!-- Q&A pairs will be loaded here -->
+            </div>
+            
+            <div id="emptyState" class="text-center py-12 text-muted-foreground">
+                <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <p>No questions answered yet. Be the first to ask something!</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 transform translate-y-full transition-transform duration-300 z-50">
+        <div class="bg-card border rounded-lg shadow-lg p-4 flex items-center space-x-3 min-w-[300px]">
+            <div id="toastIcon"></div>
+            <div>
+                <p id="toastMessage" class="text-sm font-medium"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Character counter
+        const questionInput = document.getElementById('questionInput');
+        const charCount = document.getElementById('charCount');
+        const sendBtn = document.getElementById('sendBtn');
+        const regenerateBtn = document.getElementById('regenerateBtn');
+        const qaContainer = document.getElementById('qaContainer');
+        const emptyState = document.getElementById('emptyState');
+
+        questionInput.addEventListener('input', () => {
+            const length = questionInput.value.length;
+            charCount.textContent = `${length} / 1000`;
+            
+            if (length > 1000) {
+                charCount.classList.add('text-destructive');
+            } else {
+                charCount.classList.remove('text-destructive');
+            }
+        });
+
+        // Toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            
+            toastMessage.textContent = message;
+            
+            if (type === 'success') {
+                toastIcon.innerHTML = '<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+            } else if (type === 'error') {
+                toastIcon.innerHTML = '<svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+            } else {
+                toastIcon.innerHTML = '<svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+            }
+            
+            toast.classList.remove('translate-y-full');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-full');
+            }, 3000);
+        }
+
+        // Send question
+        sendBtn.addEventListener('click', async () => {
+            const content = questionInput.value.trim();
+            
+            if (!content) {
+                showToast('Please enter a question', 'error');
+                return;
+            }
+            
+            if (content.length > 1000) {
+                showToast('Question must be less than 1000 characters', 'error');
+                return;
+            }
+            
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Sending...';
+            
+            try {
+                const response = await fetch('/api/questions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ content }),
+                });
+                
+                if (response.ok) {
+                    showToast('Question submitted successfully!', 'success');
+                    questionInput.value = '';
+                    charCount.textContent = '0 / 1000';
+                } else {
+                    const error = await response.json();
+                    showToast(error.error || 'Failed to submit question', 'error');
+                }
+            } catch (error) {
+                showToast('Network error. Please try again.', 'error');
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send Question';
+            }
+        });
+
+        // Regenerate message
+        regenerateBtn.addEventListener('click', async () => {
+            const content = questionInput.value.trim();
+            
+            if (!content) {
+                showToast('Please enter a question first', 'error');
+                return;
+            }
+            
+            regenerateBtn.disabled = true;
+            regenerateBtn.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> <span>Regenerating...</span>';
+            
+            try {
+                const response = await fetch('/api/questions/regenerate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ content }),
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    questionInput.value = data.corrected;
+                    const length = data.corrected.length;
+                    charCount.textContent = `${length} / 1000`;
+                    showToast('Message regenerated successfully', 'info');
+                } else {
+                    showToast('Failed to regenerate message', 'error');
+                }
+            } catch (error) {
+                showToast('Network error. Please try again.', 'error');
+            } finally {
+                regenerateBtn.disabled = false;
+                regenerateBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> <span>Regenerate Message</span>';
+            }
+        });
+
+        // Load Q&A pairs
+        async function loadQA() {
+            try {
+                const response = await fetch('/api/questions/qa');
+                if (response.ok) {
+                    const qa = await response.json();
+                    
+                    if (qa.length === 0) {
+                        emptyState.style.display = 'block';
+                        qaContainer.style.display = 'none';
+                    } else {
+                        emptyState.style.display = 'none';
+                        qaContainer.style.display = 'block';
+                        
+                        qaContainer.innerHTML = qa.map(item => `
+                            <div class="bg-card border rounded-lg p-6">
+                                <div class="mb-4">
+                                    <h3 class="font-semibold text-card-foreground mb-2">Question</h3>
+                                    <p class="text-muted-foreground">${item.question.content}</p>
+                                    <p class="text-xs text-muted-foreground mt-2">
+                                        ${new Date(item.question.timestamp).toLocaleDateString()}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-card-foreground mb-2">Answer</h3>
+                                    <p class="text-card-foreground">${item.answer.content}</p>
+                                    <p class="text-xs text-muted-foreground mt-2">
+                                        ${new Date(item.answer.timestamp).toLocaleDateString()}
+                                    </p>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load Q&A:', error);
+            }
+        }
+
+        // Load Q&A on page load
+        loadQA();
+        
+        // Refresh Q&A every 30 seconds
+        setInterval(loadQA, 30000);
+    </script>
+</body>
+</html>
