@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   devIndicators: false,
-  basePath: process.env.NODE_ENV === 'production' ? '/anonq' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/anonq' : '',
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+  assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH || '',
 }
 
 module.exports = nextConfig
