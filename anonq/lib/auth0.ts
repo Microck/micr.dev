@@ -2,7 +2,9 @@ import { Auth0Client } from "@auth0/nextjs-auth0/server";
 
 const ALLOWED_EMAILS = process.env.ALLOWED_ADMIN_EMAILS?.split(',').map(e => e.trim().toLowerCase()) || [];
 
-export const auth0 = new Auth0Client();
+export const auth0 = new Auth0Client({
+  appBaseUrl: process.env.APP_BASE_URL,
+});
 
 export function isAllowedUser(email: string | undefined | null): boolean {
   if (!email) return false;
