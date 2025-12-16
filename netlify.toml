@@ -6,9 +6,6 @@
   command = "cd microkeebs && npm install && npm run build"
   publish = "."
   
-[build]
-  command = "cd anonq && npm install && npm run build"
-  publish = "."
 
 # --- REDIRECT & REWRITE RULES ---
 # The order and `force` attribute are critical.
@@ -144,6 +141,7 @@
   to = "https://anonqmicr.netlify.app/anonq/:splat"
   status = 200
   force = true
+ 
 [[redirects]]
   from = "/anonq"
   to = "/anonq/"
