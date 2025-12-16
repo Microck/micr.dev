@@ -8,5 +8,5 @@ export default async function AdminLoginPage() {
     redirect('/admin/dashboard')
   }
   
-  redirect('/auth/login?returnTo=/admin/dashboard')
+  redirect('https://anonqmicr.netlify.app/anonq/auth/login?returnTo=/admin/dashboard')
 }
