@@ -9,13 +9,13 @@
 # --- ANONQ PROXY ---
 [[redirects]]
   from = "/anonq"
-  to = "https://anonqmicr.netlify.app/anonq/"
+  to = "https://anonqmicr.netlify.app/anonq"
   status = 200
   force = true
 
 [[redirects]]
   from = "/anonq/"
-  to = "https://anonqmicr.netlify.app/anonq/"
+  to = "https://anonqmicr.netlify.app/anonq"
   status = 200
   force = true
 
