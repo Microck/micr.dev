@@ -2,6 +2,13 @@
 # FINAL & FORCEFUL CONFIGURATION for a Monorepo with a Vite SPA
 # =============================================================================
 
+[build]
+  command = "cd microkeebs && npm install && npm run build"
+  publish = "."
+  
+[build]
+  command = "cd anonq && npm install && npm run build"
+  publish = "."
 
 # --- REDIRECT & REWRITE RULES ---
 # The order and `force` attribute are critical.
