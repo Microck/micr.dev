@@ -6,7 +6,19 @@
   command = "cd microkeebs && npm install && npm run build"
   publish = "."
   
+# --- ANONQ PROXY (must be first) ---
+[[redirects]]
+  from = "/anonq"
+  to = "/anonq/"
+  status = 302
+  force = true
 
+[[redirects]]
+  from = "/anonq/*"
+  to = "https://anonqmicr.netlify.app/anonq/:splat"
+  status = 200
+  force = true
+ 
 # --- REDIRECT & REWRITE RULES ---
 # The order and `force` attribute are critical.
 
@@ -133,16 +145,4 @@
 [[redirects]]
   from = "/socr/instagram"
   to = "https://www.instagram.com/http.socr"
-  status = 302
- 
- # --- ANONQ PROXY ---
-[[redirects]]
-  from = "/anonq/*"
-  to = "https://anonqmicr.netlify.app/anonq/:splat"
-  status = 200
-  force = true
- 
-[[redirects]]
-  from = "/anonq"
-  to = "/anonq/"
   status = 302
