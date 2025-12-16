@@ -6,17 +6,16 @@
   command = "cd microkeebs && npm install && npm run build"
   publish = "."
   
-# --- anonq -> anonqmicr.netlify.app (proxy, keeps /anonq path on micr.dev) ---
-[[redirects]]
-  from = "/anonq/*"
-  to = "https://anonqmicr.netlify.app/:splat"
-  status = 200
-  force = true
-
-# optional: handle /anonq (no trailing slash) as well
+# --- ANONQ PROXY ---
 [[redirects]]
   from = "/anonq"
-  to = "https://anonqmicr.netlify.app/"
+  to = "/anonq/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/anonq/*"
+  to = "https://anonqmicr.netlify.app/anonq/:splat"
   status = 200
   force = true
  
