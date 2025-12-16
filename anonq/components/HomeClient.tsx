@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { QuestionForm } from '@/components/QuestionForm'
 import { QAList } from '@/components/QAList'
 import { questionsAPI, type QAPair } from '@/lib/api'
@@ -90,13 +89,12 @@ export default function HomeClient() {
             className="relative w-48 h-48 md:w-64 md:h-64 cursor-pointer"
             title="Toggle background animation"
           >
-            <Image 
-              src="/quarzite.png" 
+            <img 
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/quarzite.png`}
               alt="AnonQ Logo" 
               width={256}
               height={256}
               className="w-full h-full object-contain invert opacity-90 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]"
-              priority
             />
           </button>
         </header>
