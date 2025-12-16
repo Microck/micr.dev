@@ -1,5 +1,54 @@
 [
   {
+    "id": "z0CkzudgYRo",
+    "title": "Synovia R2",
+    "youtubeTitle": "Synovia R2 with lubed Retooled Cherry MX Blacks",
+    "category": "MX",
+    "timestamp": "2025-12-10T15:02:08Z",
+    "images": [
+      "./images/z0CkzudgYRo/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/z0CkzudgYRo",
+    "specs": {
+      "Keyboard": "Baionlenja X Bowl Synovia R2 (Mechameleon)",
+      "Keycaps": "ePBT Coniferous (?) + KKB Jindo",
+      "Switches": "Retooled Cherry MX Black",
+      "Lube": "GHv4",
+      "Films": "TX 0.15",
+      "Springs": "TX L 55g lubed with GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "60A Grommet Gasket Mount",
+      "Stabilizers": "Neo stabs lubed with Permatex Dialectric Grease. I think.",
+      "PCB": "Solder",
+      "Others": ""
+    }
+  },
+  {
+    "id": "SISu-x7sLKU",
+    "title": "Geonworks F2-60",
+    "youtubeTitle": "Geonworks F2-60 with lubed Cherry MX Hyperglide Browns",
+    "category": "MX",
+    "timestamp": "2025-12-07T14:00:55Z",
+    "images": [
+      "./images/SISu-x7sLKU/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/SISu-x7sLKU",
+    "specs": {
+      "Keyboard": "Geonworks F2-60 (Silver)",
+      "Keycaps": "KKB Jindo + Dye-sub shinethroughs",
+      "Switches": "Cherry MX Hyperglide Browns",
+      "Lube": "Krytox 205g0",
+      "Films": "Kelowna PC",
+      "Springs": "Single-Stage 45g with GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "Gasket O-ring",
+      "Stabilizers": "Swagkeys Knight V2 with 205g0",
+      "PCB": "Capy60 Hotswap*",
+      "Artisan": "CYSM Keyby Basic Beige",
+      "Others": "*PCB has been sanded to fit"
+    }
+  },
+  {
     "id": "PJeh4P0IW7M",
     "title": "Diversity TKL",
     "youtubeTitle": "Diversity TKL with lubed Cherry MX Blacks",
