@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__shadcn__list_items_in_registries",
+      "mcp__shadcn__get_project_registries",
+      "mcp__shadcn__get_item_examples_from_registries",
+      "WebSearch",
+      "mcp__sequential-thinking__sequentialthinking",
+      "Bash(npm install:*)",
+      "Bash(npm audit:*)",
+      "Bash(npm run dev:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(PORT=3000 npm run dev:*)",
+      "Bash(npm run dev:server:*)",
+      "Bash(rs:*)",
+      "Bash(PORT=1337 npm run dev:server:*)",
+      "Bash(PORT=3002 npm run dev:*)",
+      "Bash(tasklist:*)",
+      "Bash(PORT=3003 npm run dev:*)",
+      "mcp__memory__create_entities",
+      "Bash(curl:*)",
+      "mcp__memory__add_observations",
+      "Bash(taskkill /F /IM node.exe)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "spinnerTipsEnabled": false,
+  "outputStyle": "default"
+}
