@@ -100,4 +100,13 @@ export class QuestionService {
       .filter(qa => qa.answer)
       .sort((a, b) => new Date(b.answer.timestamp).getTime() - new Date(a.answer.timestamp).getTime());
   }
+
+  static async deleteQuestion(id: string): Promise<boolean> {
+    const { error } = await getSupabase()
+      .from('questions')
+      .delete()
+      .eq('id', id);
+
+    return !error;
+  }
 }

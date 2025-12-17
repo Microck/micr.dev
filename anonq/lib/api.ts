@@ -100,5 +100,9 @@ export const questionsAPI = {
       const response = await api.post('/admin/answer', { questionId, content })
       return response.data
     },
+
+    deleteQuestion: async (id: string): Promise<void> => {
+      await api.delete(`/admin/questions?id=${id}`)
+    },
   },
 }

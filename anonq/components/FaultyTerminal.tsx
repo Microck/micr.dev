@@ -1,7 +1,7 @@
 'use client'
 
 import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
-import React, { useEffect, useRef, useMemo, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 type Vec2 = [number, number];
 
@@ -267,44 +267,38 @@ export default function FaultyTerminal({
   ...rest
 }: FaultyTerminalProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const programRef = useRef<Program | null>(null);
-  const rendererRef = useRef<Renderer | null>(null);
+  const rafRef = useRef<number>(0);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const smoothMouseRef = useRef({ x: 0.5, y: 0.5 });
   const frozenTimeRef = useRef(0);
-  const rafRef = useRef<number>(0);
   const loadAnimationStartRef = useRef<number>(0);
-  const timeOffsetRef = useRef<number>(0);
+  const timeOffsetRef = useRef<number>(Math.random() * 100);
+
+  const propsRef = useRef({
+    scale, gridMul, digitSize, timeScale, pause, scanlineIntensity,
+    glitchAmount, flickerAmount, noiseAmp, chromaticAberration,
+    dither, curvature, tint, mouseReact, mouseStrength, pageLoadAnimation, brightness
+  });
+  propsRef.current = {
+    scale, gridMul, digitSize, timeScale, pause, scanlineIntensity,
+    glitchAmount, flickerAmount, noiseAmp, chromaticAberration,
+    dither, curvature, tint, mouseReact, mouseStrength, pageLoadAnimation, brightness
+  };
 
   const actualDpr = dpr ?? (typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 2) : 1);
-
-  const tintVec = useMemo(() => hexToRgb(tint), [tint]);
-
-  const ditherValue = useMemo(() => (typeof dither === 'boolean' ? (dither ? 1 : 0) : dither), [dither]);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const ctn = containerRef.current;
-    if (!ctn) return;
-    const rect = ctn.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = 1 - (e.clientY - rect.top) / rect.height;
-    mouseRef.current = { x, y };
-  }, []);
-
-  useEffect(() => {
-    timeOffsetRef.current = Math.random() * 100;
-  }, []);
 
   useEffect(() => {
     const ctn = containerRef.current;
     if (!ctn) return;
 
     const renderer = new Renderer({ dpr: actualDpr });
-    rendererRef.current = renderer;
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 1);
 
     const geometry = new Triangle(gl);
+    const p = propsRef.current;
+    const tintVec = hexToRgb(p.tint);
+    const ditherValue = typeof p.dither === 'boolean' ? (p.dither ? 1 : 0) : p.dither;
 
     const program = new Program(gl, {
       vertex: vertexShader,
@@ -314,34 +308,30 @@ export default function FaultyTerminal({
         iResolution: {
           value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
         },
-        uScale: { value: scale },
-
-        uGridMul: { value: new Float32Array(gridMul) },
-        uDigitSize: { value: digitSize },
-        uScanlineIntensity: { value: scanlineIntensity },
-        uGlitchAmount: { value: glitchAmount },
-        uFlickerAmount: { value: flickerAmount },
-        uNoiseAmp: { value: noiseAmp },
-        uChromaticAberration: { value: chromaticAberration },
+        uScale: { value: p.scale },
+        uGridMul: { value: new Float32Array(p.gridMul) },
+        uDigitSize: { value: p.digitSize },
+        uScanlineIntensity: { value: p.scanlineIntensity },
+        uGlitchAmount: { value: p.glitchAmount },
+        uFlickerAmount: { value: p.flickerAmount },
+        uNoiseAmp: { value: p.noiseAmp },
+        uChromaticAberration: { value: p.chromaticAberration },
         uDither: { value: ditherValue },
-        uCurvature: { value: curvature },
+        uCurvature: { value: p.curvature },
         uTint: { value: new Color(tintVec[0], tintVec[1], tintVec[2]) },
-        uMouse: {
-          value: new Float32Array([smoothMouseRef.current.x, smoothMouseRef.current.y])
-        },
-        uMouseStrength: { value: mouseStrength },
-        uUseMouse: { value: mouseReact ? 1 : 0 },
-        uPageLoadProgress: { value: pageLoadAnimation ? 0 : 1 },
-        uUsePageLoadAnimation: { value: pageLoadAnimation ? 1 : 0 },
-        uBrightness: { value: brightness }
+        uMouse: { value: new Float32Array([0.5, 0.5]) },
+        uMouseStrength: { value: p.mouseStrength },
+        uUseMouse: { value: p.mouseReact ? 1 : 0 },
+        uPageLoadProgress: { value: p.pageLoadAnimation ? 0 : 1 },
+        uUsePageLoadAnimation: { value: p.pageLoadAnimation ? 1 : 0 },
+        uBrightness: { value: p.brightness }
       }
     });
-    programRef.current = program;
 
     const mesh = new Mesh(gl, { geometry, program });
 
     function resize() {
-      if (!ctn || !renderer) return;
+      if (!ctn) return;
       renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
       program.uniforms.iResolution.value = new Color(
         gl.canvas.width,
@@ -350,80 +340,62 @@ export default function FaultyTerminal({
       );
     }
 
-    const resizeObserver = new ResizeObserver(() => resize());
+    const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(ctn);
     resize();
 
+    function handleMouseMove(e: MouseEvent) {
+      if (!ctn) return;
+      const rect = ctn.getBoundingClientRect();
+      mouseRef.current.x = (e.clientX - rect.left) / rect.width;
+      mouseRef.current.y = 1 - (e.clientY - rect.top) / rect.height;
+    }
+
     const update = (t: number) => {
       rafRef.current = requestAnimationFrame(update);
+      const props = propsRef.current;
 
-      if (pageLoadAnimation && loadAnimationStartRef.current === 0) {
+      if (props.pageLoadAnimation && loadAnimationStartRef.current === 0) {
         loadAnimationStartRef.current = t;
       }
 
-      if (!pause) {
-        const elapsed = (t * 0.001 + timeOffsetRef.current) * timeScale;
+      if (!props.pause) {
+        const elapsed = (t * 0.001 + timeOffsetRef.current) * props.timeScale;
         program.uniforms.iTime.value = elapsed;
         frozenTimeRef.current = elapsed;
       } else {
         program.uniforms.iTime.value = frozenTimeRef.current;
       }
 
-      if (pageLoadAnimation && loadAnimationStartRef.current > 0) {
-        const animationDuration = 2000;
+      if (props.pageLoadAnimation && loadAnimationStartRef.current > 0) {
         const animationElapsed = t - loadAnimationStartRef.current;
-        const progress = Math.min(animationElapsed / animationDuration, 1);
+        const progress = Math.min(animationElapsed / 2000, 1);
         program.uniforms.uPageLoadProgress.value = progress;
       }
 
-      if (mouseReact) {
-        const dampingFactor = 0.08;
-        const smoothMouse = smoothMouseRef.current;
-        const mouse = mouseRef.current;
-        smoothMouse.x += (mouse.x - smoothMouse.x) * dampingFactor;
-        smoothMouse.y += (mouse.y - smoothMouse.y) * dampingFactor;
-
+      if (props.mouseReact) {
+        smoothMouseRef.current.x += (mouseRef.current.x - smoothMouseRef.current.x) * 0.08;
+        smoothMouseRef.current.y += (mouseRef.current.y - smoothMouseRef.current.y) * 0.08;
         const mouseUniform = program.uniforms.uMouse.value as Float32Array;
-        mouseUniform[0] = smoothMouse.x;
-        mouseUniform[1] = smoothMouse.y;
+        mouseUniform[0] = smoothMouseRef.current.x;
+        mouseUniform[1] = smoothMouseRef.current.y;
       }
 
       renderer.render({ scene: mesh });
     };
+
     rafRef.current = requestAnimationFrame(update);
     ctn.appendChild(gl.canvas);
-
-    if (mouseReact) ctn.addEventListener('mousemove', handleMouseMove);
+    ctn.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       cancelAnimationFrame(rafRef.current);
       resizeObserver.disconnect();
-      if (mouseReact) ctn.removeEventListener('mousemove', handleMouseMove);
+      ctn.removeEventListener('mousemove', handleMouseMove);
       if (gl.canvas.parentElement === ctn) ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
-      loadAnimationStartRef.current = 0;
     };
-  }, [
-    actualDpr,
-    pause,
-    timeScale,
-    scale,
-    gridMul,
-    digitSize,
-    scanlineIntensity,
-    glitchAmount,
-    flickerAmount,
-    noiseAmp,
-    chromaticAberration,
-    ditherValue,
-    curvature,
-    tintVec,
-    mouseReact,
-    mouseStrength,
-    pageLoadAnimation,
-    brightness,
-    handleMouseMove
-  ]);
+  }, [actualDpr]);
 
   return (
     <div ref={containerRef} className={`w-full h-full relative overflow-hidden ${className ?? ''}`} style={style} {...rest} />

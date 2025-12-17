@@ -33,17 +33,20 @@ interface AnsweredQuestion {
 export default function AdminDashboardClient() {
   const { user } = useUser()
   const [questions, setQuestions] = useState<Question[]>([])
+  const [answeredQuestions, setAnsweredQuestions] = useState<AnsweredQuestion[]>([])
   const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null)
   const [answerContent, setAnswerContent] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isDeleting, setIsDeleting] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const loadQuestions = useCallback(async () => {
     setError(null)
     try {
       const data = await questionsAPI.admin.getQuestions()
-      setQuestions(data)
+      setQuestions(data.questions || [])
+      setAnsweredQuestions(data.answered || [])
     } catch (err: unknown) {
       const axiosError = err as { response?: { status?: number; data?: { error?: string } } }
       if (axiosError.response?.status === 401) {
@@ -59,6 +62,23 @@ export default function AdminDashboardClient() {
   useEffect(() => {
     loadQuestions()
   }, [loadQuestions])
+
+  const handleDelete = async (id: string) => {
+    if (!window.confirm('Delete this question?')) return
+    setIsDeleting(id)
+    try {
+      await questionsAPI.admin.deleteQuestion(id)
+      if (selectedQuestion === id) {
+        setSelectedQuestion(null)
+        setAnswerContent('')
+      }
+      loadQuestions()
+    } catch {
+      setError('Failed to delete question')
+    } finally {
+      setIsDeleting(null)
+    }
+  }
 
   const handleAnswerSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -112,7 +132,6 @@ export default function AdminDashboardClient() {
   }
 
   const unansweredQuestions = questions.filter(q => !q.answered)
-  const answeredQuestions: AnsweredQuestion[] = []
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
@@ -192,25 +211,34 @@ export default function AdminDashboardClient() {
                 {unansweredQuestions.map((question) => (
                   <Card
                     key={question.id}
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => handleQuestionSelect(question.id)}
-                    onKeyDown={(e) => handleQuestionKeyDown(e, question.id)}
-                    className={`cursor-pointer transition-colors hover:bg-accent ${
+                    className={`transition-colors ${
                       selectedQuestion === question.id ? 'bg-accent border-accent-foreground' : ''
                     }`}
                   >
                     <CardContent className="p-4">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <p className="text-sm line-clamp-3">{question.content}</p>
-                          <p className="text-xs text-muted-foreground mt-2">
-                            {formatDate(question.timestamp)}
-                          </p>
-                        </div>
-                        <Badge variant="secondary" className="ml-2">
-                          New
-                        </Badge>
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => handleQuestionSelect(question.id)}
+                        onKeyDown={(e) => handleQuestionKeyDown(e, question.id)}
+                        className="cursor-pointer"
+                      >
+                        <p className="text-sm line-clamp-3">{question.content}</p>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          {formatDate(question.timestamp)}
+                        </p>
+                      </div>
+                      <div className="flex items-center justify-between mt-3">
+                        <Badge variant="secondary">New</Badge>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={(e) => { e.stopPropagation(); handleDelete(question.id) }}
+                          disabled={isDeleting === question.id}
+                          className="text-destructive hover:text-destructive"
+                        >
+                          {isDeleting === question.id ? 'Deleting...' : 'Delete'}
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -313,6 +341,17 @@ export default function AdminDashboardClient() {
                           {formatDate(item.answer.timestamp)}
                         </p>
                       </div>
+                    </div>
+                    <div className="flex justify-end mt-3">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleDelete(item.question.id)}
+                        disabled={isDeleting === item.question.id}
+                        className="text-destructive hover:text-destructive"
+                      >
+                        {isDeleting === item.question.id ? 'Deleting...' : 'Delete'}
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
