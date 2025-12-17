@@ -4,7 +4,7 @@ Anonymous Q&A platform. Visitors ask questions anonymously, admin answers public
 
 ## Stack
 
-Next.js 15, React 18, TypeScript, Tailwind CSS, Auth0
+Next.js 15, React 18, TypeScript, Tailwind CSS, Auth0, Supabase
 
 ## Setup
 
@@ -37,6 +37,8 @@ For local dev, add `http://localhost:3000` equivalents.
 | `AUTH0_CLIENT_ID` | Yes | Auth0 app client ID |
 | `AUTH0_CLIENT_SECRET` | Yes | Auth0 app client secret |
 | `APP_BASE_URL` | Yes | App URL (e.g., `https://micr.dev/anonq`) |
+| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Supabase anon/public key |
 | `ALLOWED_ADMIN_EMAILS` | No | Comma-separated admin emails |
 | `OPENAI_API_KEY` | No | For grammar correction |
 | `NTFY_URL` | No | Push notifications |

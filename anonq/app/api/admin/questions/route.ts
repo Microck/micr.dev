@@ -9,7 +9,7 @@ export async function GET() {
   }
 
   try {
-    const questions = QuestionService.getUnansweredQuestions();
+    const questions = await QuestionService.getUnansweredQuestions();
     return NextResponse.json(questions);
   } catch {
     return NextResponse.json(

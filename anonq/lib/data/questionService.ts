@@ -1,68 +1,103 @@
+import { getSupabase } from '../supabase';
 import { Question, Answer, QA } from '../types';
 
-// In-memory storage (in production, use a proper database)
-let questions: Question[] = [];
-let answers: Answer[] = [];
-
 export class QuestionService {
-  static addQuestion(content: string): Question {
-    const question: Question = {
-      id: Date.now().toString(),
-      content: content.trim(),
-      timestamp: new Date(),
-      answered: false,
-    };
+  static async addQuestion(content: string): Promise<Question> {
+    const { data, error } = await getSupabase()
+      .from('questions')
+      .insert({ content: content.trim() })
+      .select()
+      .single();
 
-    questions.push(question);
-    return question;
+    if (error) throw error;
+    return data;
   }
 
-  static getUnansweredQuestions(): Question[] {
-    return questions.filter(q => !q.answered);
+  static async getUnansweredQuestions(): Promise<Question[]> {
+    const { data, error } = await getSupabase()
+      .from('questions')
+      .select('*')
+      .eq('answered', false)
+      .order('timestamp', { ascending: false });
+
+    if (error) throw error;
+    return data || [];
   }
 
-  static getAllQuestions(): Question[] {
-    return questions;
+  static async getAllQuestions(): Promise<Question[]> {
+    const { data, error } = await getSupabase()
+      .from('questions')
+      .select('*')
+      .order('timestamp', { ascending: false });
+
+    if (error) throw error;
+    return data || [];
   }
 
-  static getQuestionById(id: string): Question | undefined {
-    return questions.find(q => q.id === id);
+  static async getQuestionById(id: string): Promise<Question | null> {
+    const { data, error } = await getSupabase()
+      .from('questions')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) return null;
+    return data;
   }
 
-  static markAsAnswered(questionId: string): void {
-    const question = questions.find(q => q.id === questionId);
-    if (question) {
-      question.answered = true;
-    }
-  }
-
-  static addAnswer(questionId: string, content: string): Answer | null {
-    const question = questions.find(q => q.id === questionId);
+  static async addAnswer(questionId: string, content: string): Promise<Answer | null> {
+    const question = await this.getQuestionById(questionId);
     if (!question) return null;
 
-    const answer: Answer = {
-      id: Date.now().toString(),
-      questionId,
-      content: content.trim(),
-      timestamp: new Date(),
-    };
+    const { data: answer, error: answerError } = await getSupabase()
+      .from('answers')
+      .insert({ question_id: questionId, content: content.trim() })
+      .select()
+      .single();
 
-    answers.push(answer);
-    this.markAsAnswered(questionId);
+    if (answerError) throw answerError;
+
+    const { error: updateError } = await getSupabase()
+      .from('questions')
+      .update({ answered: true })
+      .eq('id', questionId);
+
+    if (updateError) throw updateError;
+
     return answer;
   }
 
-  static getAnswerByQuestionId(questionId: string): Answer | undefined {
-    return answers.find(a => a.questionId === questionId);
+  static async getAnswerByQuestionId(questionId: string): Promise<Answer | null> {
+    const { data, error } = await getSupabase()
+      .from('answers')
+      .select('*')
+      .eq('question_id', questionId)
+      .single();
+
+    if (error) return null;
+    return data;
   }
 
-  static getAllQA(): QA[] {
-    return questions
-      .filter(q => q.answered)
+  static async getAllQA(): Promise<QA[]> {
+    const { data: questions, error: qError } = await getSupabase()
+      .from('questions')
+      .select('*')
+      .eq('answered', true);
+
+    if (qError) throw qError;
+
+    const { data: answers, error: aError } = await getSupabase()
+      .from('answers')
+      .select('*');
+
+    if (aError) throw aError;
+
+    return (questions || [])
       .map(question => ({
         question,
-        answer: answers.find(a => a.questionId === question.id)!,
+        answer: (answers || []).find(a => a.question_id === question.id)!,
       }))
-      .sort((a, b) => b.answer.timestamp.getTime() - a.answer.timestamp.getTime());
+      .filter(qa => qa.answer)
+      .sort((a, b) => new Date(b.answer.timestamp).getTime() - new Date(a.answer.timestamp).getTime());
   }
 }

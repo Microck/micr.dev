@@ -1,15 +1,15 @@
 export interface Question {
   id: string;
   content: string;
-  timestamp: Date;
+  timestamp: Date | string;
   answered: boolean;
 }
 
 export interface Answer {
   id: string;
-  questionId: string;
+  question_id: string;
   content: string;
-  timestamp: Date;
+  timestamp: Date | string;
 }
 
 export interface QA {

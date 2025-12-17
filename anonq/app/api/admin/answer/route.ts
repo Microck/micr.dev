@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const answer = QuestionService.addAnswer(questionId, content);
+    const answer = await QuestionService.addAnswer(questionId, content);
     if (!answer) {
       return NextResponse.json(
         { error: 'Question not found' },

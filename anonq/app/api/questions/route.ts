@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    QuestionService.addQuestion(content);
+    await QuestionService.addQuestion(content);
 
     try {
       const apiService = ApiService.getInstance();
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    const qa = QuestionService.getAllQA();
+    const qa = await QuestionService.getAllQA();
     return NextResponse.json(qa);
   } catch {
     return NextResponse.json(

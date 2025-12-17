@@ -15,6 +15,7 @@
     "@auth0/nextjs-auth0": "^4.14.0",
     "@base-ui-components/react": "^1.0.0-rc.0",
     "@base-ui/react": "^1.0.0",
+    "@supabase/supabase-js": "^2.88.0",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
