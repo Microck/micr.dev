@@ -9,13 +9,13 @@ export const metadata: Metadata = {
   description: 'No strings, no names. Just curiosity.',
   icons: {
     icon: [
-      { url: `${basePath}/favicons/favicon.ico`, sizes: 'any' },
-      { url: `${basePath}/favicons/favicon-16x16.png`, sizes: '16x16', type: 'image/png' },
-      { url: `${basePath}/favicons/favicon-32x32.png`, sizes: '32x32', type: 'image/png' },
+      { url: `${basePath}/favicon.ico`, sizes: 'any' },
+      { url: `${basePath}/favicon-16x16.png`, sizes: '16x16', type: 'image/png' },
+      { url: `${basePath}/favicon-32x32.png`, sizes: '32x32', type: 'image/png' },
     ],
-    apple: `${basePath}/favicons/apple-touch-icon.png`,
+    apple: `${basePath}/apple-touch-icon.png`,
   },
-  manifest: `${basePath}/favicons/site.webmanifest`,
+  manifest: `${basePath}/site.webmanifest`,
 }
 
 export default function RootLayout({
