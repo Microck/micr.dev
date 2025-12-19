@@ -26,12 +26,18 @@
           #1b2735 0%,
           #090a0f 100%
         );
-        overflow-x: hidden;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         font-family: sans-serif;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      body::-webkit-scrollbar {
+        display: none;
       }
 
       /* STAR BACKGROUND */
@@ -112,12 +118,14 @@
 
       /* SPHERES */
       .container {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(4, 150px);
         gap: 2rem;
         position: relative;
         z-index: 10;
-        flex-wrap: wrap;
         justify-content: center;
+        padding: 2rem;
+        max-width: 800px;
       }
 
       .sphere {
@@ -125,7 +133,47 @@
         height: 150px;
         cursor: pointer;
         position: relative;
-        transition: transform 0.2s ease;
+        opacity: 0;
+        animation: sphereEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease, opacity 0.3s ease;
+      }
+
+      @keyframes sphereEntrance {
+        from {
+          opacity: 0;
+          transform: scale(0.3) translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .sphere.animated {
+        animation: none;
+        opacity: 1;
+      }
+
+      .sphere:nth-child(1) { animation-delay: 0.05s; }
+      .sphere:nth-child(2) { animation-delay: 0.1s; }
+      .sphere:nth-child(3) { animation-delay: 0.15s; }
+      .sphere:nth-child(4) { animation-delay: 0.2s; }
+      .sphere:nth-child(5) { animation-delay: 0.25s; }
+      .sphere:nth-child(6) { animation-delay: 0.3s; }
+      .sphere:nth-child(7) { animation-delay: 0.35s; }
+      .sphere:nth-child(8) { animation-delay: 0.4s; }
+      .sphere:nth-child(9) { animation-delay: 0.45s; }
+      .sphere:nth-child(10) { animation-delay: 0.5s; }
+
+      /* Dim other spheres when one is active */
+      .container.has-active .sphere:not(.active) {
+        filter: brightness(0.4);
+        transform: scale(0.85) !important;
+        pointer-events: none;
+      }
+
+      .sphere.active {
+        z-index: 100;
       }
 
       .sphere img {
@@ -134,18 +182,24 @@
         object-fit: cover;
         border-radius: 50%;
         display: block;
+        pointer-events: none;
+      }
+
+      /* Circular hitbox */
+      .sphere::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        z-index: 1;
       }
 
       /* Desktop hover zoom */
       @media (hover: hover) and (pointer: fine) {
-        .sphere:hover {
-          transform: scale(1.1);
-        }
-      }
-
-      /* Mobile active zoom */
-      @media (hover: none) and (pointer: coarse) {
-        .sphere.active {
+        .sphere:not(.active):hover {
           transform: scale(1.1);
         }
       }
@@ -171,7 +225,16 @@
         font-family: "HelveticaNeue65Medium", sans-serif;
       }
 
-      .sphere:hover .tooltip {
+      .tooltip .url {
+        display: block;
+        margin-top: 6px;
+        font-size: 0.7rem;
+        color: #aaa;
+        word-break: break-all;
+      }
+
+      .sphere:hover .tooltip,
+      .sphere.active .tooltip {
         visibility: visible;
         opacity: 1;
       }
@@ -179,7 +242,10 @@
       /* Mobile description box */
       #mobile-desc {
         display: none;
-        margin-top: 1rem;
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
         background: rgba(0, 0, 0, 0.85);
         color: #fff;
         padding: 10px 14px;
@@ -188,10 +254,24 @@
         text-align: center;
         font-size: 0.9rem;
         font-family: "HelveticaNeue65Medium", sans-serif;
-        z-index: 50;
+        z-index: 150;
+      }
+
+      #mobile-desc .url {
+        display: block;
+        margin-top: 6px;
+        font-size: 0.75rem;
+        color: #aaa;
+        word-break: break-all;
       }
 
       @media (max-width: 600px) {
+        .container {
+          grid-template-columns: repeat(2, 40vw);
+          gap: 1rem;
+          padding: 1rem;
+        }
+
         .sphere {
           width: 40vw;
           height: 40vw;
@@ -224,9 +304,101 @@
             500px 700px #fff, 1200px 1600px #fff, 1400px 1400px #fff;
         }
       }
+      /* Welcome modal */
+      #welcome-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      #welcome-modal .modal-content {
+        background: rgba(20, 25, 35, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 24px 32px;
+        text-align: center;
+        color: #fff;
+        font-family: "HelveticaNeue65Medium", sans-serif;
+        max-width: 320px;
+        animation: modalFadeIn 0.3s ease;
+      }
+
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      #welcome-modal h2 {
+        margin: 0 0 12px 0;
+        font-size: 1.2rem;
+        font-weight: normal;
+      }
+
+      #welcome-modal p {
+        margin: 0 0 20px 0;
+        font-size: 0.9rem;
+        color: #aaa;
+      }
+
+      #welcome-modal .buttons {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+      }
+
+      #welcome-modal button {
+        padding: 10px 24px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: "HelveticaNeue65Medium", sans-serif;
+        font-size: 0.85rem;
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+
+      #welcome-modal button:hover {
+        transform: scale(1.05);
+      }
+
+      #welcome-modal .btn-yes {
+        background: #4a9eff;
+        color: #fff;
+      }
+
+      #welcome-modal .btn-no {
+        background: rgba(255, 255, 255, 0.1);
+        color: #aaa;
+      }
+
+      #welcome-modal .btn-no:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
     </style>
   </head>
   <body>
+    <!-- WELCOME MODAL -->
+    <div id="welcome-modal">
+      <div class="modal-content">
+        <p>Background music. Yes or no?</p>
+        <div class="buttons">
+          <button class="btn-yes" id="music-yes">Sure</button>
+          <button class="btn-no" id="music-no">Nah</button>
+        </div>
+      </div>
+    </div>
     <!-- STAR LAYERS -->
     <div id="stars"></div>
     <div id="stars2"></div>
@@ -247,7 +419,7 @@
     ></audio>
 
     <script>
-      const spheres = [
+const spheres = [
         {
           img: "images/micrdev.gif",
           url: "https://micr.dev/",
@@ -259,7 +431,7 @@
           desc: "A place to learn a bit more of me.",
         },
         {
-          img: "images/micrdevmicrokeebs.gif",
+          img: "images/micrdevkeebs.gif",
           url: "https://micr.dev/microkeebs/",
           desc: "A website to showcase keyboards that I have built.",
         },
@@ -267,6 +439,36 @@
           img: "images/micrdevquarzite.gif",
           url: "https://micr.dev/quarzite/",
           desc: "A dedicated page for my character.",
+        },
+        {
+          img: "images/micrdevanonq.gif",
+          url: "https://micr.dev/anonq",
+          desc: "Ask me anything anonymously. No logs, no names.",
+        },
+        {
+          img: "images/micrdevja3.gif",
+          url: "https://microck.github.io/ja3-bypass-gateway/",
+          desc: "A writeup on defeating JA3 fingerprinting with a stealth gateway.",
+        },
+        {
+          img: "images/micrdevclaude.gif",
+          url: "https://microck.github.io/ordinary-claude-skills/",
+          desc: "A collection of custom skills for Claude AI.",
+        },
+        {
+          img: "images/micrdevdeskthority.gif",
+          url: "https://microck.github.io/DeskthorityWiki-TopreECArchive/",
+          desc: "An archive of Topre EC keyboard documentation from the Deskthority Wiki.",
+        },
+        {
+          img: "images/micrdevnagrom.gif",
+          url: "https://microck.github.io/nagrom/",
+          desc: "A research paper on fact verification and source hierarchies in agentic AI systems.",
+        },
+        {
+          img: "images/micrdevbdss.gif",
+          url: "https://bdss.club/",
+          desc: "A storefront I designed for BDSS Club.",
         },
       ];
 
@@ -276,66 +478,86 @@
 
       let activeSphere = null;
 
-      spheres.forEach((sphere) => {
+      spheres.forEach((sphere, index) => {
         const div = document.createElement("div");
         div.className = "sphere";
         div.innerHTML = `
           <img src="${sphere.img}" alt="sphere" />
-          <div class="tooltip">${sphere.desc}</div>
+          <div class="tooltip">${sphere.desc}<span class="url">${sphere.url}</span></div>
         `;
 
-        if (isMobile) {
-          div.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (activeSphere === div) {
-              // second tap → go to link
-              window.location.href = sphere.url;
-            } else {
-              // first tap → show description
-              if (activeSphere) activeSphere.classList.remove("active");
-              activeSphere = div;
-              div.classList.add("active");
-              mobileDesc.textContent = sphere.desc;
+        // After entrance animation, allow transforms
+        const delay = 50 + (index * 50) + 600; // animation-delay + animation-duration
+        setTimeout(() => div.classList.add("animated"), delay);
+
+        div.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (activeSphere === div) {
+            // second click → go to link
+            window.location.href = sphere.url;
+          } else {
+            // first click → select and zoom to center
+            if (activeSphere) {
+              activeSphere.classList.remove("active");
+              activeSphere.style.transform = "";
+            }
+            
+            activeSphere = div;
+            div.classList.add("active");
+            container.classList.add("has-active");
+            
+            // Calculate transform to center
+            const rect = div.getBoundingClientRect();
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const elemCenterX = rect.left + rect.width / 2;
+            const elemCenterY = rect.top + rect.height / 2;
+            const translateX = centerX - elemCenterX;
+            const translateY = centerY - elemCenterY;
+            
+            div.style.transform = `translate(${translateX}px, ${translateY}px) scale(1.8)`;
+            
+            if (isMobile) {
+              mobileDesc.innerHTML = `${sphere.desc}<span class="url">${sphere.url}</span>`;
               mobileDesc.style.display = "block";
             }
-          });
-        } else {
-          // Desktop: single click
-          div.addEventListener("click", () => {
-            window.location.href = sphere.url;
-          });
-        }
+          }
+        });
 
         container.appendChild(div);
       });
 
-      if (isMobile) {
-        // Tap outside clears selection
-        document.body.addEventListener("click", () => {
-          if (activeSphere) {
-            activeSphere.classList.remove("active");
-            activeSphere = null;
+      // Click outside clears selection
+      document.body.addEventListener("click", () => {
+        if (activeSphere) {
+          activeSphere.classList.remove("active");
+          activeSphere.style.transform = "";
+          activeSphere = null;
+          container.classList.remove("has-active");
+          if (isMobile) {
             mobileDesc.style.display = "none";
           }
-        });
-      }
+        }
+      });
 
       // Background music
       const audio = document.getElementById("bg-music");
       audio.volume = 0.25;
 
-      // Play on first click/tap anywhere
-      const enableAudio = () => {
-        if (audio.paused) {
-          audio.play().catch((err) => {
-            console.log("Audio play failed:", err);
-          });
-        }
-        document.removeEventListener("click", enableAudio);
-        document.removeEventListener("touchstart", enableAudio);
-      };
-      document.addEventListener("click", enableAudio);
-      document.addEventListener("touchstart", enableAudio);
+      // Welcome modal
+      const modal = document.getElementById("welcome-modal");
+      let musicEnabled = false;
+
+      document.getElementById("music-yes").addEventListener("click", () => {
+        musicEnabled = true;
+        modal.style.display = "none";
+        audio.play().catch((err) => console.log("Audio play failed:", err));
+      });
+
+      document.getElementById("music-no").addEventListener("click", () => {
+        musicEnabled = false;
+        modal.style.display = "none";
+      });
     </script>
   </body>
 </html>
