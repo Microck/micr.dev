@@ -400,8 +400,6 @@
 
         bar(UNZIP_END);
         const popup = document.getElementById("confirm-popup");
-        const spinnerContainer = document.getElementById("spinner-container");
-        spinnerContainer.style.display = "none";
         popup.classList.add("visible");
 
         const userChoice = await new Promise((resolve) => {
@@ -414,14 +412,13 @@
         if (userChoice === "back") {
           const dialogBox = document.querySelector("#spinner-container .dialog-box");
           dialogBox.classList.add("exit-state");
-          dialogBox.innerHTML = `
-            <p>
+          dialogBox.querySelector(".content").innerHTML = `
+            <p style="text-align:center;">
               No worries! Feel free to explore my projects instead.<br><br>
               <a href="/tree/" style="color:#000;text-decoration:underline;font-weight:bold;">
                 → View projects index
               </a>
             </p>`;
-          spinnerContainer.style.display = "";
           return;
         }
 
