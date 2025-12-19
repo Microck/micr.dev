@@ -165,11 +165,81 @@
       canvas {
         display: block;
       }
-      #loading-message {
+#loading-message {
         text-align: center;
         font-weight: bold;
         padding: 2rem;
         color: #000;
+      }
+      /* Confirmation popup */
+      #confirm-popup {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 10001;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.4);
+      }
+      #confirm-popup.visible {
+        display: flex;
+      }
+      .confirm-box {
+        background: linear-gradient(to bottom, #fff, #999);
+        border: 4px solid #000;
+        border-radius: 1rem;
+        padding: 2.5rem;
+        max-width: 32rem;
+        width: 90%;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        text-align: center;
+      }
+      .confirm-box h2 {
+        margin: 0 0 1rem;
+        font-size: 1.5rem;
+      }
+      .confirm-box p {
+        margin: 0 0 1.5rem;
+        line-height: 1.5;
+      }
+      .confirm-box .alt-link {
+        display: block;
+        margin-bottom: 1.5rem;
+        color: #000;
+        text-decoration: underline;
+        font-size: 0.95rem;
+      }
+      .confirm-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+      .confirm-btn {
+        padding: 0.75rem 1.5rem;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: bold;
+        border: 3px solid #000;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .confirm-btn.secondary {
+        background: #e0e0e0;
+      }
+      .confirm-btn.secondary:hover {
+        background: #ccc;
+      }
+      .confirm-btn.primary {
+        background: #23272e;
+        color: #fff;
+      }
+      .confirm-btn.primary:hover {
+        background: #3a3f47;
+      }
+      /* Exit state for dialog */
+      .dialog-box.exit-state p {
+        margin: 0;
       }
     </style>
   </head>
@@ -193,13 +263,25 @@
               This website is best viewed on a PC browser at 100% zoom. You should
               enable “Hardware acceleration.”
             </p>
-            <p>
-              If you experience a short lag spike, that’s normal; just wait a few
-              seconds and don’t close the page if your browser warns you.
-            </p>
-            <div id="progress-bar"><div id="progress-fill"></div></div>
+<div id="progress-bar"><div id="progress-fill"></div></div>
             <div id="percent-text">0%</div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirmation popup before GPU upload -->
+    <div id="confirm-popup">
+      <div class="confirm-box">
+        <h2>Ready to render</h2>
+        <p>
+          Loading the 3D scene will cause a brief lag spike while assets
+          upload to GPU. This is expected behavior.
+        </p>
+        <a href="/tree/" class="alt-link">Want something faster? → View projects index</a>
+        <div class="confirm-buttons">
+          <button id="confirm-back" class="confirm-btn secondary">Go back</button>
+          <button id="confirm-proceed" class="confirm-btn primary">Proceed</button>
         </div>
       </div>
     </div>
@@ -218,9 +300,10 @@
         document.getElementById("loading-message").innerHTML = `
           <div class="dialog-box">
             <p data-nosnippet>
-              Thank you for visiting!<br>
-              This website is designed for desktop browsers.<br>
-              Please use a PC to access it.<br>♡
+              This 3D experience requires a desktop browser.<br><br>
+              <a href="/tree/" style="color:#000;text-decoration:underline;font-weight:bold;">
+                → Browse my projects
+              </a>
             </p>
           </div>`;
         document.getElementById("spinner-container").style.display = "none";
@@ -314,6 +397,33 @@
         worker.terminate();
         URL.revokeObjectURL(wURL);
         clearInterval(creepT);
+
+        bar(UNZIP_END);
+        const popup = document.getElementById("confirm-popup");
+        const spinnerContainer = document.getElementById("spinner-container");
+        spinnerContainer.style.display = "none";
+        popup.classList.add("visible");
+
+        const userChoice = await new Promise((resolve) => {
+          document.getElementById("confirm-proceed").onclick = () => resolve("proceed");
+          document.getElementById("confirm-back").onclick = () => resolve("back");
+        });
+
+        popup.classList.remove("visible");
+
+        if (userChoice === "back") {
+          const dialogBox = document.querySelector("#spinner-container .dialog-box");
+          dialogBox.classList.add("exit-state");
+          dialogBox.innerHTML = `
+            <p>
+              No worries! Feel free to explore my projects instead.<br><br>
+              <a href="/tree/" style="color:#000;text-decoration:underline;font-weight:bold;">
+                → View projects index
+              </a>
+            </p>`;
+          spinnerContainer.style.display = "";
+          return;
+        }
 
         const blob = new Blob([sceneBytes], { type: "application/octet-stream" });
         const bURL = URL.createObjectURL(blob);
