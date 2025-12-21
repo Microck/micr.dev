@@ -1,37 +1,33 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { motion, useAnimation, Transition, Variants } from 'framer-motion';
+'use client';
 
-export interface MoonIconHandle {
+import type { Transition } from 'motion/react';
+import type { HTMLAttributes } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
+import { motion, useAnimation } from 'motion/react';
+
+import { cn } from '@/lib/utils';
+
+export interface ChevronLeftIconHandle {
   startAnimation: () => void;
   stopAnimation: () => void;
 }
 
-interface MoonIconProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ChevronLeftIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const svgVariants: Variants = {
-  normal: {
-    rotate: 0,
-  },
-  animate: {
-    rotate: [0, -10, 10, -5, 5, 0],
-  },
+const DEFAULT_TRANSITION: Transition = {
+  times: [0, 0.4, 1],
+  duration: 0.5,
 };
 
-const svgTransition: Transition = {
-  duration: 1.2,
-  ease: 'easeInOut',
-};
-
-const AnimatedMoonIconLucide = forwardRef<MoonIconHandle, MoonIconProps>(
+const ChevronLeftIcon = forwardRef<ChevronLeftIconHandle, ChevronLeftIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
     const isControlledRef = useRef(false);
 
     useImperativeHandle(ref, () => {
       isControlledRef.current = true;
-
       return {
         startAnimation: () => controls.start('animate'),
         stopAnimation: () => controls.start('normal'),
@@ -62,12 +58,12 @@ const AnimatedMoonIconLucide = forwardRef<MoonIconHandle, MoonIconProps>(
 
     return (
       <div
-        className={className}
+        className={cn(className)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <motion.svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
@@ -77,17 +73,22 @@ const AnimatedMoonIconLucide = forwardRef<MoonIconHandle, MoonIconProps>(
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          variants={svgVariants}
-          animate={controls}
-          transition={svgTransition}
         >
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z" />
-        </motion.svg>
+          <motion.path
+            variants={{
+              normal: { x: 0 },
+              animate: { x: [0, -2, 0] },
+            }}
+            transition={DEFAULT_TRANSITION}
+            animate={controls}
+            d="m15 18-6-6 6-6"
+          />
+        </svg>
       </div>
     );
   }
 );
 
-AnimatedMoonIconLucide.displayName = 'AnimatedMoonIcon';
+ChevronLeftIcon.displayName = 'ChevronLeftIcon';
 
-export { AnimatedMoonIconLucide };
+export { ChevronLeftIcon };

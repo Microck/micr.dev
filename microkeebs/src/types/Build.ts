@@ -7,6 +7,6 @@ export interface KeyboardBuild {
   images: string[];
   youtubeUrl: string;
   specs: {
-    [key: string]: string;
+    [key: string]: string | undefined;
   };
 }

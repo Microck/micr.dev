@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { motion, LayoutGroup } from "framer-motion";
-import { AnimatedSearchIcon } from "./icons";
+import { SearchIcon } from "@/components/ui/search";
 import { BuildCard } from "./BuildCard";
 import { Footer } from "./Footer";
 import { useTheme } from "../contexts/ThemeContext";
+import { KeyboardBuild } from "../types/Build";
 import builds from "../data/builds.json";
 
 interface BuildGalleryProps {
-  onBuildSelect: (build: any) => void;
+  onBuildSelect: (build: KeyboardBuild) => void;
 }
 
 export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
@@ -19,7 +20,9 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
   const [searchExpanded, setSearchExpanded] = useState(false);
   const { isDark } = useTheme();
 
-  const filteredBuilds = builds.filter((build) => {
+  const typedBuilds = builds as unknown as KeyboardBuild[];
+
+  const filteredBuilds = typedBuilds.filter((build) => {
     const matchesFilter = activeFilter === "All" || build.category === activeFilter;
     const matchesSearch = searchQuery === "" || 
       build.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -105,7 +108,7 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
                   searchExpanded ? "w-64 opacity-100" : "w-0 opacity-0"
                 } ${isDark ? "border-[#a7a495] text-[#a7a495] placeholder-[#a7a495]/50" : "border-[#1c1c1c] text-[#1c1c1c] placeholder-[#1c1c1c]/50"}`}
               />
-              <AnimatedSearchIcon
+              <SearchIcon
                 size={20}
                 className={`transition-all duration-300 ease-out cursor-pointer ${
                   isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"

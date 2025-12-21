@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { LogoIcon } from './icons';
@@ -12,12 +12,17 @@ interface HeaderProps {
 export function Header({ currentPage, onNavigate }: HeaderProps) {
   const { isDark } = useTheme();
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+  const [activeTab, setActiveTab] = useState(currentPage);
   const navRef = useRef<HTMLElement>(null);
   const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
 
   useEffect(() => {
+    setActiveTab(currentPage);
+  }, [currentPage]);
+
+  useLayoutEffect(() => {
     const updateIndicator = () => {
-      const activeButton = buttonRefs.current[currentPage];
+      const activeButton = buttonRefs.current[activeTab];
       const nav = navRef.current;
 
       if (activeButton && nav) {
@@ -35,7 +40,12 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
     window.addEventListener('resize', updateIndicator);
 
     return () => window.removeEventListener('resize', updateIndicator);
-  }, [currentPage]);
+  }, [activeTab]);
+
+  const handleTabClick = (page: string) => {
+    setActiveTab(page);
+    onNavigate(page);
+  };
 
   return (
     <header className={`${isDark ? 'bg-[#2a2a2a]' : 'bg-[#b5b3a7]'} py-4 fade-in`}>
@@ -67,51 +77,58 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
               zIndex: 0,
             }}
           />
-          <button
-            ref={(el) => (buttonRefs.current['builds'] = el)}
-            onClick={() => onNavigate('builds')}
-            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal relative z-10 transition-colors duration-300 ${
-              currentPage === 'builds'
-                ? isDark
-                  ? 'text-[#1c1c1c]'
-                  : 'text-[#b5b3a7]'
-                : isDark
-                  ? 'text-[#a7a495]'
-                  : 'text-[#1c1c1c]'
-            }`}
+          <motion.button
+            ref={(el) => { buttonRefs.current['builds'] = el; }}
+            onClick={() => handleTabClick('builds')}
+            className="nav-item px-3 sm:px-4 py-2 text-sm font-normal relative z-10"
+            animate={{
+              color: activeTab === 'builds'
+                ? isDark ? '#1c1c1c' : '#b5b3a7'
+                : isDark ? '#a7a495' : '#1c1c1c'
+            }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
           >
             Builds
-          </button>
-          <button
-            ref={(el) => (buttonRefs.current['rankings'] = el)}
-            onClick={() => onNavigate('rankings')}
-            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal relative z-10 transition-colors duration-300 ${
-              currentPage === 'rankings'
-                ? isDark
-                  ? 'text-[#1c1c1c]'
-                  : 'text-[#b5b3a7]'
-                : isDark
-                  ? 'text-[#a7a495]'
-                  : 'text-[#1c1c1c]'
-            }`}
+          </motion.button>
+          <motion.button
+            ref={(el) => { buttonRefs.current['rankings'] = el; }}
+            onClick={() => handleTabClick('rankings')}
+            className="nav-item px-3 sm:px-4 py-2 text-sm font-normal relative z-10"
+            animate={{
+              color: activeTab === 'rankings'
+                ? isDark ? '#1c1c1c' : '#b5b3a7'
+                : isDark ? '#a7a495' : '#1c1c1c'
+            }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
           >
             Ranking
-          </button>
-          <button
-            ref={(el) => (buttonRefs.current['contact'] = el)}
-            onClick={() => onNavigate('contact')}
-            className={`nav-item px-3 sm:px-4 py-2 text-sm font-normal relative z-10 transition-colors duration-300 ${
-              currentPage === 'contact'
-                ? isDark
-                  ? 'text-[#1c1c1c]'
-                  : 'text-[#b5b3a7]'
-                : isDark
-                  ? 'text-[#a7a495]'
-                  : 'text-[#1c1c1c]'
-            }`}
+          </motion.button>
+          <motion.button
+            ref={(el) => { buttonRefs.current['blog'] = el; }}
+            onClick={() => handleTabClick('blog')}
+            className="nav-item px-3 sm:px-4 py-2 text-sm font-normal relative z-10"
+            animate={{
+              color: activeTab === 'blog'
+                ? isDark ? '#1c1c1c' : '#b5b3a7'
+                : isDark ? '#a7a495' : '#1c1c1c'
+            }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+          >
+            Blog
+          </motion.button>
+          <motion.button
+            ref={(el) => { buttonRefs.current['contact'] = el; }}
+            onClick={() => handleTabClick('contact')}
+            className="nav-item px-3 sm:px-4 py-2 text-sm font-normal relative z-10"
+            animate={{
+              color: activeTab === 'contact'
+                ? isDark ? '#1c1c1c' : '#b5b3a7'
+                : isDark ? '#a7a495' : '#1c1c1c'
+            }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
           >
             Contact
-          </button>
+          </motion.button>
         </nav>
 
         {/* Social Icons */}

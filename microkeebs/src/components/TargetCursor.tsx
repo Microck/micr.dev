@@ -1,256 +1,90 @@
 import { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
 import { useTheme } from '../contexts/ThemeContext';
 
-interface TargetCursorProps {
-  spinDuration?: number;
-  hideDefaultCursor?: boolean;
-  hoverDuration?: number;
-  parallaxOn?: boolean;
-}
-
-export function TargetCursor({
-  spinDuration = 2.7,
-  hideDefaultCursor = true,
-  hoverDuration = 0.3,
-}: TargetCursorProps) {
+export function TargetCursor() {
   const { isDark } = useTheme();
   const cursorRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const mousePos = useRef({ x: 0, y: 0 });
-  const cursorPos = useRef({ x: 0, y: 0 });
-  const animationFrameId = useRef<number>();
 
   useEffect(() => {
+    // Check for mobile/touch device
     const checkMobile = () => {
-      const mobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
-      setIsMobile(mobile);
+      setIsMobile(window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
     };
-
     checkMobile();
     window.addEventListener('resize', checkMobile);
-
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   useEffect(() => {
     if (isMobile || !cursorRef.current) return;
 
-    if (hideDefaultCursor) {
-      document.body.style.cursor = 'none';
-      const elements = document.querySelectorAll('a, button, input, select, textarea, [role="button"]');
-      elements.forEach((el) => {
-        (el as HTMLElement).style.cursor = 'none';
-      });
-    }
-
-    const updateCursorPosition = () => {
-      if (!cursorRef.current) return;
-
-      const dx = mousePos.current.x - cursorPos.current.x;
-      const dy = mousePos.current.y - cursorPos.current.y;
-
-      cursorPos.current.x += dx * 0.15;
-      cursorPos.current.y += dy * 0.15;
-
-      cursorRef.current.style.transform = `translate(${cursorPos.current.x}px, ${cursorPos.current.y}px)`;
-
-      animationFrameId.current = requestAnimationFrame(updateCursorPosition);
-    };
+    // Hide default cursor
+    document.body.style.cursor = 'none';
+    
+    // GSAP quickTo for 60fps cursor following
+    const xTo = gsap.quickTo(cursorRef.current, 'x', { duration: 0.3, ease: 'power3.out' });
+    const yTo = gsap.quickTo(cursorRef.current, 'y', { duration: 0.3, ease: 'power3.out' });
 
     const handleMouseMove = (e: MouseEvent) => {
-      mousePos.current = { x: e.clientX, y: e.clientY };
+      xTo(e.clientX - 20); // Center the 40px cursor
+      yTo(e.clientY - 20);
 
+      // Check for interactive elements
       const target = e.target as HTMLElement;
-      const isButton = target.closest('button') !== null;
-      const isLink = target.closest('a') !== null;
-      const isInteractive = target.closest('.interactive') !== null;
-      const isCursorTarget = target.closest('.cursor-target') !== null;
-      
-      const isTargetElement = isButton || isLink || isInteractive || isCursorTarget;
-      setIsHovering(isTargetElement);
+      const isInteractive = target.closest('button, a, .cursor-target, [role="button"]');
+      setIsHovering(!!isInteractive);
     };
 
     const handleMouseLeave = () => {
-      if (cursorRef.current) {
-        cursorRef.current.style.opacity = '0';
-      }
+      gsap.to(cursorRef.current, { opacity: 0, duration: 0.2 });
     };
 
     const handleMouseEnter = () => {
-      if (cursorRef.current) {
-        cursorRef.current.style.opacity = '1';
-      }
+      gsap.to(cursorRef.current, { opacity: 1, duration: 0.2 });
     };
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mouseenter', handleMouseEnter);
 
-    animationFrameId.current = requestAnimationFrame(updateCursorPosition);
-
     return () => {
+      document.body.style.cursor = '';
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
-
-      if (animationFrameId.current) {
-        cancelAnimationFrame(animationFrameId.current);
-      }
-
-      if (hideDefaultCursor) {
-        document.body.style.cursor = '';
-        const elements = document.querySelectorAll('a, button, input, select, textarea, [role="button"]');
-        elements.forEach((el) => {
-          (el as HTMLElement).style.cursor = '';
-        });
-      }
     };
-  }, [isMobile, hideDefaultCursor]);
+  }, [isMobile]);
 
   if (isMobile) return null;
+
+  const color = isDark ? '#a7a495' : '#1c1c1c';
 
   return (
     <div
       ref={cursorRef}
-      className="target-cursor"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '40px',
-        height: '40px',
-        pointerEvents: 'none',
-        zIndex: 9999,
-        mixBlendMode: 'difference',
-        transform: 'translate(0, 0)',
-        transition: isHovering ? `all ${hoverDuration}s ease-out` : 'none',
-      }}
+      className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
+      style={{ width: 40, height: 40 }}
     >
-      <div
-        className="target-cursor-inner"
+      <svg
+        width="40"
+        height="40"
+        viewBox="0 0 40 40"
         style={{
-          width: '100%',
-          height: '100%',
-          position: 'relative',
-          animation: `spin ${spinDuration}s linear infinite`,
-          transform: isHovering ? 'scale(1.5)' : 'scale(1)',
-          transition: `transform ${hoverDuration}s ease-out`,
+          transform: isHovering ? 'scale(1.5) rotate(45deg)' : 'scale(1) rotate(0deg)',
+          transition: 'transform 0.3s ease-out',
         }}
       >
-        {/* Top-left corner */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '12px',
-            height: '2px',
-            backgroundColor: isDark ? '#a7a495' : '#fff',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '2px',
-            height: '12px',
-            backgroundColor: isDark ? '#a7a495' : '#fff',
-          }}
-        />
-
-        {/* Top-right corner */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            width: '12px',
-            height: '2px',
-            backgroundColor: isDark ? '#a7a495' : '#fff',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            width: '2px',
-            height: '12px',
-            backgroundColor: isDark ? '#a7a495' : '#fff',
-          }}
-        />
-
-        {/* Bottom-left corner */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            width: '12px',
-            height: '2px',
-            backgroundColor: isDark ? '#a7a495' : '#fff',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            width: '2px',
-            height: '12px',
-            backgroundColor: isDark ? '#a7a495' : '#fff',
-          }}
-        />
-
-        {/* Bottom-right corner */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            right: 0,
-            width: '12px',
-            height: '2px',
-            backgroundColor: isDark ? '#a7a495' : '#fff',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            right: 0,
-            width: '2px',
-            height: '12px',
-            backgroundColor: isDark ? '#a7a495' : '#fff',
-          }}
-        />
-
+        {/* Target crosshair */}
+        <line x1="20" y1="0" x2="20" y2="12" stroke={color} strokeWidth="2" />
+        <line x1="20" y1="28" x2="20" y2="40" stroke={color} strokeWidth="2" />
+        <line x1="0" y1="20" x2="12" y2="20" stroke={color} strokeWidth="2" />
+        <line x1="28" y1="20" x2="40" y2="20" stroke={color} strokeWidth="2" />
         {/* Center dot */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: '4px',
-            height: '4px',
-            backgroundColor: isDark ? '#a7a495' : '#fff',
-            transform: 'translate(-50%, -50%)',
-            borderRadius: '50%',
-          }}
-        />
-      </div>
-
-      <style>{`
-        @keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
+        <circle cx="20" cy="20" r="3" fill={color} />
+      </svg>
     </div>
   );
 }

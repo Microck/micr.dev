@@ -1,5 +1,4 @@
-import React from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeftIcon } from '@/components/ui/arrow-left';
 import { KeyboardBuild } from '../types/Build';
 import { Carousel3D } from './Carousel3D';
 import { YouTubeEmbed } from './YouTubeEmbed';
@@ -14,7 +13,7 @@ interface BuildDetailProps {
 
 export function BuildDetail({ build, onBack }: BuildDetailProps) {
   const { isDark } = useTheme();
-  const specEntries = Object.entries(build.specs).filter(([_, value]) => value && value !== '-');
+  const specEntries = Object.entries(build.specs).filter(([, value]) => value && value !== '-');
 
   return (
     <div className={`${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} min-h-screen`}>
@@ -25,7 +24,7 @@ export function BuildDetail({ build, onBack }: BuildDetailProps) {
             isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
           }`}
         >
-          <ArrowLeft size={20} />
+          <ArrowLeftIcon size={20} />
           <span>Back to Gallery</span>
         </button>
         
@@ -40,7 +39,7 @@ export function BuildDetail({ build, onBack }: BuildDetailProps) {
         
         <div className="space-y-8">
           <div className="fade-in flex justify-center">
-            <Carousel3D images={build.images} title={build.title} />
+            <Carousel3D images={build.images} />
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">

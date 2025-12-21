@@ -5,6 +5,8 @@ import { useTheme } from '../contexts/ThemeContext';
 import { SplitText } from './SplitText';
 import { VariableProximity } from './VariableProximity';
 import { LogoTicker } from './LogoTicker';
+import { YoutubeIcon } from '@/components/ui/youtube';
+import { InstagramIcon } from '@/components/ui/instagram';
 
 const aboutText = `I'm Marcos, also known as Microkeebs. I joined the keyboard hobby in early 2021 and have been active since then, but I didn't build my first custom keyboard until mid-2022, when I also started Microkeebs as a way to showcase my keyboards.
 
@@ -114,18 +116,7 @@ export function Contact() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              <motion.div
-                whileHover={{
-                  rotate: [0, 10, -10, 0],
-                  scale: 1.2
-                }}
-                transition={{
-                  rotate: { duration: 0.5, ease: "easeInOut" },
-                  scale: { duration: 0.2 }
-                }}
-              >
-                <Icon icon="mingcute:youtube-line" className="w-12 h-12" />
-              </motion.div>
+              <YoutubeIcon size={48} />
               <span className="text-sm uppercase tracking-wider">YouTube</span>
             </motion.a>
 
@@ -139,18 +130,7 @@ export function Contact() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              <motion.div
-                whileHover={{
-                  rotate: [0, -10, 10, 0],
-                  scale: 1.2
-                }}
-                transition={{
-                  rotate: { duration: 0.5, ease: "easeInOut" },
-                  scale: { duration: 0.2 }
-                }}
-              >
-                <Icon icon="mingcute:instagram-line" className="w-12 h-12" />
-              </motion.div>
+              <InstagramIcon size={48} />
               <span className="text-sm uppercase tracking-wider">Instagram</span>
             </motion.a>
 

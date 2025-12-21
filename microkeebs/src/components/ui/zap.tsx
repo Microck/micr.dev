@@ -1,16 +1,41 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+'use client';
 
-export interface SearchIconHandle {
+import type { Variants } from 'motion/react';
+import type { HTMLAttributes } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
+import { motion, useAnimation } from 'motion/react';
+
+import { cn } from '@/lib/utils';
+
+export interface ZapHandle {
   startAnimation: () => void;
   stopAnimation: () => void;
 }
 
-interface SearchIconProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ZapProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const AnimatedSearchIconLucide = forwardRef<SearchIconHandle, SearchIconProps>(
+const PATH_VARIANTS: Variants = {
+  normal: {
+    opacity: 1,
+    pathLength: 1,
+    transition: {
+      duration: 0.6,
+      opacity: { duration: 0.1 },
+    },
+  },
+  animate: {
+    opacity: [0, 1],
+    pathLength: [0, 1],
+    transition: {
+      duration: 0.6,
+      opacity: { duration: 0.1 },
+    },
+  },
+};
+
+const ZapIcon = forwardRef<ZapHandle, ZapProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
     const isControlledRef = useRef(false);
@@ -48,12 +73,12 @@ const AnimatedSearchIconLucide = forwardRef<SearchIconHandle, SearchIconProps>(
 
     return (
       <div
-        className={className}
+        className={cn(className)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <motion.svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
@@ -63,24 +88,18 @@ const AnimatedSearchIconLucide = forwardRef<SearchIconHandle, SearchIconProps>(
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          animate={controls}
-          variants={{
-            normal: { y: 0 },
-            animate: { y: [-3, 0] },
-          }}
-          transition={{
-            duration: 1,
-            bounce: 0.3,
-          }}
         >
-          <circle cx="11" cy="11" r="8" />
-          <path d="m21 21-4.3-4.3" />
-        </motion.svg>
+          <motion.path
+            variants={PATH_VARIANTS}
+            animate={controls}
+            d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
+          />
+        </svg>
       </div>
     );
   }
 );
 
-AnimatedSearchIconLucide.displayName = 'AnimatedSearchIcon';
+ZapIcon.displayName = 'ZapIcon';
 
-export { AnimatedSearchIconLucide };
+export { ZapIcon };

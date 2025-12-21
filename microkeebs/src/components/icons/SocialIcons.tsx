@@ -1,6 +1,7 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
+import { YoutubeIcon } from '@/components/ui/youtube';
+import { InstagramIcon } from '@/components/ui/instagram';
 
 interface SocialIconsProps {
   isDark: boolean;
@@ -8,20 +9,6 @@ interface SocialIconsProps {
 }
 
 export function SocialIcons({ isDark, className = '' }: SocialIconsProps) {
-  const iconVariants = {
-    hover: {
-      scale: 1.1,
-      rotate: [0, 10, -10, 0],
-      transition: {
-        duration: 0.5,
-        ease: "easeInOut"
-      }
-    },
-    tap: {
-      scale: 0.95
-    }
-  };
-
   const iconColor = isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]';
 
   return (
@@ -31,31 +18,26 @@ export function SocialIcons({ isDark, className = '' }: SocialIconsProps) {
         target="_blank"
         rel="noopener noreferrer"
         className={`${iconColor} transition-opacity hover:opacity-70 interactive`}
-        variants={iconVariants}
-        whileHover="hover"
-        whileTap="tap"
+        whileTap={{ scale: 0.95 }}
       >
-        <Icon icon="mingcute:youtube-line" className="w-5 h-5" />
+        <YoutubeIcon size={20} />
       </motion.a>
       <motion.a
         href="https://www.instagram.com/microkeebs/"
         target="_blank"
         rel="noopener noreferrer"
         className={`${iconColor} transition-opacity hover:opacity-70 interactive`}
-        variants={iconVariants}
-        whileHover="hover"
-        whileTap="tap"
+        whileTap={{ scale: 0.95 }}
       >
-        <Icon icon="mingcute:instagram-line" className="w-5 h-5" />
+        <InstagramIcon size={20} />
       </motion.a>
       <motion.a
         href="https://www.tiktok.com/@microkeebs"
         target="_blank"
         rel="noopener noreferrer"
         className={`${iconColor} transition-opacity hover:opacity-70 interactive`}
-        variants={iconVariants}
-        whileHover="hover"
-        whileTap="tap"
+        whileHover={{ scale: 1.1, rotate: [0, 15, -15, 0] }}
+        whileTap={{ scale: 0.95 }}
       >
         <Icon icon="mingcute:tiktok-line" className="w-5 h-5" />
       </motion.a>

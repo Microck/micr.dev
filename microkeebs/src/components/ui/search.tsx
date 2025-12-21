@@ -1,22 +1,22 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { motion, useAnimation, Variants } from 'framer-motion';
+'use client';
 
-export interface TikTokIconHandle {
+import type { HTMLAttributes } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
+import { motion, useAnimation } from 'motion/react';
+
+import { cn } from '@/lib/utils';
+
+export interface SearchIconHandle {
   startAnimation: () => void;
   stopAnimation: () => void;
 }
 
-interface TikTokIconProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SearchIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const containerVariants: Variants = {
-  normal: { scale: 1 },
-  animate: { scale: [1, 1.1, 0.95, 1] },
-};
-
-const AnimatedTikTokIcon = forwardRef<TikTokIconHandle, TikTokIconProps>(
-  ({ onMouseEnter, onMouseLeave, className, size = 24, ...props }, ref) => {
+const SearchIcon = forwardRef<SearchIconHandle, SearchIconProps>(
+  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
     const isControlledRef = useRef(false);
 
@@ -32,7 +32,7 @@ const AnimatedTikTokIcon = forwardRef<TikTokIconHandle, TikTokIconProps>(
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start('normal');
         } else {
           onMouseEnter?.(e);
         }
@@ -43,7 +43,7 @@ const AnimatedTikTokIcon = forwardRef<TikTokIconHandle, TikTokIconProps>(
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start('animate');
         } else {
           onMouseLeave?.(e);
         }
@@ -53,7 +53,7 @@ const AnimatedTikTokIcon = forwardRef<TikTokIconHandle, TikTokIconProps>(
 
     return (
       <div
-        className={className}
+        className={cn(className)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         {...props}
@@ -63,21 +63,32 @@ const AnimatedTikTokIcon = forwardRef<TikTokIconHandle, TikTokIconProps>(
           width={size}
           height={size}
           viewBox="0 0 24 24"
-          fill="currentColor"
-          variants={containerVariants}
-          animate={controls}
-          transition={{
-            duration: 0.6,
-            ease: 'easeInOut',
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          variants={{
+            normal: { x: 0, y: 0 },
+            animate: {
+              x: [0, 0, -3, 0],
+              y: [0, -4, 0, 0],
+            },
           }}
+          transition={{
+            duration: 1,
+            bounce: 0.3,
+          }}
+          animate={controls}
         >
-          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.86 2.86 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z" />
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
         </motion.svg>
       </div>
     );
   }
 );
 
-AnimatedTikTokIcon.displayName = 'AnimatedTikTokIcon';
+SearchIcon.displayName = 'SearchIcon';
 
-export { AnimatedTikTokIcon };
+export { SearchIcon };

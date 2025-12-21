@@ -1,16 +1,22 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { motion, useAnimation, Variants } from 'framer-motion';
+'use client';
+
+import type { Variants } from 'motion/react';
+import type { HTMLAttributes } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
+import { motion, useAnimation } from 'motion/react';
+
+import { cn } from '@/lib/utils';
 
 export interface SunIconHandle {
   startAnimation: () => void;
   stopAnimation: () => void;
 }
 
-interface SunIconProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SunIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const pathVariants: Variants = {
+const PATH_VARIANTS: Variants = {
   normal: { opacity: 1 },
   animate: (i: number) => ({
     opacity: [0, 1],
@@ -18,7 +24,7 @@ const pathVariants: Variants = {
   }),
 };
 
-const AnimatedSunIconLucide = forwardRef<SunIconHandle, SunIconProps>(
+const SunIcon = forwardRef<SunIconHandle, SunIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
     const isControlledRef = useRef(false);
@@ -35,7 +41,7 @@ const AnimatedSunIconLucide = forwardRef<SunIconHandle, SunIconProps>(
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start('normal');
         } else {
           onMouseEnter?.(e);
         }
@@ -46,17 +52,16 @@ const AnimatedSunIconLucide = forwardRef<SunIconHandle, SunIconProps>(
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start('animate');
         } else {
           onMouseLeave?.(e);
         }
       },
       [controls, onMouseLeave]
     );
-
     return (
       <div
-        className={className}
+        className={cn(className)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         {...props}
@@ -87,7 +92,7 @@ const AnimatedSunIconLucide = forwardRef<SunIconHandle, SunIconProps>(
               key={d}
               d={d}
               animate={controls}
-              variants={pathVariants}
+              variants={PATH_VARIANTS}
               custom={index + 1}
             />
           ))}
@@ -97,6 +102,6 @@ const AnimatedSunIconLucide = forwardRef<SunIconHandle, SunIconProps>(
   }
 );
 
-AnimatedSunIconLucide.displayName = 'AnimatedSunIcon';
+SunIcon.displayName = 'SunIcon';
 
-export { AnimatedSunIconLucide };
+export { SunIcon };

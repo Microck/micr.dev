@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { BuildGallery } from './components/BuildGallery';
 import { BuildDetail } from './components/BuildDetail';
 import { Rankings } from './components/Rankings';
+import { Blog } from './components/Blog';
 import { Contact } from './components/Contact';
 import { ThemeToggle } from './components/ThemeToggle';
 import { MobilePopup } from './components/MobilePopup';
 import { LenisScroll } from './components/LenisScroll';
+import { TargetCursor } from './components/TargetCursor';
 import { PageTransitions } from './components/PageTransitions';
 import { KeyboardBuild } from './types/Build';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
@@ -28,23 +30,22 @@ function AppContent() {
         const baseSlug = parts[0];
         const counter = parts[1];
         
-        const build = findBuildBySlug(baseSlug, counter, builds as any);
+        const build = findBuildBySlug(baseSlug, counter, builds as unknown as KeyboardBuild[]);
         if (build) {
-          // Update URL with PageTransitions
-          const newHash = `#/builds/${build?.slug || ''}`;
-          window.location.hash = newHash;
-
           setSelectedBuild(build);
           setCurrentPage('builds');
         }
       } else if (hash === '#/rankings') {
         setCurrentPage('rankings');
         setSelectedBuild(null);
+      } else if (hash === '#/blog') {
+        setCurrentPage('blog');
+        setSelectedBuild(null);
       } else if (hash === '#/contact') {
         setCurrentPage('contact');
         setSelectedBuild(null);
       } else {
-        handleNavigate('builds');
+        setCurrentPage('builds');
         setSelectedBuild(null);
       }
     };
@@ -66,7 +67,6 @@ function AppContent() {
   };
 
   const handleBuildSelect = (build: KeyboardBuild) => {
-    const slugInfo = findBuildBySlug(build.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'), undefined, builds as any);
     const baseSlug = build.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const sameTitleBuilds = builds
       .filter(b => b.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === baseSlug)
@@ -105,6 +105,8 @@ function AppContent() {
             onBuildSelect={handleBuildSelect}
           />
         );
+      case 'blog':
+        return <Blog />;
       case 'contact':
         return <Contact />;
       default:
@@ -119,7 +121,7 @@ function AppContent() {
   return (
     <LenisScroll>
       <div className={`min-h-screen ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} relative`}>
-        <PageTransitions currentPage={currentPage} onNavigate={handleNavigate}>
+        <PageTransitions currentPage={currentPage}>
           <div className="relative z-10">
             <Header currentPage={currentPage} onNavigate={handleNavigate} />
             <main>
@@ -138,6 +140,7 @@ function App() {
   return (
     <ThemeProvider>
       <AppContent />
+      <TargetCursor />
     </ThemeProvider>
   );
 }

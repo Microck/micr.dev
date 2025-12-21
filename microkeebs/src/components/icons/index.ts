@@ -1,11 +1,3 @@
 export { LogoIcon } from './LogoIcon';
 export { CherryIcon } from './CherryIcon';
 export { DomeIcon } from './DomeIcon';
-export { CatIcon } from './CatIcon';
-export { VolumeIcon } from './VolumeIcon';
-export { AnimatedSunIcon } from './AnimatedSunIcon';
-export { AnimatedMoonStarsIcon } from './AnimatedMoonStarsIcon';
-export { AnimatedSearchIcon } from './AnimatedSearchIcon';
-export { TikTokIcon } from './TikTokIcon';
-export { AnimatedYoutubeIcon } from './AnimatedYoutubeIcon';
-export { AnimatedInstagramIcon } from './AnimatedInstagramIcon';

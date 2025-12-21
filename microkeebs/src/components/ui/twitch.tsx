@@ -7,12 +7,12 @@ import { motion, useAnimation } from 'motion/react';
 
 import { cn } from '@/lib/utils';
 
-export interface YoutubeIconHandle {
+export interface TwitchIconHandle {
   startAnimation: () => void;
   stopAnimation: () => void;
 }
 
-interface YoutubeIconProps extends HTMLAttributes<HTMLDivElement> {
+interface TwitchIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
@@ -38,7 +38,7 @@ const PATH_VARIANTS: Variants = {
   },
 };
 
-const TRIANGLE_VARIANTS: Variants = {
+const LINE_VARIANTS: Variants = {
   normal: {
     opacity: 1,
     pathLength: 1,
@@ -60,10 +60,11 @@ const TRIANGLE_VARIANTS: Variants = {
   },
 };
 
-const YoutubeIcon = forwardRef<YoutubeIconHandle, YoutubeIconProps>(
+const TwitchIcon = forwardRef<TwitchIconHandle, TwitchIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const pathControls = useAnimation();
-    const triangleControls = useAnimation();
+    const line1Controls = useAnimation();
+    const line2Controls = useAnimation();
     const isControlledRef = useRef(false);
 
     useImperativeHandle(ref, () => {
@@ -72,11 +73,13 @@ const YoutubeIcon = forwardRef<YoutubeIconHandle, YoutubeIconProps>(
       return {
         startAnimation: () => {
           pathControls.start('animate');
-          triangleControls.start('animate');
+          line1Controls.start('animate');
+          line2Controls.start('animate');
         },
         stopAnimation: () => {
           pathControls.start('normal');
-          triangleControls.start('normal');
+          line1Controls.start('normal');
+          line2Controls.start('normal');
         },
       };
     });
@@ -85,24 +88,26 @@ const YoutubeIcon = forwardRef<YoutubeIconHandle, YoutubeIconProps>(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
           pathControls.start('animate');
-          triangleControls.start('animate');
+          line1Controls.start('animate');
+          line2Controls.start('animate');
         } else {
           onMouseEnter?.(e);
         }
       },
-      [onMouseEnter, pathControls, triangleControls]
+      [line1Controls, line2Controls, onMouseEnter, pathControls]
     );
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
           pathControls.start('normal');
-          triangleControls.start('normal');
+          line1Controls.start('normal');
+          line2Controls.start('normal');
         } else {
           onMouseLeave?.(e);
         }
       },
-      [pathControls, triangleControls, onMouseLeave]
+      [pathControls, line1Controls, line2Controls, onMouseLeave]
     );
 
     return (
@@ -127,13 +132,19 @@ const YoutubeIcon = forwardRef<YoutubeIconHandle, YoutubeIconProps>(
             variants={PATH_VARIANTS}
             initial="normal"
             animate={pathControls}
-            d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"
+            d="M21 2H3v16h5v4l4-4h5l4-4V2z"
           />
           <motion.path
-            variants={TRIANGLE_VARIANTS}
+            variants={LINE_VARIANTS}
             initial="normal"
-            animate={triangleControls}
-            d="M10 15l5-3-5-3z"
+            animate={line1Controls}
+            d="M11 11V7"
+          />
+          <motion.path
+            variants={LINE_VARIANTS}
+            initial="normal"
+            animate={line2Controls}
+            d="M16 11V7"
           />
         </svg>
       </div>
@@ -141,6 +152,6 @@ const YoutubeIcon = forwardRef<YoutubeIconHandle, YoutubeIconProps>(
   }
 );
 
-YoutubeIcon.displayName = 'YoutubeIcon';
+TwitchIcon.displayName = 'TwitchIcon';
 
-export { YoutubeIcon };
+export { TwitchIcon };

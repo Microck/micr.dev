@@ -1,153 +1,86 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface PageTransitionsProps {
   children: React.ReactNode;
-  currentPage?: string;
-  onNavigate?: (page: string) => void;
+  currentPage: string;
 }
 
-export function PageTransitions({ children, currentPage, onNavigate }: PageTransitionsProps) {
-  const curtainRef = useRef<HTMLDivElement>(null);
-  const barsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const previousPageRef = useRef<string | undefined>(undefined);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+export function PageTransitions({ children, currentPage }: PageTransitionsProps) {
+  const { isDark } = useTheme();
+  const barsRef = useRef<HTMLDivElement[]>([]);
+  const [displayedChildren, setDisplayedChildren] = useState(children);
+  const lastPageRef = useRef<string>(currentPage);
 
-  // Determine direction based on current and previous page
-  const determineDirection = useCallback((from: string | undefined, to: string | undefined): 'left' | 'right' => {
-    const pageOrder = ['builds', 'rankings', 'contact'];
+  const runTransition = useCallback((direction: 'left' | 'right', onCover: () => void) => {
+    const bars = barsRef.current;
+    
+    gsap.killTweensOf(bars);
 
-    if (!from || !to) return 'right';
+    const fromY = direction === 'right' ? '100%' : '-100%';
+    const toYExit = direction === 'right' ? '-100%' : '100%';
 
-    const fromIndex = pageOrder.indexOf(from);
-    const toIndex = pageOrder.indexOf(to);
+    gsap.set(bars, { y: fromY, x: 0 });
 
-    if (fromIndex === -1 || toIndex === -1) return 'right';
-
-    if (fromIndex < toIndex) return 'right';
-    if (fromIndex > toIndex) return 'left';
-
-    return 'right';
-  }, []);
-
-  // Start transition
-  const startTransition = useCallback(async (toPage: string) => {
-    if (isTransitioning) return;
-
-    setIsTransitioning(true);
-
-    // Set direction based on navigation
-    const direction = determineDirection(previousPageRef.current, toPage);
-
-    const bars = barsRef.current.filter((bar): bar is HTMLDivElement => bar !== null);
-    if (bars.length !== 4) return;
-
-    // Define animation properties based on direction
-    let fromVars: gsap.TweenVars = {};
-    let toVars: gsap.TweenVars = {
-      duration: 0.6,
+    gsap.to(bars, {
+      y: '0%',
+      duration: 0.5,
+      delay: 0.3,
       stagger: 0.05,
       ease: 'power2.inOut',
-    };
-
-    if (direction === 'left') {
-      fromVars = { x: '-100%' };
-      toVars = { ...toVars, x: '0%' };
-    } else {
-      fromVars = { x: '100%' };
-      toVars = { ...toVars, x: '0%' };
-    }
-
-    // Reset bars to initial position (invisible)
-    gsap.set(bars, {
-      ...fromVars,
-      opacity: 1
+      onComplete: () => {
+        onCover();
+        
+        gsap.to(bars, {
+          y: toYExit,
+          duration: 0.4,
+          stagger: 0.03,
+          ease: 'power2.inOut',
+          delay: 0.1,
+        });
+      },
     });
-
-    // Animate bars in to cover screen
-    gsap.to(bars, toVars);
-
-    // Reverse animation after covering screen
-    timeoutRef.current = setTimeout(() => {
-      gsap.to(bars, {
-        ...fromVars,
-        duration: 0.4,
-        stagger: 0.02,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          setIsTransitioning(false);
-          // Reset opacity for next transition
-          gsap.set(bars, { opacity: 0 });
-        }
-      });
-    }, 400);
-  }, [isTransitioning, determineDirection]);
-
-  // Listen for hash changes to trigger transitions
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      let page = 'builds';
-
-      if (hash.startsWith('#/builds/')) {
-        page = 'builds'; // Don't transition for build details
-      } else if (hash === '#/rankings') {
-        page = 'rankings';
-      } else if (hash === '#/contact') {
-        page = 'contact';
-      }
-
-      // Only transition between main pages
-      if (page !== previousPageRef.current &&
-          !hash.includes('/builds/') &&
-          previousPageRef.current !== undefined) {
-        startTransition(page);
-      }
-
-      previousPageRef.current = page;
-    };
-
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [startTransition]);
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
   }, []);
 
+  useEffect(() => {
+    if (currentPage !== lastPageRef.current) {
+      const pageOrder = ['builds', 'rankings', 'blog', 'contact'];
+      const fromIndex = pageOrder.indexOf(lastPageRef.current);
+      const toIndex = pageOrder.indexOf(currentPage);
+
+      if (fromIndex !== -1 && toIndex !== -1 && lastPageRef.current !== '') {
+        const direction = fromIndex < toIndex ? 'right' : 'left';
+        runTransition(direction, () => {
+          setDisplayedChildren(children);
+          lastPageRef.current = currentPage;
+        });
+      } else {
+        setDisplayedChildren(children);
+        lastPageRef.current = currentPage;
+      }
+    } else {
+      setDisplayedChildren(children);
+    }
+  }, [currentPage, children, runTransition]);
+
   return (
-    <div>
-      {/* Curtain Transition Overlay */}
-      <div
-        ref={curtainRef}
-        className={`fixed inset-0 z-50 pointer-events-none flex ${
-          isTransitioning ? 'opacity-100' : 'opacity-0'
-        } transition-opacity duration-200`}
-      >
-        {/* 4 bars - 25% width each, 100% height */}
-        {[0, 1, 2, 3].map((index) => (
+    <>
+      <div className="fixed inset-0 z-[100] pointer-events-none flex overflow-hidden">
+        {[0, 1, 2, 3].map((i) => (
           <div
-            key={index}
-            ref={(el) => {
-              if (el) barsRef.current[index] = el;
-            }}
-            className="h-full bg-black dark:bg-white"
+            key={i}
+            ref={(el) => { if (el) barsRef.current[i] = el; }}
+            className="h-full"
             style={{
               width: '25%',
-              opacity: 0, // Start invisible
+              backgroundColor: isDark ? '#a7a495' : '#1c1c1c',
+              transform: 'translateY(100%)',
             }}
           />
         ))}
       </div>
-
-      {/* Page Content */}
-      {children}
-    </div>
+      {displayedChildren}
+    </>
   );
 }

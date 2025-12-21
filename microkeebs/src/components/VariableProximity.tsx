@@ -24,7 +24,6 @@ export function VariableProximity({
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isActive, setIsActive] = useState(false);
-  const animationFrameId = useRef<number>();
 
   const letters = text.split('');
 
@@ -33,7 +32,6 @@ export function VariableProximity({
     if (!container) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
       setMousePos({
         x: e.clientX,
         y: e.clientY,
@@ -42,7 +40,6 @@ export function VariableProximity({
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      const rect = container.getBoundingClientRect();
       setMousePos({
         x: e.touches[0].clientX,
         y: e.touches[0].clientY,
