@@ -1,11 +1,16 @@
-import { ReactLenis, useLenis } from 'lenis/react';
-import { useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// TEMPORARILY DISABLED FOR PERFORMANCE TESTING
+// import { ReactLenis, useLenis } from 'lenis/react';
+// import { useEffect } from 'react';
+// import gsap from 'gsap';
+// import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+// gsap.registerPlugin(ScrollTrigger);
 
 export function LenisScroll({ children }: { children: React.ReactNode }) {
+  // Lenis disabled - just pass through children
+  return <>{children}</>;
+  
+  /* ORIGINAL CODE - re-enable after testing
   const lenis = useLenis();
   
   useEffect(() => {
@@ -38,4 +43,5 @@ export function LenisScroll({ children }: { children: React.ReactNode }) {
       {children}
     </ReactLenis>
   );
+  */
 }

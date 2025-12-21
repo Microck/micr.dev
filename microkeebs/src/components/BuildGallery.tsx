@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, LayoutGroup } from "framer-motion";
+import { motion, LayoutGroup, AnimatePresence } from "framer-motion";
 import { SearchIcon } from "@/components/ui/search";
 import { BuildCard } from "./BuildCard";
 import { Footer } from "./Footer";
@@ -121,34 +121,43 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
         {/* Grid */}
         <LayoutGroup>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {sortedBuilds.map((build, index) => (
+            {sortedBuilds.map((build, index) => {
+              const col = index % 3;
+              const delay = col * 0.15;
+              return (
               <motion.div 
                 key={build.id} 
                 layout
-                transition={{ layout: { duration: 0.3, ease: "easeOut" } }}
-                className="stagger-item" 
-                style={{ animationDelay: `${index * 0.1}s` }}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ 
+                  layout: { duration: 0.3, ease: "easeOut" },
+                  opacity: { duration: 0.6, delay },
+                  y: { duration: 0.6, delay }
+                }}
               >
                 <BuildCard
                   build={build}
                   onClick={() => onBuildSelect(build)}
                   showBuild={showBuild}
                 />
-                <motion.div 
-                  layout
-                  transition={{ layout: { duration: 0.3, ease: "easeOut" } }}
-                  className={`text-xs text-center overflow-hidden ${
-                    showTimestamps ? 'opacity-100 mt-2' : 'opacity-0'
-                  } ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}
-                  style={{
-                    height: showTimestamps ? 'auto' : 0,
-                    marginTop: showTimestamps ? '0.5rem' : 0,
-                  }}
-                >
-                  {new Date(build.timestamp).toLocaleDateString()}
-                </motion.div>
+                <AnimatePresence>
+                  {showTimestamps && (
+                    <motion.div 
+                      layout
+                      initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                      animate={{ opacity: 1, height: "auto", marginTop: "0.5rem" }}
+                      exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      className={`text-xs text-center overflow-hidden ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}
+                    >
+                      {new Date(build.timestamp).toLocaleDateString()}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
-            ))}
+            );})}
           </div>
         </LayoutGroup>
       </div>

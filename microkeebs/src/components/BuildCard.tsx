@@ -1,7 +1,8 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { KeyboardBuild } from "../types/Build";
 import { useTheme } from "../contexts/ThemeContext";
-import { MaskedText } from "./MaskedText";
+// import { DecryptedText } from "./DecryptedText";
+import { TextType } from "./TextType";
 
 interface BuildCardProps {
   build: KeyboardBuild;
@@ -104,28 +105,49 @@ export function BuildCard({
         </div>
       </div>
 
-      <MaskedText
-        className={`card-title text-lg text-center ${
+      {/* DecryptedText option (commented out):
+      <DecryptedText
+        text={build.title}
+        animateOn="view"
+        sequential={true}
+        speed={30}
+        delay={200}
+        className={`card-title text-lg ${
           isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
         }`}
-        delay={100}
-      >
-        {build.title}
-      </MaskedText>
+        parentClassName="block text-center w-full"
+      />
+      */}
+      
+      <TextType
+        text={build.title}
+        startOnVisible={true}
+        loop={false}
+        showCursor={true}
+        cursorCharacter="|"
+        hideCursorOnComplete={true}
+        typingSpeed={40}
+        variableSpeed={{ min: 30, max: 70 }}
+        initialDelay={200}
+        className={`card-title text-lg text-center w-full ${
+          isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+        }`}
+      />
 
-      <motion.div 
-        layout
-        transition={{ layout: { duration: 0.3, ease: "easeOut" } }}
-        className={`text-xs text-center px-2 leading-relaxed overflow-hidden ${
-          showBuild && buildDescription ? 'opacity-70' : 'opacity-0'
-        } ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}
-        style={{
-          height: showBuild && buildDescription ? 'auto' : 0,
-          marginTop: showBuild && buildDescription ? '0.25rem' : 0,
-        }}
-      >
-        {buildDescription}
-      </motion.div>
+      <AnimatePresence>
+        {showBuild && buildDescription && (
+          <motion.div 
+            layout
+            initial={{ opacity: 0, height: 0, marginTop: 0 }}
+            animate={{ opacity: 0.7, height: "auto", marginTop: "0.25rem" }}
+            exit={{ opacity: 0, height: 0, marginTop: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className={`text-xs text-center px-2 leading-relaxed overflow-hidden ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}
+          >
+            {buildDescription}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

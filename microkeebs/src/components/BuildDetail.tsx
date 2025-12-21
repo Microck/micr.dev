@@ -1,10 +1,10 @@
+import { useState } from 'react';
 import { ArrowLeftIcon } from '@/components/ui/arrow-left';
 import { KeyboardBuild } from '../types/Build';
-import { Carousel3D } from './Carousel3D';
 import { YouTubeEmbed } from './YouTubeEmbed';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
-import { MaskedText } from './MaskedText';
+import { DecryptedText } from './DecryptedText';
 
 interface BuildDetailProps {
   build: KeyboardBuild;
@@ -13,7 +13,16 @@ interface BuildDetailProps {
 
 export function BuildDetail({ build, onBack }: BuildDetailProps) {
   const { isDark } = useTheme();
+  const [currentIndex, setCurrentIndex] = useState(0);
   const specEntries = Object.entries(build.specs).filter(([, value]) => value && value !== '-');
+
+  const goToPrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? build.images.length - 1 : prev - 1));
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev === build.images.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <div className={`${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} min-h-screen`}>
@@ -28,18 +37,61 @@ export function BuildDetail({ build, onBack }: BuildDetailProps) {
           <span>Back to Gallery</span>
         </button>
         
-        <MaskedText 
+        <DecryptedText 
+          text={build.title}
+          animateOn="view"
+          sequential={true}
+          speed={30}
           className={`text-4xl font-bold text-center mb-12 ${
             isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
           }`}
-          delay={100}
-        >
-          {build.title}
-        </MaskedText>
+          parentClassName="block text-center mb-12"
+        />
         
         <div className="space-y-8">
-          <div className="fade-in flex justify-center">
-            <Carousel3D images={build.images} />
+          <div className="fade-in">
+            <div className="relative w-full aspect-video">
+              <img
+                src={build.images[currentIndex]}
+                alt={`${build.title} - Image ${currentIndex + 1}`}
+                className="w-full h-full object-contain"
+              />
+              {build.images.length > 1 && (
+                <>
+                  <button
+                    onClick={goToPrev}
+                    className={`absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full transition-opacity hover:opacity-70 cursor-target ${
+                      isDark ? 'bg-[#a7a495] text-[#1c1c1c]' : 'bg-[#1c1c1c] text-[#a7a495]'
+                    }`}
+                  >
+                    <ArrowLeftIcon size={20} />
+                  </button>
+                  <button
+                    onClick={goToNext}
+                    className={`absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full transition-opacity hover:opacity-70 cursor-target ${
+                      isDark ? 'bg-[#a7a495] text-[#1c1c1c]' : 'bg-[#1c1c1c] text-[#a7a495]'
+                    }`}
+                  >
+                    <ArrowLeftIcon size={20} className="rotate-180" />
+                  </button>
+                </>
+              )}
+            </div>
+            {build.images.length > 1 && (
+              <div className="flex justify-center gap-2 mt-4">
+                {build.images.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-all cursor-target ${
+                      index === currentIndex
+                        ? isDark ? 'bg-[#a7a495]' : 'bg-[#1c1c1c]'
+                        : isDark ? 'bg-[#a7a495]/30' : 'bg-[#1c1c1c]/30'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">

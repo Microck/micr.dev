@@ -7,7 +7,7 @@
 - No test framework configured
 
 ## Stack
-React 19 + Vite + TypeScript + Tailwind CSS. Animations: GSAP, Framer Motion, Lenis.
+React 19 + Vite + TypeScript + Tailwind CSS. Animations: GSAP (ScrollSmoother, ScrollTrigger), motion/react (Framer Motion).
 
 ## Code Style
 - **Imports**: Named exports preferred. Path alias `@/*` → `./src/*`

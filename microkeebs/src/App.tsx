@@ -7,9 +7,10 @@ import { Blog } from './components/Blog';
 import { Contact } from './components/Contact';
 import { ThemeToggle } from './components/ThemeToggle';
 import { MobilePopup } from './components/MobilePopup';
-import { LenisScroll } from './components/LenisScroll';
-import { TargetCursor } from './components/TargetCursor';
+import { SmoothScroll } from './components/SmoothScroll';
 import { PageTransitions } from './components/PageTransitions';
+import { TargetCursor } from './components/TargetCursor';
+import { DebugCursor } from './components/DebugCursor';
 import { KeyboardBuild } from './types/Build';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { findBuildBySlug } from './utils/slugUtils';
@@ -18,7 +19,20 @@ import builds from './data/builds.json';
 function AppContent() {
   const [currentPage, setCurrentPage] = useState('builds');
   const [selectedBuild, setSelectedBuild] = useState<KeyboardBuild | null>(null);
+  const [debugMode, setDebugMode] = useState(false);
   const { isDark } = useTheme();
+
+  // Keyboard shortcut for debug mode (Ctrl+Shift+D)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+        e.preventDefault();
+        setDebugMode(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Handle URL-based navigation
   useEffect(() => {
@@ -57,6 +71,15 @@ function AppContent() {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
+
+  useEffect(() => {
+    const showScrollbarPages = ['builds', 'blog', 'contact'];
+    if (showScrollbarPages.includes(currentPage)) {
+      document.body.classList.add('show-scrollbar');
+    } else {
+      document.body.classList.remove('show-scrollbar');
+    }
+  }, [currentPage]);
 
   const handleNavigate = (page: string) => {
     if (currentPage !== page) {
@@ -119,20 +142,24 @@ function AppContent() {
   };
 
   return (
-    <LenisScroll>
-      <div className={`min-h-screen ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} relative`}>
-        <PageTransitions currentPage={currentPage}>
-          <div className="relative z-10">
-            <Header currentPage={currentPage} onNavigate={handleNavigate} />
-            <main>
-              {renderContent()}
-            </main>
-          </div>
-        </PageTransitions>
-        <ThemeToggle />
-        <MobilePopup />
-      </div>
-    </LenisScroll>
+    <>
+      <SmoothScroll>
+        <div className={`min-h-screen ${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} relative`}>
+          <PageTransitions currentPage={currentPage}>
+            <div className="relative z-10">
+              <Header currentPage={currentPage} onNavigate={handleNavigate} />
+              <main>
+                {renderContent()}
+              </main>
+            </div>
+          </PageTransitions>
+        </div>
+      </SmoothScroll>
+      <ThemeToggle />
+      <MobilePopup />
+      {!debugMode && <TargetCursor targetSelector="button.nav-item.px-3, svg, rect, svg.iconify.iconify--mingcute, div.w-4.h-4, select.border.px-3, button.px-4.py-1, img.gallery-media__image, button.fixed.bottom-6, div.w-full.aspect-video" />}
+      {debugMode && <DebugCursor onClose={() => setDebugMode(false)} />}
+    </>
   );
 }
 
@@ -140,7 +167,6 @@ function App() {
   return (
     <ThemeProvider>
       <AppContent />
-      <TargetCursor />
     </ThemeProvider>
   );
 }
