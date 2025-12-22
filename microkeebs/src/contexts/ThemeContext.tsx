@@ -19,6 +19,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     document.body.dataset.theme = isDark ? 'dark' : 'light';
+    document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
   }, [isDark]);
 
   const toggleTheme = () => {
