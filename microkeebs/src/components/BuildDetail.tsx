@@ -4,7 +4,7 @@ import { YouTubeEmbed } from './YouTubeEmbed';
 import { Footer } from './Footer';
 import { useTheme } from '../contexts/ThemeContext';
 import { DecryptedText } from './DecryptedText';
-import { ImageCarousel } from './ImageCarousel';
+import { ThumbnailSlider } from './ThumbnailSlider';
 
 interface BuildDetailProps {
   build: KeyboardBuild;
@@ -41,7 +41,7 @@ export function BuildDetail({ build, onBack }: BuildDetailProps) {
         
         <div className="space-y-8">
           <div className="fade-in">
-            <ImageCarousel images={build.images} />
+            <ThumbnailSlider images={build.images} />
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
