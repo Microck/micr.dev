@@ -1102,6 +1102,24 @@ body[data-theme="dark"] .carousel-skeleton {
   --theme-scale-small: 15vmax;
   --theme-scale-large: 900vmax;
   --theme-duration: 1.5s;
+  --expo-out: linear(
+    0 0%,
+    0.1684 2.66%,
+    0.3165 5.49%,
+    0.446 8.52%,
+    0.5581 11.78%,
+    0.6535 15.29%,
+    0.7341 19.11%,
+    0.8011 23.3%,
+    0.8557 27.93%,
+    0.8962 32.68%,
+    0.9283 38.01%,
+    0.9529 44.08%,
+    0.9711 51.14%,
+    0.9833 59.06%,
+    0.9915 68.74%,
+    1 100%
+  );
   --expo-in: linear(
     0 0%,
     0.0085 31.26%,
@@ -1123,7 +1141,7 @@ body[data-theme="dark"] .carousel-skeleton {
 }
 
 ::view-transition-group(root) {
-  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-timing-function: var(--expo-out);
 }
 
 ::view-transition-new(root) {
@@ -1134,6 +1152,12 @@ body[data-theme="dark"] .carousel-skeleton {
 
 ::view-transition-old(root),
 .dark::view-transition-old(root) {
+  animation: none;
+  animation-fill-mode: both;
+  z-index: -1;
+}
+
+.dark::view-transition-new(root) {
   animation: theme-scale var(--theme-duration);
   animation-fill-mode: both;
 }

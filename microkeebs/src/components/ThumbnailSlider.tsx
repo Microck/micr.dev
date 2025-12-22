@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils';
 
 interface ThumbnailSliderProps {
   images: string[];
+  mainImageMb?: string;
 }
 
-export function ThumbnailSlider({ images }: ThumbnailSliderProps) {
+export function ThumbnailSlider({ images, mainImageMb = '0.25rem' }: ThumbnailSliderProps) {
   const { isDark } = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -103,7 +104,8 @@ export function ThumbnailSlider({ images }: ThumbnailSliderProps) {
     <div className="w-full select-none">
       {/* Main Image Container */}
       <div 
-        className="relative w-full aspect-video overflow-hidden rounded-lg mb-1"
+        className="relative w-full aspect-video overflow-hidden rounded-lg"
+        style={{ marginBottom: mainImageMb }}
         onMouseDown={handleDragStart}
         onMouseMove={handleDragMove}
         onMouseUp={handleDragEnd}
@@ -148,8 +150,8 @@ export function ThumbnailSlider({ images }: ThumbnailSliderProps) {
                 "w-10 h-10 rounded-full flex items-center justify-center",
                 "transition-all duration-200 hover:scale-110",
                 isDark 
-                  ? "bg-[#1c1c1c]/80 text-[#a7a495] hover:bg-[#1c1c1c]" 
-                  : "bg-[#a7a495]/80 text-[#1c1c1c] hover:bg-[#a7a495]"
+                  ? "bg-[#a7a495]/90 text-[#1c1c1c] hover:bg-[#a7a495]" 
+                  : "bg-[#1c1c1c]/90 text-[#a7a495] hover:bg-[#1c1c1c]"
               )}
               aria-label="Previous slide"
             >
@@ -164,8 +166,8 @@ export function ThumbnailSlider({ images }: ThumbnailSliderProps) {
                 "w-10 h-10 rounded-full flex items-center justify-center",
                 "transition-all duration-200 hover:scale-110",
                 isDark 
-                  ? "bg-[#1c1c1c]/80 text-[#a7a495] hover:bg-[#1c1c1c]" 
-                  : "bg-[#a7a495]/80 text-[#1c1c1c] hover:bg-[#a7a495]"
+                  ? "bg-[#a7a495]/90 text-[#1c1c1c] hover:bg-[#a7a495]" 
+                  : "bg-[#1c1c1c]/90 text-[#a7a495] hover:bg-[#1c1c1c]"
               )}
               aria-label="Next slide"
             >
@@ -181,8 +183,8 @@ export function ThumbnailSlider({ images }: ThumbnailSliderProps) {
           className={cn(
             "absolute bottom-3 right-3 px-3 py-1 rounded-full text-sm font-medium z-20",
             isDark 
-              ? "bg-[#a7a495]/90 text-[#1c1c1c]" 
-              : "bg-[#1c1c1c]/90 text-[#a7a495]"
+              ? "bg-[#1c1c1c]/90 text-[#a7a495]" 
+              : "bg-[#a7a495]/90 text-[#1c1c1c]"
           )}
         >
           {currentIndex + 1} / {images.length}

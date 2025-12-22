@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollSmoother } from 'gsap/ScrollSmoother';
 import { Header } from './components/Header';
 import { BuildGallery } from './components/BuildGallery';
 import { BuildDetail } from './components/BuildDetail';
@@ -15,6 +18,8 @@ import { KeyboardBuild } from './types/Build';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { findBuildBySlug } from './utils/slugUtils';
 import builds from './data/builds.json';
+
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState('builds');
@@ -79,7 +84,11 @@ function AppContent() {
     } else {
       document.body.classList.remove('show-scrollbar');
     }
-  }, [currentPage]);
+    
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  }, [currentPage, selectedBuild]);
 
   const handleNavigate = (page: string) => {
     if (currentPage !== page) {
@@ -102,7 +111,21 @@ function AppContent() {
   };
 
   const handleBackToGallery = () => {
+    const smoother = ScrollSmoother.get();
+    if (smoother) {
+      smoother.scrollTo(0, false);
+      smoother.paused(true);
+    }
+    window.scrollTo(0, 0);
     window.location.hash = '#/builds';
+    
+    setTimeout(() => {
+      if (smoother) {
+        smoother.paused(false);
+        smoother.scrollTo(0, false);
+      }
+      ScrollTrigger.refresh(true);
+    }, 100);
   };
 
   const renderContent = () => {

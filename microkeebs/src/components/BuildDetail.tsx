@@ -14,11 +14,15 @@ interface BuildDetailProps {
 export function BuildDetail({ build, onBack }: BuildDetailProps) {
   const { isDark } = useTheme();
   
+  const titleMb = '2rem';
+  const galleryGap = '2rem';
+  const sliderMb = '0.25rem';
+  
   const specEntries = Object.entries(build.specs).filter(([, value]) => value && value !== '-');
 
   return (
     <div className={`${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} min-h-screen relative`}>
-      <div className="max-w-4xl mx-auto px-8 py-4">
+      <div className="max-w-4xl mx-auto px-8 pt-12 pb-8">
         <button
           onClick={onBack}
           className={`flex items-center space-x-2 hover:opacity-70 mb-4 transition-all duration-300 smooth-bounce cursor-target ${
@@ -29,7 +33,7 @@ export function BuildDetail({ build, onBack }: BuildDetailProps) {
           <span>Back to Gallery</span>
         </button>
         
-          <div className="mb-2">
+          <div style={{ marginBottom: titleMb }}>
             <DecryptedText 
               text={build.title}
               animateOn="view"
@@ -42,9 +46,9 @@ export function BuildDetail({ build, onBack }: BuildDetailProps) {
             />
           </div>
           
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col" style={{ gap: galleryGap }}>
             <div className="fade-in">
-              <ThumbnailSlider images={build.images} />
+              <ThumbnailSlider images={build.images} mainImageMb={sliderMb} />
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
