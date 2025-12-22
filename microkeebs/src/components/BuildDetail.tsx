@@ -13,14 +13,15 @@ interface BuildDetailProps {
 
 export function BuildDetail({ build, onBack }: BuildDetailProps) {
   const { isDark } = useTheme();
+  
   const specEntries = Object.entries(build.specs).filter(([, value]) => value && value !== '-');
 
   return (
-    <div className={`${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} min-h-screen`}>
-      <div className="max-w-4xl mx-auto px-8 py-8">
+    <div className={`${isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]'} min-h-screen relative`}>
+      <div className="max-w-4xl mx-auto px-8 py-4">
         <button
           onClick={onBack}
-          className={`flex items-center space-x-2 hover:opacity-70 mb-8 transition-all duration-300 smooth-bounce cursor-target ${
+          className={`flex items-center space-x-2 hover:opacity-70 mb-4 transition-all duration-300 smooth-bounce cursor-target ${
             isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
           }`}
         >
@@ -28,31 +29,33 @@ export function BuildDetail({ build, onBack }: BuildDetailProps) {
           <span>Back to Gallery</span>
         </button>
         
-        <DecryptedText 
-          text={build.title}
-          animateOn="view"
-          sequential={true}
-          speed={30}
-          className={`text-4xl font-bold text-center mb-12 ${
-            isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
-          }`}
-          parentClassName="block text-center mb-12"
-        />
-        
-        <div className="space-y-8">
-          <div className="fade-in">
-            <ThumbnailSlider images={build.images} />
+          <div className="mb-2">
+            <DecryptedText 
+              text={build.title}
+              animateOn="view"
+              sequential={true}
+              speed={30}
+              className={`text-4xl font-bold text-center ${
+                isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+              }`}
+              parentClassName="block text-center"
+            />
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="slide-up" style={{ animationDelay: '0.2s' }}>
-              <h2 className={`text-xl font-bold mb-4 ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>Sound Test</h2>
-              <YouTubeEmbed youtubeUrl={build.youtubeUrl} title={build.title} />
+          <div className="flex flex-col gap-4">
+            <div className="fade-in">
+              <ThumbnailSlider images={build.images} />
             </div>
             
-            <div className="slide-up" style={{ animationDelay: '0.4s' }}>
-              <h2 className={`text-xl font-bold mb-4 ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>Specifications</h2>
-              <div className="specs-list space-y-1">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="slide-up" style={{ animationDelay: '0.2s' }}>
+                <h2 className={`text-xl font-bold mb-2 ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>Sound Test</h2>
+                <YouTubeEmbed youtubeUrl={build.youtubeUrl} title={build.title} />
+              </div>
+              
+              <div className="slide-up" style={{ animationDelay: '0.4s' }}>
+                <h2 className={`text-xl font-bold mb-2 ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>Specifications</h2>
+                <div className="specs-list space-y-1">
                 {specEntries.map(([key, value], index) => (
                   <div 
                     key={key} 
