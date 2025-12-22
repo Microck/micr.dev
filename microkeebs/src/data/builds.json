@@ -1,5 +1,29 @@
 [
   {
+    "id": "XdNu4YX4PSE",
+    "title": "Leopold FC750R",
+    "youtubeTitle": "Leopold FC750R with Retooled Cherry MX Reds",
+    "category": "MX",
+    "timestamp": "2025-12-21T14:01:02Z",
+    "images": [
+      "./images/XdNu4YX4PSE/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/XdNu4YX4PSE",
+    "specs": {
+      "Keyboard": "Leopold FC750R (Red)",
+      "Keycaps": "Stock (PBT Doubleshot)",
+      "Switches": "Retooled Cherry MX Reds",
+      "Lube": "-",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Full Steel",
+      "Mount": "Tray Mount",
+      "Stabilizers": "Plate Mount with Dialectric Grease",
+      "PCB": "Stock",
+      "Others": "-"
+    }
+  },
+  {
     "id": "z0CkzudgYRo",
     "title": "Synovia R2",
     "youtubeTitle": "Synovia R2 with lubed Retooled Cherry MX Blacks",
