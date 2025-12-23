@@ -1,9 +1,12 @@
-import { Suspense } from 'react';
+import { Suspense, useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { cn } from '@/lib/utils';
 import Lanyard from './Lanyard/Lanyard';
 import LogoWall from './LogoWall';
+import { SplitText } from './SplitText';
+import { ScrollReveal } from './ScrollReveal';
+import { InteractiveDivider } from './InteractiveDivider';
 
 const aboutText = `I entered the keyboard hobby in early 2021. I was active immediately, but I didn't build my first custom board until mid-2022. That was the start of the channel. I wanted a place to catalog the keyboards passing through my hands.
 
@@ -90,33 +93,32 @@ const clients = [
 
 function AboutSection({ isDark }: { isDark: boolean }) {
   return (
-    <div className="w-full">
-      <div style={{ transform: 'translate(457px, 0px)' }} className="mb-8">
-        <motion.h1
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+    <div className="w-full flex flex-col items-end text-right">
+      <div className="mb-8 w-full max-w-4xl" style={{ transform: 'translate(122px, 1px)' }}>
+        <SplitText
+          delay={1000}
           className={cn(
-            'text-7xl sm:text-8xl md:text-9xl font-bold leading-none',
+            'text-7xl sm:text-8xl md:text-9xl font-bold leading-none text-right',
             isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
           )}
         >
           About
-        </motion.h1>
+        </SplitText>
       </div>
 
-      <div className={cn("text-xl sm:text-2xl leading-relaxed text-justify mb-12 max-w-4xl", isDark ? "text-[#a7a495]" : "text-[#1c1c1c]")}>
+      <div className={cn("text-xl sm:text-2xl leading-relaxed text-justify mb-12 max-w-4xl w-full", isDark ? "text-[#a7a495]" : "text-[#1c1c1c]")}>
         {aboutText.split('\n\n').map((paragraph, index) => {
-          let transformStyle = {};
-          if (index === 0) transformStyle = { transform: 'translate(121px, -2px)' };
-          if (index === 2) transformStyle = { transform: 'translate(200px, -1px)' };
-          if (index === 3) transformStyle = { transform: 'translate(71px, 0px)' };
-          if (index === 4) transformStyle = { transform: 'translate(128px, 4px)' };
-          
+          const transforms = [
+            'translate(121px, -2px)',
+            'none',
+            'translate(200px, -1px)',
+            'translate(71px, 0px)',
+            'translate(128px, 4px)'
+          ];
           return (
-            <p key={index} className="mb-6 last:mb-0" style={transformStyle}>
-              {paragraph}
-            </p>
+            <ScrollReveal key={index} delay={1 + index * 0.1} className="mb-6 last:mb-0">
+              <p style={{ transform: transforms[index] || 'none' }}>{paragraph}</p>
+            </ScrollReveal>
           );
         })}
       </div>
@@ -126,14 +128,14 @@ function AboutSection({ isDark }: { isDark: boolean }) {
 
 interface WorkedWithSectionProps {
   isDark: boolean;
-  fadeStart: string;
-  fadeEnd: string;
+  fadeLeft: number;
+  fadeRight: number;
 }
 
 function WorkedWithSection({ 
   isDark, 
-  fadeStart = "45", 
-  fadeEnd = "55", 
+  fadeLeft,
+  fadeRight,
 }: WorkedWithSectionProps) {
   const textColor = isDark ? '#a7a495' : '#1c1c1c';
   
@@ -191,9 +193,9 @@ function WorkedWithSection({
           bgColor="transparent"
           bgAccentColor="transparent"
           textColor={textColor}
-          gap="0px" // Using per-item margin instead
-          fadeStart={`${fadeStart}%`}
-          fadeEnd={`${fadeEnd}%`}
+          gap="0px"
+          fadeLeft={`${fadeLeft}%`}
+          fadeRight={`${fadeRight}%`}
         />
       </div>
     </div>
@@ -236,15 +238,105 @@ export function Contact() {
   const contentY = 0;
   const contentScale = 1;
 
-  const fadeStart = 42.5;
-  const fadeEnd = 57.5;
+  const [fadeLeft, setFadeLeft] = useState(42.5);
+  const [fadeRight, setFadeRight] = useState(57.5);
+  const [lanyardX, setLanyardX] = useState(-1);
+  const [lanyardY, setLanyardY] = useState(0);
+  const [lanyardZ, setLanyardZ] = useState(13);
+  const [lanyardFov, setLanyardFov] = useState(40);
+  
+  const [panelPos, setPanelPos] = useState({ x: 16, y: 16 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isDragging) return;
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      setPanelPos({ x: e.clientX - dragOffset.x, y: e.clientY - dragOffset.y });
+    };
+    const handleMouseUp = () => setIsDragging(false);
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, dragOffset]);
 
   return (
     <div className={cn('min-h-screen relative overflow-hidden', isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]')}>
+      <div 
+        ref={panelRef}
+        className="fixed z-50 bg-black/90 p-4 rounded-lg text-white text-sm max-h-[90vh] overflow-y-auto"
+        style={{ left: panelPos.x, top: panelPos.y }}
+      >
+        <div 
+          className="cursor-move mb-3 pb-2 border-b border-white/20 font-bold"
+          onMouseDown={(e) => {
+            setIsDragging(true);
+            setDragOffset({ x: e.clientX - panelPos.x, y: e.clientY - panelPos.y });
+          }}
+        >
+          Debug Panel (drag to move)
+        </div>
+        
+        <div className="mb-3">
+          <div className="font-semibold mb-1">Logo Fade</div>
+          <div className="mb-2">
+            <label>Left: {fadeLeft}%</label>
+            <input type="range" min="0" max="100" step="0.5" value={fadeLeft} 
+              onChange={(e) => setFadeLeft(Number(e.target.value))} className="w-48 block" />
+          </div>
+          <div>
+            <label>Right: {fadeRight}%</label>
+            <input type="range" min="0" max="100" step="0.5" value={fadeRight} 
+              onChange={(e) => setFadeRight(Number(e.target.value))} className="w-48 block" />
+          </div>
+        </div>
+
+        <div className="mb-3">
+          <div className="font-semibold mb-1">Lanyard Position</div>
+          <div className="mb-1">
+            <label>X: {lanyardX}</label>
+            <input type="range" min="-10" max="10" step="0.1" value={lanyardX} 
+              onChange={(e) => setLanyardX(Number(e.target.value))} className="w-48 block" />
+          </div>
+          <div className="mb-1">
+            <label>Y: {lanyardY}</label>
+            <input type="range" min="-10" max="10" step="0.1" value={lanyardY} 
+              onChange={(e) => setLanyardY(Number(e.target.value))} className="w-48 block" />
+          </div>
+          <div className="mb-1">
+            <label>Z: {lanyardZ}</label>
+            <input type="range" min="5" max="30" step="0.5" value={lanyardZ} 
+              onChange={(e) => setLanyardZ(Number(e.target.value))} className="w-48 block" />
+          </div>
+          <div>
+            <label>FOV: {lanyardFov}</label>
+            <input type="range" min="10" max="90" step="1" value={lanyardFov} 
+              onChange={(e) => setLanyardFov(Number(e.target.value))} className="w-48 block" />
+          </div>
+        </div>
+
+        <div className="text-xs text-gray-400 mt-2">
+          <div>fadeLeft: {fadeLeft}% / fadeRight: {fadeRight}%</div>
+          <div>position: [{lanyardX}, {lanyardY}, {lanyardZ}] fov: {lanyardFov}</div>
+        </div>
+      </div>
+
       <div className="absolute inset-0 pointer-events-none z-0">
         <Suspense fallback={null}>
           <div className="w-full h-full pointer-events-auto">
-            <Lanyard position={[0, 0, 13]} gravity={[0, -40, 0]} fov={40} transparent />
+            <Lanyard 
+              key={`${lanyardX}-${lanyardY}-${lanyardZ}-${lanyardFov}`}
+              position={[lanyardX, lanyardY, lanyardZ]} 
+              gravity={[0, -40, 0]} 
+              fov={lanyardFov} 
+              transparent 
+            />
           </div>
         </Suspense>
       </div>
@@ -266,10 +358,11 @@ export function Contact() {
         </div>
 
         <div className="pointer-events-auto w-full">
+          <InteractiveDivider />
           <WorkedWithSection 
             isDark={isDark} 
-            fadeStart={`${fadeStart}`}
-            fadeEnd={`${fadeEnd}`}
+            fadeLeft={fadeLeft}
+            fadeRight={fadeRight}
           />
           <GiantEmailSection isDark={isDark} />
         </div>
