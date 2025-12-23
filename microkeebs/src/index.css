@@ -1151,13 +1151,13 @@ body[data-theme="dark"] .carousel-skeleton {
 }
 
 ::view-transition-old(root),
-.dark::view-transition-old(root) {
+[data-theme="dark"]::view-transition-old(root) {
   animation: none;
   animation-fill-mode: both;
   z-index: -1;
 }
 
-.dark::view-transition-new(root) {
+[data-theme="dark"]::view-transition-new(root) {
   animation: theme-scale var(--theme-duration);
   animation-fill-mode: both;
 }
