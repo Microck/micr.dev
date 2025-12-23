@@ -14,6 +14,7 @@ import { SmoothScroll } from './components/SmoothScroll';
 import { PageTransitions } from './components/PageTransitions';
 import { TargetCursor } from './components/TargetCursor';
 import { DebugCursor } from './components/DebugCursor';
+import { AdminPage } from './components/admin';
 import { KeyboardBuild } from './types/Build';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { findBuildBySlug } from './utils/slugUtils';
@@ -43,6 +44,14 @@ function AppContent() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
+      
+      // Handle admin route
+      if (hash.startsWith('#/admin')) {
+        setCurrentPage('admin');
+        setSelectedBuild(null);
+        return;
+      }
+      
       if (hash.startsWith('#/builds/')) {
         const slugPath = hash.replace('#/builds/', '');
         const parts = slugPath.split('/');
@@ -139,6 +148,8 @@ function AppContent() {
     }
 
     switch (currentPage) {
+      case 'admin':
+        return <AdminPage />;
       case 'builds':
         return (
           <BuildGallery
