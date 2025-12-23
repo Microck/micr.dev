@@ -21,28 +21,28 @@ Now I just do what I love. I don't feel forced to make anything I don't want to 
 const clients = [
   {
     "name": "Bowl Keyboards",
-    "logo": "/workedwith/bowlkeyboards.webp",
+    "logo": `${import.meta.env.BASE_URL}workedwith/bowlkeyboards.webp`,
     "width": 7,
     "height": 10,
     "margin": 0.75
   },
   {
     "name": "Chilkey",
-    "logo": "/workedwith/chilkey.png",
+    "logo": "./workedwith/chilkey.png",
     "width": 9,
     "height": 6.5,
     "margin": 0
   },
   {
     "name": "Luminkey",
-    "logo": "/workedwith/luminkey.png",
+    "logo": "/microkeebs/workedwith/luminkey.png",
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Akko",
-    "logo": "/workedwith/akko.png",
+    "logo": "workedwith/akko.png",
     "width": 12,
     "height": 6,
     "margin": 1
