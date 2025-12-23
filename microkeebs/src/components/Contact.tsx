@@ -158,43 +158,6 @@ function WorkedWithSection({
       >
         Worked With
       </h3>
-      
-      {/* 
-          BRUTE FORCE DEBUGGING STRATEGY 
-          Rendering the first logo with 5 different path strategies side-by-side.
-          One of these MUST work.
-      */}
-      <div className="flex flex-wrap gap-4 justify-center items-center my-8 p-4 border-2 border-red-500 relative z-50 bg-white/10 backdrop-blur-md">
-        <p className="w-full text-center text-red-500 font-bold mb-2">BRUTE FORCE DEBUG</p>
-        {[
-            { label: "Relative", path: "workedwith/bowlkeyboards.webp" },
-            { label: "./Relative", path: "./workedwith/bowlkeyboards.webp" },
-            { label: "/Root", path: "/workedwith/bowlkeyboards.webp" },
-            { label: "BaseURL", path: `${import.meta.env.BASE_URL}workedwith/bowlkeyboards.webp` },
-            { label: "Hardcoded", path: "/microkeebs/workedwith/bowlkeyboards.webp" },
-            { label: "Imported", path: bowlLogo }
-        ].map((attempt, i) => (
-            <div key={i} className="flex flex-col items-center">
-                <span className="text-[10px] text-white mb-1">{attempt.label}</span>
-                {/* 1. Try as simple Image tag first (to verify path) */}
-                <img src={attempt.path} className="w-12 h-12 object-contain bg-blue-500/20 border border-blue-500 mb-1" alt="img-test" />
-                {/* 2. Try as Mask (to verify CSS) */}
-                <div 
-                    className="w-12 h-12 bg-red-500"
-                    style={{
-                        maskImage: `url("${attempt.path}")`,
-                        WebkitMaskImage: `url("${attempt.path}")`,
-                        maskSize: 'contain',
-                        WebkitMaskSize: 'contain',
-                        maskRepeat: 'no-repeat',
-                        WebkitMaskRepeat: 'no-repeat',
-                        maskPosition: 'center',
-                        WebkitMaskPosition: 'center'
-                    }}
-                />
-            </div>
-        ))}
-      </div>
 
       <div className="w-full relative">
         <LogoWall
