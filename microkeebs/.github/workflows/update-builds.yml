@@ -1,0 +1,41 @@
+name: Update Builds
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  update-content:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to commit changes
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch new builds from YouTube
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_MX_PLAYLIST_ID: ${{ secrets.YOUTUBE_MX_PLAYLIST_ID }}
+          YOUTUBE_EC_PLAYLIST_ID: ${{ secrets.YOUTUBE_EC_PLAYLIST_ID }}
+        run: node src/data/extract.js
+
+      - name: Optimize images
+        run: node src/data/optimize_images.js
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update builds and optimize images [skip ci]"
+          file_pattern: "src/data/builds.json public/images/**/*"

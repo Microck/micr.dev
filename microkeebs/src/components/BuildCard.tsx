@@ -49,6 +49,8 @@ export function BuildCard({
   const coverImage = build.images[0];
   const buildDescription = extractBuildDescription(build);
 
+  const smallThumbnail = coverImage.replace(/(\.[^.]+)$/, '_sm.webp');
+
   return (
     <div onClick={onClick} className="cursor-pointer cursor-target">
       <div className="w-full h-64 mb-4 overflow-hidden relative">
@@ -67,7 +69,7 @@ export function BuildCard({
             </div>
           </div>
           <img
-            src={coverImage}
+            src={smallThumbnail}
             alt={build.title}
             className="gallery-media__image opacity-0"
             loading="lazy"
@@ -81,6 +83,10 @@ export function BuildCard({
             }}
             onError={(e) => {
               const target = e.target as HTMLImageElement;
+              if (target.src.includes('_sm.webp')) {
+                 target.src = coverImage;
+                 return;
+              }
               target.style.display = "none";
               const placeholder = target.nextElementSibling as HTMLElement;
               if (placeholder) placeholder.style.display = "flex";
