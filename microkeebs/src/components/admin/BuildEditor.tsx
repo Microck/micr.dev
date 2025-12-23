@@ -112,7 +112,7 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
     const method = isNew ? 'POST' : 'PUT';
 
     try {
-      const res = await fetch('/.netlify/functions/admin-builds', {
+      const res = await fetch('https://micr.dev/.netlify/functions/admin-builds', {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
 
     const token = localStorage.getItem('admin_token');
     try {
-      const res = await fetch(`/.netlify/functions/admin-builds?id=${formData.id}`, {
+      const res = await fetch(`https://micr.dev/.netlify/functions/admin-builds?id=${formData.id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });

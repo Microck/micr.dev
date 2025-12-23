@@ -30,7 +30,7 @@ export function ImageUploader({ buildId, onUpload, disabled }: ImageUploaderProp
     formData.append('index', '0'); // Will be updated by parent
 
     try {
-      const res = await fetch('/.netlify/functions/admin-upload', {
+      const res = await fetch('https://micr.dev/.netlify/functions/admin-upload', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

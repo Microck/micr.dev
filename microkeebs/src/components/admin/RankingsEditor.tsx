@@ -44,7 +44,7 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
   const fetchRankings = async () => {
     const token = localStorage.getItem('admin_token');
     try {
-      const res = await fetch('/.netlify/functions/admin-rankings', {
+      const res = await fetch('https://micr.dev/.netlify/functions/admin-rankings', {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error('Failed to fetch rankings');
@@ -93,7 +93,7 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
 
     const token = localStorage.getItem('admin_token');
     try {
-      const res = await fetch('/.netlify/functions/admin-rankings', {
+      const res = await fetch('https://micr.dev/.netlify/functions/admin-rankings', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

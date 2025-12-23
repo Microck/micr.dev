@@ -25,7 +25,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
     }
 
     try {
-      const res = await fetch('/.netlify/functions/admin-auth/verify', {
+      const res = await fetch('https://micr.dev/.netlify/functions/admin-auth/verify', {
         headers: { Authorization: `Bearer ${token}` },
         credentials: 'include',
       });
@@ -38,7 +38,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem('admin_token');
-      await fetch('/.netlify/functions/admin-auth/logout', {
+      await fetch('https://micr.dev/.netlify/functions/admin-auth/logout', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         credentials: 'include',
