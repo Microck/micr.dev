@@ -122,15 +122,16 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
         <LayoutGroup>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {sortedBuilds.map((build, index) => {
-              const col = index % 3;
-              const delay = col * 0.15;
+              const isInitialLoad = index < 9;
+              const delay = isInitialLoad ? 1 + (index * 0.1) : 0;
+              
               return (
               <motion.div 
                 key={build.id} 
                 layout
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{ 
                   layout: { duration: 0.3, ease: "easeOut" },
                   opacity: { duration: 0.6, delay },
