@@ -7,6 +7,7 @@ import LogoWall from './LogoWall';
 import { SplitText } from './SplitText';
 import { ScrollReveal } from './ScrollReveal';
 import { InteractiveDivider } from './InteractiveDivider';
+import debugLogo from '@/assets/debug-logo.webp';
 
 const aboutText = `I entered the keyboard hobby in early 2021. I was active immediately, but I didn't build my first custom board until mid-2022. That was the start of the channel. I wanted a place to catalog the keyboards passing through my hands.
 
@@ -159,7 +160,8 @@ function WorkedWithSection({
             { label: "./Relative", path: "./workedwith/bowlkeyboards.webp" },
             { label: "/Root", path: "/workedwith/bowlkeyboards.webp" },
             { label: "BaseURL", path: `${import.meta.env.BASE_URL}workedwith/bowlkeyboards.webp` },
-            { label: "Hardcoded", path: "/microkeebs/workedwith/bowlkeyboards.webp" }
+            { label: "Hardcoded", path: "/microkeebs/workedwith/bowlkeyboards.webp" },
+            { label: "Imported", path: debugLogo }
         ].map((attempt, i) => (
             <div key={i} className="flex flex-col items-center">
                 <span className="text-[10px] text-white mb-1">{attempt.label}</span>
