@@ -6,11 +6,7 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-[[redirects]]
-  from = "/.netlify/functions/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
+# SPA fallback - MUST be last (force=false lets functions take precedence)
 [[redirects]]
   from = "/*"
   to = "/index.html"
