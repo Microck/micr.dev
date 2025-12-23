@@ -28,63 +28,63 @@ const clients = [
   },
   {
     "name": "Chilkey",
-    "logo": "./workedwith/chilkey.png",
+    "logo": `${import.meta.env.BASE_URL}workedwith/chilkey.png`,
     "width": 9,
     "height": 6.5,
     "margin": 0
   },
   {
     "name": "Luminkey",
-    "logo": "/microkeebs/workedwith/luminkey.png",
+    "logo": `${import.meta.env.BASE_URL}workedwith/luminkey.png`,
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Akko",
-    "logo": "workedwith/akko.png",
+    "logo": `${import.meta.env.BASE_URL}workedwith/akko.png`,
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Baionlenja",
-    "logo": "/workedwith/baionlenja.png",
+    "logo": `${import.meta.env.BASE_URL}workedwith/baionlenja.png`,
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "CtrlVLC",
-    "logo": "/workedwith/ctrlvlc.png",
+    "logo": `${import.meta.env.BASE_URL}workedwith/ctrlvlc.png`,
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "MetaKeebs",
-    "logo": "/workedwith/metakeebs.png",
+    "logo": `${import.meta.env.BASE_URL}workedwith/metakeebs.png`,
     "width": 6.5,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Monsgeek",
-    "logo": "/workedwith/monsgeek.png",
+    "logo": `${import.meta.env.BASE_URL}workedwith/monsgeek.png`,
     "width": 10,
     "height": 9,
     "margin": 0.75
   },
   {
     "name": "TKD",
-    "logo": "/workedwith/tkd.png",
+    "logo": `${import.meta.env.BASE_URL}workedwith/tkd.png`,
     "width": 6.5,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Vertex",
-    "logo": "/workedwith/vertex.png",
+    "logo": `${import.meta.env.BASE_URL}workedwith/vertex.png`,
     "width": 12,
     "height": 6,
     "margin": 1
@@ -135,6 +135,9 @@ function WorkedWithSection({
 }: WorkedWithSectionProps) {
   const textColor = isDark ? '#a7a495' : '#1c1c1c';
   
+  // Debug item
+  const debugClient = clients[0];
+
   return (
     <div className="py-4 w-full overflow-hidden">
       <h3
@@ -146,6 +149,37 @@ function WorkedWithSection({
       >
         Worked With
       </h3>
+
+      {/* Debug Section */}
+      <div className="flex flex-col items-center justify-center mb-8 border border-red-500/50 p-4 mx-auto max-w-md my-12" style={{ zIndex: 100, position: 'relative' }}>
+        <p className={cn("mb-2 text-xs", isDark ? "text-white" : "text-black")}>Path: {debugClient.logo}</p>
+        <div className="flex gap-4">
+            <div className="flex flex-col items-center">
+                <span className="text-[10px] mb-1">Mask (Red BG)</span>
+                <div 
+                    className="w-24 h-24 bg-red-500"
+                    style={{
+                        maskImage: `url("${debugClient.logo}")`,
+                        WebkitMaskImage: `url("${debugClient.logo}")`,
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center'
+                    }}
+                />
+            </div>
+            <div className="flex flex-col items-center">
+                <span className="text-[10px] mb-1">Img Tag</span>
+                <img 
+                    src={debugClient.logo} 
+                    alt="Direct debug" 
+                    className="w-24 h-24 object-contain bg-blue-500/20"
+                />
+            </div>
+        </div>
+      </div>
       
       <div className="w-full relative">
         <LogoWall
@@ -167,8 +201,8 @@ function WorkedWithSection({
                      isDark ? "bg-[#a7a495]" : "bg-black"
                    )}
                    style={{
-                     maskImage: `url(${client.logo})`,
-                     WebkitMaskImage: `url(${client.logo})`,
+                     maskImage: `url("${client.logo}")`,
+                     WebkitMaskImage: `url("${client.logo}")`,
                      maskSize: 'contain',
                      WebkitMaskSize: 'contain',
                      maskRepeat: 'no-repeat',
