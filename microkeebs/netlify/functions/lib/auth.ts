@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import type { HandlerEvent } from '@netlify/functions';
 
 // Rate limiting store (in-memory for serverless - resets on cold start)
 // For production, consider using Netlify Blobs or external store
@@ -76,15 +77,15 @@ export function verifyToken(token: string): TokenPayload | null {
   }
 }
 
-export function getTokenFromRequest(request: Request): string | null {
+export function getTokenFromEvent(event: HandlerEvent): string | null {
   // Check Authorization header
-  const authHeader = request.headers.get('Authorization');
+  const authHeader = event.headers.authorization || event.headers.Authorization;
   if (authHeader?.startsWith('Bearer ')) {
     return authHeader.slice(7);
   }
 
   // Check cookie
-  const cookieHeader = request.headers.get('Cookie');
+  const cookieHeader = event.headers.cookie || event.headers.Cookie;
   if (cookieHeader) {
     const cookies = cookieHeader.split(';').map(c => c.trim());
     const tokenCookie = cookies.find(c => c.startsWith('admin_token='));
@@ -105,17 +106,17 @@ export function clearAuthCookie(): string {
   return 'admin_token=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0';
 }
 
-export function getClientIP(request: Request): string {
-  // Netlify provides client IP in x-nf-client-connection-ip header
+export function getClientIP(event: HandlerEvent): string {
+  // Netlify provides client IP in headers
   return (
-    request.headers.get('x-nf-client-connection-ip') ||
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    event.headers['x-nf-client-connection-ip'] ||
+    event.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
     'unknown'
   );
 }
 
-export function isAuthenticated(request: Request): boolean {
-  const token = getTokenFromRequest(request);
+export function isAuthenticated(event: HandlerEvent): boolean {
+  const token = getTokenFromEvent(event);
   if (!token) return false;
   const payload = verifyToken(token);
   return payload !== null && payload.admin === true;

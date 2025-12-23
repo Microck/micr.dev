@@ -1,74 +1,69 @@
-import { isAuthenticated } from './lib/auth.js';
-import { commitMultipleFiles } from './lib/github.js';
-import { processImage, validateImage, getImagePaths } from './lib/image.js';
+import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
+import { isAuthenticated } from './lib/auth';
+import { commitMultipleFiles } from './lib/github';
+import { processImage, validateImage, getImagePaths } from './lib/image';
 
-export default async (request: Request) => {
-  const url = new URL(request.url);
+export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
   const corsHeaders = {
-    'Access-Control-Allow-Origin': url.origin,
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Credentials': 'true',
   };
 
-  if (request.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders });
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
   // Auth check
-  if (!isAuthenticated(request)) {
-    return new Response(
-      JSON.stringify({ error: 'Unauthorized' }),
-      {
-        status: 401,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+  if (!isAuthenticated(event)) {
+    return {
+      statusCode: 401,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Unauthorized' }),
+    };
   }
 
   try {
     // POST /upload - Upload and process image
-    if (request.method === 'POST') {
-      const formData = await request.formData();
-      const file = formData.get('image') as File | null;
-      const buildId = formData.get('buildId') as string | null;
-      const indexStr = formData.get('index') as string | null;
+    if (event.httpMethod === 'POST') {
+      // Parse multipart form data manually (Netlify Functions doesn't have built-in formData)
+      // For simplicity, we'll expect base64-encoded image in JSON body
+      const body = JSON.parse(event.body || '{}') as {
+        image: string; // base64
+        buildId: string;
+        index: number;
+      };
 
-      if (!file || !buildId || indexStr === null) {
-        return new Response(
-          JSON.stringify({ error: 'Missing required fields: image, buildId, index' }),
-          {
-            status: 400,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+      const { image, buildId, index } = body;
+
+      if (!image || !buildId || index === undefined) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Missing required fields: image, buildId, index' }),
+        };
       }
 
-      const index = parseInt(indexStr, 10);
-      if (isNaN(index) || index < 0) {
-        return new Response(
-          JSON.stringify({ error: 'Invalid index' }),
-          {
-            status: 400,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+      if (typeof index !== 'number' || index < 0) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid index' }),
+        };
       }
 
-      // Read file as buffer
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
+      // Decode base64 image
+      const buffer = Buffer.from(image, 'base64');
 
       // Validate image
       const validation = await validateImage(buffer);
       if (!validation.valid) {
-        return new Response(
-          JSON.stringify({ error: validation.error }),
-          {
-            status: 400,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: validation.error }),
+        };
       }
 
       // Process image
@@ -88,32 +83,28 @@ export default async (request: Request) => {
       const publicPath = paths.full.replace('public/', './');
       const thumbnailPath = paths.thumbnail.replace('public/', './');
 
-      return new Response(
-        JSON.stringify({
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           success: true,
           path: publicPath,
           thumbnail: thumbnailPath,
         }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+      };
     }
 
     // DELETE /upload?buildId=xxx&index=0 - Delete image
-    if (request.method === 'DELETE') {
-      const buildId = url.searchParams.get('buildId');
-      const indexStr = url.searchParams.get('index');
+    if (event.httpMethod === 'DELETE') {
+      const buildId = event.queryStringParameters?.buildId;
+      const indexStr = event.queryStringParameters?.index;
 
-      if (!buildId || indexStr === null) {
-        return new Response(
-          JSON.stringify({ error: 'Missing required params: buildId, index' }),
-          {
-            status: 400,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+      if (!buildId || indexStr === undefined) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Missing required params: buildId, index' }),
+        };
       }
 
       const index = parseInt(indexStr, 10);
@@ -128,30 +119,24 @@ export default async (request: Request) => {
         `Delete image: ${buildId}/${index === 0 ? 'thumbnail' : index}`
       );
 
-      return new Response(
-        JSON.stringify({ success: true }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ success: true }),
+      };
     }
 
-    return new Response(
-      JSON.stringify({ error: 'Method not allowed' }),
-      {
-        status: 405,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+    return {
+      statusCode: 405,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Method not allowed' }),
+    };
   } catch (error) {
     console.error('Upload error:', error);
-    return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+    return {
+      statusCode: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Internal server error' }),
+    };
   }
 };

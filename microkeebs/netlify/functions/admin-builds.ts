@@ -1,5 +1,6 @@
-import { isAuthenticated } from './lib/auth.js';
-import { getFileContent, createOrUpdateFile } from './lib/github.js';
+import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
+import { isAuthenticated } from './lib/auth';
+import { getFileContent, createOrUpdateFile } from './lib/github';
 
 interface KeyboardBuild {
   id: string;
@@ -14,67 +15,58 @@ interface KeyboardBuild {
 
 const BUILDS_PATH = 'src/data/builds.json';
 
-export default async (request: Request) => {
-  const url = new URL(request.url);
+export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
   const corsHeaders = {
-    'Access-Control-Allow-Origin': url.origin,
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Credentials': 'true',
   };
 
-  if (request.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders });
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
   // Auth check for all non-OPTIONS requests
-  if (!isAuthenticated(request)) {
-    return new Response(
-      JSON.stringify({ error: 'Unauthorized' }),
-      {
-        status: 401,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+  if (!isAuthenticated(event)) {
+    return {
+      statusCode: 401,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Unauthorized' }),
+    };
   }
 
   try {
     // GET /builds - List all builds
-    if (request.method === 'GET') {
+    if (event.httpMethod === 'GET') {
       const file = await getFileContent(BUILDS_PATH);
       if (!file) {
-        return new Response(
-          JSON.stringify({ builds: [], sha: null }),
-          {
-            status: 200,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 200,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ builds: [], sha: null }),
+        };
       }
 
       const builds = JSON.parse(file.content) as KeyboardBuild[];
-      return new Response(
-        JSON.stringify({ builds, sha: file.sha }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ builds, sha: file.sha }),
+      };
     }
 
     // POST /builds - Create new build
-    if (request.method === 'POST') {
-      const body = await request.json() as { build: Partial<KeyboardBuild> };
+    if (event.httpMethod === 'POST') {
+      const body = JSON.parse(event.body || '{}') as { build: Partial<KeyboardBuild> };
       const { build } = body;
 
       if (!build.id || !build.title || !build.category) {
-        return new Response(
-          JSON.stringify({ error: 'Missing required fields: id, title, category' }),
-          {
-            status: 400,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Missing required fields: id, title, category' }),
+        };
       }
 
       // Get current builds
@@ -83,13 +75,11 @@ export default async (request: Request) => {
 
       // Check for duplicate ID
       if (builds.some(b => b.id === build.id)) {
-        return new Response(
-          JSON.stringify({ error: 'Build with this ID already exists' }),
-          {
-            status: 409,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 409,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Build with this ID already exists' }),
+        };
       }
 
       // Create new build with defaults
@@ -115,53 +105,45 @@ export default async (request: Request) => {
         file?.sha
       );
 
-      return new Response(
-        JSON.stringify({ build: newBuild, sha: result.sha }),
-        {
-          status: 201,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+      return {
+        statusCode: 201,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ build: newBuild, sha: result.sha }),
+      };
     }
 
     // PUT /builds - Update existing build
-    if (request.method === 'PUT') {
-      const body = await request.json() as { build: KeyboardBuild; sha?: string };
+    if (event.httpMethod === 'PUT') {
+      const body = JSON.parse(event.body || '{}') as { build: KeyboardBuild; sha?: string };
       const { build, sha } = body;
 
       if (!build.id) {
-        return new Response(
-          JSON.stringify({ error: 'Build ID required' }),
-          {
-            status: 400,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Build ID required' }),
+        };
       }
 
       // Get current builds
       const file = await getFileContent(BUILDS_PATH);
       if (!file) {
-        return new Response(
-          JSON.stringify({ error: 'Builds file not found' }),
-          {
-            status: 404,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Builds file not found' }),
+        };
       }
 
       const builds: KeyboardBuild[] = JSON.parse(file.content);
       const index = builds.findIndex(b => b.id === build.id);
 
       if (index === -1) {
-        return new Response(
-          JSON.stringify({ error: 'Build not found' }),
-          {
-            status: 404,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Build not found' }),
+        };
       }
 
       // Update build
@@ -175,52 +157,44 @@ export default async (request: Request) => {
         sha || file.sha
       );
 
-      return new Response(
-        JSON.stringify({ build, sha: result.sha }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ build, sha: result.sha }),
+      };
     }
 
     // DELETE /builds?id=xxx - Delete build
-    if (request.method === 'DELETE') {
-      const buildId = url.searchParams.get('id');
+    if (event.httpMethod === 'DELETE') {
+      const buildId = event.queryStringParameters?.id;
       
       if (!buildId) {
-        return new Response(
-          JSON.stringify({ error: 'Build ID required' }),
-          {
-            status: 400,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Build ID required' }),
+        };
       }
 
       // Get current builds
       const file = await getFileContent(BUILDS_PATH);
       if (!file) {
-        return new Response(
-          JSON.stringify({ error: 'Builds file not found' }),
-          {
-            status: 404,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Builds file not found' }),
+        };
       }
 
       const builds: KeyboardBuild[] = JSON.parse(file.content);
       const index = builds.findIndex(b => b.id === buildId);
 
       if (index === -1) {
-        return new Response(
-          JSON.stringify({ error: 'Build not found' }),
-          {
-            status: 404,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Build not found' }),
+        };
       }
 
       const deletedBuild = builds[index];
@@ -234,30 +208,24 @@ export default async (request: Request) => {
         file.sha
       );
 
-      return new Response(
-        JSON.stringify({ success: true, sha: result.sha }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ success: true, sha: result.sha }),
+      };
     }
 
-    return new Response(
-      JSON.stringify({ error: 'Method not allowed' }),
-      {
-        status: 405,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+    return {
+      statusCode: 405,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Method not allowed' }),
+    };
   } catch (error) {
     console.error('Builds error:', error);
-    return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+    return {
+      statusCode: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Internal server error' }),
+    };
   }
 };

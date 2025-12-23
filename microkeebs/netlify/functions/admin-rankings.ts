@@ -1,5 +1,6 @@
-import { isAuthenticated } from './lib/auth.js';
-import { getFileContent, createOrUpdateFile } from './lib/github.js';
+import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
+import { isAuthenticated } from './lib/auth';
+import { getFileContent, createOrUpdateFile } from './lib/github';
 
 interface Rankings {
   all: string[];
@@ -12,33 +13,30 @@ interface Rankings {
 
 const RANKINGS_PATH = 'src/data/rankings.json';
 
-export default async (request: Request) => {
-  const url = new URL(request.url);
+export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
   const corsHeaders = {
-    'Access-Control-Allow-Origin': url.origin,
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Credentials': 'true',
   };
 
-  if (request.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders });
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
   // Auth check for all non-OPTIONS requests
-  if (!isAuthenticated(request)) {
-    return new Response(
-      JSON.stringify({ error: 'Unauthorized' }),
-      {
-        status: 401,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+  if (!isAuthenticated(event)) {
+    return {
+      statusCode: 401,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Unauthorized' }),
+    };
   }
 
   try {
     // GET /rankings - Get all rankings
-    if (request.method === 'GET') {
+    if (event.httpMethod === 'GET') {
       const file = await getFileContent(RANKINGS_PATH);
       if (!file) {
         const emptyRankings: Rankings = {
@@ -49,51 +47,43 @@ export default async (request: Request) => {
           mechanical: [],
           electrocapacitive: [],
         };
-        return new Response(
-          JSON.stringify({ rankings: emptyRankings, sha: null }),
-          {
-            status: 200,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 200,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rankings: emptyRankings, sha: null }),
+        };
       }
 
       const rankings = JSON.parse(file.content) as Rankings;
-      return new Response(
-        JSON.stringify({ rankings, sha: file.sha }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rankings, sha: file.sha }),
+      };
     }
 
     // PUT /rankings - Update rankings
-    if (request.method === 'PUT') {
-      const body = await request.json() as { rankings: Rankings; sha?: string };
+    if (event.httpMethod === 'PUT') {
+      const body = JSON.parse(event.body || '{}') as { rankings: Rankings; sha?: string };
       const { rankings, sha } = body;
 
       if (!rankings) {
-        return new Response(
-          JSON.stringify({ error: 'Rankings data required' }),
-          {
-            status: 400,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Rankings data required' }),
+        };
       }
 
       // Validate structure
       const requiredKeys: (keyof Rankings)[] = ['all', 'look', 'sound', 'feel', 'mechanical', 'electrocapacitive'];
       for (const key of requiredKeys) {
         if (!Array.isArray(rankings[key])) {
-          return new Response(
-            JSON.stringify({ error: `Invalid rankings: ${key} must be an array` }),
-            {
-              status: 400,
-              headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-            }
-          );
+          return {
+            statusCode: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ error: `Invalid rankings: ${key} must be an array` }),
+          };
         }
       }
 
@@ -108,30 +98,24 @@ export default async (request: Request) => {
         sha || file?.sha
       );
 
-      return new Response(
-        JSON.stringify({ rankings, sha: result.sha }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rankings, sha: result.sha }),
+      };
     }
 
-    return new Response(
-      JSON.stringify({ error: 'Method not allowed' }),
-      {
-        status: 405,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+    return {
+      statusCode: 405,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Method not allowed' }),
+    };
   } catch (error) {
     console.error('Rankings error:', error);
-    return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+    return {
+      statusCode: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Internal server error' }),
+    };
   }
 };
