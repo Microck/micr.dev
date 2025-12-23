@@ -5,6 +5,10 @@
 [build]
   command = "cd microkeebs && npm install && npm run build"
   publish = "."
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
   
 # --- ANONQ PROXY ---
 [[redirects]]
