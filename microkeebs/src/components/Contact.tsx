@@ -21,70 +21,70 @@ Now I just do what I love. I don't feel forced to make anything I don't want to 
 const clients = [
   {
     "name": "Bowl Keyboards",
-    "logo": "/microkeebs/workedwith/bowlkeyboards.webp",
+    "logo": "/workedwith/bowlkeyboards.webp",
     "width": 7,
     "height": 10,
     "margin": 0.75
   },
   {
     "name": "Chilkey",
-    "logo": "/microkeebs/workedwith/chilkey.png",
+    "logo": "/workedwith/chilkey.png",
     "width": 9,
     "height": 6.5,
     "margin": 0
   },
   {
     "name": "Luminkey",
-    "logo": "/microkeebs/workedwith/luminkey.png",
+    "logo": "/workedwith/luminkey.png",
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Akko",
-    "logo": "/microkeebs/workedwith/akko.png",
+    "logo": "/workedwith/akko.png",
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Baionlenja",
-    "logo": "/microkeebs/workedwith/baionlenja.png",
+    "logo": "/workedwith/baionlenja.png",
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "CtrlVLC",
-    "logo": "/microkeebs/workedwith/ctrlvlc.png",
+    "logo": "/workedwith/ctrlvlc.png",
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "MetaKeebs",
-    "logo": "/microkeebs/workedwith/metakeebs.png",
+    "logo": "/workedwith/metakeebs.png",
     "width": 6.5,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Monsgeek",
-    "logo": "/microkeebs/workedwith/monsgeek.png",
+    "logo": "/workedwith/monsgeek.png",
     "width": 10,
     "height": 9,
     "margin": 0.75
   },
   {
     "name": "TKD",
-    "logo": "/microkeebs/workedwith/tkd.png",
+    "logo": "/workedwith/tkd.png",
     "width": 6.5,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Vertex",
-    "logo": "/microkeebs/workedwith/vertex.png",
+    "logo": "/workedwith/vertex.png",
     "width": 12,
     "height": 6,
     "margin": 1
