@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { cn } from '@/lib/utils';
@@ -199,13 +199,13 @@ function WorkedWithSection({
 }
 
 function GiantEmailSection({ isDark }: { isDark: boolean }) {
-  const [emailSize, setEmailSize] = useState(11.7);
-  const [posX, setPosX] = useState(-7);
-  const [posY, setPosY] = useState(0);
-  const [marginTop, setMarginTop] = useState(0);
-  const [marginBottom, setMarginBottom] = useState(-15);
-  const [marginLeft, setMarginLeft] = useState(0);
-  const [marginRight, setMarginRight] = useState(0);
+  const emailSize = 11.7;
+  const posX = -7;
+  const posY = 0;
+  const marginTop = 0;
+  const marginBottom = -15;
+  const marginLeft = 0;
+  const marginRight = 0;
 
   return (
     <div className="w-full mt-16 overflow-visible">
@@ -230,101 +230,6 @@ function GiantEmailSection({ isDark }: { isDark: boolean }) {
       >
         contact@micr.dev
       </motion.a>
-      
-      <div className="fixed bottom-4 right-4 z-50 bg-black/80 p-4 rounded text-white font-mono text-xs pointer-events-auto max-h-[80vh] overflow-y-auto">
-        <div className="flex flex-col gap-4">
-          <label className="flex flex-col gap-1">
-            <span className="flex justify-between"><span>Size (vw)</span> <span>{emailSize}</span></span>
-            <input
-              type="range"
-              min="5"
-              max="20"
-              step="0.1"
-              value={emailSize}
-              onChange={(e) => setEmailSize(parseFloat(e.target.value))}
-              className="w-48 cursor-pointer"
-            />
-          </label>
-
-          <label className="flex flex-col gap-1">
-            <span className="flex justify-between"><span>Pos X (px)</span> <span>{posX}</span></span>
-            <input
-              type="range"
-              min="-200"
-              max="200"
-              step="1"
-              value={posX}
-              onChange={(e) => setPosX(parseFloat(e.target.value))}
-              className="w-48 cursor-pointer"
-            />
-          </label>
-
-          <label className="flex flex-col gap-1">
-            <span className="flex justify-between"><span>Pos Y (px)</span> <span>{posY}</span></span>
-            <input
-              type="range"
-              min="-200"
-              max="200"
-              step="1"
-              value={posY}
-              onChange={(e) => setPosY(parseFloat(e.target.value))}
-              className="w-48 cursor-pointer"
-            />
-          </label>
-
-          <label className="flex flex-col gap-1">
-            <span className="flex justify-between"><span>Margin Top (px)</span> <span>{marginTop}</span></span>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              step="1"
-              value={marginTop}
-              onChange={(e) => setMarginTop(parseFloat(e.target.value))}
-              className="w-48 cursor-pointer"
-            />
-          </label>
-
-          <label className="flex flex-col gap-1">
-            <span className="flex justify-between"><span>Margin Bottom (px)</span> <span>{marginBottom}</span></span>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              step="1"
-              value={marginBottom}
-              onChange={(e) => setMarginBottom(parseFloat(e.target.value))}
-              className="w-48 cursor-pointer"
-            />
-          </label>
-
-          <label className="flex flex-col gap-1">
-            <span className="flex justify-between"><span>Margin Left (px)</span> <span>{marginLeft}</span></span>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              step="1"
-              value={marginLeft}
-              onChange={(e) => setMarginLeft(parseFloat(e.target.value))}
-              className="w-48 cursor-pointer"
-            />
-          </label>
-
-          <label className="flex flex-col gap-1">
-            <span className="flex justify-between"><span>Margin Right (px)</span> <span>{marginRight}</span></span>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              step="1"
-              value={marginRight}
-              onChange={(e) => setMarginRight(parseFloat(e.target.value))}
-              className="w-48 cursor-pointer"
-            />
-          </label>
-        </div>
-      </div>
     </div>
   );
 }
