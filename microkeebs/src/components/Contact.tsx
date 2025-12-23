@@ -109,7 +109,7 @@ const clients = [
     "width": 12,
     "height": 6,
     "margin": 1,
-    "link": "https://vertex-keyboard.com/"
+    "link": "https://www.instagram.com/vtxengine"
   }
 ];
 
@@ -118,7 +118,7 @@ function AboutSection({ isDark }: { isDark: boolean }) {
     <div className="w-full flex flex-col items-end text-right">
       <div className="mb-8 w-full max-w-4xl" style={{ transform: 'translate(122px, 1px)' }}>
         <SplitText
-          delay={1000}
+          delay={0}
           className={cn(
             'text-7xl sm:text-8xl md:text-9xl font-bold leading-none text-right',
             isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
@@ -138,7 +138,7 @@ function AboutSection({ isDark }: { isDark: boolean }) {
             'translate(128px, 4px)'
           ];
           return (
-            <ScrollReveal key={index} delay={1 + index * 0.2} className="mb-6 last:mb-0">
+            <ScrollReveal key={index} delay={index * 0.1} className="mb-6 last:mb-0">
               <p style={{ transform: transforms[index] || 'none' }}>{paragraph}</p>
             </ScrollReveal>
           );
