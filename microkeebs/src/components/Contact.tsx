@@ -135,7 +135,7 @@ function WorkedWithSection({
 }: WorkedWithSectionProps) {
   const textColor = isDark ? '#a7a495' : '#1c1c1c';
   
-  // Debug item
+  // Debug item - Necessary for debugging the path issue in production
   const debugClient = clients[0];
 
   return (
@@ -150,32 +150,44 @@ function WorkedWithSection({
         Worked With
       </h3>
 
-      {/* Debug Section */}
-      <div className="flex flex-col items-center justify-center mb-8 border border-red-500/50 p-4 mx-auto max-w-md my-12" style={{ zIndex: 100, position: 'relative' }}>
-        <p className={cn("mb-2 text-xs", isDark ? "text-white" : "text-black")}>Path: {debugClient.logo}</p>
-        <div className="flex gap-4">
-            <div className="flex flex-col items-center">
-                <span className="text-[10px] mb-1">Mask (Red BG)</span>
-                <div 
-                    className="w-24 h-24 bg-red-500"
-                    style={{
-                        maskImage: `url("${debugClient.logo}")`,
-                        WebkitMaskImage: `url("${debugClient.logo}")`,
-                        maskSize: 'contain',
-                        WebkitMaskSize: 'contain',
-                        maskRepeat: 'no-repeat',
-                        WebkitMaskRepeat: 'no-repeat',
-                        maskPosition: 'center',
-                        WebkitMaskPosition: 'center'
-                    }}
-                />
-            </div>
-            <div className="flex flex-col items-center">
-                <span className="text-[10px] mb-1">Img Tag</span>
+      {/* Debug Section - Necessary for visualizing path attempts in production environment */}
+      <div className="flex flex-col items-center justify-center mb-8 border border-red-500/50 p-4 mx-auto max-w-md my-12 bg-white/5 backdrop-blur-sm" style={{ zIndex: 100, position: 'relative' }}>
+        <p className="mb-4 text-xs font-bold text-red-500">PATH FINDER DEBUG</p>
+        
+        <div className="flex flex-col gap-4 w-full">
+            <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-2">
+                <div className="flex flex-col max-w-[150px]">
+                    <span className="text-[10px] text-gray-400">Attempt 1: BASE_URL</span>
+                    <span className="text-[10px] break-all font-mono">{debugClient.logo}</span>
+                </div>
                 <img 
                     src={debugClient.logo} 
-                    alt="Direct debug" 
-                    className="w-24 h-24 object-contain bg-blue-500/20"
+                    alt="Broken 1" 
+                    className="w-12 h-12 object-contain bg-blue-500/20 border border-blue-500"
+                />
+            </div>
+
+            <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-2">
+                <div className="flex flex-col max-w-[150px]">
+                    <span className="text-[10px] text-gray-400">Attempt 2: /workedwith/...</span>
+                    <span className="text-[10px] break-all font-mono">/workedwith/bowlkeyboards.webp</span>
+                </div>
+                <img 
+                    src="/workedwith/bowlkeyboards.webp" 
+                    alt="Broken 2" 
+                    className="w-12 h-12 object-contain bg-green-500/20 border border-green-500"
+                />
+            </div>
+
+            <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col max-w-[150px]">
+                    <span className="text-[10px] text-gray-400">Attempt 3: workedwith/...</span>
+                    <span className="text-[10px] break-all font-mono">workedwith/bowlkeyboards.webp</span>
+                </div>
+                <img 
+                    src="workedwith/bowlkeyboards.webp" 
+                    alt="Broken 3" 
+                    className="w-12 h-12 object-contain bg-yellow-500/20 border border-yellow-500"
                 />
             </div>
         </div>
