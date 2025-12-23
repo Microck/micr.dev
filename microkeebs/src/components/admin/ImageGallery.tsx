@@ -40,7 +40,7 @@ export function ImageGallery({ images, onReorder, onDelete }: ImageGalleryProps)
           )}
         >
           <img
-            src={image.replace('./', '/')}
+            src={image.replace('./', import.meta.env.BASE_URL)}
             alt={`Image ${index + 1}`}
             className="w-full aspect-video object-cover"
           />

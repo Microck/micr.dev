@@ -131,7 +131,7 @@ export function BuildsList({ onSelectBuild }: BuildsListProps) {
           >
             {build.images[0] && (
               <img
-                src={build.images[0].replace('./', '/')}
+                src={build.images[0].replace('./', import.meta.env.BASE_URL)}
                 alt={build.title}
                 className="w-full aspect-video object-cover rounded mb-2"
               />
