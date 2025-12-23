@@ -3,7 +3,7 @@
 # =============================================================================
 
 [build]
-  command = "cd microkeebs && npm install && npm run build"
+  command = "cd netlify/functions && npm install && cd ../../microkeebs && npm install && npm run build"
   publish = "."
 
 [functions]

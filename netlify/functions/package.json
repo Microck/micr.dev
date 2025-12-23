@@ -1,0 +1,8 @@
+{
+  "name": "micr-dev-functions",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@netlify/functions": "^2.4.0"
+  }
+}
