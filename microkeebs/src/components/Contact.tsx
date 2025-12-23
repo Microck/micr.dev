@@ -36,70 +36,80 @@ const clients = [
     "logo": bowlLogo,
     "width": 7,
     "height": 10,
-    "margin": 0.75
+    "margin": 0.4,
+    "link": "https://www.instagram.com/bowlkeyboards/"
   },
   {
     "name": "Chilkey",
     "logo": chilkeyLogo,
     "width": 9,
     "height": 6.5,
-    "margin": 0
+    "margin": 0,
+    "link": "https://chilkey.com/"
   },
   {
     "name": "Luminkey",
     "logo": luminkeyLogo,
     "width": 12,
     "height": 6,
-    "margin": 1
+    "margin": 1,
+    "link": "https://luminkey.com/"
   },
   {
     "name": "Akko",
     "logo": akkoLogo,
     "width": 12,
     "height": 6,
-    "margin": 1
+    "margin": 1,
+    "link": "https://en.akkogear.com/"
   },
   {
     "name": "Baionlenja",
     "logo": baionLogo,
     "width": 12,
     "height": 6,
-    "margin": 1
+    "margin": 1,
+    "link": "https://baionlenja.com/"
   },
   {
     "name": "CtrlVLC",
     "logo": ctrlvlcLogo,
     "width": 12,
     "height": 6,
-    "margin": 1
+    "margin": 1,
+    "link": "https://ctrlvlc.com/"
   },
   {
     "name": "MetaKeebs",
     "logo": metakeebsLogo,
     "width": 6.5,
     "height": 6,
-    "margin": 1
+    "margin": 1,
+    "link": "https://metakeebs.com/"
   },
   {
     "name": "Monsgeek",
     "logo": monsgeekLogo,
     "width": 10,
     "height": 9,
-    "margin": 0.75
+    "margin": 0.75,
+    "link": "https://www.monsgeek.com/"
   },
   {
     "name": "TKD",
     "logo": tkdLogo,
     "width": 6.5,
     "height": 6,
-    "margin": 1
+    "margin": 1,
+    "link": "https://tkd.com/"
   },
   {
     "name": "Vertex",
     "logo": vertexLogo,
     "width": 12,
     "height": 6,
-    "margin": 1
+    "margin": 1,
+    "link": "https://vertex-keyboard.com/"
   }
 ];
 
@@ -128,7 +138,7 @@ function AboutSection({ isDark }: { isDark: boolean }) {
             'translate(128px, 4px)'
           ];
           return (
-            <ScrollReveal key={index} delay={1 + index * 0.1} className="mb-6 last:mb-0">
+            <ScrollReveal key={index} delay={1 + index * 0.2} className="mb-6 last:mb-0">
               <p style={{ transform: transforms[index] || 'none' }}>{paragraph}</p>
             </ScrollReveal>
           );
@@ -163,9 +173,12 @@ function WorkedWithSection({
         <LogoWall
           items={clients.map((client) => {
             return (
-              <div 
+              <a 
+                href={client.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 key={client.name} 
-                className="flex items-center justify-center transition-all duration-300"
+                className="flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
                 style={{ 
                   height: `${client.height}rem`, 
                   width: `${client.width}rem`,
@@ -191,7 +204,7 @@ function WorkedWithSection({
                    role="img"
                    aria-label={client.name}
                  />
-              </div>
+              </a>
             );
           })}
           direction="horizontal"
