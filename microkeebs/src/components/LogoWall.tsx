@@ -8,12 +8,12 @@ interface MagneticProps {
   className?: string;
 }
 
-const Magnetic = ({ children, strength = 0.5, range = 100, className = "" }: MagneticProps) => {
+const Magnetic = ({ children, strength = 0.2, range = 50, className = "" }: MagneticProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const springConfig = { damping: 15, stiffness: 150, mass: 0.1 };
+  const springConfig = { damping: 20, stiffness: 100, mass: 0.5 };
   const springX = useSpring(x, springConfig);
   const springY = useSpring(y, springConfig);
 
@@ -48,8 +48,12 @@ const Magnetic = ({ children, strength = 0.5, range = 100, className = "" }: Mag
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY }}
-      className={className}
+      drag
+      dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+      dragElastic={0.2}
+      whileDrag={{ cursor: "grabbing" }}
+      style={{ x: springX, y: springY, touchAction: "none" }}
+      className={`${className} cursor-grab`}
     >
       {children}
     </motion.div>

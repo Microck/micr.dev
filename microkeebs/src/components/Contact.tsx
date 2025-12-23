@@ -17,7 +17,6 @@ import baionLogo from '@/assets/workedwith/baionlenja.png';
 import ctrlvlcLogo from '@/assets/workedwith/ctrlvlc.png';
 import metakeebsLogo from '@/assets/workedwith/metakeebs.png';
 import monsgeekLogo from '@/assets/workedwith/monsgeek.png';
-import tkdLogo from '@/assets/workedwith/tkd.png';
 import vertexLogo from '@/assets/workedwith/vertex.png';
 
 const aboutText = `I entered the keyboard hobby in early 2021. I was active immediately, but I didn't build my first custom board until mid-2022. That was the start of the channel. I wanted a place to catalog the keyboards passing through my hands.
@@ -37,7 +36,7 @@ const clients = [
     "width": 7,
     "height": 10,
     "margin": 0.4,
-    "link": "https://www.instagram.com/bowlkeyboards/"
+    "link": "https://bowlkeyboards.com/"
   },
   {
     "name": "Chilkey",
@@ -69,7 +68,7 @@ const clients = [
     "width": 12,
     "height": 6,
     "margin": 1,
-    "link": "https://baionlenja.com/"
+    "link": "https://www.instagram.com/baionlenja/"
   },
   {
     "name": "CtrlVLC",
@@ -77,7 +76,7 @@ const clients = [
     "width": 12,
     "height": 6,
     "margin": 1,
-    "link": "https://ctrlvlc.com/"
+    "link": "https://www.instagram.com/ctrl.vlc/"
   },
   {
     "name": "MetaKeebs",
@@ -94,14 +93,6 @@ const clients = [
     "height": 9,
     "margin": 0.75,
     "link": "https://www.monsgeek.com/"
-  },
-  {
-    "name": "TKD",
-    "logo": tkdLogo,
-    "width": 6.5,
-    "height": 6,
-    "margin": 1,
-    "link": "https://tkd.com/"
   },
   {
     "name": "Vertex",

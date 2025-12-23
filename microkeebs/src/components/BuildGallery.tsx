@@ -123,7 +123,7 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {sortedBuilds.map((build, index) => {
               const isInitialLoad = index < 9;
-              const delay = isInitialLoad ? 1 + (index * 0.1) : 0;
+              const delay = isInitialLoad ? index * 0.1 : 0;
               
               return (
               <motion.div 
