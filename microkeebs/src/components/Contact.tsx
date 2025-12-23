@@ -138,10 +138,10 @@ function WorkedWithSection({
   const textColor = isDark ? '#a7a495' : '#1c1c1c';
   
   return (
-    <div className="py-12 w-full overflow-hidden">
+    <div className="py-4 w-full overflow-hidden">
       <h3
         className={cn(
-          'text-sm font-light mb-8 text-center uppercase tracking-[0.3em] mt-48',
+          'text-sm font-light mb-4 text-center uppercase tracking-[0.3em] mt-32',
           isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
         )}
         style={{ transform: 'translate(0px, 42px)' }}
