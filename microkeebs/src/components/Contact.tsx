@@ -17,7 +17,7 @@ import baionLogo from '@/assets/workedwith/baionlenja.png';
 import ctrlvlcLogo from '@/assets/workedwith/ctrlvlc.png';
 import metakeebsLogo from '@/assets/workedwith/metakeebs.png';
 import monsgeekLogo from '@/assets/workedwith/monsgeek.png';
-import vertexLogo from '@/assets/workedwith/vertex.png';
+import tkdLogo from '@/assets/workedwith/tkd.png';
 
 const aboutText = `I entered the keyboard hobby in early 2021. I was active immediately, but I didn't build my first custom board until mid-2022. That was the start of the channel. I wanted a place to catalog the keyboards passing through my hands.
 
@@ -30,6 +30,14 @@ It led to burnout. Build videos took days to finish but received little support.
 Now I just do what I love. I don't feel forced to make anything I don't want to make. This freedom helped me develop a personal style and improve my output. I record everything on an iPhone these days. If you hadn't noticed, that is a sign I am doing a good job. I plan to keep this mindset for the boards to come.`;
 
 const clients = [
+  {
+    "name": "TKD",
+    "logo": tkdLogo,
+    "width": 10,
+    "height": 6,
+    "margin": 1,
+    "link": ""
+  },
   {
     "name": "Bowl Keyboards",
     "logo": bowlLogo,
