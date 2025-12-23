@@ -7,7 +7,18 @@ import LogoWall from './LogoWall';
 import { SplitText } from './SplitText';
 import { ScrollReveal } from './ScrollReveal';
 import { InteractiveDivider } from './InteractiveDivider';
-import debugLogo from '@/assets/debug-logo.webp';
+
+// Import logos directly for Vite processing
+import bowlLogo from '@/assets/workedwith/bowlkeyboards.webp';
+import chilkeyLogo from '@/assets/workedwith/chilkey.png';
+import luminkeyLogo from '@/assets/workedwith/luminkey.png';
+import akkoLogo from '@/assets/workedwith/akko.png';
+import baionLogo from '@/assets/workedwith/baionlenja.png';
+import ctrlvlcLogo from '@/assets/workedwith/ctrlvlc.png';
+import metakeebsLogo from '@/assets/workedwith/metakeebs.png';
+import monsgeekLogo from '@/assets/workedwith/monsgeek.png';
+import tkdLogo from '@/assets/workedwith/tkd.png';
+import vertexLogo from '@/assets/workedwith/vertex.png';
 
 const aboutText = `I entered the keyboard hobby in early 2021. I was active immediately, but I didn't build my first custom board until mid-2022. That was the start of the channel. I wanted a place to catalog the keyboards passing through my hands.
 
@@ -22,70 +33,70 @@ Now I just do what I love. I don't feel forced to make anything I don't want to 
 const clients = [
   {
     "name": "Bowl Keyboards",
-    "logo": "workedwith/bowlkeyboards.webp",
+    "logo": bowlLogo,
     "width": 7,
     "height": 10,
     "margin": 0.75
   },
   {
     "name": "Chilkey",
-    "logo": "workedwith/chilkey.png",
+    "logo": chilkeyLogo,
     "width": 9,
     "height": 6.5,
     "margin": 0
   },
   {
     "name": "Luminkey",
-    "logo": "workedwith/luminkey.png",
+    "logo": luminkeyLogo,
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Akko",
-    "logo": "workedwith/akko.png",
+    "logo": akkoLogo,
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Baionlenja",
-    "logo": "workedwith/baionlenja.png",
+    "logo": baionLogo,
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "CtrlVLC",
-    "logo": "workedwith/ctrlvlc.png",
+    "logo": ctrlvlcLogo,
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "MetaKeebs",
-    "logo": "workedwith/metakeebs.png",
+    "logo": metakeebsLogo,
     "width": 6.5,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Monsgeek",
-    "logo": "workedwith/monsgeek.png",
+    "logo": monsgeekLogo,
     "width": 10,
     "height": 9,
     "margin": 0.75
   },
   {
     "name": "TKD",
-    "logo": "workedwith/tkd.png",
+    "logo": tkdLogo,
     "width": 6.5,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Vertex",
-    "logo": "workedwith/vertex.png",
+    "logo": vertexLogo,
     "width": 12,
     "height": 6,
     "margin": 1
@@ -161,7 +172,7 @@ function WorkedWithSection({
             { label: "/Root", path: "/workedwith/bowlkeyboards.webp" },
             { label: "BaseURL", path: `${import.meta.env.BASE_URL}workedwith/bowlkeyboards.webp` },
             { label: "Hardcoded", path: "/microkeebs/workedwith/bowlkeyboards.webp" },
-            { label: "Imported", path: debugLogo }
+            { label: "Imported", path: bowlLogo }
         ].map((attempt, i) => (
             <div key={i} className="flex flex-col items-center">
                 <span className="text-[10px] text-white mb-1">{attempt.label}</span>
