@@ -6,6 +6,7 @@ import { TrophyIcon } from '@/components/ui/trophy';
 import { EyeIcon } from '@/components/ui/eye';
 import { AudioLinesIcon } from '@/components/ui/audio-lines';
 import { HandIcon } from '@/components/ui/hand';
+import { LineSwap } from './LineSwap';
 import builds from '../data/builds.json';
 import rankings from '../data/rankings.json';
 import gsap from 'gsap';
@@ -124,7 +125,9 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
                   }}
                 />
               </div>
-              <span className={`font-normal text-base ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} relative z-10`}>{build.title}</span>
+              <span className={`font-normal text-base ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} relative z-10`}>
+                <LineSwap text={build.title} />
+              </span>
             </div>
             {index < rankings.length - 1 && (
               <div className={`border-b mx-3 ${

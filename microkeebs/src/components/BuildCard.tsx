@@ -2,7 +2,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { KeyboardBuild } from "../types/Build";
 import { useTheme } from "../contexts/ThemeContext";
 // import { DecryptedText } from "./DecryptedText";
-import { TextType } from "./TextType";
+// import { TextType } from "./TextType";
+import { LineSwap } from "./LineSwap";
 
 interface BuildCardProps {
   build: KeyboardBuild;
@@ -119,20 +120,13 @@ export function BuildCard({
       />
       */}
       
-      <TextType
-        text={build.title}
-        startOnVisible={true}
-        loop={false}
-        showCursor={true}
-        cursorCharacter="|"
-        hideCursorOnComplete={true}
-        typingSpeed={40}
-        variableSpeed={{ min: 30, max: 70 }}
-        initialDelay={200}
-        className={`card-title text-lg text-center w-full ${
-          isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
-        }`}
-      />
+      <div className={`card-title text-lg text-center w-full flex justify-center ${
+        isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
+      }`}>
+        <LineSwap
+          text={build.title}
+        />
+      </div>
 
       <AnimatePresence>
         {showBuild && buildDescription && (
