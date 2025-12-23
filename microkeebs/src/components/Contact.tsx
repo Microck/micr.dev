@@ -135,9 +135,6 @@ function WorkedWithSection({
 }: WorkedWithSectionProps) {
   const textColor = isDark ? '#a7a495' : '#1c1c1c';
   
-  // Debug item - Necessary for debugging the path issue in production
-  const debugClient = clients[0];
-
   return (
     <div className="py-4 w-full overflow-hidden">
       <h3
@@ -149,50 +146,43 @@ function WorkedWithSection({
       >
         Worked With
       </h3>
-
-      {/* Debug Section - Necessary for visualizing path attempts in production environment */}
-      <div className="flex flex-col items-center justify-center mb-8 border border-red-500/50 p-4 mx-auto max-w-md my-12 bg-white/5 backdrop-blur-sm" style={{ zIndex: 100, position: 'relative' }}>
-        <p className="mb-4 text-xs font-bold text-red-500">PATH FINDER DEBUG</p>
-        
-        <div className="flex flex-col gap-4 w-full">
-            <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-2">
-                <div className="flex flex-col max-w-[150px]">
-                    <span className="text-[10px] text-gray-400">Attempt 1: BASE_URL</span>
-                    <span className="text-[10px] break-all font-mono">{debugClient.logo}</span>
-                </div>
-                <img 
-                    src={debugClient.logo} 
-                    alt="Broken 1" 
-                    className="w-12 h-12 object-contain bg-blue-500/20 border border-blue-500"
-                />
-            </div>
-
-            <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-2">
-                <div className="flex flex-col max-w-[150px]">
-                    <span className="text-[10px] text-gray-400">Attempt 2: /workedwith/...</span>
-                    <span className="text-[10px] break-all font-mono">/workedwith/bowlkeyboards.webp</span>
-                </div>
-                <img 
-                    src="/workedwith/bowlkeyboards.webp" 
-                    alt="Broken 2" 
-                    className="w-12 h-12 object-contain bg-green-500/20 border border-green-500"
-                />
-            </div>
-
-            <div className="flex items-center justify-between gap-4">
-                <div className="flex flex-col max-w-[150px]">
-                    <span className="text-[10px] text-gray-400">Attempt 3: workedwith/...</span>
-                    <span className="text-[10px] break-all font-mono">workedwith/bowlkeyboards.webp</span>
-                </div>
-                <img 
-                    src="workedwith/bowlkeyboards.webp" 
-                    alt="Broken 3" 
-                    className="w-12 h-12 object-contain bg-yellow-500/20 border border-yellow-500"
-                />
-            </div>
-        </div>
-      </div>
       
+      {/* 
+          BRUTE FORCE DEBUGGING STRATEGY 
+          Rendering the first logo with 5 different path strategies side-by-side.
+          One of these MUST work.
+      */}
+      <div className="flex flex-wrap gap-4 justify-center items-center my-8 p-4 border-2 border-red-500 relative z-50 bg-white/10 backdrop-blur-md">
+        <p className="w-full text-center text-red-500 font-bold mb-2">BRUTE FORCE DEBUG</p>
+        {[
+            { label: "Relative", path: "workedwith/bowlkeyboards.webp" },
+            { label: "./Relative", path: "./workedwith/bowlkeyboards.webp" },
+            { label: "/Root", path: "/workedwith/bowlkeyboards.webp" },
+            { label: "BaseURL", path: `${import.meta.env.BASE_URL}workedwith/bowlkeyboards.webp` },
+            { label: "Hardcoded", path: "/microkeebs/workedwith/bowlkeyboards.webp" }
+        ].map((attempt, i) => (
+            <div key={i} className="flex flex-col items-center">
+                <span className="text-[10px] text-white mb-1">{attempt.label}</span>
+                {/* 1. Try as simple Image tag first (to verify path) */}
+                <img src={attempt.path} className="w-12 h-12 object-contain bg-blue-500/20 border border-blue-500 mb-1" alt="img-test" />
+                {/* 2. Try as Mask (to verify CSS) */}
+                <div 
+                    className="w-12 h-12 bg-red-500"
+                    style={{
+                        maskImage: `url("${attempt.path}")`,
+                        WebkitMaskImage: `url("${attempt.path}")`,
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center'
+                    }}
+                />
+            </div>
+        ))}
+      </div>
+
       <div className="w-full relative">
         <LogoWall
           items={clients.map((client) => {
