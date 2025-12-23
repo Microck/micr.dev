@@ -5,15 +5,15 @@ import { cn } from '@/lib/utils';
 import Lanyard from './Lanyard/Lanyard';
 import LogoWall from './LogoWall';
 
-const aboutText = `I'm Marcos, also known as Microkeebs. I joined the keyboard hobby in early 2021 and have been active since then, but I didn't build my first custom keyboard until mid-2022, when I also started Microkeebs as a way to showcase my keyboards.
+const aboutText = `I entered the keyboard hobby in early 2021. I was active immediately, but I didn't build my first custom board until mid-2022. That was the start of the channel. I wanted a place to catalog the keyboards passing through my hands.
 
-I began doing streams and content in Spanish, my native language, building keyboards for people who commissioned me, which allowed me to try a lot of keyboards without having to buy each and every one of them, as I couldn't afford it. I also made some educational videos to try and expand the hobby in Spain. I'm not good at dealing with people, so when I closed commissions, I quickly ran out of content to make and lost motivation, so I took a hiatus from December 2022 to July 2023. I was still in the hobby during this time but just didn't create content.
+I started out streaming and creating content in Spanish. Commissions were a practical necessity since I could not afford to buy every board I wanted to try. I also produced educational videos to help expand the hobby locally. I am not great at dealing with people, so when I stopped taking orders, I ran out of things to film. I took a hiatus from late 2022 to July 2023. I was still around, just not posting.
 
-After switching setups and buying some better equipment, I tried to come back to making videos, but this time for a wider audience, so I switched from Spanish to English content. I slowly started picking up the pace again, making more educational videos (this time for a wider audience) and creating more content. Brands and friends started sending me keyboards to review, allowing me to create more and more content.
+I eventually returned with better equipment and a switch to English. I wanted a wider audience. I picked up the pace, making more guides and general content. Brands and friends began sending me units for review. This allowed me to keep the schedule full.
 
-But then I got burned out. Build videos took hours and days to do, but received little to no support. I stopped doing them because I liked it and started making them because "I had to," which obviously decreased the quality of those videos and made them unsustainable in the long run. So I decided to stop. In my opinion, the keyboard hobby is not made for long-duration videos unless you're already established or decide to clickbait/follow trends.
+It led to burnout. Build videos took days to finish but received little support. I stopped doing them for fun and started doing them out of obligation. The quality dropped. In my opinion, this hobby does not reward long-duration videos unless you are already established or rely on clickbait. It wasn't sustainable, so I stopped.
 
-I have gone back to doing just what I love, without feeling obliged to do anything I don't feel like doing. This has allowed me to develop a certain personal style and improve my videos' quality over time (as of the time of writing this, my videos are recorded with an iPhone, and if you hadn't noticed, that's a sign that I'm doing a good job). I will keep making content with this mindset, looking forward to what I hope will be many more keyboards to come!`;
+Now I just do what I love. I don't feel forced to make anything I don't want to make. This freedom helped me develop a personal style and improve my output. I record everything on an iPhone these days. If you hadn't noticed, that is a sign I am doing a good job. I plan to keep this mindset for the boards to come.`;
 
 const clients = [
   {
