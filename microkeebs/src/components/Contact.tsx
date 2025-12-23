@@ -17,6 +17,7 @@ import baionLogo from '@/assets/workedwith/baionlenja.png';
 import ctrlvlcLogo from '@/assets/workedwith/ctrlvlc.png';
 import metakeebsLogo from '@/assets/workedwith/metakeebs.png';
 import monsgeekLogo from '@/assets/workedwith/monsgeek.png';
+import vertexLogo from '@/assets/workedwith/vertex.png';
 import tkdLogo from '@/assets/workedwith/tkd.png';
 
 const aboutText = `I entered the keyboard hobby in early 2021. I was active immediately, but I didn't build my first custom board until mid-2022. That was the start of the channel. I wanted a place to catalog the keyboards passing through my hands.
@@ -171,13 +172,21 @@ function WorkedWithSection({
       <div className="w-full relative">
         <LogoWall
           items={clients.map((client) => {
+            const isLink = !!client.link;
+            const Wrapper = isLink ? 'a' : 'div';
+            const wrapperProps = isLink ? {
+              href: client.link,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
+            } : {
+              className: "flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-default"
+            };
+
             return (
-              <a 
-                href={client.link}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Wrapper 
+                {...wrapperProps}
                 key={client.name} 
-                className="flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
                 style={{ 
                   height: `${client.height}rem`, 
                   width: `${client.width}rem`,
@@ -203,7 +212,7 @@ function WorkedWithSection({
                    role="img"
                    aria-label={client.name}
                  />
-              </a>
+              </Wrapper>
             );
           })}
           direction="horizontal"
