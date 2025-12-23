@@ -30,9 +30,9 @@ export function SplitText({ children, className = '', delay = 0 }: SplitTextProp
   const words = children.split(' ');
 
   return (
-    <div ref={ref} className={`${className} overflow-hidden`}>
+    <div ref={ref} className={`${className} overflow-hidden`} aria-label={children}>
       {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-block">
+        <span key={wordIndex} className="inline-block" aria-hidden="true">
           {word.split('').map((char, charIndex) => (
             <span
               key={charIndex}

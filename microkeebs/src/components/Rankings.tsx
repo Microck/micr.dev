@@ -126,7 +126,7 @@ export function Rankings({ onBuildSelect }: RankingsProps) {
                 />
               </div>
               <span className={`font-normal text-base ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'} relative z-10`}>
-                <LineSwap text={build.title} />
+                <LineSwap text={build.title} className="inline-block w-full" />
               </span>
             </div>
             {index < rankings.length - 1 && (

@@ -1,4 +1,4 @@
-import { Suspense, useState, useRef, useEffect } from 'react';
+import { Suspense, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { cn } from '@/lib/utils';
@@ -128,14 +128,10 @@ function AboutSection({ isDark }: { isDark: boolean }) {
 
 interface WorkedWithSectionProps {
   isDark: boolean;
-  fadeLeft: number;
-  fadeRight: number;
 }
 
 function WorkedWithSection({ 
   isDark, 
-  fadeLeft,
-  fadeRight,
 }: WorkedWithSectionProps) {
   const textColor = isDark ? '#a7a495' : '#1c1c1c';
   
@@ -143,7 +139,7 @@ function WorkedWithSection({
     <div className="py-4 w-full overflow-hidden">
       <h3
         className={cn(
-          'text-sm font-light mb-4 text-center uppercase tracking-[0.3em] mt-32',
+          'text-sm font-light mb-4 text-center uppercase tracking-[0.3em] mt-4',
           isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
         )}
         style={{ transform: 'translate(0px, 42px)' }}
@@ -194,8 +190,8 @@ function WorkedWithSection({
           bgAccentColor="transparent"
           textColor={textColor}
           gap="0px"
-          fadeLeft={`${fadeLeft}%`}
-          fadeRight={`${fadeRight}%`}
+          fadeLeft="42.5%"
+          fadeRight="57.5%"
         />
       </div>
     </div>
@@ -203,12 +199,16 @@ function WorkedWithSection({
 }
 
 function GiantEmailSection({ isDark }: { isDark: boolean }) {
-  const fontSize = 11.7;
-  const marginBottom = -1.8;
-  const marginLeft = -0.5;
+  const [emailSize, setEmailSize] = useState(11.7);
+  const [posX, setPosX] = useState(-7);
+  const [posY, setPosY] = useState(0);
+  const [marginTop, setMarginTop] = useState(0);
+  const [marginBottom, setMarginBottom] = useState(-15);
+  const [marginLeft, setMarginLeft] = useState(0);
+  const [marginRight, setMarginRight] = useState(0);
 
   return (
-    <div className="w-full mt-16 overflow-hidden">
+    <div className="w-full mt-16 overflow-visible">
       <motion.a
         href="mailto:contact@micr.dev"
         initial={{ opacity: 0 }}
@@ -216,17 +216,115 @@ function GiantEmailSection({ isDark }: { isDark: boolean }) {
         viewport={{ once: true }}
         transition={{ duration: 0.3 }}
         className={cn(
-          'block text-center font-bold cursor-pointer select-none w-full leading-none',
+          'block text-center font-bold cursor-pointer select-none w-full leading-[0.85] whitespace-nowrap',
           isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
         )}
         style={{
-          fontSize: `${fontSize}vw`,
-          marginBottom: `${marginBottom}vw`,
-          marginLeft: `${marginLeft}vw`
+          fontSize: `${emailSize}vw`,
+          transform: `translate(${posX}px, ${posY}px)`,
+          marginTop: `${marginTop}px`,
+          marginBottom: `${marginBottom}px`,
+          marginLeft: `${marginLeft}px`,
+          marginRight: `${marginRight}px`
         }}
       >
         contact@micr.dev
       </motion.a>
+      
+      <div className="fixed bottom-4 right-4 z-50 bg-black/80 p-4 rounded text-white font-mono text-xs pointer-events-auto max-h-[80vh] overflow-y-auto">
+        <div className="flex flex-col gap-4">
+          <label className="flex flex-col gap-1">
+            <span className="flex justify-between"><span>Size (vw)</span> <span>{emailSize}</span></span>
+            <input
+              type="range"
+              min="5"
+              max="20"
+              step="0.1"
+              value={emailSize}
+              onChange={(e) => setEmailSize(parseFloat(e.target.value))}
+              className="w-48 cursor-pointer"
+            />
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="flex justify-between"><span>Pos X (px)</span> <span>{posX}</span></span>
+            <input
+              type="range"
+              min="-200"
+              max="200"
+              step="1"
+              value={posX}
+              onChange={(e) => setPosX(parseFloat(e.target.value))}
+              className="w-48 cursor-pointer"
+            />
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="flex justify-between"><span>Pos Y (px)</span> <span>{posY}</span></span>
+            <input
+              type="range"
+              min="-200"
+              max="200"
+              step="1"
+              value={posY}
+              onChange={(e) => setPosY(parseFloat(e.target.value))}
+              className="w-48 cursor-pointer"
+            />
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="flex justify-between"><span>Margin Top (px)</span> <span>{marginTop}</span></span>
+            <input
+              type="range"
+              min="-100"
+              max="100"
+              step="1"
+              value={marginTop}
+              onChange={(e) => setMarginTop(parseFloat(e.target.value))}
+              className="w-48 cursor-pointer"
+            />
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="flex justify-between"><span>Margin Bottom (px)</span> <span>{marginBottom}</span></span>
+            <input
+              type="range"
+              min="-100"
+              max="100"
+              step="1"
+              value={marginBottom}
+              onChange={(e) => setMarginBottom(parseFloat(e.target.value))}
+              className="w-48 cursor-pointer"
+            />
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="flex justify-between"><span>Margin Left (px)</span> <span>{marginLeft}</span></span>
+            <input
+              type="range"
+              min="-100"
+              max="100"
+              step="1"
+              value={marginLeft}
+              onChange={(e) => setMarginLeft(parseFloat(e.target.value))}
+              className="w-48 cursor-pointer"
+            />
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="flex justify-between"><span>Margin Right (px)</span> <span>{marginRight}</span></span>
+            <input
+              type="range"
+              min="-100"
+              max="100"
+              step="1"
+              value={marginRight}
+              onChange={(e) => setMarginRight(parseFloat(e.target.value))}
+              className="w-48 cursor-pointer"
+            />
+          </label>
+        </div>
+      </div>
     </div>
   );
 }
@@ -238,103 +336,15 @@ export function Contact() {
   const contentY = 0;
   const contentScale = 1;
 
-  const [fadeLeft, setFadeLeft] = useState(42.5);
-  const [fadeRight, setFadeRight] = useState(57.5);
-  const [lanyardX, setLanyardX] = useState(-1);
-  const [lanyardY, setLanyardY] = useState(0);
-  const [lanyardZ, setLanyardZ] = useState(13);
-  const [lanyardFov, setLanyardFov] = useState(40);
-  
-  const [panelPos, setPanelPos] = useState({ x: 16, y: 16 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!isDragging) return;
-    
-    const handleMouseMove = (e: MouseEvent) => {
-      setPanelPos({ x: e.clientX - dragOffset.x, y: e.clientY - dragOffset.y });
-    };
-    const handleMouseUp = () => setIsDragging(false);
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, dragOffset]);
-
   return (
     <div className={cn('min-h-screen relative overflow-hidden', isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]')}>
-      <div 
-        ref={panelRef}
-        className="fixed z-50 bg-black/90 p-4 rounded-lg text-white text-sm max-h-[90vh] overflow-y-auto"
-        style={{ left: panelPos.x, top: panelPos.y }}
-      >
-        <div 
-          className="cursor-move mb-3 pb-2 border-b border-white/20 font-bold"
-          onMouseDown={(e) => {
-            setIsDragging(true);
-            setDragOffset({ x: e.clientX - panelPos.x, y: e.clientY - panelPos.y });
-          }}
-        >
-          Debug Panel (drag to move)
-        </div>
-        
-        <div className="mb-3">
-          <div className="font-semibold mb-1">Logo Fade</div>
-          <div className="mb-2">
-            <label>Left: {fadeLeft}%</label>
-            <input type="range" min="0" max="100" step="0.5" value={fadeLeft} 
-              onChange={(e) => setFadeLeft(Number(e.target.value))} className="w-48 block" />
-          </div>
-          <div>
-            <label>Right: {fadeRight}%</label>
-            <input type="range" min="0" max="100" step="0.5" value={fadeRight} 
-              onChange={(e) => setFadeRight(Number(e.target.value))} className="w-48 block" />
-          </div>
-        </div>
-
-        <div className="mb-3">
-          <div className="font-semibold mb-1">Lanyard Position</div>
-          <div className="mb-1">
-            <label>X: {lanyardX}</label>
-            <input type="range" min="-10" max="10" step="0.1" value={lanyardX} 
-              onChange={(e) => setLanyardX(Number(e.target.value))} className="w-48 block" />
-          </div>
-          <div className="mb-1">
-            <label>Y: {lanyardY}</label>
-            <input type="range" min="-10" max="10" step="0.1" value={lanyardY} 
-              onChange={(e) => setLanyardY(Number(e.target.value))} className="w-48 block" />
-          </div>
-          <div className="mb-1">
-            <label>Z: {lanyardZ}</label>
-            <input type="range" min="5" max="30" step="0.5" value={lanyardZ} 
-              onChange={(e) => setLanyardZ(Number(e.target.value))} className="w-48 block" />
-          </div>
-          <div>
-            <label>FOV: {lanyardFov}</label>
-            <input type="range" min="10" max="90" step="1" value={lanyardFov} 
-              onChange={(e) => setLanyardFov(Number(e.target.value))} className="w-48 block" />
-          </div>
-        </div>
-
-        <div className="text-xs text-gray-400 mt-2">
-          <div>fadeLeft: {fadeLeft}% / fadeRight: {fadeRight}%</div>
-          <div>position: [{lanyardX}, {lanyardY}, {lanyardZ}] fov: {lanyardFov}</div>
-        </div>
-      </div>
-
       <div className="absolute inset-0 pointer-events-none z-0">
         <Suspense fallback={null}>
           <div className="w-full h-full pointer-events-auto">
             <Lanyard 
-              key={`${lanyardX}-${lanyardY}-${lanyardZ}-${lanyardFov}`}
-              position={[lanyardX, lanyardY, lanyardZ]} 
+              position={[-1, 0, 13]} 
               gravity={[0, -40, 0]} 
-              fov={lanyardFov} 
+              fov={40} 
               transparent 
             />
           </div>
@@ -358,11 +368,11 @@ export function Contact() {
         </div>
 
         <div className="pointer-events-auto w-full">
-          <InteractiveDivider />
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+            <InteractiveDivider />
+          </div>
           <WorkedWithSection 
             isDark={isDark} 
-            fadeLeft={fadeLeft}
-            fadeRight={fadeRight}
           />
           <GiantEmailSection isDark={isDark} />
         </div>

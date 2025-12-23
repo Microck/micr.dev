@@ -72,11 +72,11 @@ export function PageTransitions({ children, currentPage }: PageTransitionsProps)
             key={i}
             ref={(el) => { if (el) barsRef.current[i] = el; }}
             className="h-full"
-            style={{
-              width: '25%',
-              backgroundColor: isDark ? '#a7a495' : '#1c1c1c',
-              transform: 'translateY(100%)',
-            }}
+             style={{
+               width: '25%',
+               backgroundColor: isDark ? '#a7a495' : '#1c1c1c',
+               transform: 'translateY(100%)',
+             }}
           />
         ))}
       </div>
