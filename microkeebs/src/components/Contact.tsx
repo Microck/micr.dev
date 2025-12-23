@@ -21,70 +21,70 @@ Now I just do what I love. I don't feel forced to make anything I don't want to 
 const clients = [
   {
     "name": "Bowl Keyboards",
-    "logo": `${import.meta.env.BASE_URL}workedwith/bowlkeyboards.webp`,
+    "logo": "workedwith/bowlkeyboards.webp",
     "width": 7,
     "height": 10,
     "margin": 0.75
   },
   {
     "name": "Chilkey",
-    "logo": `${import.meta.env.BASE_URL}workedwith/chilkey.png`,
+    "logo": "workedwith/chilkey.png",
     "width": 9,
     "height": 6.5,
     "margin": 0
   },
   {
     "name": "Luminkey",
-    "logo": `${import.meta.env.BASE_URL}workedwith/luminkey.png`,
+    "logo": "workedwith/luminkey.png",
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Akko",
-    "logo": `${import.meta.env.BASE_URL}workedwith/akko.png`,
+    "logo": "workedwith/akko.png",
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Baionlenja",
-    "logo": `${import.meta.env.BASE_URL}workedwith/baionlenja.png`,
+    "logo": "workedwith/baionlenja.png",
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "CtrlVLC",
-    "logo": `${import.meta.env.BASE_URL}workedwith/ctrlvlc.png`,
+    "logo": "workedwith/ctrlvlc.png",
     "width": 12,
     "height": 6,
     "margin": 1
   },
   {
     "name": "MetaKeebs",
-    "logo": `${import.meta.env.BASE_URL}workedwith/metakeebs.png`,
+    "logo": "workedwith/metakeebs.png",
     "width": 6.5,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Monsgeek",
-    "logo": `${import.meta.env.BASE_URL}workedwith/monsgeek.png`,
+    "logo": "workedwith/monsgeek.png",
     "width": 10,
     "height": 9,
     "margin": 0.75
   },
   {
     "name": "TKD",
-    "logo": `${import.meta.env.BASE_URL}workedwith/tkd.png`,
+    "logo": "workedwith/tkd.png",
     "width": 6.5,
     "height": 6,
     "margin": 1
   },
   {
     "name": "Vertex",
-    "logo": `${import.meta.env.BASE_URL}workedwith/vertex.png`,
+    "logo": "workedwith/vertex.png",
     "width": 12,
     "height": 6,
     "margin": 1
