@@ -149,7 +149,7 @@ const LogoWall = ({
           style={{ gap: "var(--gap)" }}
         >
           {items.map((item, idx) => (
-            <Magnetic key={idx} className="flex items-center justify-center">
+            <Magnetic key={idx} className="flex items-center justify-center pointer-events-auto">
               <div>{item}</div>
             </Magnetic>
           ))}
@@ -162,7 +162,7 @@ const LogoWall = ({
           style={{ gap: "var(--gap)" }}
         >
           {items.map((item, idx) => (
-            <Magnetic key={`dup1-${idx}`} className="flex items-center justify-center">
+            <Magnetic key={`dup1-${idx}`} className="flex items-center justify-center pointer-events-auto">
               <div>{item}</div>
             </Magnetic>
           ))}
