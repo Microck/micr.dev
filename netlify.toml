@@ -28,6 +28,25 @@
   to = "https://anonqmicr.netlify.app/anonq/:splat"
   status = 200
   force = true
+  
+# --- DIALOGUE ---
+[[redirects]]
+  from = "/dialogue"
+  to = "https://dialoguegen.vercel.app/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/dialogue/"
+  to = "https://dialoguegen.vercel.app/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/dialogue/*"
+  to = "https://dialoguegen.vercel.app/:splat"
+  status = 200
+  force = true
  
 # --- REDIRECT & REWRITE RULES ---
 # The order and `force` attribute are critical.
