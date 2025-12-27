@@ -31,6 +31,18 @@
   
 # --- DIALOGUE ---
 [[redirects]]
+  from = "/assets/*"
+  to = "https://dialoguegen.vercel.app/assets/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/favicon.svg"
+  to = "https://dialoguegen.vercel.app/favicon.svg"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/dialogue"
   to = "https://dialoguegen.vercel.app/"
   status = 200
