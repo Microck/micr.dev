@@ -43,6 +43,12 @@
   force = true
 
 [[redirects]]
+  from = "/dialogue/favicon.svg"
+  to = "https://dialoguegen.vercel.app/favicon.svg"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/dialogue"
   to = "https://dialoguegen.vercel.app/"
   status = 200
