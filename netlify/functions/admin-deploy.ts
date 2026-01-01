@@ -35,9 +35,13 @@ interface DeployRequest {
   chunkIndex?: number;
   totalChunks?: number;
   
-  // For final deploy (all processed images + builds + rankings in one commit)
+  // For committing a batch of processed images
+  commitImages?: ProcessedImage[];
+  commitChunkIndex?: number;
+  commitTotalChunks?: number;
+  
+  // For final deploy (just builds + rankings, images already committed)
   finalDeploy?: boolean;
-  processedImages?: ProcessedImage[];
   pendingBuilds?: PendingBuild[];
   pendingRankings?: Record<string, string[]>;
   currentBuilds?: PendingBuild[];
@@ -94,7 +98,6 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
           });
         } catch (imgError) {
           console.error(`Failed to process image ${img.buildId}/${img.index}:`, imgError);
-          // Continue with other images
         }
       }
       
@@ -109,13 +112,11 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
       };
     }
 
-    // Phase 2: Final deploy (all images + builds in ONE commit)
-    if (body.finalDeploy) {
-      const { processedImages = [], pendingBuilds = [], pendingRankings, currentBuilds = [] } = body;
+    // Phase 2: Commit a batch of processed images
+    if (body.commitImages && body.commitImages.length > 0) {
       const filesToCommit: Array<{ path: string; content: string }> = [];
       
-      // Add all processed images
-      for (const img of processedImages) {
+      for (const img of body.commitImages) {
         const paths = getImagePaths(img.buildId, img.index);
         filesToCommit.push({
           path: paths.full,
@@ -126,6 +127,27 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
           content: img.thumbBase64,
         });
       }
+      
+      const chunkInfo = body.commitChunkIndex !== undefined 
+        ? ` (${body.commitChunkIndex + 1}/${body.commitTotalChunks})`
+        : '';
+      await commitMultipleFiles(filesToCommit, `Add ${body.commitImages.length} image(s)${chunkInfo}`);
+      
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          success: true, 
+          imagesCommitted: body.commitImages.length,
+          commitChunkIndex: body.commitChunkIndex,
+        }),
+      };
+    }
+
+    // Phase 3: Final deploy (just builds.json + rankings)
+    if (body.finalDeploy) {
+      const { pendingBuilds = [], pendingRankings, currentBuilds = [] } = body;
+      const filesToCommit: Array<{ path: string; content: string }> = [];
       
       // Merge pending builds with current builds
       let finalBuilds = [...currentBuilds];
@@ -162,13 +184,7 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
         });
       }
       
-      const imageCount = processedImages.length;
-      const buildCount = pendingBuilds.length;
-      const message = imageCount > 0 
-        ? `Add ${imageCount} image(s), update ${buildCount} build(s)`
-        : `Update ${buildCount} build(s)`;
-      
-      await commitMultipleFiles(filesToCommit, message);
+      await commitMultipleFiles(filesToCommit, `Update ${pendingBuilds.length} build(s)`);
       
       // Trigger Netlify build
       const buildHook = process.env.NETLIFY_BUILD_HOOK;
@@ -183,18 +199,14 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
       return {
         statusCode: 200,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          success: true, 
-          message: 'Deploy complete',
-          filesCommitted: filesToCommit.length,
-        }),
+        body: JSON.stringify({ success: true, message: 'Deploy complete' }),
       };
     }
 
     return {
       statusCode: 400,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'Invalid request - need processImages or finalDeploy' }),
+      body: JSON.stringify({ error: 'Invalid request - need processImages, commitImages, or finalDeploy' }),
     };
   } catch (error) {
     console.error('Deploy error:', error);

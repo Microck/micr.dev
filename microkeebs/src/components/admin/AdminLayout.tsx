@@ -105,7 +105,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
     const token = localStorage.getItem('admin_token');
     const pendingBuildsArray = Array.from(pendingBuilds.values());
     
-    // Accumulate all processed images for final commit
+    // Accumulate all processed images
     interface ProcessedImage {
       buildId: string;
       index: number;
@@ -133,7 +133,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
             stage: `Processing images ${i + 1}-${Math.min(i + CHUNK_SIZE, totalImages)} of ${totalImages}`,
           });
           
-          addLog('request', `POST /admin-deploy processImages (chunk ${chunkIndex + 1}/${totalChunks})`);
+          addLog('request', `POST processImages (chunk ${chunkIndex + 1}/${totalChunks})`);
           
           const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
             method: 'POST',
@@ -157,7 +157,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
           }
           
           if (!res.ok) {
-            addLog('error', `Chunk ${chunkIndex + 1} failed: ${data.error || res.status}`);
+            addLog('error', `Process chunk ${chunkIndex + 1} failed: ${data.error || res.status}`);
             throw new Error(data.error || `Chunk ${chunkIndex + 1} failed`);
           }
           
@@ -166,13 +166,59 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
             allProcessedImages.push(...data.processed);
           }
           
-          addLog('success', `Chunk ${chunkIndex + 1}/${totalChunks} processed (${data.processed?.length || 0} images)`);
+          addLog('success', `Processed chunk ${chunkIndex + 1}/${totalChunks}`);
+        }
+        
+        // Phase 2: Commit images in batches of 5
+        const COMMIT_BATCH_SIZE = 5;
+        const totalCommitBatches = Math.ceil(allProcessedImages.length / COMMIT_BATCH_SIZE);
+        addLog('info', `Committing ${allProcessedImages.length} images in ${totalCommitBatches} batches`);
+        
+        for (let i = 0; i < allProcessedImages.length; i += COMMIT_BATCH_SIZE) {
+          const batchIndex = Math.floor(i / COMMIT_BATCH_SIZE);
+          const batch = allProcessedImages.slice(i, i + COMMIT_BATCH_SIZE);
+          
+          setDeployProgress({
+            current: i + batch.length,
+            total: allProcessedImages.length,
+            stage: `Committing images ${i + 1}-${Math.min(i + COMMIT_BATCH_SIZE, allProcessedImages.length)} of ${allProcessedImages.length}`,
+          });
+          
+          addLog('request', `POST commitImages (batch ${batchIndex + 1}/${totalCommitBatches})`);
+          
+          const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              commitImages: batch,
+              commitChunkIndex: batchIndex,
+              commitTotalChunks: totalCommitBatches,
+            }),
+          });
+          
+          const text = await res.text();
+          let data;
+          try {
+            data = text ? JSON.parse(text) : {};
+          } catch {
+            throw new Error(text || 'Invalid response from commit');
+          }
+          
+          if (!res.ok) {
+            addLog('error', `Commit batch ${batchIndex + 1} failed: ${data.error || res.status}`);
+            throw new Error(data.error || `Commit batch ${batchIndex + 1} failed`);
+          }
+          
+          addLog('success', `Committed batch ${batchIndex + 1}/${totalCommitBatches}`);
         }
       }
       
-      // Phase 2: Final deploy - ONE commit with all images + builds
-      setDeployProgress({ current: 0, total: 0, stage: 'Committing all changes...' });
-      addLog('request', `POST /admin-deploy finalDeploy (${allProcessedImages.length} images, ${pendingBuildsArray.length} builds)`);
+      // Phase 3: Final deploy - just builds.json + rankings
+      setDeployProgress({ current: 0, total: 0, stage: 'Updating builds.json...' });
+      addLog('request', `POST finalDeploy (${pendingBuildsArray.length} builds)`);
       
       const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
         method: 'POST',
@@ -182,7 +228,6 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
         },
         body: JSON.stringify({
           finalDeploy: true,
-          processedImages: allProcessedImages,
           pendingBuilds: pendingBuildsArray,
           pendingRankings,
           currentBuilds,
@@ -198,7 +243,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
       }
       
       if (res.ok) {
-        addLog('success', `Deploy complete! ${data.filesCommitted || 0} files committed`);
+        addLog('success', 'Deploy complete!');
         setDeployStatus('success');
         clearAll();
         fetchCurrentData();
