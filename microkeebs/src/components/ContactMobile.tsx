@@ -47,9 +47,14 @@ function AboutSectionMobile({ isDark }: { isDark: boolean }) {
     <div className="w-full flex flex-col items-center">
       <h1
         className={cn(
-          'text-5xl font-bold mb-8 text-center',
+          'text-5xl font-bold mb-8 text-center drop-shadow-lg',
           isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
         )}
+        style={{
+          textShadow: isDark 
+            ? '0 2px 8px rgba(28, 28, 28, 0.9), 0 0 20px rgba(28, 28, 28, 0.7)' 
+            : '0 2px 8px rgba(167, 164, 149, 0.9), 0 0 20px rgba(167, 164, 149, 0.7)'
+        }}
       >
         About
       </h1>
@@ -60,7 +65,18 @@ function AboutSectionMobile({ isDark }: { isDark: boolean }) {
       )}>
         {aboutText.split('\n\n').map((paragraph, index) => (
           <ScrollReveal key={index} delay={index * 0.1} className="mb-5 last:mb-0">
-            <p>{paragraph}</p>
+            <p 
+              className="rounded-lg px-3 py-2"
+              style={{
+                backgroundColor: isDark 
+                  ? 'rgba(28, 28, 28, 0.75)' 
+                  : 'rgba(167, 164, 149, 0.75)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)'
+              }}
+            >
+              {paragraph}
+            </p>
           </ScrollReveal>
         ))}
       </div>
@@ -170,14 +186,14 @@ export function ContactMobile() {
 
   return (
     <div className={cn('min-h-screen relative overflow-hidden', isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]')}>
-      {/* Lanyard background */}
-      <div className="absolute inset-0 pointer-events-none z-0">
+      {/* Lanyard centered */}
+      <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
         <Suspense fallback={null}>
           <div className="w-full h-full pointer-events-auto">
             <Lanyard
-              position={[0, 0, 18]}
+              position={[0, 0, 20]}
               gravity={[0, -40, 0]}
-              fov={35}
+              fov={30}
               transparent
             />
           </div>
