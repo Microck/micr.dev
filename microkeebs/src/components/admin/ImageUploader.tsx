@@ -17,6 +17,11 @@ interface DebugLog {
   details?: string;
 }
 
+// Max size for base64 payload (~4MB file = ~5.3MB base64, safe for Netlify's ~6MB limit)
+const MAX_FILE_SIZE_FOR_UPLOAD = 4 * 1024 * 1024;
+const COMPRESS_MAX_WIDTH = 2400;
+const COMPRESS_QUALITY = 0.85;
+
 export function ImageUploader({ buildId, currentImageCount, onUpload, disabled }: ImageUploaderProps) {
   const { isDark } = useTheme();
   const [uploading, setUploading] = useState(false);
@@ -33,6 +38,37 @@ export function ImageUploader({ buildId, currentImageCount, onUpload, disabled }
 
   const clearLogs = () => setDebugLogs([]);
 
+  // Compress image client-side if too large
+  const compressImage = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      img.onload = () => {
+        let { width, height } = img;
+        
+        // Scale down if too wide
+        if (width > COMPRESS_MAX_WIDTH) {
+          height = (height * COMPRESS_MAX_WIDTH) / width;
+          width = COMPRESS_MAX_WIDTH;
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        ctx?.drawImage(img, 0, 0, width, height);
+        
+        // Convert to base64 JPEG
+        const dataUrl = canvas.toDataURL('image/jpeg', COMPRESS_QUALITY);
+        const base64 = dataUrl.split(',')[1];
+        resolve(base64);
+      };
+      
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
   const fileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -48,10 +84,19 @@ export function ImageUploader({ buildId, currentImageCount, onUpload, disabled }
 
   const uploadSingleFile = async (file: File, index: number): Promise<string> => {
     const token = localStorage.getItem('admin_token');
-    addLog('info', `Converting ${file.name} to base64...`, `Size: ${(file.size / 1024).toFixed(1)}KB, Type: ${file.type}`);
+    addLog('info', `Processing ${file.name}...`, `Size: ${(file.size / 1024).toFixed(1)}KB, Type: ${file.type}`);
     
-    const base64 = await fileToBase64(file);
-    addLog('info', `Base64 ready`, `Length: ${base64.length} chars`);
+    let base64: string;
+    
+    // Compress if file is too large for Netlify's payload limit
+    if (file.size > MAX_FILE_SIZE_FOR_UPLOAD) {
+      addLog('info', `File too large, compressing...`, `Original: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+      base64 = await compressImage(file);
+      addLog('info', `Compressed`, `New base64 length: ${base64.length} chars (~${(base64.length * 0.75 / 1024 / 1024).toFixed(2)}MB)`);
+    } else {
+      base64 = await fileToBase64(file);
+      addLog('info', `Base64 ready`, `Length: ${base64.length} chars`);
+    }
 
     const requestBody = { image: base64, buildId, index };
     addLog('info', `Sending request...`, `URL: ${API_BASE}/.netlify/functions/admin-upload\nBuildId: ${buildId}\nIndex: ${index}\nToken: ${token ? token.slice(0, 10) + '...' : 'MISSING'}`);
