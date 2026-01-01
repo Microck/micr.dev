@@ -1,5 +1,29 @@
 [
   {
+    "id": "LT4JKgcOPL4",
+    "title": "QK60",
+    "youtubeTitle": "QK60 with lubed Kailh BCP",
+    "category": "MX",
+    "timestamp": "2025-12-28T14:00:24Z",
+    "images": [
+      "./images/LT4JKgcOPL4/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/LT4JKgcOPL4",
+    "specs": {
+      "Keyboard": "QK60 (Mint Bottom, Smokey Top, Black weight, HHKB)",
+      "Keycaps": "GMK Pulse",
+      "Switches": "Kailh BCP (Black Cherry Pies)",
+      "Lube": "Prelubed",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Full FR4",
+      "Mount": "Gasket Socks",
+      "Stabilizers": "QK Stabs (?) with 205g0",
+      "PCB": "Wireless Hotswap PCB",
+      "Others": ""
+    }
+  },
+  {
     "id": "XdNu4YX4PSE",
     "title": "Leopold FC750R",
     "youtubeTitle": "Leopold FC750R with Retooled Cherry MX Reds",
