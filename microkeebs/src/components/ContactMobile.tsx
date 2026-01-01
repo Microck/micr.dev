@@ -1,8 +1,6 @@
-import { Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { cn } from '@/lib/utils';
-import Lanyard from './Lanyard/Lanyard';
 import LogoWall from './LogoWall';
 import { ScrollReveal } from './ScrollReveal';
 import { InteractiveDivider } from './InteractiveDivider';
@@ -60,7 +58,7 @@ function AboutSectionMobile({ isDark }: { isDark: boolean }) {
       </h1>
 
       <div className={cn(
-        "text-base leading-relaxed text-left w-full",
+        "text-lg leading-relaxed text-left w-full",
         isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
       )}>
         {aboutText.split('\n\n').map((paragraph, index) => (
@@ -186,20 +184,6 @@ export function ContactMobile() {
 
   return (
     <div className={cn('min-h-screen relative overflow-hidden', isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]')}>
-      {/* Lanyard centered */}
-      <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
-        <Suspense fallback={null}>
-          <div className="w-full h-full pointer-events-auto">
-            <Lanyard
-              position={[-4, 0, 20]}
-              gravity={[0, -40, 0]}
-              fov={30}
-              transparent
-            />
-          </div>
-        </Suspense>
-      </div>
-
       {/* Content */}
       <div className="relative z-10 px-5 pt-6 pb-4">
         <AboutSectionMobile isDark={isDark} />
