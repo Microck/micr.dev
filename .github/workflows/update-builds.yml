@@ -34,7 +34,7 @@ jobs:
         working-directory: microkeebs
 
       - name: Optimize images
-        run: node src/data/optimize_images.cjs
+        run: node src/data/optimize_images.mjs
         working-directory: microkeebs
 
       - name: Commit changes
