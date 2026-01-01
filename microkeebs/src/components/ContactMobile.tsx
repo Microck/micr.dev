@@ -191,7 +191,7 @@ export function ContactMobile() {
         <Suspense fallback={null}>
           <div className="w-full h-full pointer-events-auto">
             <Lanyard
-              position={[2, 0, 20]}
+              position={[-4, 0, 20]}
               gravity={[0, -40, 0]}
               fov={30}
               transparent
