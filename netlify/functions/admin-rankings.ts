@@ -11,7 +11,7 @@ interface Rankings {
   electrocapacitive: string[];
 }
 
-const RANKINGS_PATH = 'src/data/rankings.json';
+const RANKINGS_PATH = 'microkeebs/src/data/rankings.json';
 
 export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
   const corsHeaders = getCorsHeaders(event);

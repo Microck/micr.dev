@@ -70,12 +70,12 @@ export async function validateImage(input: Buffer): Promise<{ valid: boolean; er
 export function getImagePaths(buildId: string, index: number): { full: string; thumbnail: string } {
   if (index === 0) {
     return {
-      full: `public/images/${buildId}/thumbnail.webp`,
-      thumbnail: `public/images/${buildId}/thumbnail_sm.webp`,
+      full: `microkeebs/public/images/${buildId}/thumbnail.webp`,
+      thumbnail: `microkeebs/public/images/${buildId}/thumbnail_sm.webp`,
     };
   }
   return {
-    full: `public/images/${buildId}/${index}.webp`,
-    thumbnail: `public/images/${buildId}/${index}_sm.webp`,
+    full: `microkeebs/public/images/${buildId}/${index}.webp`,
+    thumbnail: `microkeebs/public/images/${buildId}/${index}_sm.webp`,
   };
 }

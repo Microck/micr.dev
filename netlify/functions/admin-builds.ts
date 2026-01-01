@@ -13,7 +13,7 @@ interface KeyboardBuild {
   specs: Record<string, string | undefined>;
 }
 
-const BUILDS_PATH = 'src/data/builds.json';
+const BUILDS_PATH = 'microkeebs/src/data/builds.json';
 
 export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
   const corsHeaders = getCorsHeaders(event);
