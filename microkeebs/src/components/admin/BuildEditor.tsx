@@ -3,7 +3,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
 import { ImageUploader } from './ImageUploader';
 import { ImageGallery } from './ImageGallery';
-import { API_BASE } from './api';
+import { usePendingChanges } from './PendingChangesContext';
 
 interface KeyboardBuild {
   id: string;
@@ -40,6 +40,7 @@ const DEFAULT_SPEC_KEYS = [
 
 export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorProps) {
   const { isDark } = useTheme();
+  const { setPendingBuild, deletePendingBuild } = usePendingChanges();
   const [formData, setFormData] = useState<KeyboardBuild>(build);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -118,34 +119,16 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
     setError(null);
     setSuccess(null);
 
-    const token = localStorage.getItem('admin_token');
-    const method = isNew ? 'POST' : 'PUT';
-
     try {
-      const res = await fetch(`${API_BASE}/.netlify/functions/admin-builds`, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ build: formData }),
+      // Save to pending changes (will be committed on Deploy)
+      setPendingBuild({
+        ...formData,
+        isNew,
       });
 
-      const text = await res.text();
-      let data;
-      try {
-        data = text ? JSON.parse(text) : {};
-      } catch {
-        throw new Error(`Server error: ${text || res.statusText}`);
-      }
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to save');
-      }
-
-      setSuccess('Build saved successfully!');
+      setSuccess('Build saved! Click Deploy to publish.');
       setTimeout(() => setSuccess(null), 3000);
-      onSave(data.build);
+      onSave(formData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save');
     } finally {
@@ -153,28 +136,12 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (!confirm('Are you sure you want to delete this build?')) return;
 
-    const token = localStorage.getItem('admin_token');
     try {
-      const res = await fetch(`${API_BASE}/.netlify/functions/admin-builds?id=${formData.id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const text = await res.text();
-      let data;
-      try {
-        data = text ? JSON.parse(text) : {};
-      } catch {
-        throw new Error(`Server error: ${text || res.statusText}`);
-      }
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to delete');
-      }
-
+      // Mark as deleted in pending changes (will be removed on Deploy)
+      deletePendingBuild(formData.id);
       onDelete?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete');
@@ -329,6 +296,7 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
         <div>
           <label className={labelClass}>Images</label>
           <ImageGallery
+            buildId={formData.id}
             images={formData.images}
             onReorder={handleImageReorder}
             onDelete={handleImageDelete}

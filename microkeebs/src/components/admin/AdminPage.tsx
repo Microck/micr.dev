@@ -3,6 +3,7 @@ import { AdminLayout } from './AdminLayout';
 import { BuildsList } from './BuildsList';
 import { BuildEditor } from './BuildEditor';
 import { RankingsEditor } from './RankingsEditor';
+import { PendingChangesProvider } from './PendingChangesContext';
 
 interface KeyboardBuild {
   id: string;
@@ -87,8 +88,10 @@ export function AdminPage() {
   };
 
   return (
-    <AdminLayout currentView={currentView} onNavigate={handleNavigate}>
-      {renderContent()}
-    </AdminLayout>
+    <PendingChangesProvider>
+      <AdminLayout currentView={currentView} onNavigate={handleNavigate}>
+        {renderContent()}
+      </AdminLayout>
+    </PendingChangesProvider>
   );
 }

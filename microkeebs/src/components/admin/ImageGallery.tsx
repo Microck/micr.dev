@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
+import { usePendingChanges } from './PendingChangesContext';
 
 interface ImageGalleryProps {
+  buildId: string;
   images: string[];
   onReorder: (images: string[]) => void;
   onDelete: (index: number) => void;
   onRename: (index: number, newPath: string) => void;
 }
 
-export function ImageGallery({ images, onReorder, onDelete, onRename }: ImageGalleryProps) {
+export function ImageGallery({ buildId, images, onReorder, onDelete, onRename }: ImageGalleryProps) {
   const { isDark } = useTheme();
+  const { getImagePreviewUrl } = usePendingChanges();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editValue, setEditValue] = useState('');
 
@@ -74,7 +77,7 @@ export function ImageGallery({ images, onReorder, onDelete, onRename }: ImageGal
             )}
           >
             <img
-              src={image.replace('./', import.meta.env.BASE_URL)}
+              src={getImagePreviewUrl(buildId, image)}
               alt={`Image ${index + 1}`}
               className="w-full aspect-video object-cover"
             />

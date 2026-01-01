@@ -3,6 +3,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
 import { AdminLogin } from './AdminLogin';
 import { API_BASE } from './api';
+import { usePendingChanges } from './PendingChangesContext';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -12,13 +13,42 @@ interface AdminLayoutProps {
 
 export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutProps) {
   const { isDark } = useTheme();
+  const { pendingImages, pendingBuilds, pendingRankings, hasChanges, clearAll } = usePendingChanges();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [deploying, setDeploying] = useState(false);
   const [deployStatus, setDeployStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [currentBuilds, setCurrentBuilds] = useState<unknown[]>([]);
+  const [currentRankings, setCurrentRankings] = useState<Record<string, string[]> | null>(null);
 
   useEffect(() => {
     checkAuth();
+    fetchCurrentData();
   }, []);
+
+  const fetchCurrentData = async () => {
+    const token = localStorage.getItem('admin_token');
+    try {
+      const [buildsRes, rankingsRes] = await Promise.all([
+        fetch(`${API_BASE}/.netlify/functions/admin-builds`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch(`${API_BASE}/.netlify/functions/admin-rankings`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+      ]);
+      
+      if (buildsRes.ok) {
+        const data = await buildsRes.json();
+        setCurrentBuilds(data.builds || []);
+      }
+      if (rankingsRes.ok) {
+        const data = await rankingsRes.json();
+        setCurrentRankings(data.rankings || null);
+      }
+    } catch {
+      // Ignore
+    }
+  };
 
   const checkAuth = async () => {
     const token = localStorage.getItem('admin_token');
@@ -59,19 +89,39 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
     
     try {
       const token = localStorage.getItem('admin_token');
+      
+      // Convert pendingBuilds Map to array
+      const pendingBuildsArray = Array.from(pendingBuilds.values());
+      
       const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          pendingImages,
+          pendingBuilds: pendingBuildsArray,
+          pendingRankings,
+          currentBuilds,
+          currentRankings,
+        }),
       });
       
       if (res.ok) {
         setDeployStatus('success');
+        clearAll();
+        // Refresh data after deploy
+        fetchCurrentData();
         setTimeout(() => setDeployStatus('idle'), 3000);
       } else {
+        const data = await res.json();
+        console.error('Deploy failed:', data.error);
         setDeployStatus('error');
         setTimeout(() => setDeployStatus('idle'), 3000);
       }
-    } catch {
+    } catch (err) {
+      console.error('Deploy error:', err);
       setDeployStatus('error');
       setTimeout(() => setDeployStatus('idle'), 3000);
     } finally {
@@ -165,19 +215,26 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
               {/* Deploy Button */}
               <button
                 onClick={handleDeploy}
-                disabled={deploying}
+                disabled={deploying || !hasChanges}
                 className={cn(
-                  'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
+                  'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all relative',
                   'disabled:opacity-50 disabled:cursor-not-allowed',
                   deployStatus === 'success'
                     ? 'bg-green-500 text-white'
                     : deployStatus === 'error'
                     ? 'bg-red-500 text-white'
+                    : hasChanges
+                    ? isDark
+                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-500/25'
+                      : 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/25'
                     : isDark
-                    ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-500/25'
-                    : 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/25'
+                    ? 'bg-gray-700 text-gray-400'
+                    : 'bg-gray-200 text-gray-500'
                 )}
               >
+                {hasChanges && deployStatus === 'idle' && !deploying && (
+                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full animate-pulse" />
+                )}
                 {deploying ? (
                   <>
                     <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -202,7 +259,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    Deploy Site
+                    {hasChanges ? `Deploy (${pendingImages.length} images)` : 'No changes'}
                   </>
                 )}
               </button>
