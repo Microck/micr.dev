@@ -2,6 +2,7 @@ import { useState, useEffect, ReactNode } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
 import { AdminLogin } from './AdminLogin';
+import { API_BASE } from './api';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -25,7 +26,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
     }
 
     try {
-      const res = await fetch('https://micr.dev/.netlify/functions/admin-auth/verify', {
+      const res = await fetch(`${API_BASE}/.netlify/functions/admin-auth/verify`, {
         headers: { Authorization: `Bearer ${token}` },
         credentials: 'include',
       });
@@ -38,7 +39,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem('admin_token');
-      await fetch('https://micr.dev/.netlify/functions/admin-auth/logout', {
+      await fetch(`${API_BASE}/.netlify/functions/admin-auth/logout`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         credentials: 'include',

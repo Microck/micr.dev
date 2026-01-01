@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
+import { API_BASE } from './api';
 
 interface Rankings {
   all: string[];
@@ -35,6 +36,7 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<keyof Rankings>('all');
 
   useEffect(() => {
@@ -44,7 +46,7 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
   const fetchRankings = async () => {
     const token = localStorage.getItem('admin_token');
     try {
-      const res = await fetch('https://micr.dev/.netlify/functions/admin-rankings', {
+      const res = await fetch(`${API_BASE}/.netlify/functions/admin-rankings`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error('Failed to fetch rankings');
@@ -90,10 +92,11 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
     
     setSaving(true);
     setError(null);
+    setSuccess(null);
 
     const token = localStorage.getItem('admin_token');
     try {
-      const res = await fetch('https://micr.dev/.netlify/functions/admin-rankings', {
+      const res = await fetch(`${API_BASE}/.netlify/functions/admin-rankings`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +110,8 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
         throw new Error(data.error || 'Failed to save');
       }
 
-      setError(null);
+      setSuccess('Rankings saved successfully!');
+      setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save');
     } finally {
@@ -258,6 +262,7 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
 
       {/* Error and Save */}
       {error && <p className="text-red-500 text-sm">{error}</p>}
+      {success && <p className="text-green-500 text-sm">{success}</p>}
       
       <button
         onClick={handleSave}

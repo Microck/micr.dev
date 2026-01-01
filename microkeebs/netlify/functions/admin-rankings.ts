@@ -1,5 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
-import { isAuthenticated } from './lib/auth';
+import { isAuthenticated, getCorsHeaders } from './lib/auth';
 import { getFileContent, createOrUpdateFile } from './lib/github';
 
 interface Rankings {
@@ -14,12 +14,7 @@ interface Rankings {
 const RANKINGS_PATH = 'src/data/rankings.json';
 
 export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
-  };
+  const corsHeaders = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers: corsHeaders, body: '' };

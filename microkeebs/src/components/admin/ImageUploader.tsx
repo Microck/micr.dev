@@ -1,18 +1,34 @@
 import { useState, useRef } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
+import { API_BASE } from './api';
 
 interface ImageUploaderProps {
   buildId: string;
+  currentImageCount: number;
   onUpload: (path: string) => void;
   disabled?: boolean;
 }
 
-export function ImageUploader({ buildId, onUpload, disabled }: ImageUploaderProps) {
+export function ImageUploader({ buildId, currentImageCount, onUpload, disabled }: ImageUploaderProps) {
   const { isDark } = useTheme();
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        // Remove data URL prefix (e.g., "data:image/png;base64,")
+        const base64 = result.split(',')[1];
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
 
   const handleUpload = async (file: File) => {
     if (!buildId) {
@@ -20,20 +36,27 @@ export function ImageUploader({ buildId, onUpload, disabled }: ImageUploaderProp
       return;
     }
 
+    // Validate file size (10MB max)
+    if (file.size > 10 * 1024 * 1024) {
+      setError('Image too large. Maximum size is 10MB.');
+      return;
+    }
+
     setUploading(true);
     setError(null);
 
-    const token = localStorage.getItem('admin_token');
-    const formData = new FormData();
-    formData.append('image', file);
-    formData.append('buildId', buildId);
-    formData.append('index', '0'); // Will be updated by parent
-
     try {
-      const res = await fetch('https://micr.dev/.netlify/functions/admin-upload', {
+      const token = localStorage.getItem('admin_token');
+      const base64 = await fileToBase64(file);
+      const index = currentImageCount; // New image gets next index
+
+      const res = await fetch(`${API_BASE}/.netlify/functions/admin-upload`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ image: base64, buildId, index }),
       });
 
       if (!res.ok) {

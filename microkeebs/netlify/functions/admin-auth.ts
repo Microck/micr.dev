@@ -8,15 +8,11 @@ import {
   resetRateLimit,
   getClientIP,
   verifyToken,
+  getCorsHeaders,
 } from './lib/auth';
 
 export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
-  };
+  const corsHeaders = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers: corsHeaders, body: '' };

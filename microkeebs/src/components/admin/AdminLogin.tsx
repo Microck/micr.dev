@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
+import { API_BASE } from './api';
 
 interface AdminLoginProps {
   onLogin: () => void;
@@ -19,7 +20,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
     setError(null);
 
     try {
-      const res = await fetch('https://micr.dev/.netlify/functions/admin-auth', {
+      const res = await fetch(`${API_BASE}/.netlify/functions/admin-auth`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),

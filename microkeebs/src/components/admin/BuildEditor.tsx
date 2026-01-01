@@ -3,6 +3,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
 import { ImageUploader } from './ImageUploader';
 import { ImageGallery } from './ImageGallery';
+import { API_BASE } from './api';
 
 interface KeyboardBuild {
   id: string;
@@ -42,6 +43,7 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
   const [formData, setFormData] = useState<KeyboardBuild>(build);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [specKeys, setSpecKeys] = useState<string[]>([]);
 
   const isNew = !build.id;
@@ -107,12 +109,13 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
 
     setSaving(true);
     setError(null);
+    setSuccess(null);
 
     const token = localStorage.getItem('admin_token');
     const method = isNew ? 'POST' : 'PUT';
 
     try {
-      const res = await fetch('https://micr.dev/.netlify/functions/admin-builds', {
+      const res = await fetch(`${API_BASE}/.netlify/functions/admin-builds`, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -127,6 +130,8 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
       }
 
       const data = await res.json();
+      setSuccess('Build saved successfully!');
+      setTimeout(() => setSuccess(null), 3000);
       onSave(data.build);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save');
@@ -140,7 +145,7 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
 
     const token = localStorage.getItem('admin_token');
     try {
-      const res = await fetch(`https://micr.dev/.netlify/functions/admin-builds?id=${formData.id}`, {
+      const res = await fetch(`${API_BASE}/.netlify/functions/admin-builds?id=${formData.id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -311,6 +316,7 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
           <div className="mt-2">
             <ImageUploader
               buildId={formData.id}
+              currentImageCount={formData.images.length}
               onUpload={handleImageUpload}
               disabled={!formData.id}
             />
@@ -319,6 +325,7 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
 
         {/* Error */}
         {error && <p className="text-red-500 text-sm">{error}</p>}
+        {success && <p className="text-green-500 text-sm">{success}</p>}
 
         {/* Actions */}
         <div className="flex gap-2 pt-4 border-t border-gray-600">

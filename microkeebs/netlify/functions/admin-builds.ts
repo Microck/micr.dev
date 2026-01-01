@@ -1,5 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
-import { isAuthenticated } from './lib/auth';
+import { isAuthenticated, getCorsHeaders } from './lib/auth';
 import { getFileContent, createOrUpdateFile } from './lib/github';
 
 interface KeyboardBuild {
@@ -16,12 +16,7 @@ interface KeyboardBuild {
 const BUILDS_PATH = 'src/data/builds.json';
 
 export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
-  };
+  const corsHeaders = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers: corsHeaders, body: '' };
@@ -117,11 +112,19 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
       const body = JSON.parse(event.body || '{}') as { build: KeyboardBuild; sha?: string };
       const { build, sha } = body;
 
-      if (!build.id) {
+      if (!build.id || !build.title || !build.category) {
         return {
           statusCode: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ error: 'Build ID required' }),
+          body: JSON.stringify({ error: 'Missing required fields: id, title, category' }),
+        };
+      }
+
+      if (!['MX', 'EC'].includes(build.category)) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid category. Must be MX or EC' }),
         };
       }
 

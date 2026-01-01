@@ -1,15 +1,10 @@
 import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
-import { isAuthenticated } from './lib/auth';
+import { isAuthenticated, getCorsHeaders } from './lib/auth';
 import { commitMultipleFiles } from './lib/github';
 import { processImage, validateImage, getImagePaths } from './lib/image';
 
 export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
-  };
+  const corsHeaders = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers: corsHeaders, body: '' };

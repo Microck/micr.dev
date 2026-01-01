@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
+import { API_BASE } from './api';
 
 interface KeyboardBuild {
   id: string;
@@ -32,7 +33,7 @@ export function BuildsList({ onSelectBuild }: BuildsListProps) {
   const fetchBuilds = async () => {
     const token = localStorage.getItem('admin_token');
     try {
-      const res = await fetch('https://micr.dev/.netlify/functions/admin-builds', {
+      const res = await fetch(`${API_BASE}/.netlify/functions/admin-builds`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error('Failed to fetch builds');
