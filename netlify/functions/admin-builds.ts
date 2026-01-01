@@ -1,35 +1,29 @@
 import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
+import { isAuthenticated, getCorsHeaders } from './lib/auth';
+import { getFileContent, createOrUpdateFile } from './lib/github';
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
-const GITHUB_REPO = process.env.GITHUB_REPO || '';
-const BUILDS_PATH = 'microkeebs/src/data/builds.json';
-
-async function githubRequest(path: string, options: RequestInit = {}) {
-  const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`, {
-    ...options,
-    headers: {
-      'Authorization': `Bearer ${GITHUB_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-  return res;
+interface KeyboardBuild {
+  id: string;
+  title: string;
+  youtubeTitle?: string;
+  category: 'MX' | 'EC';
+  timestamp: string;
+  images: string[];
+  youtubeUrl: string;
+  specs: Record<string, string | undefined>;
 }
 
+const BUILDS_PATH = 'src/data/builds.json';
+
 export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  };
+  const corsHeaders = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
-  const authHeader = event.headers.authorization;
-  if (!authHeader) {
+  // Auth check for all non-OPTIONS requests
+  if (!isAuthenticated(event)) {
     return {
       statusCode: 401,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -38,35 +32,115 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
   }
 
   try {
+    // GET /builds - List all builds
     if (event.httpMethod === 'GET') {
-      const res = await githubRequest(BUILDS_PATH);
-      if (!res.ok) {
+      const file = await getFileContent(BUILDS_PATH);
+      if (!file) {
         return {
           statusCode: 200,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           body: JSON.stringify({ builds: [], sha: null }),
         };
       }
-      const data = await res.json();
-      const content = Buffer.from(data.content, 'base64').toString('utf-8');
-      const builds = JSON.parse(content);
+
+      const builds = JSON.parse(file.content) as KeyboardBuild[];
       return {
         statusCode: 200,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ builds, sha: data.sha }),
+        body: JSON.stringify({ builds, sha: file.sha }),
       };
     }
 
+    // POST /builds - Create new build
+    if (event.httpMethod === 'POST') {
+      const body = JSON.parse(event.body || '{}') as { build: Partial<KeyboardBuild> };
+      const { build } = body;
+
+      if (!build.id || !build.title || !build.category) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Missing required fields: id, title, category' }),
+        };
+      }
+
+      // Get current builds
+      const file = await getFileContent(BUILDS_PATH);
+      const builds: KeyboardBuild[] = file ? JSON.parse(file.content) : [];
+
+      // Check for duplicate ID
+      if (builds.some(b => b.id === build.id)) {
+        return {
+          statusCode: 409,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Build with this ID already exists' }),
+        };
+      }
+
+      // Create new build with defaults
+      const newBuild: KeyboardBuild = {
+        id: build.id,
+        title: build.title,
+        youtubeTitle: build.youtubeTitle,
+        category: build.category as 'MX' | 'EC',
+        timestamp: build.timestamp || new Date().toISOString(),
+        images: build.images || [],
+        youtubeUrl: build.youtubeUrl || '',
+        specs: build.specs || {},
+      };
+
+      // Add to beginning of array
+      builds.unshift(newBuild);
+
+      // Commit to GitHub
+      const result = await createOrUpdateFile(
+        BUILDS_PATH,
+        JSON.stringify(builds, null, 2),
+        `Add build: ${newBuild.title}`,
+        file?.sha
+      );
+
+      return {
+        statusCode: 201,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ build: newBuild, sha: result.sha }),
+      };
+    }
+
+    // PUT /builds - Update existing build
     if (event.httpMethod === 'PUT') {
-      const body = JSON.parse(event.body || '{}');
+      const body = JSON.parse(event.body || '{}') as { build: KeyboardBuild; sha?: string };
       const { build, sha } = body;
 
-      const res = await githubRequest(BUILDS_PATH);
-      const data = await res.json();
-      const content = Buffer.from(data.content, 'base64').toString('utf-8');
-      const builds = JSON.parse(content);
-      
-      const index = builds.findIndex((b: { id: string }) => b.id === build.id);
+      if (!build.id || !build.title || !build.category) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Missing required fields: id, title, category' }),
+        };
+      }
+
+      if (!['MX', 'EC'].includes(build.category)) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid category. Must be MX or EC' }),
+        };
+      }
+
+      // Get current builds
+      const file = await getFileContent(BUILDS_PATH);
+      if (!file) {
+        return {
+          statusCode: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Builds file not found' }),
+        };
+      }
+
+      const builds: KeyboardBuild[] = JSON.parse(file.content);
+      const index = builds.findIndex(b => b.id === build.id);
+
       if (index === -1) {
         return {
           statusCode: 404,
@@ -74,32 +148,73 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
           body: JSON.stringify({ error: 'Build not found' }),
         };
       }
-      
+
+      // Update build
       builds[index] = build;
 
-      const updateRes = await githubRequest(BUILDS_PATH, {
-        method: 'PUT',
-        body: JSON.stringify({
-          message: `Update build: ${build.title}`,
-          content: Buffer.from(JSON.stringify(builds, null, 2)).toString('base64'),
-          sha: sha || data.sha,
-        }),
-      });
+      // Commit to GitHub
+      const result = await createOrUpdateFile(
+        BUILDS_PATH,
+        JSON.stringify(builds, null, 2),
+        `Update build: ${build.title}`,
+        sha || file.sha
+      );
 
-      if (!updateRes.ok) {
-        const err = await updateRes.json();
-        return {
-          statusCode: 500,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ error: 'Failed to update', details: err }),
-        };
-      }
-
-      const result = await updateRes.json();
       return {
         statusCode: 200,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ build, sha: result.content.sha }),
+        body: JSON.stringify({ build, sha: result.sha }),
+      };
+    }
+
+    // DELETE /builds?id=xxx - Delete build
+    if (event.httpMethod === 'DELETE') {
+      const buildId = event.queryStringParameters?.id;
+      
+      if (!buildId) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Build ID required' }),
+        };
+      }
+
+      // Get current builds
+      const file = await getFileContent(BUILDS_PATH);
+      if (!file) {
+        return {
+          statusCode: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Builds file not found' }),
+        };
+      }
+
+      const builds: KeyboardBuild[] = JSON.parse(file.content);
+      const index = builds.findIndex(b => b.id === buildId);
+
+      if (index === -1) {
+        return {
+          statusCode: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Build not found' }),
+        };
+      }
+
+      const deletedBuild = builds[index];
+      builds.splice(index, 1);
+
+      // Commit to GitHub
+      const result = await createOrUpdateFile(
+        BUILDS_PATH,
+        JSON.stringify(builds, null, 2),
+        `Delete build: ${deletedBuild.title}`,
+        file.sha
+      );
+
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ success: true, sha: result.sha }),
       };
     }
 

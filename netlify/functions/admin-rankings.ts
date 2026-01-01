@@ -1,35 +1,27 @@
 import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
+import { isAuthenticated, getCorsHeaders } from './lib/auth';
+import { getFileContent, createOrUpdateFile } from './lib/github';
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
-const GITHUB_REPO = process.env.GITHUB_REPO || '';
-const RANKINGS_PATH = 'microkeebs/src/data/rankings.json';
-
-async function githubRequest(path: string, options: RequestInit = {}) {
-  const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`, {
-    ...options,
-    headers: {
-      'Authorization': `Bearer ${GITHUB_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-  return res;
+interface Rankings {
+  all: string[];
+  look: string[];
+  sound: string[];
+  feel: string[];
+  mechanical: string[];
+  electrocapacitive: string[];
 }
 
+const RANKINGS_PATH = 'src/data/rankings.json';
+
 export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  };
+  const corsHeaders = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
-  const authHeader = event.headers.authorization;
-  if (!authHeader) {
+  // Auth check for all non-OPTIONS requests
+  if (!isAuthenticated(event)) {
     return {
       statusCode: 401,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -38,10 +30,11 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
   }
 
   try {
+    // GET /rankings - Get all rankings
     if (event.httpMethod === 'GET') {
-      const res = await githubRequest(RANKINGS_PATH);
-      if (!res.ok) {
-        const emptyRankings = {
+      const file = await getFileContent(RANKINGS_PATH);
+      if (!file) {
+        const emptyRankings: Rankings = {
           all: [],
           look: [],
           sound: [],
@@ -55,46 +48,55 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
           body: JSON.stringify({ rankings: emptyRankings, sha: null }),
         };
       }
-      const data = await res.json();
-      const content = Buffer.from(data.content, 'base64').toString('utf-8');
-      const rankings = JSON.parse(content);
+
+      const rankings = JSON.parse(file.content) as Rankings;
       return {
         statusCode: 200,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rankings, sha: data.sha }),
+        body: JSON.stringify({ rankings, sha: file.sha }),
       };
     }
 
+    // PUT /rankings - Update rankings
     if (event.httpMethod === 'PUT') {
-      const body = JSON.parse(event.body || '{}');
+      const body = JSON.parse(event.body || '{}') as { rankings: Rankings; sha?: string };
       const { rankings, sha } = body;
 
-      const res = await githubRequest(RANKINGS_PATH);
-      const data = await res.json();
-
-      const updateRes = await githubRequest(RANKINGS_PATH, {
-        method: 'PUT',
-        body: JSON.stringify({
-          message: 'Update rankings',
-          content: Buffer.from(JSON.stringify(rankings, null, 2) + '\n').toString('base64'),
-          sha: sha || data.sha,
-        }),
-      });
-
-      if (!updateRes.ok) {
-        const err = await updateRes.json();
+      if (!rankings) {
         return {
-          statusCode: 500,
+          statusCode: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ error: 'Failed to update', details: err }),
+          body: JSON.stringify({ error: 'Rankings data required' }),
         };
       }
 
-      const result = await updateRes.json();
+      // Validate structure
+      const requiredKeys: (keyof Rankings)[] = ['all', 'look', 'sound', 'feel', 'mechanical', 'electrocapacitive'];
+      for (const key of requiredKeys) {
+        if (!Array.isArray(rankings[key])) {
+          return {
+            statusCode: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ error: `Invalid rankings: ${key} must be an array` }),
+          };
+        }
+      }
+
+      // Get current file for SHA
+      const file = await getFileContent(RANKINGS_PATH);
+
+      // Commit to GitHub
+      const result = await createOrUpdateFile(
+        RANKINGS_PATH,
+        JSON.stringify(rankings, null, 2) + '\n',
+        'Update rankings',
+        sha || file?.sha
+      );
+
       return {
         statusCode: 200,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rankings, sha: result.content.sha }),
+        body: JSON.stringify({ rankings, sha: result.sha }),
       };
     }
 
