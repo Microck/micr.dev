@@ -81,10 +81,10 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
     });
   };
 
-  const handleImageUpload = (path: string) => {
+  const handleImageUpload = (paths: string[]) => {
     setFormData(prev => ({
       ...prev,
-      images: [...prev.images, path],
+      images: [...prev.images, ...paths],
     }));
   };
 
@@ -96,6 +96,13 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
     setFormData(prev => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleImageRename = (index: number, newPath: string) => {
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images.map((img, i) => i === index ? newPath : img),
     }));
   };
 
@@ -312,6 +319,7 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
             images={formData.images}
             onReorder={handleImageReorder}
             onDelete={handleImageDelete}
+            onRename={handleImageRename}
           />
           <div className="mt-2">
             <ImageUploader
