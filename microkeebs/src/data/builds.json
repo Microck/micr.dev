@@ -42,7 +42,8 @@
       "./images/z0CkzudgYRo/4.webp",
       "./images/z0CkzudgYRo/5.webp",
       "./images/z0CkzudgYRo/6.webp",
-      "./images/z0CkzudgYRo/7.webp"
+      "./images/z0CkzudgYRo/7.webp",
+      "./images/z0CkzudgYRo/8.webp"
     ],
     "youtubeUrl": "https://youtu.be/z0CkzudgYRo",
     "specs": {
@@ -66,7 +67,9 @@
     "category": "MX",
     "timestamp": "2025-12-07T14:00:55Z",
     "images": [
-      "./images/SISu-x7sLKU/thumbnail.jpg"
+      "./images/SISu-x7sLKU/thumbnail.jpg",
+      "./images/SISu-x7sLKU/1.webp",
+      "./images/SISu-x7sLKU/2.webp"
     ],
     "youtubeUrl": "https://youtu.be/SISu-x7sLKU",
     "specs": {
@@ -224,7 +227,11 @@
     "category": "MX",
     "timestamp": "2025-10-19T13:00:52Z",
     "images": [
-      "./images/S3VDDnTtocI/thumbnail.jpg"
+      "./images/S3VDDnTtocI/thumbnail.jpg",
+      "./images/S3VDDnTtocI/2.webp",
+      "./images/S3VDDnTtocI/3.webp",
+      "./images/S3VDDnTtocI/5.webp",
+      "./images/S3VDDnTtocI/4.webp"
     ],
     "youtubeUrl": "https://youtu.be/S3VDDnTtocI",
     "specs": {
