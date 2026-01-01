@@ -1,16 +1,13 @@
-require("dotenv").config();
+try { require("dotenv").config(); } catch (e) { /* dotenv optional in CI */ }
 const { google } = require("googleapis");
 const fs = require("fs");
 const path = require("path");
-const fetch = require("node-fetch");
 
 // =============================================================================
 // --- CONFIGURATION ---
 // =============================================================================
-// Where to save builds.json (e.g., './output' or '../my-website/src/data')
-const BUILDS_OUTPUT_PATH = "C:/Users/Microck/Documents/GitHub/micr.dev/microkeebs/src/data";
-// Where to save images (e.g., './output/images' or '../my-website/public/images')
-const IMAGES_BASE_DIR = "C:/Users/Microck/Documents/GitHub/micr.dev/microkeebs/public/images";
+const BUILDS_OUTPUT_PATH = path.join(__dirname);
+const IMAGES_BASE_DIR = path.join(__dirname, "../../public/images");
 const FORCE_REFRESH_ALL = false;
 // =============================================================================
 
@@ -97,7 +94,7 @@ async function downloadThumbnail(videoId) {
   try {
     if (!response.ok)
       throw new Error(`Failed to fetch any thumbnail for ${videoId}`);
-    const buffer = await response.buffer();
+    const buffer = Buffer.from(await response.arrayBuffer());
     fs.writeFileSync(imagePath, buffer);
     console.log(`  ✓ Downloaded thumbnail for ${videoId}`);
     return webPath;
