@@ -23,15 +23,17 @@ interface PendingBuild {
 }
 
 interface DeployRequest {
-  pendingImages: PendingImage[];
-  pendingBuilds: PendingBuild[];
+  // For chunked image uploads
+  imageChunk?: PendingImage[];
+  chunkIndex?: number;
+  totalChunks?: number;
+  
+  // For final deploy (builds + rankings)
+  finalDeploy?: boolean;
+  pendingBuilds?: PendingBuild[];
   pendingRankings?: Record<string, string[]>;
-  currentBuilds: PendingBuild[];
-  currentRankings?: Record<string, string[]>;
+  currentBuilds?: PendingBuild[];
 }
-
-// Process images in batches to avoid memory issues
-const BATCH_SIZE = 5;
 
 export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
   const corsHeaders = getCorsHeaders(event);
@@ -60,7 +62,7 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
     let body: DeployRequest;
     try {
       body = JSON.parse(event.body || '{}');
-    } catch (e) {
+    } catch {
       return {
         statusCode: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -68,41 +70,53 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
       };
     }
 
-    const { pendingImages = [], pendingBuilds = [], pendingRankings, currentBuilds = [] } = body;
-    
-    const allFilesToCommit: Array<{ path: string; content: string }> = [];
-    
-    // Process pending images in batches
-    if (pendingImages.length > 0) {
-      for (let i = 0; i < pendingImages.length; i += BATCH_SIZE) {
-        const batch = pendingImages.slice(i, i + BATCH_SIZE);
-        
-        for (const img of batch) {
-          try {
-            const buffer = Buffer.from(img.base64, 'base64');
-            const processed = await processImage(buffer);
-            const paths = getImagePaths(img.buildId, img.index);
-            
-            allFilesToCommit.push({
-              path: paths.full,
-              content: processed.full.toString('base64'),
-            });
-            allFilesToCommit.push({
-              path: paths.thumbnail,
-              content: processed.thumbnail.toString('base64'),
-            });
-          } catch (imgError) {
-            console.error(`Failed to process image ${img.buildId}/${img.index}:`, imgError);
-            // Continue with other images
-          }
+    // Handle image chunk upload
+    if (body.imageChunk && body.imageChunk.length > 0) {
+      const filesToCommit: Array<{ path: string; content: string }> = [];
+      
+      for (const img of body.imageChunk) {
+        try {
+          const buffer = Buffer.from(img.base64, 'base64');
+          const processed = await processImage(buffer);
+          const paths = getImagePaths(img.buildId, img.index);
+          
+          filesToCommit.push({
+            path: paths.full,
+            content: processed.full.toString('base64'),
+          });
+          filesToCommit.push({
+            path: paths.thumbnail,
+            content: processed.thumbnail.toString('base64'),
+          });
+        } catch (imgError) {
+          console.error(`Failed to process image ${img.buildId}/${img.index}:`, imgError);
         }
       }
+      
+      if (filesToCommit.length > 0) {
+        const chunkInfo = body.chunkIndex !== undefined ? ` (chunk ${body.chunkIndex + 1}/${body.totalChunks})` : '';
+        await commitMultipleFiles(filesToCommit, `Add ${body.imageChunk.length} image(s)${chunkInfo}`);
+      }
+      
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          success: true, 
+          imagesProcessed: body.imageChunk.length,
+          chunkIndex: body.chunkIndex,
+        }),
+      };
     }
-    
-    // Merge pending builds with current builds
-    let finalBuilds = [...currentBuilds];
-    
-    if (pendingBuilds.length > 0) {
+
+    // Handle final deploy (builds.json + rankings + trigger build)
+    if (body.finalDeploy) {
+      const { pendingBuilds = [], pendingRankings, currentBuilds = [] } = body;
+      const filesToCommit: Array<{ path: string; content: string }> = [];
+      
+      // Merge pending builds with current builds
+      let finalBuilds = [...currentBuilds];
+      
       for (const pending of pendingBuilds) {
         if (pending.isDeleted) {
           finalBuilds = finalBuilds.filter(b => b.id !== pending.id);
@@ -115,63 +129,56 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
             const { isNew: _, isDeleted: __, ...build } = pending;
             finalBuilds[idx] = build;
           } else {
-            // Build not found, add it
             const { isNew: _, isDeleted: __, ...build } = pending;
             finalBuilds.push(build);
           }
         }
       }
-    }
-    
-    // Add builds.json to commit
-    allFilesToCommit.push({
-      path: 'microkeebs/src/data/builds.json',
-      content: Buffer.from(JSON.stringify(finalBuilds, null, 2)).toString('base64'),
-    });
-    
-    // Add rankings if changed
-    if (pendingRankings) {
-      allFilesToCommit.push({
-        path: 'microkeebs/src/data/rankings.json',
-        content: Buffer.from(JSON.stringify(pendingRankings, null, 2) + '\n').toString('base64'),
+      
+      // Add builds.json
+      filesToCommit.push({
+        path: 'microkeebs/src/data/builds.json',
+        content: Buffer.from(JSON.stringify(finalBuilds, null, 2)).toString('base64'),
       });
-    }
-    
-    // Commit everything at once
-    const imageCount = pendingImages.length;
-    const commitMessage = imageCount > 0
-      ? `Update builds and add ${imageCount} image(s)`
-      : 'Update builds';
-    
-    await commitMultipleFiles(allFilesToCommit, commitMessage);
-    
-    // Trigger Netlify build
-    const buildHook = process.env.NETLIFY_BUILD_HOOK;
-    if (buildHook) {
-      try {
-        await fetch(buildHook, { method: 'POST', body: '{}' });
-      } catch (hookError) {
-        console.error('Failed to trigger build hook:', hookError);
-        // Don't fail the whole deploy if hook fails
+      
+      // Add rankings if changed
+      if (pendingRankings) {
+        filesToCommit.push({
+          path: 'microkeebs/src/data/rankings.json',
+          content: Buffer.from(JSON.stringify(pendingRankings, null, 2) + '\n').toString('base64'),
+        });
       }
+      
+      await commitMultipleFiles(filesToCommit, 'Update builds');
+      
+      // Trigger Netlify build
+      const buildHook = process.env.NETLIFY_BUILD_HOOK;
+      if (buildHook) {
+        try {
+          await fetch(buildHook, { method: 'POST', body: '{}' });
+        } catch (hookError) {
+          console.error('Failed to trigger build hook:', hookError);
+        }
+      }
+
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ success: true, message: 'Deploy complete' }),
+      };
     }
 
     return {
-      statusCode: 200,
+      statusCode: 400,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        success: true, 
-        message: `Deployed ${allFilesToCommit.length} files`,
-        imagesProcessed: imageCount,
-      }),
+      body: JSON.stringify({ error: 'Invalid request - need imageChunk or finalDeploy' }),
     };
   } catch (error) {
     console.error('Deploy error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Deploy failed';
     return {
       statusCode: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: errorMessage, details: String(error) }),
+      body: JSON.stringify({ error: error instanceof Error ? error.message : 'Deploy failed' }),
     };
   }
 };
