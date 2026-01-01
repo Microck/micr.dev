@@ -7,6 +7,7 @@ import LogoWall from './LogoWall';
 import { SplitText } from './SplitText';
 import { ScrollReveal } from './ScrollReveal';
 import { InteractiveDivider } from './InteractiveDivider';
+import { ContactMobile } from './ContactMobile';
 
 // Import logos directly for Vite processing
 import bowlLogo from '@/assets/workedwith/bowlkeyboards.webp';
@@ -275,46 +276,54 @@ export function Contact() {
   const contentScale = 1;
 
   return (
-    <div className={cn('min-h-screen relative overflow-hidden', isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]')}>
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <Suspense fallback={null}>
-          <div className="w-full h-full pointer-events-auto">
-            <Lanyard 
-              position={[-1, 0, 13]} 
-              gravity={[0, -40, 0]} 
-              fov={40} 
-              transparent 
-            />
-          </div>
-        </Suspense>
+    <>
+      {/* Mobile version */}
+      <div className="block lg:hidden">
+        <ContactMobile />
       </div>
 
-      <div 
-        className="relative z-10 pointer-events-none"
-        style={{
-          transform: `translate(${contentX}px, ${contentY}px) scale(${contentScale})`,
-          transformOrigin: 'top center'
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-8">
-          <div className="grid grid-cols-1 lg:grid-cols-[35%_1fr] gap-8 lg:gap-16">
-            <div className="hidden lg:block" />
-            <div className="pointer-events-auto">
-              <AboutSection isDark={isDark} />
+      {/* Desktop version */}
+      <div className={cn('hidden lg:block min-h-screen relative overflow-hidden', isDark ? 'bg-[#1c1c1c]' : 'bg-[#a7a495]')}>
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <Suspense fallback={null}>
+            <div className="w-full h-full pointer-events-auto">
+              <Lanyard 
+                position={[-1, 0, 13]} 
+                gravity={[0, -40, 0]} 
+                fov={40} 
+                transparent 
+              />
+            </div>
+          </Suspense>
+        </div>
+
+        <div 
+          className="relative z-10 pointer-events-none"
+          style={{
+            transform: `translate(${contentX}px, ${contentY}px) scale(${contentScale})`,
+            transformOrigin: 'top center'
+          }}
+        >
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-8">
+            <div className="grid grid-cols-1 lg:grid-cols-[35%_1fr] gap-8 lg:gap-16">
+              <div className="hidden lg:block" />
+              <div className="pointer-events-auto">
+                <AboutSection isDark={isDark} />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="pointer-events-auto w-full">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-            <InteractiveDivider />
+          <div className="pointer-events-auto w-full">
+            <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+              <InteractiveDivider />
+            </div>
+            <WorkedWithSection 
+              isDark={isDark} 
+            />
+            <GiantEmailSection isDark={isDark} />
           </div>
-          <WorkedWithSection 
-            isDark={isDark} 
-          />
-          <GiantEmailSection isDark={isDark} />
         </div>
       </div>
-    </div>
+    </>
   );
 }
