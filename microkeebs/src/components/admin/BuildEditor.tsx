@@ -131,12 +131,18 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
         body: JSON.stringify({ build: formData }),
       });
 
+      const text = await res.text();
+      let data;
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        throw new Error(`Server error: ${text || res.statusText}`);
+      }
+
       if (!res.ok) {
-        const data = await res.json();
         throw new Error(data.error || 'Failed to save');
       }
 
-      const data = await res.json();
       setSuccess('Build saved successfully!');
       setTimeout(() => setSuccess(null), 3000);
       onSave(data.build);
@@ -157,8 +163,15 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
         headers: { Authorization: `Bearer ${token}` },
       });
 
+      const text = await res.text();
+      let data;
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        throw new Error(`Server error: ${text || res.statusText}`);
+      }
+
       if (!res.ok) {
-        const data = await res.json();
         throw new Error(data.error || 'Failed to delete');
       }
 

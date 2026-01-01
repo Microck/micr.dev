@@ -27,7 +27,14 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
         credentials: 'include',
       });
 
-      const data = await res.json();
+      const text = await res.text();
+      let data;
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        setError(`Server error: ${text || res.statusText}`);
+        return;
+      }
 
       if (res.ok) {
         localStorage.setItem('admin_token', data.token);

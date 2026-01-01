@@ -43,12 +43,18 @@ export function ImageUploader({ buildId, currentImageCount, onUpload, disabled }
       body: JSON.stringify({ image: base64, buildId, index }),
     });
 
+    const text = await res.text();
+    let data;
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch {
+      throw new Error(`Server error: ${text || res.statusText}`);
+    }
+
     if (!res.ok) {
-      const data = await res.json();
       throw new Error(data.error || 'Upload failed');
     }
 
-    const data = await res.json();
     return data.path;
   };
 

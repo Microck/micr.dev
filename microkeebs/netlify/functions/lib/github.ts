@@ -139,10 +139,11 @@ export async function commitMultipleFiles(
         sha: null,
       });
     } else {
+      // content is already base64, pass directly
       const { data: blobData } = await octokit.git.createBlob({
         owner,
         repo,
-        content: Buffer.from(file.content).toString('base64'),
+        content: file.content,
         encoding: 'base64',
       });
       treeItems.push({

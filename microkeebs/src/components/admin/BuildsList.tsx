@@ -36,8 +36,14 @@ export function BuildsList({ onSelectBuild }: BuildsListProps) {
       const res = await fetch(`${API_BASE}/.netlify/functions/admin-builds`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error('Failed to fetch builds');
-      const data = await res.json();
+      const text = await res.text();
+      let data;
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        throw new Error(`Server error: ${text || res.statusText}`);
+      }
+      if (!res.ok) throw new Error(data.error || 'Failed to fetch builds');
       setBuilds(data.builds);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load builds');

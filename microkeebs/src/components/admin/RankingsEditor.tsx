@@ -49,8 +49,14 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
       const res = await fetch(`${API_BASE}/.netlify/functions/admin-rankings`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error('Failed to fetch rankings');
-      const data = await res.json();
+      const text = await res.text();
+      let data;
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        throw new Error(`Server error: ${text || res.statusText}`);
+      }
+      if (!res.ok) throw new Error(data.error || 'Failed to fetch rankings');
       setRankings(data.rankings);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load rankings');
@@ -105,8 +111,15 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
         body: JSON.stringify({ rankings }),
       });
 
+      const text = await res.text();
+      let data;
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        throw new Error(`Server error: ${text || res.statusText}`);
+      }
+
       if (!res.ok) {
-        const data = await res.json();
         throw new Error(data.error || 'Failed to save');
       }
 
