@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect, ReactNode, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { AdminLogin } from './AdminLogin';
 import { API_BASE } from './api';
@@ -10,6 +10,15 @@ interface AdminLayoutProps {
   onNavigate: (view: string) => void;
 }
 
+interface LogEntry {
+  id: number;
+  time: string;
+  type: 'info' | 'success' | 'error' | 'request' | 'response';
+  message: string;
+}
+
+let logId = 0;
+
 export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutProps) {
   const { pendingImages, pendingBuilds, pendingRankings, hasChanges, pendingCount, clearAll } = usePendingChanges();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -17,7 +26,21 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
   const [deployStatus, setDeployStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [deployError, setDeployError] = useState<string | null>(null);
   const [currentBuilds, setCurrentBuilds] = useState<unknown[]>([]);
-  const [currentRankings, setCurrentRankings] = useState<Record<string, string[]> | null>(null);
+  
+  // Debug panel state
+  const [showDebug, setShowDebug] = useState(false);
+  const [debugLogs, setDebugLogs] = useState<LogEntry[]>([]);
+  const [deployProgress, setDeployProgress] = useState<{ current: number; total: number; stage: string } | null>(null);
+  
+  const addLog = useCallback((type: LogEntry['type'], message: string) => {
+    const entry: LogEntry = {
+      id: ++logId,
+      time: new Date().toLocaleTimeString(),
+      type,
+      message,
+    };
+    setDebugLogs(prev => [...prev.slice(-99), entry]);
+  }, []);
 
   useEffect(() => {
     checkAuth();
@@ -27,22 +50,13 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
   const fetchCurrentData = async () => {
     const token = localStorage.getItem('admin_token');
     try {
-      const [buildsRes, rankingsRes] = await Promise.all([
-        fetch(`${API_BASE}/.netlify/functions/admin-builds`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        fetch(`${API_BASE}/.netlify/functions/admin-rankings`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-      ]);
+      const buildsRes = await fetch(`${API_BASE}/.netlify/functions/admin-builds`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       
       if (buildsRes.ok) {
         const data = await buildsRes.json();
         setCurrentBuilds(data.builds || []);
-      }
-      if (rankingsRes.ok) {
-        const data = await rankingsRes.json();
-        setCurrentRankings(data.rankings || null);
       }
     } catch {
       // Ignore
@@ -86,10 +100,65 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
     setDeploying(true);
     setDeployStatus('idle');
     setDeployError(null);
+    setDeployProgress(null);
+    
+    const token = localStorage.getItem('admin_token');
+    const pendingBuildsArray = Array.from(pendingBuilds.values());
     
     try {
-      const token = localStorage.getItem('admin_token');
-      const pendingBuildsArray = Array.from(pendingBuilds.values());
+      // Phase 1: Upload images in chunks of 2
+      const CHUNK_SIZE = 2;
+      const totalImages = pendingImages.length;
+      
+      if (totalImages > 0) {
+        const totalChunks = Math.ceil(totalImages / CHUNK_SIZE);
+        addLog('info', `Starting image upload: ${totalImages} images in ${totalChunks} chunks`);
+        
+        for (let i = 0; i < totalImages; i += CHUNK_SIZE) {
+          const chunkIndex = Math.floor(i / CHUNK_SIZE);
+          const chunk = pendingImages.slice(i, i + CHUNK_SIZE);
+          
+          setDeployProgress({
+            current: i + chunk.length,
+            total: totalImages,
+            stage: `Uploading images ${i + 1}-${Math.min(i + CHUNK_SIZE, totalImages)} of ${totalImages}`,
+          });
+          
+          addLog('request', `POST /admin-deploy (chunk ${chunkIndex + 1}/${totalChunks}, ${chunk.length} images)`);
+          
+          const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              imageChunk: chunk,
+              chunkIndex,
+              totalChunks,
+            }),
+          });
+          
+          const text = await res.text();
+          let data;
+          try {
+            data = text ? JSON.parse(text) : {};
+          } catch {
+            throw new Error(text || 'Invalid response from chunk upload');
+          }
+          
+          if (!res.ok) {
+            addLog('error', `Chunk ${chunkIndex + 1} failed: ${data.error || res.status}`);
+            throw new Error(data.error || `Chunk ${chunkIndex + 1} failed`);
+          }
+          
+          addLog('success', `Chunk ${chunkIndex + 1}/${totalChunks} uploaded`);
+        }
+      }
+      
+      // Phase 2: Final deploy (builds.json + rankings)
+      setDeployProgress({ current: 0, total: 0, stage: 'Updating builds.json...' });
+      addLog('request', `POST /admin-deploy (finalDeploy)`);
       
       const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
         method: 'POST',
@@ -98,11 +167,10 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          pendingImages,
+          finalDeploy: true,
           pendingBuilds: pendingBuildsArray,
           pendingRankings,
           currentBuilds,
-          currentRankings,
         }),
       });
       
@@ -115,18 +183,23 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
       }
       
       if (res.ok) {
+        addLog('success', 'Deploy complete!');
         setDeployStatus('success');
         clearAll();
         fetchCurrentData();
+        setDeployProgress(null);
         setTimeout(() => setDeployStatus('idle'), 4000);
       } else {
+        addLog('error', `Final deploy failed: ${data.error}`);
         setDeployError(data.error || 'Deploy failed');
         setDeployStatus('error');
         setTimeout(() => setDeployStatus('idle'), 5000);
       }
     } catch (err) {
       console.error('Deploy error:', err);
-      setDeployError(err instanceof Error ? err.message : 'Deploy failed');
+      const msg = err instanceof Error ? err.message : 'Deploy failed';
+      addLog('error', msg);
+      setDeployError(msg);
       setDeployStatus('error');
       setTimeout(() => setDeployStatus('idle'), 5000);
     } finally {
@@ -197,8 +270,15 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
             </div>
             
             <div className="flex items-center gap-3">
+              {/* Deploy Progress */}
+              {deployProgress && (
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#e0dcd0] text-[#5c5647] text-xs font-mono">
+                  {deployProgress.stage}
+                </div>
+              )}
+              
               {/* Pending Changes Indicator */}
-              {hasChanges && (
+              {hasChanges && !deployProgress && (
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#e8dcc8] text-[#6b5d3e] text-sm">
                   <span className="w-2 h-2 rounded-full bg-[#c9a55a] animate-pulse" />
                   {pendingCount.images > 0 && <span>{pendingCount.images} images</span>}
@@ -268,6 +348,22 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
               
               <div className="w-px h-6 bg-[#d9d5c9]" />
               
+              {/* Debug Toggle */}
+              <button
+                onClick={() => setShowDebug(!showDebug)}
+                className={cn(
+                  'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                  showDebug 
+                    ? 'bg-[#5c5647] text-[#f5f3ed]' 
+                    : 'text-[#6b6459] hover:text-[#3d3a32] hover:bg-[#e0dcd0]'
+                )}
+                title="Toggle debug panel"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+              </button>
+              
               <a
                 href="#/"
                 className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-[#6b6459] hover:text-[#3d3a32] hover:bg-[#e0dcd0] transition-colors"
@@ -299,6 +395,84 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span className="text-sm">{deployError}</span>
+          </div>
+        </div>
+      )}
+
+      {/* Debug Panel */}
+      {showDebug && (
+        <div className="border-b border-[#d9d5c9] bg-[#2d2d2d] text-[#e0e0e0]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex gap-6">
+              {/* Pending State */}
+              <div className="flex-1 min-w-0">
+                <h3 className="text-xs font-bold text-[#8b8b8b] uppercase mb-2">Pending State</h3>
+                <div className="bg-[#1e1e1e] rounded p-3 text-xs font-mono space-y-2 max-h-48 overflow-auto">
+                  <div>
+                    <span className="text-[#9cdcfe]">images:</span>{' '}
+                    <span className="text-[#b5cea8]">{pendingImages.length}</span>
+                    {pendingImages.length > 0 && (
+                      <span className="text-[#6a9955]"> [{pendingImages.map(i => `${i.buildId}/${i.index}`).join(', ')}]</span>
+                    )}
+                  </div>
+                  <div>
+                    <span className="text-[#9cdcfe]">builds:</span>{' '}
+                    <span className="text-[#b5cea8]">{pendingBuilds.size}</span>
+                    {pendingBuilds.size > 0 && (
+                      <span className="text-[#6a9955]"> [{Array.from(pendingBuilds.keys()).join(', ')}]</span>
+                    )}
+                  </div>
+                  <div>
+                    <span className="text-[#9cdcfe]">rankings:</span>{' '}
+                    <span className="text-[#b5cea8]">{pendingRankings ? 'modified' : 'null'}</span>
+                  </div>
+                  <div>
+                    <span className="text-[#9cdcfe]">localStorage size:</span>{' '}
+                    <span className="text-[#b5cea8]">
+                      {(() => {
+                        const item = localStorage.getItem('microkeebs_pending_changes');
+                        return item ? `${(item.length / 1024).toFixed(1)} KB` : '0 KB';
+                      })()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Logs */}
+              <div className="flex-[2] min-w-0">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-xs font-bold text-[#8b8b8b] uppercase">Logs</h3>
+                  <button 
+                    onClick={() => setDebugLogs([])}
+                    className="text-xs text-[#8b8b8b] hover:text-white"
+                  >
+                    Clear
+                  </button>
+                </div>
+                <div className="bg-[#1e1e1e] rounded p-3 text-xs font-mono max-h-48 overflow-auto">
+                  {debugLogs.length === 0 ? (
+                    <span className="text-[#6a9955]">No logs yet...</span>
+                  ) : (
+                    debugLogs.map(log => (
+                      <div key={log.id} className="flex gap-2">
+                        <span className="text-[#6a9955] flex-shrink-0">{log.time}</span>
+                        <span className={cn(
+                          'flex-shrink-0',
+                          log.type === 'error' && 'text-[#f14c4c]',
+                          log.type === 'success' && 'text-[#89d185]',
+                          log.type === 'request' && 'text-[#dcdcaa]',
+                          log.type === 'response' && 'text-[#9cdcfe]',
+                          log.type === 'info' && 'text-[#ce9178]',
+                        )}>
+                          [{log.type}]
+                        </span>
+                        <span className="text-[#d4d4d4] break-all">{log.message}</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
