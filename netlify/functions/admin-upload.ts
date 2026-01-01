@@ -74,9 +74,9 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
         `Add image: ${buildId}/${index === 0 ? 'thumbnail' : index}`
       );
 
-      // Return the public path (relative to public/)
-      const publicPath = paths.full.replace('public/', './');
-      const thumbnailPath = paths.thumbnail.replace('public/', './');
+      // Return the public path (relative to microkeebs/public/)
+      const publicPath = paths.full.replace('microkeebs/public/', './');
+      const thumbnailPath = paths.thumbnail.replace('microkeebs/public/', './');
 
       return {
         statusCode: 200,
