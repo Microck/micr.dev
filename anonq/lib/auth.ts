@@ -8,9 +8,9 @@ const SESSION_DURATION_MS = 24 * 60 * 60 * 1000;
 const sessions = new Map<string, { expiresAt: number }>();
 
 function getSessionSecret(): string {
-  const secret = process.env.SESSION_SECRET;
+  const secret = process.env.SESSION_SECRET || process.env.ADMIN_PASSWORD_HASH;
   if (!secret) {
-    return process.env.ADMIN_PASSWORD_HASH || 'insecure-fallback-secret';
+    throw new Error('SESSION_SECRET or ADMIN_PASSWORD_HASH must be configured');
   }
   return secret;
 }

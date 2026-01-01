@@ -8,6 +8,6 @@ export const auth0 = new Auth0Client({
 
 export function isAllowedUser(email: string | undefined | null): boolean {
   if (!email) return false;
-  if (ALLOWED_EMAILS.length === 0) return true;
+  if (ALLOWED_EMAILS.length === 0) return false;
   return ALLOWED_EMAILS.includes(email.toLowerCase());
 }

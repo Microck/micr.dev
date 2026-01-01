@@ -30,11 +30,11 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           YOUTUBE_MX_PLAYLIST_ID: ${{ secrets.YOUTUBE_MX_PLAYLIST_ID }}
           YOUTUBE_EC_PLAYLIST_ID: ${{ secrets.YOUTUBE_EC_PLAYLIST_ID }}
-        run: node src/data/extract.js
+        run: node src/data/extract.cjs
         working-directory: microkeebs
 
       - name: Optimize images
-        run: node src/data/optimize_images.js
+        run: node src/data/optimize_images.cjs
         working-directory: microkeebs
 
       - name: Commit changes
