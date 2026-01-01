@@ -69,8 +69,8 @@ function AboutSectionMobile({ isDark }: { isDark: boolean }) {
               className="rounded-lg px-3 py-2"
               style={{
                 backgroundColor: isDark 
-                  ? 'rgba(28, 28, 28, 0.75)' 
-                  : 'rgba(167, 164, 149, 0.75)',
+                  ? 'rgba(28, 28, 28, 0.5)' 
+                  : 'rgba(167, 164, 149, 0.5)',
                 backdropFilter: 'blur(8px)',
                 WebkitBackdropFilter: 'blur(8px)'
               }}
@@ -88,7 +88,7 @@ function WorkedWithSectionMobile({ isDark }: { isDark: boolean }) {
   const textColor = isDark ? '#a7a495' : '#1c1c1c';
 
   return (
-    <div className="py-4 w-full overflow-hidden">
+    <div className="py-4 w-full">
       <h3
         className={cn(
           'text-xs font-light mb-2 text-center uppercase tracking-[0.2em]',
@@ -98,7 +98,7 @@ function WorkedWithSectionMobile({ isDark }: { isDark: boolean }) {
         Worked With
       </h3>
 
-      <div className="w-full relative">
+      <div className="w-full relative overflow-hidden">
         <LogoWall
           items={clients.map((client) => {
             const isLink = !!client.link;
@@ -191,7 +191,7 @@ export function ContactMobile() {
         <Suspense fallback={null}>
           <div className="w-full h-full pointer-events-auto">
             <Lanyard
-              position={[0, 0, 20]}
+              position={[2, 0, 20]}
               gravity={[0, -40, 0]}
               fov={30}
               transparent
