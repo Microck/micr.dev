@@ -94,7 +94,10 @@
     "category": "MX",
     "timestamp": "2025-11-30T14:00:48Z",
     "images": [
-      "./images/PJeh4P0IW7M/thumbnail.jpg"
+      "./images/PJeh4P0IW7M/thumbnail.jpg",
+      "./images/PJeh4P0IW7M/1.webp",
+      "./images/PJeh4P0IW7M/2.webp",
+      "./images/PJeh4P0IW7M/3.webp"
     ],
     "youtubeUrl": "https://youtu.be/PJeh4P0IW7M",
     "specs": {
@@ -118,7 +121,9 @@
     "category": "MX",
     "timestamp": "2025-11-23T14:01:23Z",
     "images": [
-      "./images/r1ay5p-LkQY/thumbnail.jpg"
+      "./images/r1ay5p-LkQY/thumbnail.jpg",
+      "./images/r1ay5p-LkQY/1.webp",
+      "./images/r1ay5p-LkQY/2.webp"
     ],
     "youtubeUrl": "https://youtu.be/r1ay5p-LkQY",
     "specs": {
@@ -142,7 +147,19 @@
     "category": "MX",
     "timestamp": "2025-11-16T14:00:50Z",
     "images": [
-      "./images/Vgo9UKqfSbI/thumbnail.jpg"
+      "./images/Vgo9UKqfSbI/thumbnail.jpg",
+      "./images/Vgo9UKqfSbI/1.webp",
+      "./images/Vgo9UKqfSbI/2.webp",
+      "./images/Vgo9UKqfSbI/3.webp",
+      "./images/Vgo9UKqfSbI/4.webp",
+      "./images/Vgo9UKqfSbI/5.webp",
+      "./images/Vgo9UKqfSbI/6.webp",
+      "./images/Vgo9UKqfSbI/7.webp",
+      "./images/Vgo9UKqfSbI/8.webp",
+      "./images/Vgo9UKqfSbI/9.webp",
+      "./images/Vgo9UKqfSbI/10.webp",
+      "./images/Vgo9UKqfSbI/11.webp",
+      "./images/Vgo9UKqfSbI/12.webp"
     ],
     "youtubeUrl": "https://youtu.be/Vgo9UKqfSbI",
     "specs": {
@@ -154,8 +171,7 @@
       "Springs": "TX L 55g lubed with GPL 105",
       "Plate": "Full Polypropylene",
       "Mount": "Tadpole Mount",
-      "PCB": "GEON 2025 USER NETWORKING (Solder)",
-      "Others": "SLA, 9600 Resin, Matte White, Spray Painted Matte Red; SLA, Grey Resin, Grey, General Sanding"
+      "PCB": "GEON 2025 USER NETWORKING (Solder)"
     }
   },
   {
@@ -184,7 +200,9 @@
     "category": "MX",
     "timestamp": "2025-11-02T14:00:26Z",
     "images": [
-      "./images/B2uPNSZHKuE/thumbnail.jpg"
+      "./images/B2uPNSZHKuE/thumbnail.jpg",
+      "./images/B2uPNSZHKuE/1.webp",
+      "./images/B2uPNSZHKuE/2.webp"
     ],
     "youtubeUrl": "https://youtu.be/B2uPNSZHKuE",
     "specs": {
@@ -208,7 +226,12 @@
     "category": "EC",
     "timestamp": "2025-10-26T14:00:47Z",
     "images": [
-      "./images/XlOtrfrMZA4/thumbnail.jpg"
+      "./images/XlOtrfrMZA4/thumbnail.jpg",
+      "./images/XlOtrfrMZA4/1.webp",
+      "./images/XlOtrfrMZA4/2.webp",
+      "./images/XlOtrfrMZA4/3.webp",
+      "./images/XlOtrfrMZA4/4.webp",
+      "./images/XlOtrfrMZA4/5.webp"
     ],
     "youtubeUrl": "https://youtu.be/XlOtrfrMZA4",
     "specs": {
@@ -255,7 +278,12 @@
     "category": "MX",
     "timestamp": "2025-10-12T13:01:52Z",
     "images": [
-      "./images/yYX5OJg1mIo/thumbnail.jpg"
+      "./images/yYX5OJg1mIo/thumbnail.jpg",
+      "./images/yYX5OJg1mIo/1.webp",
+      "./images/yYX5OJg1mIo/2.webp",
+      "./images/yYX5OJg1mIo/5.webp",
+      "./images/yYX5OJg1mIo/4.webp",
+      "./images/yYX5OJg1mIo/3.webp"
     ],
     "youtubeUrl": "https://youtu.be/yYX5OJg1mIo",
     "specs": {
@@ -279,7 +307,14 @@
     "category": "MX",
     "timestamp": "2025-10-05T13:00:40Z",
     "images": [
-      "./images/MNhcefyyKrw/thumbnail.jpg"
+      "./images/MNhcefyyKrw/thumbnail.jpg",
+      "./images/MNhcefyyKrw/1.webp",
+      "./images/MNhcefyyKrw/2.webp",
+      "./images/MNhcefyyKrw/3.webp",
+      "./images/MNhcefyyKrw/4.webp",
+      "./images/MNhcefyyKrw/5.webp",
+      "./images/MNhcefyyKrw/6.webp",
+      "./images/MNhcefyyKrw/7.webp"
     ],
     "youtubeUrl": "https://youtu.be/MNhcefyyKrw",
     "specs": {
