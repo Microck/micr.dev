@@ -35,7 +35,14 @@
     "category": "MX",
     "timestamp": "2025-12-10T15:02:08Z",
     "images": [
-      "./images/z0CkzudgYRo/thumbnail.jpg"
+      "./images/z0CkzudgYRo/thumbnail.jpg",
+      "./images/z0CkzudgYRo/1.webp",
+      "./images/z0CkzudgYRo/2.webp",
+      "./images/z0CkzudgYRo/3.webp",
+      "./images/z0CkzudgYRo/4.webp",
+      "./images/z0CkzudgYRo/5.webp",
+      "./images/z0CkzudgYRo/6.webp",
+      "./images/z0CkzudgYRo/7.webp"
     ],
     "youtubeUrl": "https://youtu.be/z0CkzudgYRo",
     "specs": {
