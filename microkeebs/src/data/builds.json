@@ -181,7 +181,11 @@
     "category": "EC",
     "timestamp": "2025-11-09T14:01:11Z",
     "images": [
-      "./images/hndpVp-5S_U/thumbnail.jpg"
+      "./images/hndpVp-5S_U/thumbnail.jpg",
+      "./images/hndpVp-5S_U/1.webp",
+      "./images/hndpVp-5S_U/2.webp",
+      "./images/hndpVp-5S_U/3.webp",
+      "./images/hndpVp-5S_U/4.webp"
     ],
     "youtubeUrl": "https://youtu.be/hndpVp-5S_U",
     "specs": {
