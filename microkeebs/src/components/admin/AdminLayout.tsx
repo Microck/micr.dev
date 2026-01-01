@@ -13,6 +13,8 @@ interface AdminLayoutProps {
 export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutProps) {
   const { isDark } = useTheme();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [deploying, setDeploying] = useState(false);
+  const [deployStatus, setDeployStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     checkAuth();
@@ -49,6 +51,32 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
     }
     localStorage.removeItem('admin_token');
     setIsAuthenticated(false);
+  };
+
+  const handleDeploy = async () => {
+    setDeploying(true);
+    setDeployStatus('idle');
+    
+    try {
+      const token = localStorage.getItem('admin_token');
+      const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      if (res.ok) {
+        setDeployStatus('success');
+        setTimeout(() => setDeployStatus('idle'), 3000);
+      } else {
+        setDeployStatus('error');
+        setTimeout(() => setDeployStatus('idle'), 3000);
+      }
+    } catch {
+      setDeployStatus('error');
+      setTimeout(() => setDeployStatus('idle'), 3000);
+    } finally {
+      setDeploying(false);
+    }
   };
 
   if (isAuthenticated === null) {
@@ -134,6 +162,50 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
               </nav>
             </div>
             <div className="flex items-center gap-3">
+              {/* Deploy Button */}
+              <button
+                onClick={handleDeploy}
+                disabled={deploying}
+                className={cn(
+                  'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
+                  'disabled:opacity-50 disabled:cursor-not-allowed',
+                  deployStatus === 'success'
+                    ? 'bg-green-500 text-white'
+                    : deployStatus === 'error'
+                    ? 'bg-red-500 text-white'
+                    : isDark
+                    ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-500/25'
+                    : 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/25'
+                )}
+              >
+                {deploying ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                    Deploying...
+                  </>
+                ) : deployStatus === 'success' ? (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Deployed!
+                  </>
+                ) : deployStatus === 'error' ? (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Failed
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Deploy Site
+                  </>
+                )}
+              </button>
               <a
                 href="#/"
                 className={cn(
