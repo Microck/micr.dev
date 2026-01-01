@@ -29,10 +29,10 @@ export function getCorsHeaders(event: HandlerEvent): Record<string, string> {
 // For production, consider using Netlify Blobs or external store
 const rateLimitStore = new Map<string, { attempts: number; resetTime: number; lockedUntil?: number }>();
 
-// Strict rate limiting: 3 attempts per 30 minutes, 1 hour lockout after max attempts
+// Strict rate limiting: 3 attempts per 30 minutes, 24 hour lockout after max attempts
 const RATE_LIMIT_WINDOW = 30 * 60 * 1000; // 30 minutes
 const MAX_ATTEMPTS = 3;
-const LOCKOUT_DURATION = 60 * 60 * 1000; // 1 hour lockout after exceeding attempts
+const LOCKOUT_DURATION = 24 * 60 * 60 * 1000; // 24 hour lockout after exceeding attempts
 const JWT_EXPIRY = '24h';
 
 function getJwtSecret(): string {
