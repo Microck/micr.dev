@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
 import { API_BASE } from './api';
+import { usePendingChanges } from './PendingChangesContext';
 
 interface Rankings {
   all: string[];
@@ -30,18 +30,30 @@ const RANKING_CATEGORIES: { key: keyof Rankings; label: string }[] = [
   { key: 'electrocapacitive', label: 'Electrocapacitive' },
 ];
 
+// Skeleton component
+function Skeleton({ className }: { className?: string }) {
+  return (
+    <div className={cn('animate-pulse bg-[#d9d5c9] rounded', className)} />
+  );
+}
+
 export function RankingsEditor({ builds }: RankingsEditorProps) {
-  const { isDark } = useTheme();
+  const { pendingRankings, setPendingRankings } = usePendingChanges();
   const [rankings, setRankings] = useState<Rankings | null>(null);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<keyof Rankings>('all');
 
   useEffect(() => {
     fetchRankings();
   }, []);
+
+  // Apply pending rankings if they exist
+  useEffect(() => {
+    if (pendingRankings && rankings) {
+      setRankings(pendingRankings as unknown as Rankings);
+    }
+  }, [pendingRankings]);
 
   const fetchRankings = async () => {
     const token = localStorage.getItem('admin_token');
@@ -57,7 +69,13 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
         throw new Error(`Server error: ${text || res.statusText}`);
       }
       if (!res.ok) throw new Error(data.error || 'Failed to fetch rankings');
-      setRankings(data.rankings);
+      
+      // Use pending rankings if available, otherwise use fetched data
+      if (pendingRankings) {
+        setRankings(pendingRankings as unknown as Rankings);
+      } else {
+        setRankings(data.rankings);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load rankings');
     } finally {
@@ -69,6 +87,11 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
     return builds.find(b => b.id === id)?.title || id;
   };
 
+  const updateRankings = (newRankings: Rankings) => {
+    setRankings(newRankings);
+    setPendingRankings(newRankings as unknown as Record<string, string[]>);
+  };
+
   const moveItem = (category: keyof Rankings, from: number, to: number) => {
     if (!rankings || to < 0 || to >= rankings[category].length) return;
     
@@ -76,75 +99,82 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
     const [removed] = newList.splice(from, 1);
     newList.splice(to, 0, removed);
     
-    setRankings({ ...rankings, [category]: newList });
+    updateRankings({ ...rankings, [category]: newList });
   };
 
   const removeItem = (category: keyof Rankings, index: number) => {
     if (!rankings) return;
     const newList = rankings[category].filter((_, i) => i !== index);
-    setRankings({ ...rankings, [category]: newList });
+    updateRankings({ ...rankings, [category]: newList });
   };
 
   const addItem = (category: keyof Rankings, buildId: string) => {
     if (!rankings || rankings[category].includes(buildId)) return;
-    setRankings({
+    updateRankings({
       ...rankings,
       [category]: [...rankings[category], buildId],
     });
   };
 
-  const handleSave = async () => {
-    if (!rankings) return;
-    
-    setSaving(true);
-    setError(null);
-    setSuccess(null);
-
-    const token = localStorage.getItem('admin_token');
-    try {
-      const res = await fetch(`${API_BASE}/.netlify/functions/admin-rankings`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ rankings }),
-      });
-
-      const text = await res.text();
-      let data;
-      try {
-        data = text ? JSON.parse(text) : {};
-      } catch {
-        throw new Error(`Server error: ${text || res.statusText}`);
-      }
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to save');
-      }
-
-      setSuccess('Rankings saved successfully!');
-      setTimeout(() => setSuccess(null), 3000);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save');
-    } finally {
-      setSaving(false);
-    }
-  };
-
   if (loading) {
-    return <div className={cn('p-4', isDark ? 'text-white' : 'text-gray-900')}>Loading...</div>;
+    return (
+      <div className="space-y-6">
+        {/* Category tabs skeleton */}
+        <div className="flex flex-wrap gap-2">
+          {RANKING_CATEGORIES.map(({ key }) => (
+            <Skeleton key={key} className="h-9 w-24 rounded-lg" />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Current ranking skeleton */}
+          <div className="rounded-xl p-5 bg-[#eae7dd]">
+            <Skeleton className="h-5 w-32 mb-4" />
+            <div className="space-y-2">
+              {[...Array(5)].map((_, i) => (
+                <Skeleton key={i} className="h-12 w-full rounded-lg" />
+              ))}
+            </div>
+          </div>
+
+          {/* Add builds skeleton */}
+          <div className="rounded-xl p-5 bg-[#eae7dd]">
+            <Skeleton className="h-5 w-24 mb-4" />
+            <div className="space-y-2">
+              {[...Array(5)].map((_, i) => (
+                <Skeleton key={i} className="h-10 w-full rounded-lg" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (!rankings) {
-    return <div className="p-4 text-red-500">{error || 'Failed to load rankings'}</div>;
+    return (
+      <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm bg-red-500/10 text-red-600 border border-red-500/20">
+        <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        {error || 'Failed to load rankings'}
+      </div>
+    );
   }
 
   const currentList = rankings[activeCategory];
   const availableBuilds = builds.filter(b => !currentList.includes(b.id));
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h2 className="text-2xl font-bold text-[#3d3a32]">Rankings</h2>
+        <p className="text-sm mt-1 text-[#6b6459]">
+          Drag to reorder. Changes saved on Deploy.
+        </p>
+      </div>
+
       {/* Category tabs */}
       <div className="flex flex-wrap gap-2">
         {RANKING_CATEGORIES.map(({ key, label }) => (
@@ -152,14 +182,10 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
             key={key}
             onClick={() => setActiveCategory(key)}
             className={cn(
-              'px-3 py-1.5 rounded text-sm font-medium transition-colors',
+              'px-4 py-2 rounded-lg text-sm font-medium transition-all',
               activeCategory === key
-                ? isDark
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-blue-500 text-white'
-                : isDark
-                  ? 'text-gray-300 hover:bg-gray-700'
-                  : 'text-gray-700 hover:bg-gray-200'
+                ? 'bg-[#5c5647] text-[#f5f3ed] shadow-sm'
+                : 'text-[#6b6459] hover:text-[#3d3a32] hover:bg-[#e0dcd0]'
             )}
           >
             {label} ({rankings[key].length})
@@ -167,67 +193,70 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      {error && (
+        <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm bg-red-500/10 text-red-600 border border-red-500/20">
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {error}
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Current ranking */}
-        <div className={cn(
-          'rounded-lg p-4',
-          isDark ? 'bg-[#2a2a2a]' : 'bg-white'
-        )}>
-          <h3 className={cn(
-            'font-medium mb-3',
-            isDark ? 'text-white' : 'text-gray-900'
-          )}>
+        <div className="rounded-xl p-5 bg-[#eae7dd]">
+          <h3 className="font-semibold mb-4 text-[#3d3a32]">
             {RANKING_CATEGORIES.find(c => c.key === activeCategory)?.label} Ranking
           </h3>
           
           {currentList.length === 0 ? (
-            <p className={cn('text-sm', isDark ? 'text-gray-500' : 'text-gray-400')}>
+            <p className="text-sm text-[#8b8578] py-8 text-center">
               No items in this ranking
             </p>
           ) : (
-            <ol className="space-y-1">
+            <ol className="space-y-2">
               {currentList.map((id, index) => (
                 <li
                   key={id}
-                  className={cn(
-                    'flex items-center gap-2 p-2 rounded',
-                    isDark ? 'bg-[#1c1c1c]' : 'bg-gray-50'
-                  )}
+                  className="flex items-center gap-3 p-3 rounded-lg bg-[#f5f3ed] group"
                 >
-                  <span className={cn(
-                    'w-6 text-center text-sm font-medium',
-                    isDark ? 'text-gray-500' : 'text-gray-400'
-                  )}>
+                  <span className="w-7 h-7 flex items-center justify-center text-sm font-bold rounded-md bg-[#d9d5c9] text-[#5c5647]">
                     {index + 1}
                   </span>
-                  <span className={cn(
-                    'flex-1 truncate',
-                    isDark ? 'text-white' : 'text-gray-900'
-                  )}>
+                  <span className="flex-1 truncate text-[#3d3a32] font-medium">
                     {getBuildTitle(id)}
                   </span>
-                  <div className="flex gap-1">
+                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     {index > 0 && (
                       <button
                         onClick={() => moveItem(activeCategory, index, index - 1)}
-                        className="text-gray-400 hover:text-white px-1"
+                        className="p-1.5 rounded-md text-[#6b6459] hover:bg-[#e0dcd0] hover:text-[#3d3a32] transition-colors"
+                        title="Move up"
                       >
-                        ↑
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                        </svg>
                       </button>
                     )}
                     {index < currentList.length - 1 && (
                       <button
                         onClick={() => moveItem(activeCategory, index, index + 1)}
-                        className="text-gray-400 hover:text-white px-1"
+                        className="p-1.5 rounded-md text-[#6b6459] hover:bg-[#e0dcd0] hover:text-[#3d3a32] transition-colors"
+                        title="Move down"
                       >
-                        ↓
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
                       </button>
                     )}
                     <button
                       onClick={() => removeItem(activeCategory, index)}
-                      className="text-red-400 hover:text-red-300 px-1"
+                      className="p-1.5 rounded-md text-[#a65d5d] hover:bg-[#f0e8e8] transition-colors"
+                      title="Remove"
                     >
-                      ×
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
                     </button>
                   </div>
                 </li>
@@ -237,59 +266,33 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
         </div>
 
         {/* Add builds */}
-        <div className={cn(
-          'rounded-lg p-4',
-          isDark ? 'bg-[#2a2a2a]' : 'bg-white'
-        )}>
-          <h3 className={cn(
-            'font-medium mb-3',
-            isDark ? 'text-white' : 'text-gray-900'
-          )}>
+        <div className="rounded-xl p-5 bg-[#eae7dd]">
+          <h3 className="font-semibold mb-4 text-[#3d3a32]">
             Add Build
           </h3>
           
           {availableBuilds.length === 0 ? (
-            <p className={cn('text-sm', isDark ? 'text-gray-500' : 'text-gray-400')}>
+            <p className="text-sm text-[#8b8578] py-8 text-center">
               All builds are in this ranking
             </p>
           ) : (
-            <div className="max-h-[300px] overflow-y-auto space-y-1">
+            <div className="max-h-[400px] overflow-y-auto space-y-1">
               {availableBuilds.map((build) => (
                 <button
                   key={build.id}
                   onClick={() => addItem(activeCategory, build.id)}
-                  className={cn(
-                    'w-full text-left p-2 rounded truncate transition-colors',
-                    isDark
-                      ? 'hover:bg-[#1c1c1c] text-gray-300'
-                      : 'hover:bg-gray-100 text-gray-700'
-                  )}
+                  className="w-full text-left p-3 rounded-lg truncate transition-colors text-[#5c5647] hover:bg-[#f5f3ed] hover:text-[#3d3a32] flex items-center gap-2"
                 >
-                  + {build.title}
+                  <svg className="w-4 h-4 flex-shrink-0 text-[#6b8f5c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  {build.title}
                 </button>
               ))}
             </div>
           )}
         </div>
       </div>
-
-      {/* Error and Save */}
-      {error && <p className="text-red-500 text-sm">{error}</p>}
-      {success && <p className="text-green-500 text-sm">{success}</p>}
-      
-      <button
-        onClick={handleSave}
-        disabled={saving}
-        className={cn(
-          'px-4 py-2 rounded font-medium',
-          'disabled:opacity-50',
-          isDark
-            ? 'bg-blue-600 hover:bg-blue-700 text-white'
-            : 'bg-blue-500 hover:bg-blue-600 text-white'
-        )}
-      >
-        {saving ? 'Saving...' : 'Save Rankings'}
-      </button>
     </div>
   );
 }

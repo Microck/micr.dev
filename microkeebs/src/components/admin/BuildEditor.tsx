@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
 import { ImageUploader } from './ImageUploader';
 import { ImageGallery } from './ImageGallery';
@@ -39,7 +38,6 @@ const DEFAULT_SPEC_KEYS = [
 ];
 
 export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorProps) {
-  const { isDark } = useTheme();
   const { setPendingBuild, deletePendingBuild } = usePendingChanges();
   const [formData, setFormData] = useState<KeyboardBuild>(build);
   const [saving, setSaving] = useState(false);
@@ -148,42 +146,27 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
     }
   };
 
-  const inputClass = cn(
-    'w-full px-3 py-2 rounded border',
-    isDark
-      ? 'bg-[#2a2a2a] border-gray-600 text-white'
-      : 'bg-white border-gray-300 text-gray-900'
-  );
-
-  const labelClass = cn(
-    'block text-sm font-medium mb-1',
-    isDark ? 'text-gray-300' : 'text-gray-700'
-  );
+  const inputClass = 'w-full px-3 py-2.5 rounded-lg border-2 transition-all focus:outline-none focus:ring-0 bg-[#f5f3ed] border-[#d9d5c9] text-[#3d3a32] placeholder-[#8b8578] focus:border-[#5c5647] disabled:opacity-50 disabled:bg-[#e0dcd0]';
+  const labelClass = 'block text-sm font-medium mb-1.5 text-[#5c5647]';
 
   return (
-    <div className={cn(
-      'rounded-lg p-4',
-      isDark ? 'bg-[#2a2a2a]' : 'bg-white'
-    )}>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className={cn(
-          'text-xl font-bold',
-          isDark ? 'text-white' : 'text-gray-900'
-        )}>
+    <div className="rounded-xl p-6 bg-[#eae7dd]">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-bold text-[#3d3a32]">
           {isNew ? 'New Build' : `Edit: ${build.title}`}
         </h2>
         <button
           onClick={onCancel}
-          className={cn(
-            'px-3 py-1 rounded text-sm',
-            isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-          )}
+          className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-[#6b6459] hover:text-[#3d3a32] hover:bg-[#d9d5c9] transition-colors"
         >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
           Cancel
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -250,26 +233,23 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
 
         {/* Specs */}
         <div>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-3">
             <label className={labelClass}>Specs</label>
             <button
               type="button"
               onClick={addSpecKey}
-              className={cn(
-                'text-sm px-2 py-1 rounded',
-                isDark ? 'text-blue-400 hover:bg-blue-900/30' : 'text-blue-600 hover:bg-blue-100'
-              )}
+              className="text-sm px-3 py-1.5 rounded-lg text-[#5c5647] hover:bg-[#d9d5c9] transition-colors flex items-center gap-1"
             >
-              + Add Spec
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Add Spec
             </button>
           </div>
           <div className="space-y-2">
             {specKeys.map((key) => (
               <div key={key} className="flex gap-2">
-                <div className={cn(
-                  'w-32 flex-shrink-0 px-3 py-2 rounded text-sm',
-                  isDark ? 'bg-[#1c1c1c] text-gray-400' : 'bg-gray-100 text-gray-600'
-                )}>
+                <div className="w-32 flex-shrink-0 px-3 py-2.5 rounded-lg text-sm bg-[#d9d5c9] text-[#5c5647] font-medium">
                   {key}
                 </div>
                 <input
@@ -282,10 +262,12 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
                 <button
                   type="button"
                   onClick={() => removeSpecKey(key)}
-                  className="text-red-500 hover:text-red-400 px-2"
+                  className="p-2.5 rounded-lg text-[#a65d5d] hover:bg-[#f0e8e8] transition-colors"
                   title="Remove spec"
                 >
-                  ×
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
               </div>
             ))}
@@ -302,7 +284,7 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
             onDelete={handleImageDelete}
             onRename={handleImageRename}
           />
-          <div className="mt-2">
+          <div className="mt-3">
             <ImageUploader
               buildId={formData.id}
               currentImageCount={formData.images.length}
@@ -312,22 +294,30 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
           </div>
         </div>
 
-        {/* Error */}
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        {success && <p className="text-green-500 text-sm">{success}</p>}
+        {/* Error/Success */}
+        {error && (
+          <div className="flex items-center gap-2 px-4 py-3 rounded-lg text-sm bg-red-500/10 text-red-600 border border-red-500/20">
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            {error}
+          </div>
+        )}
+        {success && (
+          <div className="flex items-center gap-2 px-4 py-3 rounded-lg text-sm bg-green-500/10 text-green-700 border border-green-500/20">
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            {success}
+          </div>
+        )}
 
         {/* Actions */}
-        <div className="flex gap-2 pt-4 border-t border-gray-600">
+        <div className="flex gap-3 pt-6 border-t border-[#d9d5c9]">
           <button
             type="submit"
             disabled={saving}
-            className={cn(
-              'px-4 py-2 rounded font-medium',
-              'disabled:opacity-50',
-              isDark
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                : 'bg-blue-500 hover:bg-blue-600 text-white'
-            )}
+            className="px-5 py-2.5 rounded-lg font-medium disabled:opacity-50 bg-[#5c5647] hover:bg-[#4a463a] text-white transition-colors"
           >
             {saving ? 'Saving...' : 'Save Build'}
           </button>
@@ -335,12 +325,7 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
             <button
               type="button"
               onClick={handleDelete}
-              className={cn(
-                'px-4 py-2 rounded font-medium',
-                isDark
-                  ? 'bg-red-600 hover:bg-red-700 text-white'
-                  : 'bg-red-500 hover:bg-red-600 text-white'
-              )}
+              className="px-5 py-2.5 rounded-lg font-medium bg-[#a65d5d] hover:bg-[#8f4f4f] text-white transition-colors"
             >
               Delete
             </button>

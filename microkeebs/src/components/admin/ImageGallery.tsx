@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
 import { usePendingChanges } from './PendingChangesContext';
 
@@ -11,8 +10,123 @@ interface ImageGalleryProps {
   onRename: (index: number, newPath: string) => void;
 }
 
+// Image card with loading state
+function ImageCard({ 
+  src, 
+  index, 
+  onMoveLeft,
+  onMoveRight,
+  onEdit,
+  onDelete,
+  fileName,
+}: { 
+  src: string; 
+  index: number;
+  onMoveLeft?: () => void;
+  onMoveRight?: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  fileName: string;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
+
+  return (
+    <div className="relative group rounded-lg overflow-hidden shadow-sm bg-[#eae7dd] ring-1 ring-[#d9d5c9]">
+      {/* Image container */}
+      <div className="relative aspect-video bg-[#d9d5c9]">
+        {!loaded && !error && (
+          <div className="absolute inset-0 animate-pulse bg-[#d9d5c9]" />
+        )}
+        {error ? (
+          <div className="absolute inset-0 flex items-center justify-center bg-[#e0dcd0]">
+            <svg className="w-8 h-8 text-[#a65d5d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        ) : (
+          <img
+            src={src}
+            alt={`Image ${index + 1}`}
+            className={cn(
+              'w-full h-full object-cover transition-opacity duration-200',
+              loaded ? 'opacity-100' : 'opacity-0'
+            )}
+            onLoad={() => setLoaded(true)}
+            onError={() => setError(true)}
+          />
+        )}
+        
+        {/* Overlay with controls */}
+        <div className={cn(
+          'absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity',
+          'flex flex-col items-center justify-center gap-2',
+          'bg-black/60'
+        )}>
+          <div className="flex items-center gap-1">
+            {onMoveLeft && (
+              <button
+                onClick={onMoveLeft}
+                className="p-2 bg-white/20 hover:bg-white/30 rounded-md text-white transition-colors"
+                title="Move left"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+            )}
+            <button
+              onClick={onEdit}
+              className="p-2 bg-[#5c5647]/80 hover:bg-[#5c5647] rounded-md text-white transition-colors"
+              title="Rename"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+            </button>
+            <button
+              onClick={onDelete}
+              className="p-2 bg-[#a65d5d]/80 hover:bg-[#a65d5d] rounded-md text-white transition-colors"
+              title="Delete"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+            {onMoveRight && (
+              <button
+                onClick={onMoveRight}
+                className="p-2 bg-white/20 hover:bg-white/30 rounded-md text-white transition-colors"
+                title="Move right"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Index badge */}
+        <div className={cn(
+          'absolute top-2 left-2 px-2 py-1 text-xs font-medium rounded-md',
+          index === 0 
+            ? 'bg-[#5c5647] text-white' 
+            : 'bg-black/60 text-white'
+        )}>
+          {index === 0 ? 'Cover' : `#${index + 1}`}
+        </div>
+      </div>
+
+      {/* Filename */}
+      <div className="px-2 py-1.5 text-xs truncate text-[#6b6459]">
+        {fileName}
+      </div>
+    </div>
+  );
+}
+
 export function ImageGallery({ buildId, images, onReorder, onDelete, onRename }: ImageGalleryProps) {
-  const { isDark } = useTheme();
   const { getImagePreviewUrl } = usePendingChanges();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editValue, setEditValue] = useState('');
@@ -56,10 +170,7 @@ export function ImageGallery({ buildId, images, onReorder, onDelete, onRename }:
 
   if (images.length === 0) {
     return (
-      <p className={cn(
-        'text-center py-8 rounded-lg border-2 border-dashed',
-        isDark ? 'text-gray-500 border-gray-700' : 'text-gray-400 border-gray-300'
-      )}>
+      <p className="text-center py-8 rounded-lg border-2 border-dashed text-[#8b8578] border-[#d9d5c9]">
         No images yet
       </p>
     );
@@ -69,101 +180,24 @@ export function ImageGallery({ buildId, images, onReorder, onDelete, onRename }:
     <div className="space-y-3">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
         {images.map((image, index) => (
-          <div
+          <ImageCard
             key={`${image}-${index}`}
-            className={cn(
-              'relative group rounded-lg overflow-hidden shadow-sm',
-              isDark ? 'bg-[#2a2a2a] ring-1 ring-gray-700' : 'bg-white ring-1 ring-gray-200'
-            )}
-          >
-            <img
-              src={getImagePreviewUrl(buildId, image)}
-              alt={`Image ${index + 1}`}
-              className="w-full aspect-video object-cover"
-            />
-            
-            {/* Overlay with controls */}
-            <div className={cn(
-              'absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity',
-              'flex flex-col items-center justify-center gap-2',
-              'bg-black/60'
-            )}>
-              <div className="flex items-center gap-1">
-                {index > 0 && (
-                  <button
-                    onClick={() => moveImage(index, index - 1)}
-                    className="p-2 bg-white/20 hover:bg-white/30 rounded-md text-white transition-colors"
-                    title="Move left"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </button>
-                )}
-                <button
-                  onClick={() => startEditing(index)}
-                  className="p-2 bg-blue-500/80 hover:bg-blue-500 rounded-md text-white transition-colors"
-                  title="Rename"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => onDelete(index)}
-                  className="p-2 bg-red-500/80 hover:bg-red-500 rounded-md text-white transition-colors"
-                  title="Delete"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
-                {index < images.length - 1 && (
-                  <button
-                    onClick={() => moveImage(index, index + 1)}
-                    className="p-2 bg-white/20 hover:bg-white/30 rounded-md text-white transition-colors"
-                    title="Move right"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Index badge */}
-            <div className={cn(
-              'absolute top-2 left-2 px-2 py-1 text-xs font-medium rounded-md',
-              index === 0 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-black/60 text-white'
-            )}>
-              {index === 0 ? 'Cover' : `#${index + 1}`}
-            </div>
-
-            {/* Filename */}
-            <div className={cn(
-              'px-2 py-1.5 text-xs truncate',
-              isDark ? 'text-gray-400' : 'text-gray-500'
-            )}>
-              {getFileName(image)}
-            </div>
-          </div>
+            src={getImagePreviewUrl(buildId, image)}
+            index={index}
+            fileName={getFileName(image)}
+            onMoveLeft={index > 0 ? () => moveImage(index, index - 1) : undefined}
+            onMoveRight={index < images.length - 1 ? () => moveImage(index, index + 1) : undefined}
+            onEdit={() => startEditing(index)}
+            onDelete={() => onDelete(index)}
+          />
         ))}
       </div>
 
       {/* Rename Modal */}
       {editingIndex !== null && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className={cn(
-            'p-6 rounded-xl shadow-xl max-w-md w-full mx-4',
-            isDark ? 'bg-[#2a2a2a]' : 'bg-white'
-          )}>
-            <h3 className={cn(
-              'text-lg font-semibold mb-4',
-              isDark ? 'text-white' : 'text-gray-900'
-            )}>
+          <div className="p-6 rounded-xl shadow-xl max-w-md w-full mx-4 bg-[#f5f3ed]">
+            <h3 className="text-lg font-semibold mb-4 text-[#3d3a32]">
               Rename Image
             </h3>
             <input
@@ -175,28 +209,18 @@ export function ImageGallery({ buildId, images, onReorder, onDelete, onRename }:
                 if (e.key === 'Escape') cancelEdit();
               }}
               autoFocus
-              className={cn(
-                'w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500',
-                isDark
-                  ? 'bg-[#1c1c1c] border-gray-600 text-white'
-                  : 'bg-white border-gray-300 text-gray-900'
-              )}
+              className="w-full px-3 py-2 rounded-lg border-2 focus:outline-none focus:ring-0 bg-white border-[#d9d5c9] text-[#3d3a32] focus:border-[#5c5647]"
             />
             <div className="flex justify-end gap-2 mt-4">
               <button
                 onClick={cancelEdit}
-                className={cn(
-                  'px-4 py-2 rounded-lg font-medium transition-colors',
-                  isDark
-                    ? 'text-gray-300 hover:bg-gray-700'
-                    : 'text-gray-700 hover:bg-gray-100'
-                )}
+                className="px-4 py-2 rounded-lg font-medium transition-colors text-[#6b6459] hover:bg-[#e0dcd0]"
               >
                 Cancel
               </button>
               <button
                 onClick={saveEdit}
-                className="px-4 py-2 rounded-lg font-medium bg-blue-500 hover:bg-blue-600 text-white transition-colors"
+                className="px-4 py-2 rounded-lg font-medium bg-[#5c5647] hover:bg-[#4a463a] text-white transition-colors"
               >
                 Save
               </button>
