@@ -105,14 +105,23 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
     const token = localStorage.getItem('admin_token');
     const pendingBuildsArray = Array.from(pendingBuilds.values());
     
+    // Accumulate all processed images for final commit
+    interface ProcessedImage {
+      buildId: string;
+      index: number;
+      fullBase64: string;
+      thumbBase64: string;
+    }
+    const allProcessedImages: ProcessedImage[] = [];
+    
     try {
-      // Phase 1: Upload images in chunks of 2
+      // Phase 1: Process images in chunks (no commit yet)
       const CHUNK_SIZE = 2;
       const totalImages = pendingImages.length;
       
       if (totalImages > 0) {
         const totalChunks = Math.ceil(totalImages / CHUNK_SIZE);
-        addLog('info', `Starting image upload: ${totalImages} images in ${totalChunks} chunks`);
+        addLog('info', `Processing ${totalImages} images in ${totalChunks} chunks`);
         
         for (let i = 0; i < totalImages; i += CHUNK_SIZE) {
           const chunkIndex = Math.floor(i / CHUNK_SIZE);
@@ -121,10 +130,10 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
           setDeployProgress({
             current: i + chunk.length,
             total: totalImages,
-            stage: `Uploading images ${i + 1}-${Math.min(i + CHUNK_SIZE, totalImages)} of ${totalImages}`,
+            stage: `Processing images ${i + 1}-${Math.min(i + CHUNK_SIZE, totalImages)} of ${totalImages}`,
           });
           
-          addLog('request', `POST /admin-deploy (chunk ${chunkIndex + 1}/${totalChunks}, ${chunk.length} images)`);
+          addLog('request', `POST /admin-deploy processImages (chunk ${chunkIndex + 1}/${totalChunks})`);
           
           const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
             method: 'POST',
@@ -133,7 +142,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-              imageChunk: chunk,
+              processImages: chunk,
               chunkIndex,
               totalChunks,
             }),
@@ -144,7 +153,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
           try {
             data = text ? JSON.parse(text) : {};
           } catch {
-            throw new Error(text || 'Invalid response from chunk upload');
+            throw new Error(text || 'Invalid response from chunk processing');
           }
           
           if (!res.ok) {
@@ -152,13 +161,18 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
             throw new Error(data.error || `Chunk ${chunkIndex + 1} failed`);
           }
           
-          addLog('success', `Chunk ${chunkIndex + 1}/${totalChunks} uploaded`);
+          // Accumulate processed images
+          if (data.processed) {
+            allProcessedImages.push(...data.processed);
+          }
+          
+          addLog('success', `Chunk ${chunkIndex + 1}/${totalChunks} processed (${data.processed?.length || 0} images)`);
         }
       }
       
-      // Phase 2: Final deploy (builds.json + rankings)
-      setDeployProgress({ current: 0, total: 0, stage: 'Updating builds.json...' });
-      addLog('request', `POST /admin-deploy (finalDeploy)`);
+      // Phase 2: Final deploy - ONE commit with all images + builds
+      setDeployProgress({ current: 0, total: 0, stage: 'Committing all changes...' });
+      addLog('request', `POST /admin-deploy finalDeploy (${allProcessedImages.length} images, ${pendingBuildsArray.length} builds)`);
       
       const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
         method: 'POST',
@@ -168,6 +182,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
         },
         body: JSON.stringify({
           finalDeploy: true,
+          processedImages: allProcessedImages,
           pendingBuilds: pendingBuildsArray,
           pendingRankings,
           currentBuilds,
@@ -183,7 +198,7 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
       }
       
       if (res.ok) {
-        addLog('success', 'Deploy complete!');
+        addLog('success', `Deploy complete! ${data.filesCommitted || 0} files committed`);
         setDeployStatus('success');
         clearAll();
         fetchCurrentData();
