@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
 import { API_BASE } from './api';
 
@@ -8,7 +7,6 @@ interface AdminLoginProps {
 }
 
 export function AdminLogin({ onLogin }: AdminLoginProps) {
-  const { isDark } = useTheme();
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [remaining, setRemaining] = useState<number | null>(null);
@@ -57,45 +55,25 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
   };
 
   return (
-    <div className={cn(
-      'min-h-screen flex items-center justify-center p-4',
-      isDark ? 'bg-[#0f0f0f]' : 'bg-gray-50'
-    )}>
-      <div className={cn(
-        'w-full max-w-md p-8 rounded-2xl shadow-2xl',
-        isDark 
-          ? 'bg-[#1a1a1a] shadow-black/50' 
-          : 'bg-white shadow-gray-200/50'
-      )}>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#f5f3ed]">
+      <div className="w-full max-w-md p-8 rounded-2xl bg-[#eae7dd] shadow-lg shadow-[#c9c5b8]/30">
         {/* Logo */}
         <div className="flex justify-center mb-6">
-          <div className={cn(
-            'w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-2xl',
-            isDark ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'
-          )}>
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-2xl bg-[#5c5647] text-[#f5f3ed]">
             MK
           </div>
         </div>
 
-        <h1 className={cn(
-          'text-2xl font-bold mb-2 text-center',
-          isDark ? 'text-white' : 'text-gray-900'
-        )}>
+        <h1 className="text-2xl font-bold mb-2 text-center text-[#3d3a32]">
           Admin Access
         </h1>
-        <p className={cn(
-          'text-sm mb-8 text-center',
-          isDark ? 'text-gray-400' : 'text-gray-500'
-        )}>
+        <p className="text-sm mb-8 text-center text-[#6b6459]">
           Enter your password to continue
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className={cn(
-              'block text-sm font-medium mb-2',
-              isDark ? 'text-gray-300' : 'text-gray-700'
-            )}>
+            <label className="block text-sm font-medium mb-2 text-[#5c5647]">
               Password
             </label>
             <div className="relative">
@@ -107,17 +85,13 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                 className={cn(
                   'w-full px-4 py-3 rounded-xl border-2 transition-all',
                   'focus:outline-none focus:ring-0',
-                  isDark
-                    ? 'bg-[#0f0f0f] border-gray-700 text-white placeholder-gray-500 focus:border-blue-500'
-                    : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-blue-500'
+                  'bg-[#f5f3ed] border-[#d9d5c9] text-[#3d3a32] placeholder-[#a7a295]',
+                  'focus:border-[#8b8578]'
                 )}
                 disabled={loading}
                 autoFocus
               />
-              <div className={cn(
-                'absolute right-3 top-1/2 -translate-y-1/2',
-                isDark ? 'text-gray-500' : 'text-gray-400'
-              )}>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#a7a295]">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
@@ -126,10 +100,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
           </div>
 
           {error && (
-            <div className={cn(
-              'flex items-center gap-2 px-4 py-3 rounded-xl text-sm',
-              'bg-red-500/10 text-red-500 border border-red-500/20'
-            )}>
+            <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm bg-[#f0e8e8] text-[#8b5d5d] border border-[#d9c5c5]">
               <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -138,10 +109,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
           )}
 
           {remaining !== null && remaining <= 2 && !error?.includes('Too many') && (
-            <div className={cn(
-              'flex items-center gap-2 px-4 py-3 rounded-xl text-sm',
-              'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20'
-            )}>
+            <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm bg-[#f5eedd] text-[#8b7a4a] border border-[#d9cca5]">
               <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
@@ -156,9 +124,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
               'w-full py-3 px-4 rounded-xl font-semibold transition-all',
               'disabled:opacity-50 disabled:cursor-not-allowed',
               'flex items-center justify-center gap-2',
-              isDark
-                ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/25'
-                : 'bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/25'
+              'bg-[#5c5647] hover:bg-[#4a463a] text-[#f5f3ed] shadow-md'
             )}
           >
             {loading ? (
@@ -177,10 +143,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
           </button>
         </form>
 
-        <p className={cn(
-          'text-xs text-center mt-6',
-          isDark ? 'text-gray-500' : 'text-gray-400'
-        )}>
+        <p className="text-xs text-center mt-6 text-[#8b8578]">
           Protected area. Unauthorized access is prohibited.
         </p>
       </div>
