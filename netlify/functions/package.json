@@ -6,6 +6,7 @@
     "@netlify/functions": "^2.4.0",
     "@octokit/rest": "^20.0.2",
     "bcryptjs": "^3.0.3",
+    "jsonwebtoken": "^9.0.3",
     "sharp": "^0.33.2"
   }
 }
