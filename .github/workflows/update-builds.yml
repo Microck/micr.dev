@@ -40,5 +40,5 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: update builds and optimize images [skip ci]"
+          commit_message: "chore: update builds and optimize images"
           file_pattern: "microkeebs/src/data/builds.json microkeebs/public/images/**/*"
