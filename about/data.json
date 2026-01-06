@@ -534,6 +534,20 @@
       { "title": "Chest Tracker, Tweakeroo" }
     ]
   },
+  "gdLayoutMaker": {
+    "displayName": "GD Layout Maker",
+    "type": "R",
+    "items": [
+      { "title": "qalli" }
+    ]
+  },
+  "gdLevelMaker": {
+    "displayName": "GD Level Maker",
+    "type": "R",
+    "items": [
+      { "title": "Mindcap" }
+    ]
+  },
   "lastUpdated": {
     "type": "lastUpdated",
     "text": "last updated: 06 jan 2026"
