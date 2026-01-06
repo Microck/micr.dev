@@ -284,4 +284,10 @@ a:hover:not(.masked-link) {
   display: none;
 }
 
+.last-updated {
+  font-size: 10px;
+  opacity: 0.6;
+  margin-top: 1rem;
+}
+
 /* Note: mobile rotate hack removed (you already block mobile) */

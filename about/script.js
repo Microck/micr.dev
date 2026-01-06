@@ -112,6 +112,15 @@ function render(data) {
       continue;
     }
 
+    if (details.type === "lastUpdated") {
+      const lastUpdatedDiv = document.createElement("div");
+      lastUpdatedDiv.classList.add("last-updated");
+      lastUpdatedDiv.textContent = details.text;
+      section.appendChild(lastUpdatedDiv);
+      content.appendChild(section);
+      continue;
+    }
+
     // Sort T types oldest -> newest
     if (details.type === "T") {
       details.items.sort((a, b) => a.year - b.year);

@@ -533,5 +533,9 @@
     "items": [
       { "title": "Chest Tracker, Tweakeroo" }
     ]
+  },
+  "lastUpdated": {
+    "type": "lastUpdated",
+    "text": "last updated: 06 jan 2026"
   }
 }
