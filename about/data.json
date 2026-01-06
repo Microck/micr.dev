@@ -133,7 +133,8 @@
     "items": [
       { "title": "#8621E7" },
       { "title": "#000000" },
-      { "title": "#F0E8BB" }
+      { "title": "#F0E8BB" },
+      { "title": "#AAAAAA" }
     ]
   },
   "fonts": {
@@ -173,6 +174,11 @@
         "title": "Tally Hall",
         "right": "Power Pop / Indie Pop",
         "spotify": "https://open.spotify.com/artist/7lqaPghwYv2mE9baz5XQmL"
+      },
+      {
+        "title": "susquatch",
+        "right": "Indie Rock / Shoegaze",
+        "spotify": "https://open.spotify.com/artist/4kX2L7K9qW3pY8rJ6hM5"
       }
     ]
   },
@@ -235,6 +241,11 @@
         "name": "the first album of glass beach - glass beach",
         "image": "tfgba.png",
         "spotify": "https://open.spotify.com/album/5GOoswCqZQiq9gbjSHkzMq"
+      },
+      {
+        "name": "plastic death - glass beach",
+        "image": "plasticdeath.png",
+        "spotify": "https://open.spotify.com/album/2lXqY7k6FqW3pY8rJ9Hx"
       },
       {
         "name": "repression years!!!! - loadcode",
@@ -330,7 +341,7 @@
       { "title": "but the heart is torn apart.", "right": "2 0 2 1", "spotify": "https://open.spotify.com/track/0gdw5j1dhQ9H0CmNRfFL8S" },
       { "title": "liebestraum no. 3", "right": "franz liszt", "spotify": "https://open.spotify.com/intl-es/track/2u9VGZmVz7Rm01SfDgzcfA?si=9982c33e88294d44" },
       { "title": "ballade no. 1 in g minor, Op. 23", "right": "frédéric chopin", "spotify": "https://youtu.be/dIbeazAlxM4" },
-      { "title": "Tercer movimiento: lo de dentro", "right": "Extremoduro", "spotify": "https://open.spotify.com/track/2mKqV7k5GqZ3pY1oJ0K5a" }
+      { "title": "tercer movimiento: lo de dentro", "right": "extremoduro", "spotify": "https://open.spotify.com/track/2mKqV7k5GqZ3pY1oJ0K5a" }
     ]
   },
   "genres": {
@@ -362,6 +373,48 @@
       { "title": "jam2go", "right": "Gamemaker / Music Producer" }
     ]
   },
+  "material": {
+    "displayName": "Material",
+    "type": "R",
+    "items": [
+      { "title": "Leather" }
+    ]
+  },
+  "favouriteStructures": {
+    "displayName": "Structures",
+    "type": "R",
+    "items": [
+      { "title": "Abandoned autopoietic techno-industrial megastructures" }
+    ]
+  },
+  "lens": {
+    "displayName": "Lens",
+    "type": "R",
+    "items": [
+      { "title": "50mm" }
+    ]
+  },
+  "framing": {
+    "displayName": "Framing",
+    "type": "R",
+    "items": [
+      { "title": "Headshot bottom-framing with extreme negative space" }
+    ]
+  },
+  "resolution": {
+    "displayName": "Resolution",
+    "type": "R",
+    "items": [
+      { "title": "2880x2160" }
+    ]
+  },
+  "philosophy": {
+    "displayName": "Philosophy",
+    "type": "R",
+    "items": [
+      { "title": "Sustainable Instrumental Meliorism" }
+    ]
+  },
   "coffee": {
     "displayName": "Coffee",
     "type": "R",
@@ -369,11 +422,32 @@
       { "title": "Caramel Macchiato" }
     ]
   },
+  "keyboardPlate": {
+    "displayName": "Keyboard Plate",
+    "type": "R",
+    "items": [
+      { "title": "1.5mm Aluminium Alloy 5052 Anodized Black" }
+    ]
+  },
+  "lightKelvin": {
+    "displayName": "Light Kelvin",
+    "type": "R",
+    "items": [
+      { "title": "2700k" }
+    ]
+  },
   "monsterFlavor": {
     "displayName": "Monster Flavor",
     "type": "R",
     "items": [
       { "title": "Peach, Rehab Iced Tea & Lemonade" }
+    ]
+  },
+  "keyboardSpring": {
+    "displayName": "Keyboard Switch Spring",
+    "type": "R",
+    "items": [
+      { "title": "TX 22mm 45g" }
     ]
   },
   "daVinciPlugin": {
@@ -390,53 +464,11 @@
       { "title": "Imagus, Violentmonkey" }
     ]
   },
-  "keyboardSpring": {
-    "displayName": "Keyboard Switch Spring",
-    "type": "R",
-    "items": [
-      { "title": "TX 22mm 45g" }
-    ]
-  },
-  "lens": {
-    "displayName": "Lens",
-    "type": "R",
-    "items": [
-      { "title": "50mm" }
-    ]
-  },
-  "lightKelvin": {
-    "displayName": "Light Kelvin",
-    "type": "R",
-    "items": [
-      { "title": "2700k" }
-    ]
-  },
-  "material": {
-    "displayName": "Material",
-    "type": "R",
-    "items": [
-      { "title": "Leather" }
-    ]
-  },
-  "framing": {
-    "displayName": "Framing",
-    "type": "R",
-    "items": [
-      { "title": "Headshot bottom-framing with extreme negative space" }
-    ]
-  },
   "personalityType": {
     "displayName": "Personality Type",
     "type": "R",
     "items": [
       { "title": "INFJ-T" }
-    ]
-  },
-  "gymExercise": {
-    "displayName": "Gym Exercise",
-    "type": "R",
-    "items": [
-      { "title": "Lat Pulldown" }
     ]
   },
   "smg2Galaxy": {
@@ -446,11 +478,11 @@
       { "title": "Slimy Springs Galaxy" }
     ]
   },
-  "resolution": {
-    "displayName": "Resolution",
+  "gymExercise": {
+    "displayName": "Gym Exercise",
     "type": "R",
     "items": [
-      { "title": "2880x2160" }
+      { "title": "Lat Pulldown" }
     ]
   },
   "minecraftEnchant": {
@@ -460,20 +492,6 @@
       { "title": "Feather Falling IV" }
     ]
   },
-  "minecraftWood": {
-    "displayName": "Minecraft Wood Type",
-    "type": "R",
-    "items": [
-      { "title": "Spruce" }
-    ]
-  },
-  "uselessMelee": {
-    "displayName": "Best Useless Melee",
-    "type": "R",
-    "items": [
-      { "title": "Scythe" }
-    ]
-  },
   "maleSupporting": {
     "displayName": "Male Supporting Character",
     "type": "R",
@@ -481,11 +499,25 @@
       { "title": "Tyrell Wellick" }
     ]
   },
+  "minecraftWood": {
+    "displayName": "Minecraft Wood Type",
+    "type": "R",
+    "items": [
+      { "title": "Spruce" }
+    ]
+  },
   "femaleSupporting": {
     "displayName": "Female Supporting Character",
     "type": "R",
     "items": [
       { "title": "Kim Wexler" }
+    ]
+  },
+  "uselessMelee": {
+    "displayName": "Best Useless Melee",
+    "type": "R",
+    "items": [
+      { "title": "Scythe" }
     ]
   },
   "overratedMod": {
@@ -500,20 +532,6 @@
     "type": "R",
     "items": [
       { "title": "Chest Tracker, Tweakeroo" }
-    ]
-  },
-  "philosophy": {
-    "displayName": "Philosophy",
-    "type": "R",
-    "items": [
-      { "title": "Sustainable Instrumental Meliorism" }
-    ]
-  },
-  "favouriteStructures": {
-    "displayName": "Favourite Structures",
-    "type": "R",
-    "items": [
-      { "title": "Abandoned Autopoietic techno-industrial megastructures" }
     ]
   }
 }
