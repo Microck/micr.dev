@@ -424,7 +424,7 @@
     "displayName": "Coffee",
     "type": "R",
     "items": [
-      { "title": "Caramel Macchiato" }
+      { "title": "Caramel Macchiato, cafe con baileys" }
     ]
   },
   "keyboardPlate": {
@@ -490,6 +490,13 @@
       { "title": "Lat Pulldown" }
     ]
   },
+  "tuiDesign": {
+    "displayName": "TUI Design",
+    "type": "R",
+    "items": [
+      { "title": "Opencode" }
+    ]
+  },
   "minecraftEnchant": {
     "displayName": "Minecraft Enchant",
     "type": "R",
@@ -543,7 +550,7 @@
     "displayName": "GD Layout Maker",
     "type": "R",
     "items": [
-      { "title": "qalli" }
+      { "title": "qalli, SrGuillester" }
     ]
   },
   "gdLevelMaker": {
