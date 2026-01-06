@@ -77,7 +77,8 @@
       { "name": "Lorn’s Lure", "image": "lornslure.jpg" },
       { "name": "Fear & Hunger", "image": "feareandhunger.png" },
       { "name": "Detroit: Become Human", "image": "detroitbecomehuman.png" },
-      { "name": "Omori", "image": "omori.jpg" }
+      { "name": "Omori", "image": "omori.jpg" },
+      { "name": "Super Meat Boy", "image": "supermeatboy.png" }
     ]
   },
   "styles": {
@@ -218,6 +219,11 @@
         "title": "2hollis",
         "right": "Digicore / Electropop",
         "spotify": "https://open.spotify.com/artist/72NhFAGG5Pt91VbheJeEPG"
+      },
+      {
+        "title": "Lucy Bedroque",
+        "right": "Glitch Pop / Electronic",
+        "spotify": "https://open.spotify.com/artist/7y8kZ2J6bZ5qW4hKp7XxM"
       }
     ]
   },
@@ -289,6 +295,16 @@
         "name": "Revengeseekerz - Jane Remover",
         "image": "jane.jpg",
         "spotify": "https://open.spotify.com/album/21b4cDNse2AMpj94ykfuON"
+      },
+      {
+        "name": "Yo, Minoría Absoluta - Extremoduro",
+        "image": "yominoriaabsoluta.png",
+        "spotify": "https://open.spotify.com/album/4LH5XjA4oqQsX1yKlG5Gp"
+      },
+      {
+        "name": "erynias - predawka",
+        "image": "erynias.jpg",
+        "spotify": "https://open.spotify.com/album/7QO2wG2hZdR9bPjK5Q1Mk"
       }
     ]
   },
@@ -313,7 +329,8 @@
       { "title": "one am", "right": "quinn", "spotify": "https://open.spotify.com/track/3nmxRPV8vlZ0dXBw3kOV0t" },
       { "title": "but the heart is torn apart.", "right": "2 0 2 1", "spotify": "https://open.spotify.com/track/0gdw5j1dhQ9H0CmNRfFL8S" },
       { "title": "liebestraum no. 3", "right": "franz liszt", "spotify": "https://open.spotify.com/intl-es/track/2u9VGZmVz7Rm01SfDgzcfA?si=9982c33e88294d44" },
-      { "title": "ballade no. 1 in g minor, Op. 23", "right": "frédéric chopin", "spotify": "https://youtu.be/dIbeazAlxM4" }
+      { "title": "ballade no. 1 in g minor, Op. 23", "right": "frédéric chopin", "spotify": "https://youtu.be/dIbeazAlxM4" },
+      { "title": "Tercer movimiento: lo de dentro", "right": "Extremoduro", "spotify": "https://open.spotify.com/track/2mKqV7k5GqZ3pY1oJ0K5a" }
     ]
   },
   "genres": {
@@ -330,6 +347,7 @@
       { "title": "Speedcore", "right": "250–1000 BPM" },
       { "title": "Hyperpop", "right": "120–160 BPM" },
       { "title": "Jungle", "right": "160–180 BPM" },
+      { "title": "Dariacore", "right": "Varies" },
       { "title": "Alternative", "right": "Varies" }
     ]
   },
@@ -482,6 +500,20 @@
     "type": "R",
     "items": [
       { "title": "Chest Tracker, Tweakeroo" }
+    ]
+  },
+  "philosophy": {
+    "displayName": "Philosophy",
+    "type": "R",
+    "items": [
+      { "title": "Sustainable Instrumental Meliorism" }
+    ]
+  },
+  "favouriteStructures": {
+    "displayName": "Favourite Structures",
+    "type": "R",
+    "items": [
+      { "title": "Abandoned Autopoietic techno-industrial megastructures" }
     ]
   }
 }
