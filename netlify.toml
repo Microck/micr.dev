@@ -190,6 +190,12 @@ to = "https://micr.dev/quarzite"
 status = 301
 force = true
 
+[[redirects]]
+from = "https://tile.micr.dev/*"
+to = "https://micr.dev/quarzite"
+status = 301
+force = true
+
 # --- SOCR SOCIALS ---
 [[redirects]]
   from = "/socr/youtube"
