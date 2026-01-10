@@ -184,6 +184,12 @@
   to = "https://www.reddit.com/user/Microkeebs/"
   status = 302
 
+[[redirects]]
+from = "https://quarzite.micr.dev/*"
+to = "https://micr.dev/quarzite"
+status = 301
+force = true
+
 # --- SOCR SOCIALS ---
 [[redirects]]
   from = "/socr/youtube"
