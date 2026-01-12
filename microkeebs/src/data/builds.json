@@ -6,7 +6,13 @@
     "category": "EC",
     "timestamp": "2026-01-11T14:01:01Z",
     "images": [
-      "./images/WJUPOvuiYCU/thumbnail.jpg"
+      "./images/WJUPOvuiYCU/thumbnail.jpg",
+      "./images/WJUPOvuiYCU/2.webp",
+      "./images/WJUPOvuiYCU/3.webp",
+      "./images/WJUPOvuiYCU/1.webp",
+      "./images/WJUPOvuiYCU/4.webp",
+      "./images/WJUPOvuiYCU/5.webp",
+      "./images/WJUPOvuiYCU/6.webp"
     ],
     "youtubeUrl": "https://youtu.be/WJUPOvuiYCU",
     "specs": {
