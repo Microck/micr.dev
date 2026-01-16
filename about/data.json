@@ -321,6 +321,11 @@
         "name": "The Dimrain47 Collection (2005-2012) - Dimrain47",
         "image": "dimrain47.png",
         "spotify": "https://open.spotify.com/album/1RYUJrOD6fJk5omObyRQ3m"
+      },
+      {
+        "name": "the last thing she sent me - Sewerslvt",
+        "image": "",
+        "spotify": "https://open.spotify.com/track/4jD6xH2VzG4sE9P1J5X3Wv"
       }
     ]
   },
@@ -346,7 +351,8 @@
       { "title": "but the heart is torn apart.", "right": "2 0 2 1", "spotify": "https://open.spotify.com/track/0gdw5j1dhQ9H0CmNRfFL8S" },
       { "title": "liebestraum no. 3", "right": "franz liszt", "spotify": "https://open.spotify.com/intl-es/track/2u9VGZmVz7Rm01SfDgzcfA?si=9982c33e88294d44" },
       { "title": "ballade no. 1 in g minor, Op. 23", "right": "frédéric chopin", "spotify": "https://youtu.be/dIbeazAlxM4" },
-      { "title": "tercer movimiento: lo de dentro", "right": "extremoduro", "spotify": "https://open.spotify.com/track/2mKqV7k5GqZ3pY1oJ0K5a" }
+      { "title": "tercer movimiento: lo de dentro", "right": "extremoduro", "spotify": "https://open.spotify.com/track/2mKqV7k5GqZ3pY1oJ0K5a" },
+      { "title": "goodbye", "right": "sewerslvt", "spotify": "https://open.spotify.com/track/5mcRGpcaZyUgWjqZxEJioJ" }
     ]
   },
   "genres": {
@@ -562,6 +568,6 @@
   },
   "lastUpdated": {
     "type": "lastUpdated",
-    "text": "last updated: 06 jan 2026"
+    "text": "last updated: 17 jan 2026"
   }
 }
