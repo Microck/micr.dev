@@ -339,6 +339,22 @@
       { "title": "psychosis", "right": "sewerslvt", "spotify": "https://open.spotify.com/intl-es/track/0V36ohSgy0Fq4MyqNORyFO?si=5124b23f2e2c487f" },
       { "title": "goodbye", "right": "sewerslvt", "spotify": "https://open.spotify.com/track/5mcRGpcaZyUgWjqZxEJioJ" },
       { "title": "aisatsana", "right": "aphex twin", "spotify": "https://open.spotify.com/track/3ESsjKqrj3M79I8sSZieK3" },
+      { "title": "avril 14th", "right": "aphex twin", "spotify": "https://open.spotify.com/track/5oZisSvibQw9GVM1v3fCwB" },
+      { "title": "mt saint michel + saint michaels mount", "right": "aphex twin", "spotify": "https://open.spotify.com/track/5A6UIgePfszc5796wIfzFQ" },
+      { "title": "180db_", "right": "aphex twin", "spotify": "https://open.spotify.com/track/1EqV8PuCj1RX4eBX76fqtc" },
+      { "title": "the world revolving", "right": "toby fox", "spotify": "https://open.spotify.com/track/5QBozbgRWIYDSriHCRTsXd" },
+      { "title": "megalovania", "right": "toby fox", "spotify": "https://open.spotify.com/track/1J03Vp93ybKIxfzYI4YJtL" },
+      { "title": "desert", "right": "hakushi hasegawa", "spotify": "https://open.spotify.com/intl-ar/track/66Jk8djrqgRCZThe3t2EYa" },
+      { "title": "story 2", "right": "clipping", "spotify": "https://open.spotify.com/track/1UsHdJAj4Y1sMIqAh1mS02" },
+      { "title": "ruler of everything", "right": "tally hall", "spotify": "https://open.spotify.com/track/3vFZheR74pxUkzxqhXTZ2X" },
+      { "title": "ゆきこさん", "right": "ミドリ", "spotify": "https://open.spotify.com/intl-ja/track/7EzsrJjJQBXRPiAPijADtG" },
+      { "title": "one am", "right": "quinn", "spotify": "https://open.spotify.com/track/3nmxRPV8vlZ0dXBw3kOV0t" },
+      { "title": "but the heart is torn apart.", "right": "2 0 2 1", "spotify": "https://open.spotify.com/track/0gdw5j1dhQ9H0CmNRfFL8S" },
+      { "title": "liebestraum no. 3", "right": "franz liszt", "spotify": "https://open.spotify.com/intl-es/track/2u9VGZmVz7Rm01SfDgzcfA?si=9982c33e88294d44" },
+      { "title": "ballade no. 1 in g minor, Op. 23", "right": "frédéric chopin", "spotify": "https://youtu.be/dIbeazAlxM4" },
+      { "title": "tercer movimiento: lo de dentro", "right": "extremoduro", "spotify": "https://open.spotify.com/track/2mKqV7k5GqZ3pY1oJ0K5a" }
+    ]
+  },
   "genres": {
     "displayName": "Genres",
     "type": "R",
