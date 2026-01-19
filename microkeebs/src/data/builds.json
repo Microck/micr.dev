@@ -1,5 +1,29 @@
 [
   {
+    "id": "hiSbq2FBtk0",
+    "title": "Oblique",
+    "youtubeTitle": "Oblique with prelubed Cherry MX Purples",
+    "category": "MX",
+    "timestamp": "2026-01-18T14:01:08Z",
+    "images": [
+      "./images/hiSbq2FBtk0/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/hiSbq2FBtk0",
+    "specs": {
+      "Keyboard": "Bowl Oblique (Cream Coat / Copper)",
+      "Keycaps": "JCStudio Tulip",
+      "Switches": "Cherry MX2A Purple",
+      "Lube": "Prelubed",
+      "Films": "-",
+      "Springs": "-",
+      "Plate": "Full Aluminium",
+      "Mount": "60A Gasket Mount",
+      "Stabilizers": "JWK with 205g0",
+      "PCB": "Hotswap",
+      "Others": ""
+    }
+  },
+  {
     "id": "WJUPOvuiYCU",
     "title": "H2H SE",
     "youtubeTitle": "Lubed H2H SE with 45g Realforce Domes",
