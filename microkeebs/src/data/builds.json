@@ -1,5 +1,29 @@
 [
   {
+    "id": "Qmlj4zgzUac",
+    "title": "Vella 60PE",
+    "youtubeTitle": "Vella 60PE with lubed Vintage Cherry MX Browns",
+    "category": "MX",
+    "timestamp": "2026-01-25T14:00:43Z",
+    "images": [
+      "./images/Qmlj4zgzUac/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/Qmlj4zgzUac",
+    "specs": {
+      "Keyboard": "Vella 60 Performance Edition by BowlKeyboards",
+      "Keycaps": "GMK WoB + GMK Pulse",
+      "Switches": "Vintage Cherry MX Brown",
+      "Lube": "ghv4",
+      "Films": "TX 0.15",
+      "Springs": "55g TX L lubed with GPL 105",
+      "Plate": "Full PC",
+      "Mount": "Gummy 50A O-ring",
+      "Stabilizers": "Neo stabs lubed with Permatex Dialectric Grease",
+      "PCB": "Waffling60 MX Rev E by 4pplet",
+      "Others": "-"
+    }
+  },
+  {
     "id": "hiSbq2FBtk0",
     "title": "Oblique",
     "youtubeTitle": "Oblique with prelubed Cherry MX Purples",
