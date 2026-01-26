@@ -500,9 +500,10 @@ const spheres = [
         const div = document.createElement("div");
         div.className = "sphere";
         div.innerHTML = `
-          <img src="${sphere.img}" alt="sphere" />
+          <img src="${sphere.img}" alt="${sphere.desc}" />
           <div class="tooltip">${sphere.desc}<span class="url">${sphere.url}</span></div>
         `;
+
 
         // After entrance animation, allow transforms
         const delay = 50 + (index * 50) + 600; // animation-delay + animation-duration

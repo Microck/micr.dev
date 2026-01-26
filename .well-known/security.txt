@@ -1,0 +1,6 @@
+Contact: https://twitter.com/JustMicrock
+Expires: 2027-01-26T18:00:00.000Z
+Preferred-Languages: en, es
+Canonical: https://micr.dev/.well-known/security.txt
+Policy: https://micr.dev/README.md
+Acknowledgments: https://github.com/Microck

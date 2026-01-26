@@ -1,0 +1,16 @@
+/* TEAM */
+Chef: Microck
+Site: https://micr.dev
+Twitter: @JustMicrock
+Location: Madrid, Spain
+
+/* THANKS */
+Google DeepMind: For the Gemini 3 Flash Preview model powering this agent.
+Spline: For the 3D scene engine.
+Next.js & Vite: For the web frameworks.
+
+/* SITE */
+Last update: 2026/01/26
+Language: English
+Doctype: HTML5
+IDE: VS Code / Claude Code
