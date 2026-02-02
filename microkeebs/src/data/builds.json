@@ -1,5 +1,29 @@
 [
   {
+    "id": "q1jc0ybIuwE",
+    "title": "Toro60",
+    "youtubeTitle": "Toro60 with lubed Cherry MX Purples",
+    "category": "MX",
+    "timestamp": "2026-02-01T14:01:19Z",
+    "images": [
+      "./images/q1jc0ybIuwE/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/q1jc0ybIuwE",
+    "specs": {
+      "Keyboard": "Toro60 (Sakura CWKL)",
+      "Keycaps": "KKB Jindo + GMK Hineybeige",
+      "Switches": "Cherry MX Purple (ultrasonic'd and trimmed with Geon Trimmer)",
+      "Lube": "Tribosys 3203",
+      "Films": "TX 0.15",
+      "Springs": "TX UXL 45g with GPL 105",
+      "Plate": "Full Alu",
+      "Mount": "Top Mount",
+      "Stabilizers": "Cherry Housings + ? wire for spacebar, Neo Stabs for rest; with Permatex Dialectric Grease",
+      "PCB": "Hotswap",
+      "Others": "Oring Force Break"
+    }
+  },
+  {
     "id": "Qmlj4zgzUac",
     "title": "Vella 60PE",
     "youtubeTitle": "Vella 60PE with lubed Vintage Cherry MX Browns",
