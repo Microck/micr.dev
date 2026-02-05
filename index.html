@@ -441,7 +441,35 @@
 
         const blob = new Blob([sceneBytes], { type: "application/octet-stream" });
         const bURL = URL.createObjectURL(blob);
-        const loadP = app.load(bURL);
+        
+        // Add timeout and error handling for scene loading
+        let sceneLoadTimeout;
+        const loadP = app.load(bURL).catch(err => {
+          console.error("Scene load failed:", err);
+          clearInterval(gpuT);
+          document.getElementById("loading-message").innerHTML = `
+            <div class="dialog-box">
+              <p style="color:#d00;">
+                Scene load failed. Please refresh the page.
+              </p>
+            </div>`;
+          document.getElementById("spinner-container").style.display = "none";
+          throw err;
+        });
+        
+        sceneLoadTimeout = setTimeout(() => {
+          if (!sceneLoadTimeout) return; // Already resolved
+          console.error("Scene load timeout after 60s");
+          clearInterval(gpuT);
+          document.getElementById("loading-message").innerHTML = `
+            <div class="dialog-box">
+              <p style="color:#d00;">
+                Scene load timed out. Try refreshing.
+              </p>
+            </div>`;
+          document.getElementById("spinner-container").style.display = "none";
+        }, 60000); // 60s timeout
+        
         URL.revokeObjectURL(bURL);
 
         let phase3 = UNZIP_END;
@@ -450,7 +478,9 @@
           bar(phase3);
         }, 80);
 
-        await loadP;
+        await loadP.then(() => {
+          clearTimeout(sceneLoadTimeout); // Clear timeout if successful
+        });
         clearInterval(gpuT);
 
         await new Promise((r) =>
