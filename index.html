@@ -328,10 +328,18 @@
       }
       // --------------------------------------------
 
-      console.warn = () => {};
-      console.error = () => {};
+      // Enhanced logging for debugging
+      const logHistory = [];
+      function log(type, ...args) {
+        const timestamp = new Date().toISOString();
+        const entry = { type, timestamp, args: Array.from(args) };
+        logHistory.push(entry);
+        console.log(`[${timestamp}] [${type.toUpperCase()}]`, ...args);
+      }
+      function getLogs() {
+        return logHistory.map(e => `[${e.timestamp}] [${e.type.toUpperCase()}] ${e.args.join(' ')}`).join('\n');
+      }
 
-      const originalWarn = console.warn;
       console.warn = function (...args) {
         const msg = args[0];
         if (
@@ -416,6 +424,7 @@
         clearInterval(creepT);
 
         bar(UNZIP_END);
+
         const popup = document.getElementById("confirm-popup");
         popup.classList.add("visible");
 
@@ -439,38 +448,82 @@
           return;
         }
 
-        const blob = new Blob([sceneBytes], { type: "application/octet-stream" });
-        const bURL = URL.createObjectURL(blob);
+        // Use comprehensive scene loading with retry logic
+        log('info', 'Starting 3D scene load...');
+        const sceneLoaded = await loadSceneWithRetry();
         
-        // Add timeout and error handling for scene loading
-        let sceneLoadTimeout;
-        const loadP = app.load(bURL).catch(err => {
-          console.error("Scene load failed:", err);
-          clearInterval(gpuT);
-          document.getElementById("loading-message").innerHTML = `
-            <div class="dialog-box">
-              <p style="color:#d00;">
-                Scene load failed. Please refresh the page.
-              </p>
-            </div>`;
-          document.getElementById("spinner-container").style.display = "none";
-          throw err;
+        if (!sceneLoaded) {
+          log('warn', 'Scene loading failed, skipping GPU phase');
+          return;
+        }
+        const popup = document.getElementById("confirm-popup");
+        popup.classList.add("visible");
+
+        const userChoice = await new Promise((resolve) => {
+          document.getElementById("confirm-proceed").onclick = () => resolve("proceed");
+          document.getElementById("confirm-back").onclick = () => resolve("back");
         });
+
+        popup.classList.remove("visible");
+
+        if (userChoice === "back") {
+          const dialogBox = document.querySelector("#spinner-container .dialog-box");
+          dialogBox.classList.add("exit-state");
+          dialogBox.querySelector(".content").innerHTML = `
+            <p style="text-align:center;">
+              No worries! Feel free to explore my projects instead.<br><br>
+              <a href="/tree/" style="color:#000;text-decoration:underline;font-weight:bold;">
+                → View projects index
+              </a>
+            </p>`;
+          return;
+        }
+
+        // Use comprehensive scene loading with retry logic
+        log('info', 'Starting 3D scene load...');
+        const sceneLoaded = await loadSceneWithRetry();
         
-        sceneLoadTimeout = setTimeout(() => {
-          if (!sceneLoadTimeout) return; // Already resolved
-          console.error("Scene load timeout after 60s");
-          clearInterval(gpuT);
-          document.getElementById("loading-message").innerHTML = `
-            <div class="dialog-box">
-              <p style="color:#d00;">
-                Scene load timed out. Try refreshing.
-              </p>
-            </div>`;
-          document.getElementById("spinner-container").style.display = "none";
-        }, 60000); // 60s timeout
-        
-        URL.revokeObjectURL(bURL);
+        if (!sceneLoaded) {
+          log('warn', 'Scene loading failed, skipping GPU phase');
+          return;
+        }
+
+        let phase3 = UNZIP_END;
+        const gpuT = setInterval(() => {
+          phase3 += (95 - phase3) * 0.08;
+          bar(phase3);
+        }, 80);
+
+        await new Promise((r) =>
+          requestAnimationFrame(() => requestAnimationFrame(r))
+        );
+        await new Promise((r) => setTimeout(r, 400 + Math.random() * 300));
+
+        let done = false;
+        const fin = setInterval(() => {
+          fake += (100 - fake) * 0.15;
+          let p = fake;
+          if (p > 99.8) {
+            p = 100;
+            fake = 100;
+            done = true;
+            clearInterval(fin);
+          }
+          fill.style.width = p + "%";
+          pctText.textContent = p.toFixed(0) + "%";
+        }, 50);
+
+        while (!done) await new Promise((r) => setTimeout(r, 60));
+        await new Promise((r) => setTimeout(r, 1000 + Math.random() * 100));
+
+        loader.classList.add("fade-out");
+        setTimeout(() => {
+          loader.style.display = "none";
+          scene.style.opacity = 1;
+          document.getElementById("dither-overlay").style.display = "block";
+        }, 1000);
+      }
+    </script>
 
         let phase3 = UNZIP_END;
         const gpuT = setInterval(() => {
