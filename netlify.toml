@@ -31,12 +31,7 @@
   force = true
   
 # --- DIALOGUE ---
-[[redirects]]
-  from = "/assets/*"
-  to = "https://dialoguegen.vercel.app/assets/:splat"
-  status = 200
-  force = true
-
+# Note: /assets/* redirect removed - was breaking frames.zip loading for run.js easter egg
 [[redirects]]
   from = "/favicon.svg"
   to = "https://dialoguegen.vercel.app/favicon.svg"
