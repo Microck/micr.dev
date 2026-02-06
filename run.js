@@ -67,14 +67,14 @@ window.addEventListener("blur", () => {
   }
 
   setTimeout(() => {
-    console.clear();   // ← ONLY here
+    console.clear();
     intro();
   }, 200);
 });
 
 // ★ UPDATED — nothing restarts automatically on focus
 window.addEventListener("focus", () => {
-  console.log("(animation paused — tab re‑focused)");
+  console.log("(animation paused — tab re-focused)");
 });
 
 function softClear() {

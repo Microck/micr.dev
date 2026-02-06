@@ -334,7 +334,10 @@
         if (
           typeof msg === "string" &&
           (msg.includes("Spline Runtime only accepts") ||
-            msg.includes("color layer params"))
+            msg.includes("color layer params") ||
+            msg.includes("THREE.WebGLProgram: Program Info Log") ||
+            msg.includes("X4000") ||
+            msg.includes("f_sobelSample"))
         )
           return;
         originalWarn.apply(console, args);
