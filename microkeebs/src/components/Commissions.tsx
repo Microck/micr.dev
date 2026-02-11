@@ -575,7 +575,7 @@ export function Commissions() {
                           required
                         />
                         <label className={labelClasses('switchCount')}>
-                          How many switches are you sending? (number) *
+                          How many switches are you sending? *
                         </label>
                       </div>
 
@@ -874,7 +874,7 @@ export function Commissions() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+            className="fixed inset-0 z-50 flex items-start justify-center pt-20 sm:pt-24 p-4 sm:p-6"
             onClick={() => setIsTermsModalOpen(false)}
           >
             {/* Backdrop */}
@@ -921,97 +921,99 @@ export function Commissions() {
 
               {/* Content */}
               <div
-                className={`overflow-y-auto max-h-[60vh] sm:max-h-[65vh] p-6 sm:p-8 space-y-5 ${
+                className={`overflow-y-auto max-h-[60vh] sm:max-h-[65vh] p-6 sm:p-8 ${
                   isDark ? 'text-[#a7a495]/90' : 'text-[#1c1c1c]/90'
                 }`}
               >
-                <p className="text-sm leading-relaxed">
-                  You must provide all components; including switches and stabilizers (and any
-                  required hardware). Ensuring part compatibility is the commissioner's
-                  responsibility. If possible, please include a few extra switches just in case.
-                </p>
+                <ol className="list-decimal list-inside space-y-4">
+                  <li className="text-sm leading-relaxed pl-2">
+                    You must provide all components; including switches and stabilizers (and any
+                    required hardware). Ensuring part compatibility is the commissioner's
+                    responsibility. If possible, please include a few extra switches just in case.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  If you need me to lube and/or film your switches, I charge an extra fee of €0.55
-                  per switch. I do not desolder switches under any circumstance. You must include
-                  the films if selected.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    If you need me to lube and/or film your switches, I charge an extra fee of €0.55
+                    per switch. I do not desolder switches under any circumstance. You must include
+                    the films if selected.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  Stabilizer tuning is included only if stabilizers are provided by the
-                  commissioner.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    Stabilizer tuning is included only if stabilizers are provided by the
+                    commissioner.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  You must pay for shipping both ways. All shipments will be done through InPost by
-                  default. I will send you an invoice for the return shipping and all services once
-                  the build is complete. Payment must be received before the board is sent back.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    You must pay for shipping both ways. All shipments will be done through InPost by
+                    default. I will send you an invoice for the return shipping and all services once
+                    the build is complete. Payment must be received before the board is sent back.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  I am not responsible for any packages that are lost in transit, delayed, damaged,
-                  or any other shipping issues (in either direction).
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    I am not responsible for any packages that are lost in transit, delayed, damaged,
+                    or any other shipping issues (in either direction).
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  I am not liable for any damage or issues during shipping.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    I am not liable for any damage or issues during shipping.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  I do not offer mill-max, through-hole, or per-key LED soldering services. Hotswap
-                  builds are accepted. Solder builds are accepted at an additional fee of €0.55 per
-                  switch.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    I do not offer mill-max, through-hole, or per-key LED soldering services. Hotswap
+                    builds are accepted. Solder builds are accepted at an additional fee of €0.55 per
+                    switch.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  Your completed build may be photographed or used in content. There is no option to
-                  opt out.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    Your completed build may be photographed or used in content. There is no option to
+                    opt out.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  PayPal processing fees will be added (Goods & Services invoice).
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    PayPal processing fees will be added (Goods & Services invoice).
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  The invoice must be paid within 7 days of being sent. If payment is not received,
-                  the commission may be paused or cancelled.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    The invoice must be paid within 7 days of being sent. If payment is not received,
+                    the commission may be paused or cancelled.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  If the invoice remains unpaid and you are unresponsive for 30 days after invoicing,
-                  the items will be considered abandoned and will become the property of microkeebs.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    If the invoice remains unpaid and you are unresponsive for 30 days after invoicing,
+                    the items will be considered abandoned and will become the property of microkeebs.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  No guarantees or warranties are expressed or implied (including sound/feel).
-                  Manufacturer defects or component failures are not my responsibility.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    No guarantees or warranties are expressed or implied (including sound/feel).
+                    Manufacturer defects or component failures are not my responsibility.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  Minor cosmetic marks/wear can occur during normal assembly.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    Minor cosmetic marks/wear can occur during normal assembly.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  Any customs fees, VAT, taxes, or import charges are the commissioner's
-                  responsibility.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    Any customs fees, VAT, taxes, or import charges are the commissioner's
+                    responsibility.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  You must provide an InPost tracking number when shipping to me. I may photo/video
-                  items on arrival to document condition.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    You must provide an InPost tracking number when shipping to me. I may photo/video
+                    items on arrival to document condition.
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  I reserve the right to refuse or stop a commission at any time
-                  (missing/unsafe/incompatible parts).
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    I reserve the right to refuse or stop a commission at any time
+                    (missing/unsafe/incompatible parts).
+                  </li>
 
-                <p className="text-sm leading-relaxed">
-                  The board must be shipped to me unbuilt (not assembled). If the board arrives
-                  built/assembled, an additional €20 fee will be added.
-                </p>
+                  <li className="text-sm leading-relaxed pl-2">
+                    The board must be shipped to me unbuilt (not assembled). If the board arrives
+                    built/assembled, an additional €20 fee will be added.
+                  </li>
 
-                <p className="text-sm leading-relaxed">No refunds once work has begun.</p>
+                  <li className="text-sm leading-relaxed pl-2">No refunds once work has begun.</li>
+                </ol>
               </div>
 
               {/* Footer */}
