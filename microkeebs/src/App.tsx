@@ -7,6 +7,8 @@ import { BuildGallery } from './components/BuildGallery';
 import { BuildDetail } from './components/BuildDetail';
 import { Rankings } from './components/Rankings';
 import { Blog } from './components/Blog';
+import { BlogPost } from './components/BlogPost';
+import { Commissions } from './components/Commissions';
 import { Contact } from './components/Contact';
 import { ThemeToggle } from './components/ThemeToggle';
 import { MobilePopup } from './components/MobilePopup';
@@ -16,8 +18,10 @@ import { TargetCursor } from './components/TargetCursor';
 import { DebugCursor } from './components/DebugCursor';
 import { AdminPage } from './components/admin';
 import { KeyboardBuild } from './types/Build';
+import type { BlogPost as BlogPostType } from './types/BlogPost';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { findBuildBySlug } from './utils/slugUtils';
+import { getPostBySlug } from './utils/blog';
 import builds from './data/builds.json';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
@@ -25,6 +29,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 function AppContent() {
   const [currentPage, setCurrentPage] = useState('builds');
   const [selectedBuild, setSelectedBuild] = useState<KeyboardBuild | null>(null);
+  const [selectedPost, setSelectedPost] = useState<BlogPostType | null>(null);
   const [debugMode, setDebugMode] = useState(false);
   const { isDark } = useTheme();
 
@@ -44,60 +49,87 @@ function AppContent() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      
+
       // Handle admin route
       if (hash.startsWith('#/admin')) {
         setCurrentPage('admin');
         setSelectedBuild(null);
+        setSelectedPost(null);
         return;
       }
-      
+
+      // Handle blog post routes: #/blog/:slug
+      if (hash.startsWith('#/blog/') && hash !== '#/blog/') {
+        const slug = hash.replace('#/blog/', '');
+        const post = getPostBySlug(slug);
+        if (post) {
+          setSelectedPost(post);
+          setCurrentPage('blog');
+          setSelectedBuild(null);
+        } else {
+          // Post not found, go to blog listing
+          setSelectedPost(null);
+          setCurrentPage('blog');
+          setSelectedBuild(null);
+        }
+        return;
+      }
+
       if (hash.startsWith('#/builds/')) {
         const slugPath = hash.replace('#/builds/', '');
         const parts = slugPath.split('/');
         const baseSlug = parts[0];
         const counter = parts[1];
-        
+
         const build = findBuildBySlug(baseSlug, counter, builds as unknown as KeyboardBuild[]);
         if (build) {
           setSelectedBuild(build);
           setCurrentPage('builds');
+          setSelectedPost(null);
         }
       } else if (hash === '#/rankings') {
         setCurrentPage('rankings');
         setSelectedBuild(null);
+        setSelectedPost(null);
       } else if (hash === '#/blog') {
         setCurrentPage('blog');
         setSelectedBuild(null);
+        setSelectedPost(null);
+      } else if (hash === '#/commissions') {
+        setCurrentPage('commissions');
+        setSelectedBuild(null);
+        setSelectedPost(null);
       } else if (hash === '#/contact') {
         setCurrentPage('contact');
         setSelectedBuild(null);
+        setSelectedPost(null);
       } else {
         setCurrentPage('builds');
         setSelectedBuild(null);
+        setSelectedPost(null);
       }
     };
 
     // Initial load
     handleHashChange();
-    
+
     // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   useEffect(() => {
-    const showScrollbarPages = ['builds', 'blog', 'contact'];
+    const showScrollbarPages = ['builds', 'blog', 'commissions', 'contact'];
     if (showScrollbarPages.includes(currentPage)) {
       document.body.classList.add('show-scrollbar');
     } else {
       document.body.classList.remove('show-scrollbar');
     }
-    
+
     requestAnimationFrame(() => {
       ScrollTrigger.refresh();
     });
-  }, [currentPage, selectedBuild]);
+  }, [currentPage, selectedBuild, selectedPost]);
 
   const handleNavigate = (page: string) => {
     if (currentPage !== page) {
@@ -112,11 +144,15 @@ function AppContent() {
     const sameTitleBuilds = builds
       .filter(b => b.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === baseSlug)
       .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-    
+
     const index = sameTitleBuilds.findIndex(b => b.id === build.id);
     const counter = sameTitleBuilds.length > 1 ? `/${index + 1}` : '';
-    
+
     window.location.hash = `#/builds/${baseSlug}${counter}`;
+  };
+
+  const handlePostSelect = (post: BlogPostType) => {
+    window.location.hash = `#/blog/${post.slug}`;
   };
 
   const handleBackToGallery = () => {
@@ -127,7 +163,7 @@ function AppContent() {
     }
     window.scrollTo(0, 0);
     window.location.hash = '#/builds';
-    
+
     setTimeout(() => {
       if (smoother) {
         smoother.paused(false);
@@ -137,12 +173,26 @@ function AppContent() {
     }, 100);
   };
 
+  const handleBackToBlog = () => {
+    window.scrollTo(0, 0);
+    window.location.hash = '#/blog';
+  };
+
   const renderContent = () => {
     if (selectedBuild) {
       return (
         <BuildDetail
           build={selectedBuild}
           onBack={handleBackToGallery}
+        />
+      );
+    }
+
+    if (selectedPost && currentPage === 'blog') {
+      return (
+        <BlogPost
+          post={selectedPost}
+          onBack={handleBackToBlog}
         />
       );
     }
@@ -163,7 +213,9 @@ function AppContent() {
           />
         );
       case 'blog':
-        return <Blog />;
+        return <Blog onPostClick={handlePostSelect} />;
+      case 'commissions':
+        return <Commissions />;
       case 'contact':
         return <Contact />;
       default:

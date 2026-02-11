@@ -120,6 +120,19 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             Blog
           </motion.button>
           <motion.button
+            ref={(el) => { buttonRefs.current['commissions'] = el; }}
+            onClick={() => handleTabClick('commissions')}
+            className="nav-item px-3 sm:px-4 py-2 text-sm font-normal relative z-10"
+            animate={{
+              color: activeTab === 'commissions'
+                ? isDark ? '#1c1c1c' : '#b5b3a7'
+                : isDark ? '#a7a495' : '#1c1c1c'
+            }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+          >
+            Commissions
+          </motion.button>
+          <motion.button
             ref={(el) => { buttonRefs.current['contact'] = el; }}
             onClick={() => handleTabClick('contact')}
             className="nav-item px-3 sm:px-4 py-2 text-sm font-normal relative z-10"
