@@ -56,26 +56,32 @@ export function Blog({ onPostClick }: BlogListingProps) {
                       isDark ? 'text-[#a7a495]/70' : 'text-[#1c1c1c]/70'
                     }`}
                   >
-                    <time dateTime={post.frontmatter.date}>
-                      {formatDate(post.frontmatter.date)}
-                    </time>
-                    <span aria-hidden="true">|</span>
-                    <span>By {post.frontmatter.author}</span>
+                    {post.frontmatter.date && (
+                      <time dateTime={post.frontmatter.date}>
+                        {formatDate(post.frontmatter.date)}
+                      </time>
+                    )}
+                    {post.frontmatter.date && post.frontmatter.author && (
+                      <span aria-hidden="true">|</span>
+                    )}
+                    {post.frontmatter.author && <span>By {post.frontmatter.author}</span>}
                   </div>
                   <h2
                     className={`text-2xl sm:text-3xl font-bold tracking-tight ${
                       isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
                     }`}
                   >
-                    {post.frontmatter.title}
+                    {post.frontmatter.title || 'Untitled'}
                   </h2>
-                  <p
-                    className={`text-base leading-7 ${
-                      isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'
-                    }`}
-                  >
-                    {post.frontmatter.description}
-                  </p>
+                  {post.frontmatter.description && (
+                    <p
+                      className={`text-base leading-7 ${
+                        isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'
+                      }`}
+                    >
+                      {post.frontmatter.description}
+                    </p>
+                  )}
                   <div className="pt-2">
                     <span
                       className={`inline-flex items-center text-sm font-medium ${

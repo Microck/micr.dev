@@ -191,7 +191,7 @@ export function Commissions() {
   };
 
   const inputClasses = (fieldName: StringFieldName) =>
-    `w-full px-0 py-3 bg-transparent border-0 border-b-2 outline-none transition-all duration-300 font-sans text-lg ${
+    `w-full px-0 pt-6 pb-2 bg-transparent border-0 border-b-2 outline-none transition-all duration-300 font-sans text-lg ${
       isDark
         ? focusedField === fieldName || formData[fieldName]
           ? 'border-[#a7a495] text-[#a7a495]'
@@ -674,7 +674,7 @@ export function Commissions() {
                           return (
                             <label
                               key={option}
-                              className={`flex items-center gap-3 rounded-2xl px-4 py-3 border transition-colors cursor-pointer ${
+                              className={`flex items-center gap-3 rounded-2xl px-4 py-3 border transition-colors cursor-pointer group ${
                                 isDark
                                   ? 'border-[#a7a495]/20 hover:border-[#a7a495]/40'
                                   : 'border-[#1c1c1c]/20 hover:border-[#1c1c1c]/40'
@@ -686,14 +686,35 @@ export function Commissions() {
                                   : ''
                               }`}
                             >
-                              <input
-                                type="checkbox"
-                                checked={checked}
-                                onChange={handleLayoutDetailToggle(option)}
-                                className={`h-4 w-4 rounded ${
-                                  isDark ? 'accent-[#a7a495]' : 'accent-[#1c1c1c]'
-                                }`}
-                              />
+                              <div className="relative flex-shrink-0">
+                                <input
+                                  type="checkbox"
+                                  checked={checked}
+                                  onChange={handleLayoutDetailToggle(option)}
+                                  className="peer sr-only"
+                                />
+                                <div
+                                  className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
+                                    isDark
+                                      ? 'border-[#a7a495]/50 group-hover:border-[#a7a495]'
+                                      : 'border-[#1c1c1c]/50 group-hover:border-[#1c1c1c]'
+                                  } peer-checked:bg-current peer-checked:border-current ${
+                                    isDark ? 'peer-checked:text-[#a7a495]' : 'peer-checked:text-[#1c1c1c]'
+                                  }`}
+                                >
+                                  <svg
+                                    className={`w-3 h-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${
+                                      checked ? 'opacity-100' : 'opacity-0'
+                                    } ${isDark ? 'text-[#1c1c1c]' : 'text-[#a7a495]'}`}
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={3}
+                                  >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                  </svg>
+                                </div>
+                              </div>
                               <span
                                 className={`text-sm sm:text-base ${
                                   isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
@@ -705,6 +726,101 @@ export function Commissions() {
                           );
                         })}
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+
+              <ScrollReveal delay={0.35}>
+                <div
+                  className={`rounded-3xl p-8 sm:p-12 ${
+                    isDark ? 'bg-[#2a2a2a]' : 'bg-[#b5b3a7]'
+                  }`}
+                >
+                  <h2
+                    className={`text-2xl sm:text-3xl font-bold mb-8 ${
+                      isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+                    }`}
+                  >
+                    Terms and Conditions
+                  </h2>
+
+                  <div
+                    className={`space-y-6 max-h-96 overflow-y-auto pr-4 mb-8 ${
+                      isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'
+                    }`}
+                  >
+                    <div className="space-y-4 text-sm leading-relaxed">
+                      <p>
+                        You must provide all components; including switches and stabilizers (and any required hardware).
+                        Ensuring part compatibility is the commissioner's responsibility. If possible, please include a
+                        few extra switches just in case.
+                      </p>
+
+                      <p>
+                        If you need me to lube and/or film your switches, I charge an extra fee of €0.55 per switch. I do
+                        not desolder switches under any circumstance. You must include the films if selected.
+                      </p>
+
+                      <p>Stabilizer tuning is included only if stabilizers are provided by the commissioner.</p>
+
+                      <p>
+                        You must pay for shipping both ways. All shipments will be done through InPost by default. I will
+                        send you an invoice for the return shipping and all services once the build is complete. Payment
+                        must be received before the board is sent back.
+                      </p>
+
+                      <p>
+                        I am not responsible for any packages that are lost in transit, delayed, damaged, or any other
+                        shipping issues (in either direction).
+                      </p>
+
+                      <p>I am not liable for any damage or issues during shipping.</p>
+
+                      <p>
+                        I do not offer mill-max, through-hole, or per-key LED soldering services. Hotswap builds are
+                        accepted. Solder builds are accepted at an additional fee of €0.55 per switch.
+                      </p>
+
+                      <p>Your completed build may be photographed or used in content. There is no option to opt out.</p>
+
+                      <p>PayPal processing fees will be added (Goods & Services invoice).</p>
+
+                      <p>
+                        The invoice must be paid within 7 days of being sent. If payment is not received, the commission
+                        may be paused or cancelled.
+                      </p>
+
+                      <p>
+                        If the invoice remains unpaid and you are unresponsive for 30 days after invoicing, the items
+                        will be considered abandoned and will become the property of microkeebs.
+                      </p>
+
+                      <p>
+                        No guarantees or warranties are expressed or implied (including sound/feel). Manufacturer
+                        defects or component failures are not my responsibility.
+                      </p>
+
+                      <p>Minor cosmetic marks/wear can occur during normal assembly.</p>
+
+                      <p>Any customs fees, VAT, taxes, or import charges are the commissioner's responsibility.</p>
+
+                      <p>
+                        You must provide an InPost tracking number when shipping to me. I may photo/video items on
+                        arrival to document condition.
+                      </p>
+
+                      <p>
+                        I reserve the right to refuse or stop a commission at any time (missing/unsafe/incompatible
+                        parts).
+                      </p>
+
+                      <p>
+                        The board must be shipped to me unbuilt (not assembled). If the board arrives built/assembled,
+                        an additional €20 fee will be added.
+                      </p>
+
+                      <p>No refunds once work has begun.</p>
                     </div>
                   </div>
                 </div>
@@ -746,16 +862,37 @@ export function Commissions() {
                         isDark ? 'border-[#a7a495]/20' : 'border-[#1c1c1c]/20'
                       }`}
                     >
-                      <label className="flex items-start gap-4 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={formData.termsAccepted}
-                          onChange={handleTermsAcceptedChange}
-                          required
-                          className={`mt-1 h-4 w-4 rounded ${
-                            isDark ? 'accent-[#a7a495]' : 'accent-[#1c1c1c]'
-                          }`}
-                        />
+                      <label className="flex items-start gap-4 cursor-pointer group">
+                        <div className="relative flex-shrink-0 mt-0.5">
+                          <input
+                            type="checkbox"
+                            checked={formData.termsAccepted}
+                            onChange={handleTermsAcceptedChange}
+                            required
+                            className="peer sr-only"
+                          />
+                          <div
+                            className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
+                              isDark
+                                ? 'border-[#a7a495]/50 group-hover:border-[#a7a495]'
+                                : 'border-[#1c1c1c]/50 group-hover:border-[#1c1c1c]'
+                            } peer-checked:bg-current peer-checked:border-current ${
+                              isDark ? 'peer-checked:text-[#a7a495]' : 'peer-checked:text-[#1c1c1c]'
+                            }`}
+                          >
+                            <svg
+                              className={`w-3 h-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${
+                                formData.termsAccepted ? 'opacity-100' : 'opacity-0'
+                              } ${isDark ? 'text-[#1c1c1c]' : 'text-[#a7a495]'}`}
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={3}
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                        </div>
                         <span
                           className={`text-sm leading-relaxed ${
                             isDark ? 'text-[#a7a495]/90' : 'text-[#1c1c1c]/90'

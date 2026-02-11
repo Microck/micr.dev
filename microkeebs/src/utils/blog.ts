@@ -13,7 +13,11 @@ export function getAllPosts(): BlogPost[] {
     // Extract slug from filename (e.g., /src/content/blog/hello-world.mdx -> hello-world)
     const slug = path.replace('/src/content/blog/', '').replace('.mdx', '');
 
-    if (module.frontmatter?.published !== false) {
+    if (!module.frontmatter) {
+      continue;
+    }
+
+    if (module.frontmatter.published !== false) {
       posts.push({
         slug,
         frontmatter: module.frontmatter,
