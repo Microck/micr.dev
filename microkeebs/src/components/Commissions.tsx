@@ -4,53 +4,139 @@ import { useTheme } from '../contexts/ThemeContext';
 import { ScrollReveal } from './ScrollReveal';
 import { Check, Loader2 } from 'lucide-react';
 
-type FormData = {
-  name: string;
-  email: string;
-  discord: string;
-  keyboardType: string;
-  budget: string;
-  switches: string;
-  keycaps: string;
+type CommissionFormData = {
+  emailAddress: string;
+  fullName: string;
+  shippingAddress: string;
+  paypalEmail: string;
+  communicationMethod: '' | 'Instagram' | 'Email' | 'Other';
+  contactHandle: string;
+  boardDescription: string;
+  buildType: '' | 'Hotswap' | 'Solder';
+  keyboardSize: '' | 'Below 60%' | '60–65%' | '75%–TKL' | '1800 or Full Size';
+  layoutDetails: string[];
+  switchCount: string;
+  switchMods: '' | 'Yes' | 'No';
+  includeKeycaps: '' | 'Yes' | 'No';
+  inpostTracking: string;
+  termsAccepted: boolean;
+  additionalComments: string;
 };
 
-const initialFormData: FormData = {
-  name: '',
-  email: '',
-  discord: '',
-  keyboardType: '',
-  budget: '',
-  switches: '',
-  keycaps: '',
-};
+const TERMS_ACCEPTANCE_VALUE =
+  'I have read and agree to all Terms and Conditions stated above. I understand they are binding, and it is my responsibility to read them fully before submitting.';
 
-const initialFormData: FormData = {
-  name: '',
-  email: '',
-  discord: '',
-  keyboardType: '',
-  budget: '',
-  switches: '',
-  keycaps: '',
-  additionalInfo: '',
+const layoutDetailOptions = [
+  'WK',
+  'WKL',
+  'Split Spacebar',
+  'Split Shift (leave comment as to which one)',
+  'Split Backspace',
+  'Stepped Caps Lock',
+  'Regular Caps Lock',
+  'Full Backspace',
+  'Other',
+] as const;
+
+const initialFormData: CommissionFormData = {
+  emailAddress: '',
+  fullName: '',
+  shippingAddress: '',
+  paypalEmail: '',
+  communicationMethod: '',
+  contactHandle: '',
+  boardDescription: '',
+  buildType: '',
+  keyboardSize: '',
+  layoutDetails: [],
+  switchCount: '',
+  switchMods: '',
+  includeKeycaps: '',
+  inpostTracking: '',
+  termsAccepted: false,
+  additionalComments: '',
 };
 
 export function Commissions() {
   const { isDark } = useTheme();
-  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [formData, setFormData] = useState<CommissionFormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [focusedField, setFocusedField] = useState<
+    | Exclude<keyof CommissionFormData, 'layoutDetails' | 'termsAccepted'>
+    | null
+  >(null);
+  const [layoutDetailsError, setLayoutDetailsError] = useState(false);
+
+  const stringFieldNames = [
+    'emailAddress',
+    'fullName',
+    'shippingAddress',
+    'paypalEmail',
+    'communicationMethod',
+    'contactHandle',
+    'boardDescription',
+    'buildType',
+    'keyboardSize',
+    'switchCount',
+    'switchMods',
+    'includeKeycaps',
+    'inpostTracking',
+    'additionalComments',
+  ] as const;
+
+  type StringFieldName = (typeof stringFieldNames)[number];
+
+  const isStringFieldName = (name: string): name is StringFieldName =>
+    (stringFieldNames as readonly string[]).includes(name);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+
+    if (!isStringFieldName(name)) {
+      return;
+    }
+
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleLayoutDetailToggle = (option: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+
+    setFormData((prev) => {
+      const next = checked
+        ? Array.from(new Set([...prev.layoutDetails, option]))
+        : prev.layoutDetails.filter((value) => value !== option);
+
+      return {
+        ...prev,
+        layoutDetails: next,
+      };
+    });
+
+    if (layoutDetailsError) {
+      setLayoutDetailsError(false);
+    }
+  };
+
+  const handleTermsAcceptedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      termsAccepted: checked,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (formData.layoutDetails.length === 0) {
+      setLayoutDetailsError(true);
+      return;
+    }
+
     setIsSubmitting(true);
 
     // Google Forms submission
@@ -60,14 +146,30 @@ export function Commissions() {
 
     // Create form data for Google Forms
     const googleFormData = new FormData();
-    // Map our form fields to Google Forms entry IDs
-    googleFormData.append('entry.103391198', formData.name);
-    googleFormData.append('entry.1872997171', formData.email);
-    googleFormData.append('entry.262032242', formData.discord);
-    googleFormData.append('entry.30082598', formData.keyboardType);
-    googleFormData.append('entry.483733296', formData.budget);
-    googleFormData.append('entry.664147544', formData.switches);
-    googleFormData.append('entry.673371819', formData.keycaps);
+    googleFormData.append('emailAddress', formData.emailAddress);
+    googleFormData.append('entry.632203679', formData.fullName);
+    googleFormData.append('entry.953846509', formData.shippingAddress);
+    googleFormData.append('entry.1677500050', formData.paypalEmail);
+    googleFormData.append('entry.673371819', formData.communicationMethod);
+    googleFormData.append('entry.870558618', formData.contactHandle);
+    googleFormData.append('entry.918252436', formData.boardDescription);
+    googleFormData.append('entry.103391198', formData.buildType);
+    googleFormData.append('entry.664147544', formData.keyboardSize);
+
+    for (const detail of formData.layoutDetails) {
+      googleFormData.append('entry.262032242', detail);
+    }
+
+    googleFormData.append('entry.1338355639', formData.switchCount);
+    googleFormData.append('entry.483733296', formData.switchMods);
+    googleFormData.append('entry.1872997171', formData.includeKeycaps);
+    googleFormData.append('entry.223961881', formData.inpostTracking);
+
+    if (formData.termsAccepted) {
+      googleFormData.append('entry.30082598', TERMS_ACCEPTANCE_VALUE);
+    }
+
+    googleFormData.append('entry.1582632785', formData.additionalComments);
 
     try {
       // Submit to Google Forms using fetch with no-cors mode
@@ -88,22 +190,22 @@ export function Commissions() {
     }
   };
 
-  const inputClasses = (fieldName: string) =>
+  const inputClasses = (fieldName: StringFieldName) =>
     `w-full px-0 py-3 bg-transparent border-0 border-b-2 outline-none transition-all duration-300 font-sans text-lg ${
       isDark
-        ? focusedField === fieldName || formData[fieldName as keyof FormData]
+        ? focusedField === fieldName || formData[fieldName]
           ? 'border-[#a7a495] text-[#a7a495]'
           : 'border-[#a7a495]/30 text-[#a7a495]'
-        : focusedField === fieldName || formData[fieldName as keyof FormData]
+        : focusedField === fieldName || formData[fieldName]
           ? 'border-[#1c1c1c] text-[#1c1c1c]'
           : 'border-[#1c1c1c]/30 text-[#1c1c1c]'
     } placeholder:text-transparent focus:placeholder:text-opacity-50 ${
       isDark ? 'focus:placeholder:text-[#a7a495]/50' : 'focus:placeholder:text-[#1c1c1c]/50'
     }`;
 
-  const labelClasses = (fieldName: string) =>
+  const labelClasses = (fieldName: StringFieldName) =>
     `absolute left-0 transition-all duration-300 pointer-events-none font-sans ${
-      focusedField === fieldName || formData[fieldName as keyof FormData]
+      focusedField === fieldName || formData[fieldName]
         ? isDark
           ? 'text-[#a7a495] text-xs -top-5'
           : 'text-[#1c1c1c] text-xs -top-5'
@@ -188,7 +290,6 @@ export function Commissions() {
               onSubmit={handleSubmit}
               className="space-y-12"
             >
-              {/* Personal Info Section */}
               <ScrollReveal delay={0.1}>
                 <div
                   className={`rounded-3xl p-8 sm:p-12 ${
@@ -200,62 +301,164 @@ export function Commissions() {
                       isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
                     }`}
                   >
-                    Personal Information
+                    Contact
                   </h2>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Name */}
-                    <div className="relative">
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        onFocus={() => setFocusedField('name')}
-                        onBlur={() => setFocusedField(null)}
-                        className={inputClasses('name')}
-                        placeholder="Your name"
-                        required
-                      />
-                      <label className={labelClasses('name')}>Name *</label>
-                    </div>
-
-                    {/* Email */}
                     <div className="relative">
                       <input
                         type="email"
-                        name="email"
-                        value={formData.email}
+                        name="emailAddress"
+                        value={formData.emailAddress}
                         onChange={handleChange}
-                        onFocus={() => setFocusedField('email')}
+                        onFocus={() => setFocusedField('emailAddress')}
                         onBlur={() => setFocusedField(null)}
-                        className={inputClasses('email')}
-                        placeholder="your@email.com"
+                        className={inputClasses('emailAddress')}
+                        placeholder="you@example.com"
                         required
                       />
-                      <label className={labelClasses('email')}>Email *</label>
+                      <label className={labelClasses('emailAddress')}>Email *</label>
                     </div>
 
-                    {/* Discord */}
-                    <div className="relative md:col-span-2">
+                    <div className="relative">
                       <input
                         type="text"
-                        name="discord"
-                        value={formData.discord}
+                        name="fullName"
+                        value={formData.fullName}
                         onChange={handleChange}
-                        onFocus={() => setFocusedField('discord')}
+                        onFocus={() => setFocusedField('fullName')}
                         onBlur={() => setFocusedField(null)}
-                        className={inputClasses('discord')}
-                        placeholder="username#0000"
+                        className={inputClasses('fullName')}
+                        placeholder="Full name"
+                        required
                       />
-                      <label className={labelClasses('discord')}>Discord (optional)</label>
+                      <label className={labelClasses('fullName')}>Full Name *</label>
+                    </div>
+
+                    <div className="relative">
+                      <select
+                        name="communicationMethod"
+                        value={formData.communicationMethod}
+                        onChange={handleChange}
+                        onFocus={() => setFocusedField('communicationMethod')}
+                        onBlur={() => setFocusedField(null)}
+                        className={`${inputClasses('communicationMethod')} appearance-none cursor-pointer`}
+                        required
+                      >
+                        <option value="">Select one</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Email">Email</option>
+                        <option value="Other">Other</option>
+                      </select>
+                      <label className={labelClasses('communicationMethod')}>
+                        Preferred Method of Communication *
+                      </label>
+                      <div
+                        className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${
+                          isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'
+                        }`}
+                      >
+                        <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                          <path
+                            d="M1 1.5L6 6.5L11 1.5"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="contactHandle"
+                        value={formData.contactHandle}
+                        onChange={handleChange}
+                        onFocus={() => setFocusedField('contactHandle')}
+                        onBlur={() => setFocusedField(null)}
+                        className={inputClasses('contactHandle')}
+                        placeholder="username / email"
+                        required
+                      />
+                      <label className={labelClasses('contactHandle')}>
+                        Username / Email (so I can contact you) *
+                      </label>
+                    </div>
+
+                    <div className="relative md:col-span-2">
+                      <input
+                        type="email"
+                        name="paypalEmail"
+                        value={formData.paypalEmail}
+                        onChange={handleChange}
+                        onFocus={() => setFocusedField('paypalEmail')}
+                        onBlur={() => setFocusedField(null)}
+                        className={inputClasses('paypalEmail')}
+                        placeholder="paypal@example.com"
+                        required
+                      />
+                      <label className={labelClasses('paypalEmail')}>
+                        PayPal Email (for invoice) *
+                      </label>
                     </div>
                   </div>
                 </div>
               </ScrollReveal>
 
-              {/* Build Details Section */}
               <ScrollReveal delay={0.2}>
+                <div
+                  className={`rounded-3xl p-8 sm:p-12 ${
+                    isDark ? 'bg-[#2a2a2a]' : 'bg-[#b5b3a7]'
+                  }`}
+                >
+                  <h2
+                    className={`text-2xl sm:text-3xl font-bold mb-8 ${
+                      isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+                    }`}
+                  >
+                    Shipping
+                  </h2>
+
+                  <div className="space-y-8">
+                    <div className="relative">
+                      <textarea
+                        name="shippingAddress"
+                        value={formData.shippingAddress}
+                        onChange={handleChange}
+                        onFocus={() => setFocusedField('shippingAddress')}
+                        onBlur={() => setFocusedField(null)}
+                        className={`${inputClasses('shippingAddress')} min-h-[140px] resize-none`}
+                        placeholder="Country, City, Postal Code"
+                        rows={4}
+                        required
+                      />
+                      <label className={labelClasses('shippingAddress')}>
+                        Full Shipping Address (Country, City, Postal Code) *
+                      </label>
+                    </div>
+
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="inpostTracking"
+                        value={formData.inpostTracking}
+                        onChange={handleChange}
+                        onFocus={() => setFocusedField('inpostTracking')}
+                        onBlur={() => setFocusedField(null)}
+                        className={inputClasses('inpostTracking')}
+                        placeholder="Tracking number"
+                      />
+                      <label className={labelClasses('inpostTracking')}>
+                        InPost tracking number (shipment to microkeebs)
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+
+              <ScrollReveal delay={0.3}>
                 <div
                   className={`rounded-3xl p-8 sm:p-12 ${
                     isDark ? 'bg-[#2a2a2a]' : 'bg-[#b5b3a7]'
@@ -269,112 +472,297 @@ export function Commissions() {
                     Build Details
                   </h2>
 
-                  <div className="space-y-8">
-                    {/* Keyboard Type */}
+                  <div className="space-y-10">
                     <div className="relative">
-                      <select
-                        name="keyboardType"
-                        value={formData.keyboardType}
+                      <textarea
+                        name="boardDescription"
+                        value={formData.boardDescription}
                         onChange={handleChange}
-                        onFocus={() => setFocusedField('keyboardType')}
+                        onFocus={() => setFocusedField('boardDescription')}
                         onBlur={() => setFocusedField(null)}
-                        className={`${inputClasses('keyboardType')} appearance-none cursor-pointer`}
+                        className={`${inputClasses('boardDescription')} min-h-[160px] resize-none`}
+                        placeholder="Board name, designer, color, notes"
+                        rows={5}
                         required
-                      >
-                        <option value="">Select a type</option>
-                        <option value="60%">60%</option>
-                        <option value="65%">65%</option>
-                        <option value="75%">75%</option>
-                        <option value="TKL">TKL (Tenkeyless)</option>
-                        <option value="Full Size">Full Size</option>
-                        <option value="Alice">Alice / Arisu</option>
-                        <option value="Other">Other</option>
-                      </select>
-                      <label className={labelClasses('keyboardType')}>Keyboard Type *</label>
-                      <div
-                        className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${
-                          isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'
-                        }`}
-                      >
-                        <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-                          <path
-                            d="M1 1.5L6 6.5L11 1.5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* Budget */}
-                    <div className="relative">
-                      <select
-                        name="budget"
-                        value={formData.budget}
-                        onChange={handleChange}
-                        onFocus={() => setFocusedField('budget')}
-                        onBlur={() => setFocusedField(null)}
-                        className={`${inputClasses('budget')} appearance-none cursor-pointer`}
-                        required
-                      >
-                        <option value="">Select budget range</option>
-                        <option value="$100-$200">$100 - $200</option>
-                        <option value="$200-$400">$200 - $400</option>
-                        <option value="$400-$600">$400 - $600</option>
-                        <option value="$600-$1000">$600 - $1000</option>
-                        <option value="$1000+">$1000+</option>
-                      </select>
-                      <label className={labelClasses('budget')}>Budget *</label>
-                      <div
-                        className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${
-                          isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'
-                        }`}
-                      >
-                        <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-                          <path
-                            d="M1 1.5L6 6.5L11 1.5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* Switches */}
-                    <div className="relative">
-                      <input
-                        type="text"
-                        name="switches"
-                        value={formData.switches}
-                        onChange={handleChange}
-                        onFocus={() => setFocusedField('switches')}
-                        onBlur={() => setFocusedField(null)}
-                        className={inputClasses('switches')}
-                        placeholder="e.g., Gateron Oil Kings, Cherry MX Browns"
                       />
-                      <label className={labelClasses('switches')}>
-                        Preferred Switches (optional)
+                      <label className={labelClasses('boardDescription')}>
+                        Please describe the board! (Name, designer, color, etc.) *
                       </label>
                     </div>
 
-                    {/* Keycaps */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="relative">
+                        <select
+                          name="buildType"
+                          value={formData.buildType}
+                          onChange={handleChange}
+                          onFocus={() => setFocusedField('buildType')}
+                          onBlur={() => setFocusedField(null)}
+                          className={`${inputClasses('buildType')} appearance-none cursor-pointer`}
+                          required
+                        >
+                          <option value="">Select one</option>
+                          <option value="Hotswap">Hotswap</option>
+                          <option value="Solder">Solder</option>
+                        </select>
+                        <label className={labelClasses('buildType')}>
+                          Is this board hotswap or solder? *
+                        </label>
+                        <div
+                          className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${
+                            isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'
+                          }`}
+                        >
+                          <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                            <path
+                              d="M1 1.5L6 6.5L11 1.5"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <div className="relative">
+                        <select
+                          name="keyboardSize"
+                          value={formData.keyboardSize}
+                          onChange={handleChange}
+                          onFocus={() => setFocusedField('keyboardSize')}
+                          onBlur={() => setFocusedField(null)}
+                          className={`${inputClasses('keyboardSize')} appearance-none cursor-pointer`}
+                          required
+                        >
+                          <option value="">Select one</option>
+                          <option value="Below 60%">Below 60%</option>
+                          <option value="60–65%">60–65%</option>
+                          <option value="75%–TKL">75%–TKL</option>
+                          <option value="1800 or Full Size">1800 or Full Size</option>
+                        </select>
+                        <label className={labelClasses('keyboardSize')}>Size of keyboard *</label>
+                        <div
+                          className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${
+                            isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'
+                          }`}
+                        >
+                          <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                            <path
+                              d="M1 1.5L6 6.5L11 1.5"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <div className="relative">
+                        <input
+                          type="number"
+                          inputMode="numeric"
+                          name="switchCount"
+                          value={formData.switchCount}
+                          onChange={handleChange}
+                          onFocus={() => setFocusedField('switchCount')}
+                          onBlur={() => setFocusedField(null)}
+                          className={inputClasses('switchCount')}
+                          placeholder="e.g., 70"
+                          min={1}
+                          required
+                        />
+                        <label className={labelClasses('switchCount')}>
+                          How many switches are you sending? (number) *
+                        </label>
+                      </div>
+
+                      <div className="relative">
+                        <select
+                          name="switchMods"
+                          value={formData.switchMods}
+                          onChange={handleChange}
+                          onFocus={() => setFocusedField('switchMods')}
+                          onBlur={() => setFocusedField(null)}
+                          className={`${inputClasses('switchMods')} appearance-none cursor-pointer`}
+                          required
+                        >
+                          <option value="">Select one</option>
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
+                        </select>
+                        <label className={labelClasses('switchMods')}>
+                          Switch modification services? *
+                        </label>
+                        <div
+                          className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${
+                            isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'
+                          }`}
+                        >
+                          <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                            <path
+                              d="M1 1.5L6 6.5L11 1.5"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <div className="relative">
+                        <select
+                          name="includeKeycaps"
+                          value={formData.includeKeycaps}
+                          onChange={handleChange}
+                          onFocus={() => setFocusedField('includeKeycaps')}
+                          onBlur={() => setFocusedField(null)}
+                          className={`${inputClasses('includeKeycaps')} appearance-none cursor-pointer`}
+                          required
+                        >
+                          <option value="">Select one</option>
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
+                        </select>
+                        <label className={labelClasses('includeKeycaps')}>
+                          Will you be sending keycaps with your board? *
+                        </label>
+                        <div
+                          className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${
+                            isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'
+                          }`}
+                        >
+                          <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                            <path
+                              d="M1 1.5L6 6.5L11 1.5"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex items-end justify-between gap-6 mb-4">
+                        <h3
+                          className={`text-lg font-semibold ${
+                            isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+                          }`}
+                        >
+                          Layout Details (Select all that apply) *
+                        </h3>
+                        {layoutDetailsError ? (
+                          <p
+                            className={`text-sm ${
+                              isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'
+                            }`}
+                          >
+                            select at least one
+                          </p>
+                        ) : null}
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {layoutDetailOptions.map((option) => {
+                          const checked = formData.layoutDetails.includes(option);
+
+                          return (
+                            <label
+                              key={option}
+                              className={`flex items-center gap-3 rounded-2xl px-4 py-3 border transition-colors cursor-pointer ${
+                                isDark
+                                  ? 'border-[#a7a495]/20 hover:border-[#a7a495]/40'
+                                  : 'border-[#1c1c1c]/20 hover:border-[#1c1c1c]/40'
+                              } ${
+                                checked
+                                  ? isDark
+                                    ? 'bg-[#a7a495]/10'
+                                    : 'bg-[#1c1c1c]/5'
+                                  : ''
+                              }`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={checked}
+                                onChange={handleLayoutDetailToggle(option)}
+                                className={`h-4 w-4 rounded ${
+                                  isDark ? 'accent-[#a7a495]' : 'accent-[#1c1c1c]'
+                                }`}
+                              />
+                              <span
+                                className={`text-sm sm:text-base ${
+                                  isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+                                }`}
+                              >
+                                {option}
+                              </span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+
+              <ScrollReveal delay={0.4}>
+                <div
+                  className={`rounded-3xl p-8 sm:p-12 ${
+                    isDark ? 'bg-[#2a2a2a]' : 'bg-[#b5b3a7]'
+                  }`}
+                >
+                  <h2
+                    className={`text-2xl sm:text-3xl font-bold mb-8 ${
+                      isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+                    }`}
+                  >
+                    Final
+                  </h2>
+
+                  <div className="space-y-8">
                     <div className="relative">
-                      <input
-                        type="text"
-                        name="keycaps"
-                        value={formData.keycaps}
+                      <textarea
+                        name="additionalComments"
+                        value={formData.additionalComments}
                         onChange={handleChange}
-                        onFocus={() => setFocusedField('keycaps')}
+                        onFocus={() => setFocusedField('additionalComments')}
                         onBlur={() => setFocusedField(null)}
-                        className={inputClasses('keycaps')}
-                        placeholder="e.g., GMK Botanical, ePBT Kuro Shiro"
+                        className={`${inputClasses('additionalComments')} min-h-[140px] resize-none`}
+                        placeholder="Any additional comments or concerns"
+                        rows={4}
                       />
-                      <label className={labelClasses('keycaps')}>
-                        Preferred Keycaps (optional)
+                      <label className={labelClasses('additionalComments')}>
+                        Any additional comments or concerns?
+                      </label>
+                    </div>
+
+                    <div
+                      className={`rounded-2xl p-6 border ${
+                        isDark ? 'border-[#a7a495]/20' : 'border-[#1c1c1c]/20'
+                      }`}
+                    >
+                      <label className="flex items-start gap-4 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={formData.termsAccepted}
+                          onChange={handleTermsAcceptedChange}
+                          required
+                          className={`mt-1 h-4 w-4 rounded ${
+                            isDark ? 'accent-[#a7a495]' : 'accent-[#1c1c1c]'
+                          }`}
+                        />
+                        <span
+                          className={`text-sm leading-relaxed ${
+                            isDark ? 'text-[#a7a495]/90' : 'text-[#1c1c1c]/90'
+                          }`}
+                        >
+                          {TERMS_ACCEPTANCE_VALUE}
+                        </span>
                       </label>
                     </div>
                   </div>
