@@ -197,14 +197,18 @@ export function Commissions() {
     googleFormData.append('entry.103391198', formData.buildType);
     googleFormData.append('entry.664147544', formData.keyboardSize);
     
-    // Layout details - UPDATE THESE ENTRY IDs with your actual Google Form entry IDs
-    if (formData.fRow) googleFormData.append('entry.999999001', formData.fRow);
-    googleFormData.append('entry.999999002', formData.backspace);
-    googleFormData.append('entry.999999003', formData.enter);
-    if (formData.splitRightShift) googleFormData.append('entry.999999004', 'Yes');
-    if (formData.splitLeftShift) googleFormData.append('entry.999999005', 'Yes');
-    googleFormData.append('entry.999999006', formData.bottomRow);
-    googleFormData.append('entry.999999007', formData.winKey);
+    if (formData.fRow === 'F12') googleFormData.append('entry.999999001', 'F12');
+    if (formData.fRow === 'F13') googleFormData.append('entry.999999002', 'F13');
+    if (formData.backspace === 'Standard') googleFormData.append('entry.999999003', 'Standard Backspace');
+    if (formData.backspace === 'Split') googleFormData.append('entry.999999004', 'Split Backspace');
+    if (formData.enter === 'ANSI') googleFormData.append('entry.999999005', 'ANSI Enter');
+    if (formData.enter === 'ISO') googleFormData.append('entry.999999006', 'ISO Enter');
+    if (formData.splitRightShift) googleFormData.append('entry.999999007', 'Split Right Shift');
+    if (formData.splitLeftShift) googleFormData.append('entry.999999008', 'Split Left Shift');
+    if (formData.bottomRow === '7U') googleFormData.append('entry.999999009', '7U Spacebar');
+    if (formData.bottomRow === '6.25U') googleFormData.append('entry.999999010', '6.25U Spacebar');
+    if (formData.winKey === 'WK') googleFormData.append('entry.999999011', 'WK (Windows Key)');
+    if (formData.winKey === 'WKL') googleFormData.append('entry.999999012', 'WKL (Windows Key-less)');
     
     googleFormData.append('entry.1338355639', formData.switchCount);
     googleFormData.append('entry.483733296', formData.switchMods);
