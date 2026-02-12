@@ -385,7 +385,7 @@ export function Commissions() {
             placeholder="username / email"
             required
           />
-          <label className={labelClasses('contactHandle')}>Username / Email (so I can contact you) *</label>
+          <label className={labelClasses('contactHandle')}>Username / Email (for your records) *</label>
         </div>
         <div className="relative md:col-span-2">
           <input
@@ -871,7 +871,7 @@ export function Commissions() {
             <p className={`max-w-xl text-lg sm:text-xl leading-relaxed ${
               isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'
             }`}>
-              Interested in a custom keyboard build? Fill out the form below and I'll get back to you within 48 hours.
+              Interested in a custom keyboard build? Fill out the form below. You will receive an automated confirmation — please reach out via your selected contact method to follow up.
             </p>
           </header>
         </ScrollReveal>
@@ -894,7 +894,7 @@ export function Commissions() {
                 Request Received!
               </h2>
               <p className={`text-lg mb-8 ${isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'}`}>
-                Thank you for your interest. I'll review your request and get back to you soon.
+                Request submitted. Please reach out via your selected contact method to confirm and discuss next steps.
               </p>
               <button
                 onClick={() => setIsSubmitted(false)}
