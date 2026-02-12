@@ -1,5 +1,29 @@
 [
   {
+    "id": "rMFFxnhLrcs",
+    "title": "Gehirn60",
+    "youtubeTitle": "Gehirn60 with lubed Cherry MX Hyperglide Browns",
+    "category": "MX",
+    "timestamp": "2026-02-11T18:09:34Z",
+    "images": [
+      "./images/rMFFxnhLrcs/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/rMFFxnhLrcs",
+    "specs": {
+      "Keyboard": "Gehirn60 by Bowl and Baion (Anomaly)",
+      "Keycaps": "GMK WoB + GMK Pulse",
+      "Switches": "Cherry MX Hyperglide Brown",
+      "Lube": "Krytox 205g0",
+      "Films": "Kelowna PC",
+      "Springs": "Single-Stage 45g with GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "Top Mount",
+      "Stabilizers": "idk I think JWK stabs with Permatex Dialectric Grease",
+      "PCB": "Hotswap",
+      "Others": "-"
+    }
+  },
+  {
     "id": "q1jc0ybIuwE",
     "title": "Toro60",
     "youtubeTitle": "Toro60 with lubed Cherry MX Purples",
