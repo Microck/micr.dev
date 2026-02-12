@@ -14,7 +14,13 @@ type CommissionFormData = {
   boardDescription: string;
   buildType: '' | 'Hotswap' | 'Solder';
   keyboardSize: '' | 'Below 60%' | '60–65%' | '75%–TKL' | '1800 or Full Size';
-  layoutDetails: string[];
+  fRow: '' | 'F12' | 'F13';
+  backspace: '' | 'Standard' | 'Split';
+  enter: '' | 'ANSI' | 'ISO';
+  splitRightShift: boolean;
+  splitLeftShift: boolean;
+  bottomRow: '' | '7U' | '6.25U';
+  winKey: '' | 'WK' | 'WKL';
   switchCount: string;
   switchMods: '' | 'Yes' | 'No';
   includeKeycaps: '' | 'Yes' | 'No';
@@ -26,18 +32,6 @@ type CommissionFormData = {
 const TERMS_ACCEPTANCE_VALUE =
   'I have read and agree to all Terms and Conditions stated above. I understand they are binding, and it is my responsibility to read them fully before submitting.';
 
-const layoutDetailOptions = [
-  'WK',
-  'WKL',
-  'Split Spacebar',
-  'Split Shift (leave comment as to which one)',
-  'Split Backspace',
-  'Stepped Caps Lock',
-  'Regular Caps Lock',
-  'Full Backspace',
-  'Other',
-] as const;
-
 const initialFormData: CommissionFormData = {
   emailAddress: '',
   fullName: '',
@@ -48,7 +42,13 @@ const initialFormData: CommissionFormData = {
   boardDescription: '',
   buildType: '',
   keyboardSize: '',
-  layoutDetails: [],
+  fRow: '',
+  backspace: '',
+  enter: '',
+  splitRightShift: false,
+  splitLeftShift: false,
+  bottomRow: '',
+  winKey: '',
   switchCount: '',
   switchMods: '',
   includeKeycaps: '',
@@ -71,10 +71,9 @@ export function Commissions() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [focusedField, setFocusedField] = useState<
-    | Exclude<keyof CommissionFormData, 'layoutDetails' | 'termsAccepted'>
+    | Exclude<keyof CommissionFormData, 'splitRightShift' | 'splitLeftShift' | 'termsAccepted'>
     | null
   >(null);
-  const [layoutDetailsError, setLayoutDetailsError] = useState(false);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const [stepError, setStepError] = useState<string | null>(null);
 
@@ -88,6 +87,11 @@ export function Commissions() {
     'boardDescription',
     'buildType',
     'keyboardSize',
+    'fRow',
+    'backspace',
+    'enter',
+    'bottomRow',
+    'winKey',
     'switchCount',
     'switchMods',
     'includeKeycaps',
@@ -109,15 +113,9 @@ export function Commissions() {
     if (stepError) setStepError(null);
   };
 
-  const handleLayoutDetailToggle = (option: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckboxChange = (name: 'splitRightShift' | 'splitLeftShift') => (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
-    setFormData((prev) => {
-      const next = checked
-        ? Array.from(new Set([...prev.layoutDetails, option]))
-        : prev.layoutDetails.filter((value) => value !== option);
-      return { ...prev, layoutDetails: next };
-    });
-    if (layoutDetailsError) setLayoutDetailsError(false);
+    setFormData((prev) => ({ ...prev, [name]: checked }));
     if (stepError) setStepError(null);
   };
 
@@ -126,6 +124,8 @@ export function Commissions() {
     setFormData((prev) => ({ ...prev, termsAccepted: checked }));
     if (stepError) setStepError(null);
   };
+
+  const needsFRow = formData.keyboardSize === '75%–TKL' || formData.keyboardSize === '1800 or Full Size';
 
   const validateStep = (step: number): boolean => {
     setStepError(null);
@@ -147,9 +147,12 @@ export function Commissions() {
           setStepError('Please fill in all required fields');
           return false;
         }
-        if (formData.layoutDetails.length === 0) {
-          setLayoutDetailsError(true);
-          setStepError('Please select at least one layout detail');
+        if (!formData.backspace || !formData.enter || !formData.bottomRow || !formData.winKey) {
+          setStepError('Please select all layout options');
+          return false;
+        }
+        if (needsFRow && !formData.fRow) {
+          setStepError('Please select F-Row option');
           return false;
         }
         return true;
@@ -193,9 +196,16 @@ export function Commissions() {
     googleFormData.append('entry.918252436', formData.boardDescription);
     googleFormData.append('entry.103391198', formData.buildType);
     googleFormData.append('entry.664147544', formData.keyboardSize);
-    for (const detail of formData.layoutDetails) {
-      googleFormData.append('entry.262032242', detail);
-    }
+    
+    // Layout details - UPDATE THESE ENTRY IDs with your actual Google Form entry IDs
+    if (formData.fRow) googleFormData.append('entry.999999001', formData.fRow);
+    googleFormData.append('entry.999999002', formData.backspace);
+    googleFormData.append('entry.999999003', formData.enter);
+    if (formData.splitRightShift) googleFormData.append('entry.999999004', 'Yes');
+    if (formData.splitLeftShift) googleFormData.append('entry.999999005', 'Yes');
+    googleFormData.append('entry.999999006', formData.bottomRow);
+    googleFormData.append('entry.999999007', formData.winKey);
+    
     googleFormData.append('entry.1338355639', formData.switchCount);
     googleFormData.append('entry.483733296', formData.switchMods);
     googleFormData.append('entry.1872997171', formData.includeKeycaps);
@@ -459,6 +469,7 @@ export function Commissions() {
           />
           <label className={labelClasses('boardDescription')}>Please describe the board! (Name, designer, color, etc.) *</label>
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="relative">
             <select
@@ -481,6 +492,7 @@ export function Commissions() {
               </svg>
             </div>
           </div>
+
           <div className="relative">
             <select
               name="keyboardSize"
@@ -504,6 +516,120 @@ export function Commissions() {
               </svg>
             </div>
           </div>
+
+          {/* F-Row - Only show for larger keyboards */}
+          {needsFRow && (
+            <div className="relative">
+              <select
+                name="fRow"
+                value={formData.fRow}
+                onChange={handleChange}
+                onFocus={() => setFocusedField('fRow')}
+                onBlur={() => setFocusedField(null)}
+                className={`${inputClasses('fRow')} appearance-none cursor-pointer`}
+                required
+              >
+                <option value="">Select one</option>
+                <option value="F12">F12</option>
+                <option value="F13">F13</option>
+              </select>
+              <label className={labelClasses('fRow', true)}>F-Row *</label>
+              <div className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'}`}>
+                <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                  <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            </div>
+          )}
+
+          <div className="relative">
+            <select
+              name="backspace"
+              value={formData.backspace}
+              onChange={handleChange}
+              onFocus={() => setFocusedField('backspace')}
+              onBlur={() => setFocusedField(null)}
+              className={`${inputClasses('backspace')} appearance-none cursor-pointer`}
+              required
+            >
+              <option value="">Select one</option>
+              <option value="Standard">Standard</option>
+              <option value="Split">Split</option>
+            </select>
+            <label className={labelClasses('backspace', true)}>Backspace *</label>
+            <div className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'}`}>
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="relative">
+            <select
+              name="enter"
+              value={formData.enter}
+              onChange={handleChange}
+              onFocus={() => setFocusedField('enter')}
+              onBlur={() => setFocusedField(null)}
+              className={`${inputClasses('enter')} appearance-none cursor-pointer`}
+              required
+            >
+              <option value="">Select one</option>
+              <option value="ANSI">ANSI</option>
+              <option value="ISO">ISO</option>
+            </select>
+            <label className={labelClasses('enter', true)}>Enter *</label>
+            <div className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'}`}>
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="relative">
+            <select
+              name="bottomRow"
+              value={formData.bottomRow}
+              onChange={handleChange}
+              onFocus={() => setFocusedField('bottomRow')}
+              onBlur={() => setFocusedField(null)}
+              className={`${inputClasses('bottomRow')} appearance-none cursor-pointer`}
+              required
+            >
+              <option value="">Select one</option>
+              <option value="7U">7U</option>
+              <option value="6.25U">6.25U</option>
+            </select>
+            <label className={labelClasses('bottomRow', true)}>Bottom Row *</label>
+            <div className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'}`}>
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="relative">
+            <select
+              name="winKey"
+              value={formData.winKey}
+              onChange={handleChange}
+              onFocus={() => setFocusedField('winKey')}
+              onBlur={() => setFocusedField(null)}
+              className={`${inputClasses('winKey')} appearance-none cursor-pointer`}
+              required
+            >
+              <option value="">Select one</option>
+              <option value="WK">WK (Windows Key)</option>
+              <option value="WKL">WKL (Windows Key-less)</option>
+            </select>
+            <label className={labelClasses('winKey', true)}>Win Key *</label>
+            <div className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'}`}>
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+          </div>
+
           <div className="relative">
             <input
               type="number"
@@ -520,6 +646,7 @@ export function Commissions() {
             />
             <label className={labelClasses('switchCount')}>How many switches are you sending? *</label>
           </div>
+
           <div className="relative">
             <select
               name="switchMods"
@@ -541,6 +668,7 @@ export function Commissions() {
               </svg>
             </div>
           </div>
+
           <div className="relative">
             <select
               name="includeKeycaps"
@@ -563,67 +691,78 @@ export function Commissions() {
             </div>
           </div>
         </div>
-        <div>
-          <div className="flex items-end justify-between gap-6 mb-4">
-            <h3 className={`text-lg font-semibold ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>
-              Layout Details (Select all that apply) *
-            </h3>
-            {layoutDetailsError && (
-              <p className={`text-sm ${isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'}`}>select at least one</p>
-            )}
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {layoutDetailOptions.map((option) => {
-              const checked = formData.layoutDetails.includes(option);
-              return (
-                <label
-                  key={option}
-                  className={`flex items-center gap-3 rounded-2xl px-4 py-3 border transition-colors cursor-pointer group ${
-                    isDark
-                      ? 'border-[#a7a495]/20 hover:border-[#a7a495]/40'
-                      : 'border-[#1c1c1c]/20 hover:border-[#1c1c1c]/40'
-                  } ${
-                    checked
-                      ? isDark
-                        ? 'bg-[#a7a495]/10'
-                        : 'bg-[#1c1c1c]/5'
-                      : ''
-                  }`}
-                >
-                  <div className="relative flex-shrink-0">
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={handleLayoutDetailToggle(option)}
-                      className="peer sr-only"
-                    />
-                    <div
-                      className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
-                        isDark
-                          ? 'border-[#a7a495]/50 group-hover:border-[#a7a495]'
-                          : 'border-[#1c1c1c]/50 group-hover:border-[#1c1c1c]'
-                      } peer-checked:bg-current peer-checked:border-current ${
-                        isDark ? 'peer-checked:text-[#a7a495]' : 'peer-checked:text-[#1c1c1c]'
-                      }`}
-                    >
-                      <svg
-                        className={`w-3 h-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${
-                          checked ? 'opacity-100' : 'opacity-0'
-                        } ${isDark ? 'text-[#1c1c1c]' : 'text-[#a7a495]'}`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={3}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                  </div>
-                  <span className={`text-sm sm:text-base ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>{option}</span>
-                </label>
-              );
-            })}
-          </div>
+
+        {/* Split Shifts Checkboxes */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <label className={`flex items-center gap-3 rounded-2xl px-4 py-3 border transition-colors cursor-pointer group ${
+            isDark
+              ? 'border-[#a7a495]/20 hover:border-[#a7a495]/40'
+              : 'border-[#1c1c1c]/20 hover:border-[#1c1c1c]/40'
+          } ${
+            formData.splitRightShift
+              ? isDark
+                ? 'bg-[#a7a495]/10'
+                : 'bg-[#1c1c1c]/5'
+              : ''
+          }`}>
+            <div className="relative flex-shrink-0">
+              <input
+                type="checkbox"
+                checked={formData.splitRightShift}
+                onChange={handleCheckboxChange('splitRightShift')}
+                className="peer sr-only"
+              />
+              <div className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
+                isDark
+                  ? 'border-[#a7a495]/50 group-hover:border-[#a7a495]'
+                  : 'border-[#1c1c1c]/50 group-hover:border-[#1c1c1c]'
+              } peer-checked:bg-current peer-checked:border-current ${
+                isDark ? 'peer-checked:text-[#a7a495]' : 'peer-checked:text-[#1c1c1c]'
+              }`}>
+                <svg className={`w-3 h-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${
+                  formData.splitRightShift ? 'opacity-100' : 'opacity-0'
+                } ${isDark ? 'text-[#1c1c1c]' : 'text-[#a7a495]'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+            <span className={`text-sm sm:text-base ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>Split Right Shift</span>
+          </label>
+
+          <label className={`flex items-center gap-3 rounded-2xl px-4 py-3 border transition-colors cursor-pointer group ${
+            isDark
+              ? 'border-[#a7a495]/20 hover:border-[#a7a495]/40'
+              : 'border-[#1c1c1c]/20 hover:border-[#1c1c1c]/40'
+          } ${
+            formData.splitLeftShift
+              ? isDark
+                ? 'bg-[#a7a495]/10'
+                : 'bg-[#1c1c1c]/5'
+              : ''
+          }`}>
+            <div className="relative flex-shrink-0">
+              <input
+                type="checkbox"
+                checked={formData.splitLeftShift}
+                onChange={handleCheckboxChange('splitLeftShift')}
+                className="peer sr-only"
+              />
+              <div className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
+                isDark
+                  ? 'border-[#a7a495]/50 group-hover:border-[#a7a495]'
+                  : 'border-[#1c1c1c]/50 group-hover:border-[#1c1c1c]'
+              } peer-checked:bg-current peer-checked:border-current ${
+                isDark ? 'peer-checked:text-[#a7a495]' : 'peer-checked:text-[#1c1c1c]'
+              }`}>
+                <svg className={`w-3 h-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${
+                  formData.splitLeftShift ? 'opacity-100' : 'opacity-0'
+                } ${isDark ? 'text-[#1c1c1c]' : 'text-[#a7a495]'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+            <span className={`text-sm sm:text-base ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>Split Left Shift</span>
+          </label>
         </div>
       </div>
     </motion.div>
@@ -664,24 +803,16 @@ export function Commissions() {
                 required
                 className="peer sr-only"
               />
-              <div
-                className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
-                  isDark
-                    ? 'border-[#a7a495]/50 group-hover:border-[#a7a495]'
-                    : 'border-[#1c1c1c]/50 group-hover:border-[#1c1c1c]'
-                } peer-checked:bg-current peer-checked:border-current ${
-                  isDark ? 'peer-checked:text-[#a7a495]' : 'peer-checked:text-[#1c1c1c]'
-                }`}
-              >
-                <svg
-                  className={`w-3 h-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${
-                    formData.termsAccepted ? 'opacity-100' : 'opacity-0'
-                  } ${isDark ? 'text-[#1c1c1c]' : 'text-[#a7a495]'}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={3}
-                >
+              <div className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
+                isDark
+                  ? 'border-[#a7a495]/50 group-hover:border-[#a7a495]'
+                  : 'border-[#1c1c1c]/50 group-hover:border-[#1c1c1c]'
+              } peer-checked:bg-current peer-checked:border-current ${
+                isDark ? 'peer-checked:text-[#a7a495]' : 'peer-checked:text-[#1c1c1c]'
+              }`}>
+                <svg className={`w-3 h-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${
+                  formData.termsAccepted ? 'opacity-100' : 'opacity-0'
+                } ${isDark ? 'text-[#1c1c1c]' : 'text-[#a7a495]'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -727,18 +858,14 @@ export function Commissions() {
       <div className="mx-auto w-full max-w-4xl px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
         <ScrollReveal>
           <header className="mb-16 sm:mb-24">
-            <h1
-              className={`text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-[0.85] tracking-tight mb-6 ${
-                isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
-              }`}
-            >
+            <h1 className={`text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-[0.85] tracking-tight mb-6 ${
+              isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
+            }`}>
               Commissions
             </h1>
-            <p
-              className={`max-w-xl text-lg sm:text-xl leading-relaxed ${
-                isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'
-              }`}
-            >
+            <p className={`max-w-xl text-lg sm:text-xl leading-relaxed ${
+              isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'
+            }`}>
               Interested in a custom keyboard build? Fill out the form below and I'll get back to you within 48 hours.
             </p>
           </header>
@@ -751,29 +878,17 @@ export function Commissions() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className={`rounded-3xl p-8 sm:p-12 text-center ${
-                isDark ? 'bg-[#2a2a2a]' : 'bg-[#b5b3a7]'
-              }`}
+              className={`rounded-3xl p-8 sm:p-12 text-center ${isDark ? 'bg-[#2a2a2a]' : 'bg-[#b5b3a7]'}`}
             >
-              <div
-                className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 ${
-                  isDark ? 'bg-[#a7a495]/20 text-[#a7a495]' : 'bg-[#1c1c1c]/10 text-[#1c1c1c]'
-                }`}
-              >
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 ${
+                isDark ? 'bg-[#a7a495]/20 text-[#a7a495]' : 'bg-[#1c1c1c]/10 text-[#1c1c1c]'
+              }`}>
                 <Check size={32} />
               </div>
-              <h2
-                className={`text-3xl sm:text-4xl font-bold mb-4 ${
-                  isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'
-                }`}
-              >
+              <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>
                 Request Received!
               </h2>
-              <p
-                className={`text-lg mb-8 ${
-                  isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'
-                }`}
-              >
+              <p className={`text-lg mb-8 ${isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'}`}>
                 Thank you for your interest. I'll review your request and get back to you soon.
               </p>
               <button
@@ -894,13 +1009,11 @@ export function Commissions() {
                 isDark ? 'bg-[#2a2a2a]' : 'bg-[#b5b3a7]'
               }`}
             >
-              <div
-                className={`sticky top-0 z-10 flex items-center justify-between px-6 sm:px-8 py-5 border-b ${
-                  isDark
-                    ? 'bg-[#2a2a2a] border-[#a7a495]/20'
-                    : 'bg-[#b5b3a7] border-[#1c1c1c]/20'
-                }`}
-              >
+              <div className={`sticky top-0 z-10 flex items-center justify-between px-6 sm:px-8 py-5 border-b ${
+                isDark
+                  ? 'bg-[#2a2a2a] border-[#a7a495]/20'
+                  : 'bg-[#b5b3a7] border-[#1c1c1c]/20'
+              }`}>
                 <h2 className={`text-xl sm:text-2xl font-bold ${isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}`}>
                   Terms and Conditions
                 </h2>
@@ -918,11 +1031,9 @@ export function Commissions() {
                 </button>
               </div>
 
-              <div
-                className={`overflow-y-auto max-h-[60vh] sm:max-h-[65vh] p-6 sm:p-8 ${
-                  isDark ? 'text-[#a7a495]/90' : 'text-[#1c1c1c]/90'
-                }`}
-              >
+              <div className={`overflow-y-auto max-h-[60vh] sm:max-h-[65vh] p-6 sm:p-8 ${
+                isDark ? 'text-[#a7a495]/90' : 'text-[#1c1c1c]/90'
+              }`}>
                 <ol className="list-decimal list-inside space-y-4">
                   <li className="text-sm leading-relaxed pl-2">
                     You must provide all components; including switches and stabilizers (and any
@@ -1014,13 +1125,11 @@ export function Commissions() {
                 </ol>
               </div>
 
-              <div
-                className={`sticky bottom-0 z-10 px-6 sm:px-8 py-5 border-t ${
-                  isDark
-                    ? 'bg-[#2a2a2a] border-[#a7a495]/20'
-                    : 'bg-[#b5b3a7] border-[#1c1c1c]/20'
-                }`}
-              >
+              <div className={`sticky bottom-0 z-10 px-6 sm:px-8 py-5 border-t ${
+                isDark
+                  ? 'bg-[#2a2a2a] border-[#a7a495]/20'
+                  : 'bg-[#b5b3a7] border-[#1c1c1c]/20'
+              }`}>
                 <button
                   type="button"
                   onClick={() => setIsTermsModalOpen(false)}
