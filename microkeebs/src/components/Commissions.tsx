@@ -666,7 +666,7 @@ export function Commissions() {
               <option value="Yes">Yes</option>
               <option value="No">No</option>
             </select>
-            <label className={labelClasses('switchMods', true)}>Switch modification services? *</label>
+            <label className={labelClasses('switchMods', true)}>Switch modification services? (+€0.55/switch) *</label>
             <div className={`absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-[#a7a495]/60' : 'text-[#1c1c1c]/60'}`}>
               <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
                 <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -871,7 +871,7 @@ export function Commissions() {
             <p className={`max-w-xl text-lg sm:text-xl leading-relaxed ${
               isDark ? 'text-[#a7a495]/80' : 'text-[#1c1c1c]/80'
             }`}>
-              Interested in a custom keyboard build? Fill out the form below. You will receive an automated confirmation — please reach out via your selected contact method to follow up.
+              Want a custom keyboard build? Fill out the form below, then reach out on your preferred platform and we'll get things rolling.
             </p>
           </header>
         </ScrollReveal>
