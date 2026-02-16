@@ -1,5 +1,29 @@
 [
   {
+    "id": "xfcHWsj-Jxw",
+    "title": "QK60",
+    "youtubeTitle": "QK60 with lubed Cherry MX Blacks",
+    "category": "MX",
+    "timestamp": "2026-02-15T14:01:29Z",
+    "images": [
+      "./images/xfcHWsj-Jxw/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/xfcHWsj-Jxw",
+    "specs": {
+      "Keyboard": "QK60 (Mint Bottom, Smokey Top, Black weight, HHKB)",
+      "Keycaps": "GMK Rainy Day (Base + Hangul)",
+      "Switches": "Cherry MX Black Hyperglide",
+      "Lube": "Krytox 205g0",
+      "Films": "PC (?)",
+      "Springs": "22mm Doble-Stage 45g (?) lubed with GPL 105",
+      "Plate": "Full FR4",
+      "Mount": "Gasket Socks",
+      "Stabilizers": "QK Stabs (?) with 205g0",
+      "PCB": "Wireless Hotswap PCB",
+      "Others": ""
+    }
+  },
+  {
     "id": "rMFFxnhLrcs",
     "title": "Gehirn60",
     "youtubeTitle": "Gehirn60 with lubed Cherry MX Hyperglide Browns",
