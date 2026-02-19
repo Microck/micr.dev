@@ -12,11 +12,13 @@
   if (isMobile && !forceDesktop) {
     // Prefer a real navigation to the mobile document so its relative asset
     // paths (e.g. `icons/...`, `quarzitelogo*.gif`) resolve correctly.
-    var base = window.location.href;
-    var looksLikeFile = /\/[^\/]*\.[a-zA-Z0-9]+([?#]|$)/.test(base);
-    if (!looksLikeFile && !base.endsWith('/')) base += '/';
+    // Build a base URL from origin + pathname (exclude query/hash).
+    // This avoids creating invalid URLs like `.../quarzite?x=1/`.
+    var basePath = window.location.pathname;
+    var looksLikeFile = /\/[^\/]+\.[a-zA-Z0-9]+$/.test(basePath);
+    if (!looksLikeFile && !basePath.endsWith('/')) basePath += '/';
 
-    var target = new URL('assets/mobile.html', base);
+    var target = new URL('assets/mobile.html', window.location.origin + basePath);
     target.search = window.location.search;
     target.hash = window.location.hash;
 
