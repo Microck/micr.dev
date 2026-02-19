@@ -1,40 +1,31 @@
 <!doctype html>
 <!-- 
-  LOADER SCRIPT
-  This script checks for mobile devices before the page loads.
-  If mobile is detected, it grabs the content from 'assets/mobile.html',
-  fixes the links (removes the "../"), and shows that instead.
+  MOBILE REDIRECT
+  Redirects mobile devices to `assets/mobile.html`.
+  Add `?desktop=1` to bypass on mobile.
 -->
 <script>
 (function() {
   var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  
-  if (isMobile) {
-    var xhr = new XMLHttpRequest();
-    // We fetch the mobile file synchronously to prevent the desktop site from flashing
-    xhr.open('GET', 'assets/mobile.html', false);
-    xhr.send(null);
+  var forceDesktop = /(^|[?&])desktop=1(&|$)/.test(window.location.search);
 
-    if (xhr.status === 200) {
-      // Get the HTML content
-      var mobileHTML = xhr.responseText;
+  if (isMobile && !forceDesktop) {
+    // Prefer a real navigation to the mobile document so its relative asset
+    // paths (e.g. `icons/...`, `quarzitelogo*.gif`) resolve correctly.
+    var base = window.location.href;
+    var looksLikeFile = /\/[^\/]*\.[a-zA-Z0-9]+([?#]|$)/.test(base);
+    if (!looksLikeFile && !base.endsWith('/')) base += '/';
 
-      // AUTOMATIC PATH FIXER:
-      // Since we are loading this on the root URL (index.html), 
-      // we must remove the "../" from your mobile links.
-      mobileHTML = mobileHTML.replace(/src="\.\.\//g, 'src="');
-      mobileHTML = mobileHTML.replace(/href="\.\.\//g, 'href="');
-      mobileHTML = mobileHTML.replace(/url\("\.\.\//g, 'url("');
+    var target = new URL('assets/mobile.html', base);
+    target.search = window.location.search;
+    target.hash = window.location.hash;
 
-      // Wipe the current page and write the Mobile HTML
-      document.open();
-      document.write(mobileHTML);
-      document.close();
-      
-      // Stop the rest of the Desktop page from loading
-      throw new Error("Redirected to Mobile View"); 
-    }
+    document.documentElement.style.display = 'none';
+    window.location.replace(target.toString());
+    return;
   }
+  
+
 })();
 </script>
 
@@ -71,7 +62,8 @@
 	(function(){
       // Fallback for visual hiding if the top script fails
 	  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-	  if (isMobile) {
+	  const forceDesktop = /(^|[?&])desktop=1(&|$)/.test(window.location.search);
+	  if (isMobile && !forceDesktop) {
 		document.write('<style>body{display:none;}</style>'); // Hide desktop body just in case
 	  }
 	})();
