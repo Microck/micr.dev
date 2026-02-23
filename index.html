@@ -394,26 +394,15 @@
           off += c.length;
         }
 
-        const workerBlob = new Blob(
-          [
-            `
-            importScripts("https://cdn.jsdelivr.net/npm/fflate/umd/index.js");
-            onmessage=e=>{
-              const f=fflate.unzipSync(new Uint8Array(e.data));
-              postMessage(f["scene.splinecode"].buffer,[f["scene.splinecode"].buffer]);
-            };`,
-          ],
-          { type: "application/javascript" }
-        );
-        const wURL = URL.createObjectURL(workerBlob);
-        const worker = new Worker(wURL);
-        const sceneBytes = await new Promise((res) => {
-          worker.onmessage = (e) => res(new Uint8Array(e.data));
-          worker.postMessage(merged.buffer, [merged.buffer]);
-        });
-        worker.terminate();
-        URL.revokeObjectURL(wURL);
-        clearInterval(creepT);
+        let sceneBytes;
+        try {
+          const files = unzipSync(merged);
+          const entry = files["scene.splinecode"];
+          if (!entry) throw new Error("scene.splinecode not found in scene.dat");
+          sceneBytes = entry;
+        } finally {
+          clearInterval(creepT);
+        }
 
         bar(UNZIP_END);
 
@@ -421,8 +410,17 @@
         popup.classList.add("visible");
 
         const userChoice = await new Promise((resolve) => {
-          document.getElementById("confirm-proceed").onclick = () => resolve("proceed");
-          document.getElementById("confirm-back").onclick = () => resolve("back");
+          let settled = false;
+          const settle = (value) => {
+            if (settled) return;
+            settled = true;
+            resolve(value);
+          };
+
+          document.getElementById("confirm-proceed").onclick = () => settle("proceed");
+          document.getElementById("confirm-back").onclick = () => settle("back");
+
+          setTimeout(() => settle("proceed"), 15000);
         });
 
         popup.classList.remove("visible");
@@ -505,9 +503,28 @@
           loader.style.display = "none";
           scene.style.opacity = 1;
           document.getElementById("dither-overlay").style.display = "block";
+          
+          // Initialize CRT effect after scene is visible
+          import("./crt-integration.js")
+            .then(({ initCRTEffect }) => {
+              const canvas = document.getElementById("canvas3d");
+              if (canvas) setTimeout(() => initCRTEffect(canvas), 500);
+            })
+            .catch((err) => {
+              console.error("CRT effect failed to initialize:", err);
+            });
         }, 1000);
       }
-      loadStream();
+      loadStream().catch((err) => {
+        console.error("loadStream failed:", err);
+        document.getElementById("loading-message").innerHTML = `
+          <div class="dialog-box">
+            <p style="color:#d00;">
+              Scene load failed. Check console for errors.
+            </p>
+          </div>`;
+        document.getElementById("spinner-container").style.display = "none";
+      });
     </script>
 
     <script>
