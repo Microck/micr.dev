@@ -1,5 +1,29 @@
 [
   {
+    "id": "bNFwVyN-PAA",
+    "title": "Diversity TKL",
+    "youtubeTitle": "Diversity TKL with lubed Cherry MX Whites",
+    "category": "MX",
+    "timestamp": "2026-02-22T14:01:00Z",
+    "images": [
+      "./images/bNFwVyN-PAA/thumbnail.jpg"
+    ],
+    "youtubeUrl": "https://youtu.be/bNFwVyN-PAA",
+    "specs": {
+      "Keyboard": "DIVERSITY by keyspensory (reano by Prime Korea)",
+      "Keycaps": "GMK WoB + Relegendables",
+      "Switches": "Cherry MX Milk / White",
+      "Lube": "Trybosis 3204",
+      "Films": "Kelowna PC",
+      "Springs": "45g lubed with GPL 105",
+      "Plate": "Full Aluminium",
+      "Mount": "Plate Top Mount",
+      "Stabilizers": "JWK with 205g0",
+      "PCB": "Hotswap",
+      "Others": ""
+    }
+  },
+  {
     "id": "xfcHWsj-Jxw",
     "title": "QK60",
     "youtubeTitle": "QK60 with lubed Cherry MX Blacks",
