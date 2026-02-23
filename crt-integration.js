@@ -29,33 +29,33 @@ function createToggleButton(crt) {
     z-index: 10000;
     width: 28px;
     height: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.55);
     border-radius: 999px;
-    background: rgba(0, 0, 0, 0.35);
-    color: rgba(255, 255, 255, 0.55);
+    background: rgba(0, 0, 0, 0.45);
+    color: rgba(255, 255, 255, 0.82);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    opacity: 0.18;
+    opacity: 0.32;
     transition: opacity 140ms ease, background 140ms ease, color 140ms ease;
     padding: 0;
   `;
 
   const syncVisual = () => {
     if (crt.enabled) {
-      button.style.opacity = '0.18';
-      button.style.background = 'rgba(0, 0, 0, 0.35)';
-      button.style.color = 'rgba(255, 255, 255, 0.55)';
+      button.style.opacity = '0.32';
+      button.style.background = 'rgba(0, 0, 0, 0.45)';
+      button.style.color = 'rgba(255, 255, 255, 0.82)';
     } else {
-      button.style.opacity = '0.42';
-      button.style.background = 'rgba(0, 0, 0, 0.55)';
-      button.style.color = 'rgba(255, 140, 140, 0.9)';
+      button.style.opacity = '0.52';
+      button.style.background = 'rgba(20, 0, 0, 0.65)';
+      button.style.color = 'rgba(255, 160, 160, 0.95)';
     }
   };
 
   button.addEventListener('mouseenter', () => {
-    button.style.opacity = crt.enabled ? '0.35' : '0.6';
+    button.style.opacity = crt.enabled ? '0.56' : '0.70';
   });
 
   button.addEventListener('mouseleave', () => {
