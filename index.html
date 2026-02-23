@@ -361,22 +361,41 @@
       }
 
       async function loadStream() {
-        const r = await fetch("./scene.dat"),
-          rd = r.body.getReader();
+        const r = await fetch("./scene.dat");
+        if (!r.ok) {
+          throw new Error(`scene.dat request failed: ${r.status} ${r.statusText}`);
+        }
+
         const len = Number(r.headers.get("Content-Length"));
         const hasLen = !isNaN(len) && len > 0;
-        const chunks = [];
-        let got = 0;
+        let merged;
 
-        while (true) {
-          const { value, done } = await rd.read();
-          if (done) break;
-          chunks.push(value);
-          got += value.length;
-          const prog = hasLen
-            ? (got / len) * DL_END
-            : Math.min(DL_END, got / 50000);
-          bar(prog);
+        if (r.body && r.body.getReader) {
+          const rd = r.body.getReader();
+          const chunks = [];
+          let got = 0;
+
+          while (true) {
+            const { value, done } = await rd.read();
+            if (done) break;
+            chunks.push(value);
+            got += value.length;
+            const prog = hasLen
+              ? (got / len) * DL_END
+              : Math.min(DL_END, got / 50000);
+            bar(prog);
+          }
+
+          const total = chunks.reduce((t, c) => t + c.length, 0);
+          merged = new Uint8Array(total);
+          let off = 0;
+          for (const c of chunks) {
+            merged.set(c, off);
+            off += c.length;
+          }
+        } else {
+          merged = new Uint8Array(await r.arrayBuffer());
+          bar(DL_END);
         }
 
         let creep = DL_END;
@@ -385,14 +404,6 @@
           if (creep >= UNZIP_END) clearInterval(creepT);
           else bar(creep);
         }, 100);
-
-        const total = chunks.reduce((t, c) => t + c.length, 0);
-        const merged = new Uint8Array(total);
-        let off = 0;
-        for (const c of chunks) {
-          merged.set(c, off);
-          off += c.length;
-        }
 
         let sceneBytes;
         try {
@@ -444,6 +455,7 @@
         try {
           loadP = app.load(bURL);
         } catch (err) {
+          URL.revokeObjectURL(bURL);
           document.getElementById("loading-message").innerHTML = `
             <div class="dialog-box">
               <p style="color:#d00;">
@@ -452,8 +464,6 @@
             </div>`;
           document.getElementById("spinner-container").style.display = "none";
           return;
-        } finally {
-          URL.revokeObjectURL(bURL);
         }
 
         let phase3 = UNZIP_END;
@@ -465,6 +475,7 @@
         try {
           await loadP;
         } catch (err) {
+          URL.revokeObjectURL(bURL);
           clearInterval(gpuT);
           document.getElementById("loading-message").innerHTML = `
             <div class="dialog-box">
@@ -475,7 +486,19 @@
           document.getElementById("spinner-container").style.display = "none";
           return;
         }
+        URL.revokeObjectURL(bURL);
         clearInterval(gpuT);
+
+        // Initialize CRT effect as soon as scene content is ready
+        import("./crt-integration.js")
+          .then(({ initCRTEffect }) => {
+            const canvas = document.getElementById("canvas3d");
+            if (canvas) initCRTEffect(canvas);
+          })
+          .catch((err) => {
+            console.error("CRT effect failed to initialize:", err);
+          });
+
         await new Promise((r) =>
           requestAnimationFrame(() => requestAnimationFrame(r))
         );
@@ -503,16 +526,6 @@
           loader.style.display = "none";
           scene.style.opacity = 1;
           document.getElementById("dither-overlay").style.display = "block";
-          
-          // Initialize CRT effect after scene is visible
-          import("./crt-integration.js")
-            .then(({ initCRTEffect }) => {
-              const canvas = document.getElementById("canvas3d");
-              if (canvas) setTimeout(() => initCRTEffect(canvas), 500);
-            })
-            .catch((err) => {
-              console.error("CRT effect failed to initialize:", err);
-            });
         }, 1000);
       }
       loadStream().catch((err) => {
