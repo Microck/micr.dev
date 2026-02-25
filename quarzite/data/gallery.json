@@ -181,6 +181,22 @@
         "name": "Danon",
         "url": "https://x.com/_Danon"
       }
+    },
+    {
+      "src": "assets/danon2.png",
+      "date": "2026-01-26",
+      "artist": {
+        "name": "Danon",
+        "url": "https://x.com/_Danon"
+      }
+    },
+    {
+      "src": "assets/adara.png",
+      "date": "2026-02-19",
+      "artist": {
+        "name": "Adara",
+        "url": "https://x.com/Caticola"
+      }
     }
   ]
 }
