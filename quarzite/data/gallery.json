@@ -197,6 +197,22 @@
         "name": "Adara",
         "url": "https://x.com/Caticola"
       }
+    },
+    {
+      "src": "assets/sqacecat-2026-03-02.jpg",
+      "date": "2026-03-02",
+      "artist": {
+        "name": "sqacecat",
+        "url": "https://www.tiktok.com/@sqacecat"
+      }
+    },
+    {
+      "src": "assets/ulb0u-2026-03-03.png",
+      "date": "2026-03-03",
+      "artist": {
+        "name": "ulb0u",
+        "url": "https://vgen.co/ulb0u"
+      }
     }
   ]
 }
