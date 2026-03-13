@@ -360,43 +360,126 @@
         pctText.textContent = p.toFixed(0) + "%";
       }
 
-      async function loadStream() {
-        const r = await fetch("./scene.dat");
-        if (!r.ok) {
-          throw new Error(`scene.dat request failed: ${r.status} ${r.statusText}`);
+      function showSceneLoadFailure() {
+        document.getElementById("loading-message").innerHTML = `
+          <div class="dialog-box">
+            <p style="color:#d00;">
+              Scene load failed. Check console for errors.
+            </p>
+          </div>`;
+        document.getElementById("spinner-container").style.display = "none";
+      }
+
+      async function readSceneArchive(response) {
+        const len = Number(response.headers.get("Content-Length"));
+        const hasLen = Number.isFinite(len) && len > 0;
+
+        if (!response.body || !response.body.getReader) {
+          const merged = new Uint8Array(await response.arrayBuffer());
+          bar(DL_END);
+          return merged;
         }
 
-        const len = Number(r.headers.get("Content-Length"));
-        const hasLen = !isNaN(len) && len > 0;
-        let merged;
+        const rd = response.body.getReader();
 
-        if (r.body && r.body.getReader) {
-          const rd = r.body.getReader();
-          const chunks = [];
+        if (hasLen) {
+          const merged = new Uint8Array(len);
           let got = 0;
 
           while (true) {
             const { value, done } = await rd.read();
             if (done) break;
-            chunks.push(value);
+            merged.set(value, got);
             got += value.length;
-            const prog = hasLen
-              ? (got / len) * DL_END
-              : Math.min(DL_END, got / 50000);
-            bar(prog);
+            bar((got / len) * DL_END);
           }
 
-          const total = chunks.reduce((t, c) => t + c.length, 0);
-          merged = new Uint8Array(total);
-          let off = 0;
-          for (const c of chunks) {
-            merged.set(c, off);
-            off += c.length;
-          }
-        } else {
-          merged = new Uint8Array(await r.arrayBuffer());
-          bar(DL_END);
+          return got === merged.length ? merged : merged.slice(0, got);
         }
+
+        const chunks = [];
+        let got = 0;
+
+        while (true) {
+          const { value, done } = await rd.read();
+          if (done) break;
+          chunks.push(value);
+          got += value.length;
+          bar(Math.min(DL_END, got / 50000));
+        }
+
+        const merged = new Uint8Array(got);
+        let off = 0;
+        for (const chunk of chunks) {
+          merged.set(chunk, off);
+          off += chunk.length;
+        }
+
+        return merged;
+      }
+
+      function unzipSceneArchiveSync(archiveBytes) {
+        const files = unzipSync(archiveBytes);
+        const entry = files["scene.splinecode"];
+        if (!entry) throw new Error("scene.splinecode not found in scene.dat");
+        return entry;
+      }
+
+      function unzipSceneArchive(archiveBytes) {
+        if (!window.Worker) {
+          return Promise.resolve(unzipSceneArchiveSync(archiveBytes));
+        }
+
+        return new Promise((resolve, reject) => {
+          const worker = new Worker("./scene-unzip-worker.js");
+          let settled = false;
+
+          const cleanup = () => {
+            worker.onerror = null;
+            worker.onmessage = null;
+            worker.terminate();
+          };
+
+          const finish = (fn, value) => {
+            if (settled) return;
+            settled = true;
+            cleanup();
+            fn(value);
+          };
+
+          worker.onmessage = ({ data }) => {
+            if (!data?.ok || !(data.sceneBuffer instanceof ArrayBuffer)) {
+              finish(
+                reject,
+                new Error(data?.error || "Scene archive unzip failed.")
+              );
+              return;
+            }
+
+            finish(resolve, new Uint8Array(data.sceneBuffer));
+          };
+
+          worker.onerror = (event) => {
+            const message =
+              event.error?.message ||
+              event.message ||
+              "Scene archive worker failed.";
+            finish(reject, new Error(message));
+          };
+
+          worker.postMessage(
+            { archiveBuffer: archiveBytes.buffer },
+            [archiveBytes.buffer]
+          );
+        });
+      }
+
+      async function loadStream() {
+        const r = await fetch("./scene.dat");
+        if (!r.ok) {
+          throw new Error(`scene.dat request failed: ${r.status} ${r.statusText}`);
+        }
+        const merged = await readSceneArchive(r);
 
         let creep = DL_END;
         const creepT = setInterval(() => {
@@ -407,10 +490,7 @@
 
         let sceneBytes;
         try {
-          const files = unzipSync(merged);
-          const entry = files["scene.splinecode"];
-          if (!entry) throw new Error("scene.splinecode not found in scene.dat");
-          sceneBytes = entry;
+          sceneBytes = await unzipSceneArchive(merged);
         } finally {
           clearInterval(creepT);
         }
@@ -455,14 +535,9 @@
         try {
           loadP = app.load(bURL);
         } catch (err) {
+          console.error("Spline scene handoff failed:", err);
           URL.revokeObjectURL(bURL);
-          document.getElementById("loading-message").innerHTML = `
-            <div class="dialog-box">
-              <p style="color:#d00;">
-                Scene load failed. Check console for errors.
-              </p>
-            </div>`;
-          document.getElementById("spinner-container").style.display = "none";
+          showSceneLoadFailure();
           return;
         }
 
@@ -475,15 +550,10 @@
         try {
           await loadP;
         } catch (err) {
+          console.error("Spline scene render load failed:", err);
           URL.revokeObjectURL(bURL);
           clearInterval(gpuT);
-          document.getElementById("loading-message").innerHTML = `
-            <div class="dialog-box">
-              <p style="color:#d00;">
-                Scene load failed. Check console for errors.
-              </p>
-            </div>`;
-          document.getElementById("spinner-container").style.display = "none";
+          showSceneLoadFailure();
           return;
         }
         URL.revokeObjectURL(bURL);
@@ -530,13 +600,7 @@
       }
       loadStream().catch((err) => {
         console.error("loadStream failed:", err);
-        document.getElementById("loading-message").innerHTML = `
-          <div class="dialog-box">
-            <p style="color:#d00;">
-              Scene load failed. Check console for errors.
-            </p>
-          </div>`;
-        document.getElementById("spinner-container").style.display = "none";
+        showSceneLoadFailure();
       });
     </script>
 
