@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 
 interface PageTransitionsProps {
   children: React.ReactNode;

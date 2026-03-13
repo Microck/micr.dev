@@ -1,4 +1,4 @@
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 
 export function Blog() {
   const { isDark } = useTheme();

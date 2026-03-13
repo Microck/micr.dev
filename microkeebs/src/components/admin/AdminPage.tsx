@@ -4,6 +4,7 @@ import { BuildsList } from './BuildsList';
 import { BuildEditor } from './BuildEditor';
 import { RankingsEditor } from './RankingsEditor';
 import { PendingChangesProvider } from './PendingChangesContext';
+import { adminFetch } from './api';
 
 interface KeyboardBuild {
   id: string;
@@ -25,11 +26,8 @@ export function AdminPage() {
   useEffect(() => {
     // Fetch builds for rankings editor
     const fetchBuilds = async () => {
-      const token = localStorage.getItem('admin_token');
       try {
-        const res = await fetch('/.netlify/functions/admin-builds', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await adminFetch('/.netlify/functions/admin-builds');
         if (res.ok) {
           const data = await res.json();
           setBuilds(data.builds.map((b: KeyboardBuild) => ({ id: b.id, title: b.title })));

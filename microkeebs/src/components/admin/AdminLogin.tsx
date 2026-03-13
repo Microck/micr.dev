@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { API_BASE } from './api';
+import { adminFetch } from './api';
 
 interface AdminLoginProps {
   onLogin: () => void;
@@ -18,11 +18,10 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
     setError(null);
 
     try {
-      const res = await fetch(`${API_BASE}/.netlify/functions/admin-auth`, {
+      const res = await adminFetch('/.netlify/functions/admin-auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
-        credentials: 'include',
       });
 
       const text = await res.text();
@@ -35,7 +34,8 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
       }
 
       if (res.ok) {
-        localStorage.setItem('admin_token', data.token);
+        localStorage.removeItem('admin_token');
+        setRemaining(null);
         onLogin();
       } else {
         setError(data.error || 'Login failed');

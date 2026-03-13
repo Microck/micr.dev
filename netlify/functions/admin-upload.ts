@@ -1,7 +1,7 @@
 import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
 import { isAuthenticated, getCorsHeaders } from './lib/auth';
 import { commitMultipleFiles } from './lib/github';
-import { processImage, validateImage, getImagePaths } from './lib/image';
+import { processImage, validateImage, getImagePaths, isValidBuildId } from './lib/image';
 
 export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
   const corsHeaders = getCorsHeaders(event);
@@ -37,6 +37,14 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
           statusCode: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           body: JSON.stringify({ error: 'Missing required fields: image, buildId, index' }),
+        };
+      }
+
+      if (!isValidBuildId(buildId)) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid build ID' }),
         };
       }
 
@@ -103,6 +111,13 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
       }
 
       const index = parseInt(indexStr, 10);
+      if (!isValidBuildId(buildId) || !Number.isInteger(index) || index < 0) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid buildId or index' }),
+        };
+      }
       const paths = getImagePaths(buildId, index);
 
       // Delete both images from GitHub

@@ -172,13 +172,12 @@ export async function commitMultipleFiles(
     parents: [latestCommitSha],
   });
 
-  // Update ref (force to handle concurrent commits from chunked uploads)
+  // Update ref without force so concurrent commits fail instead of being overwritten.
   await octokit.git.updateRef({
     owner,
     repo,
     ref: `heads/${defaultBranch}`,
     sha: newCommit.sha,
-    force: true,
   });
 
   return { sha: newCommit.sha };

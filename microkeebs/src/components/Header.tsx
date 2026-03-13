@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 import { LogoIcon } from './icons';
 import { SocialIcons } from './icons/SocialIcons';
 

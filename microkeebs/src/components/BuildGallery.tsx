@@ -3,7 +3,7 @@ import { motion, LayoutGroup, AnimatePresence } from "framer-motion";
 import { SearchIcon } from "@/components/ui/search";
 import { BuildCard } from "./BuildCard";
 import { Footer } from "./Footer";
-import { useTheme } from "../contexts/ThemeContext";
+import { useTheme } from "../contexts/use-theme";
 import { KeyboardBuild } from "../types/Build";
 import builds from "../data/builds.json";
 

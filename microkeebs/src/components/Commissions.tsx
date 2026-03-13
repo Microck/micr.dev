@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 import { ScrollReveal } from './ScrollReveal';
 import { Check, Loader2, X, ChevronRight, ChevronLeft } from 'lucide-react';
 
@@ -28,9 +28,6 @@ type CommissionFormData = {
   termsAccepted: boolean;
   additionalComments: string;
 };
-
-const TERMS_ACCEPTANCE_VALUE =
-  'I have read and agree to all Terms and Conditions stated above. I understand they are binding, and it is my responsibility to read them fully before submitting.';
 
 const initialFormData: CommissionFormData = {
   emailAddress: '',
@@ -182,52 +179,30 @@ export function Commissions() {
     e.preventDefault();
     if (!validateStep(4)) return;
     setIsSubmitting(true);
-
-    const formId = '1FAIpQLSfN5BPtq4PqBY5vq4HIhslT1pBoqcK_VOZBHX8G-trvInolXw';
-    const formUrl = `https://docs.google.com/forms/d/e/${formId}/formResponse`;
-
-    const googleFormData = new FormData();
-    googleFormData.append('emailAddress', formData.emailAddress);
-    googleFormData.append('entry.632203679', formData.fullName);
-    googleFormData.append('entry.953846509', formData.shippingAddress);
-    googleFormData.append('entry.1677500050', formData.paypalEmail);
-    googleFormData.append('entry.673371819', formData.communicationMethod);
-    googleFormData.append('entry.870558618', formData.contactHandle);
-    googleFormData.append('entry.918252436', formData.boardDescription);
-    googleFormData.append('entry.103391198', formData.buildType);
-    googleFormData.append('entry.664147544', formData.keyboardSize);
-    
-    // Layout Details - All values submitted to entry.262032242 (checkbox group)
-    if (formData.fRow === 'F12') googleFormData.append('entry.262032242', 'F-Row: F12');
-    if (formData.fRow === 'F13') googleFormData.append('entry.262032242', 'F-Row: F13');
-    if (formData.backspace === 'Standard') googleFormData.append('entry.262032242', 'Backspace: Standard');
-    if (formData.backspace === 'Split') googleFormData.append('entry.262032242', 'Backspace: Split');
-    if (formData.enter === 'ANSI') googleFormData.append('entry.262032242', 'Enter: ANSI');
-    if (formData.enter === 'ISO') googleFormData.append('entry.262032242', 'Enter: ISO');
-    if (formData.splitRightShift) googleFormData.append('entry.262032242', 'Split Right Shift');
-    if (formData.splitLeftShift) googleFormData.append('entry.262032242', 'Split Left Shift');
-    if (formData.bottomRow === '7U') googleFormData.append('entry.262032242', 'Bottom Row: 7U Spacebar');
-    if (formData.bottomRow === '6.25U') googleFormData.append('entry.262032242', 'Bottom Row: 6.25U Spacebar');
-    if (formData.winKey === 'WK') googleFormData.append('entry.262032242', 'Win Key: WK (Windows Key)');
-    if (formData.winKey === 'WKL') googleFormData.append('entry.262032242', 'Win Key: WKL (Windows Key-less)');
-    
-    googleFormData.append('entry.1338355639', formData.switchCount);
-    googleFormData.append('entry.483733296', formData.switchMods);
-    googleFormData.append('entry.1872997171', formData.includeKeycaps);
-    googleFormData.append('entry.223961881', formData.inpostTracking);
-    if (formData.termsAccepted) {
-      googleFormData.append('entry.30082598', TERMS_ACCEPTANCE_VALUE);
-    }
-    googleFormData.append('entry.1582632785', formData.additionalComments);
+    setStepError(null);
 
     try {
-      await fetch(formUrl, { method: 'POST', mode: 'no-cors', body: googleFormData });
+      const response = await fetch('/.netlify/functions/commissions-submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const payload = (await response.json().catch(() => ({}))) as { error?: string };
+      if (!response.ok) {
+        throw new Error(payload.error || 'Unable to submit the commission request');
+      }
+
       setIsSubmitted(true);
       setFormData(initialFormData);
       setCurrentStep(1);
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('There was an error submitting the form. Please try again.');
+      setStepError(
+        error instanceof Error
+          ? error.message
+          : 'There was an error submitting the form. Please try again.'
+      );
     } finally {
       setIsSubmitting(false);
     }

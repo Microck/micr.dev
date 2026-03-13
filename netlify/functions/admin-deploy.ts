@@ -1,7 +1,7 @@
 import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
 import { isAuthenticated, getCorsHeaders } from './lib/auth';
 import { commitMultipleFiles } from './lib/github';
-import { processImage, getImagePaths } from './lib/image';
+import { processImage, getImagePaths, isValidBuildId } from './lib/image';
 
 interface PendingImage {
   buildId: string;
@@ -84,21 +84,25 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
 
     // Phase 1: Process images (no commit, returns processed data)
     if (body.processImages && body.processImages.length > 0) {
+      if (body.processImages.some((img) => !isValidBuildId(img.buildId) || !Number.isInteger(img.index) || img.index < 0)) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid image payload' }),
+        };
+      }
+
       const processed: ProcessedImage[] = [];
       
       for (const img of body.processImages) {
-        try {
-          const buffer = Buffer.from(img.base64, 'base64');
-          const result = await processImage(buffer);
-          processed.push({
-            buildId: img.buildId,
-            index: img.index,
-            fullBase64: result.full.toString('base64'),
-            thumbBase64: result.thumbnail.toString('base64'),
-          });
-        } catch (imgError) {
-          console.error(`Failed to process image ${img.buildId}/${img.index}:`, imgError);
-        }
+        const buffer = Buffer.from(img.base64, 'base64');
+        const result = await processImage(buffer);
+        processed.push({
+          buildId: img.buildId,
+          index: img.index,
+          fullBase64: result.full.toString('base64'),
+          thumbBase64: result.thumbnail.toString('base64'),
+        });
       }
       
       return {
@@ -114,6 +118,14 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
 
     // Phase 2: Commit a batch of processed images
     if (body.commitImages && body.commitImages.length > 0) {
+      if (body.commitImages.some((img) => !isValidBuildId(img.buildId) || !Number.isInteger(img.index) || img.index < 0)) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid processed image payload' }),
+        };
+      }
+
       const filesToCommit: Array<{ path: string; content: string }> = [];
       
       for (const img of body.commitImages) {
@@ -147,6 +159,13 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
     // Phase 3: Final deploy (just builds.json + rankings)
     if (body.finalDeploy) {
       const { pendingBuilds = [], pendingRankings, currentBuilds = [] } = body;
+      if (pendingBuilds.some((build) => typeof build.id !== 'string' || !isValidBuildId(build.id))) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid build ID in deploy payload' }),
+        };
+      }
       const filesToCommit: Array<{ path: string; content: string }> = [];
       
       // Merge pending builds with current builds

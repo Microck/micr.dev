@@ -3,6 +3,7 @@ import sharp from 'sharp';
 const MAX_WIDTH = 1920;
 const THUMBNAIL_WIDTH = 400;
 const QUALITY = 85;
+const BUILD_ID_PATTERN = /^[A-Za-z0-9_-]+$/;
 
 export interface ProcessedImage {
   full: Buffer;
@@ -67,7 +68,32 @@ export async function validateImage(input: Buffer): Promise<{ valid: boolean; er
   }
 }
 
+export function isValidBuildId(buildId: string): boolean {
+  return BUILD_ID_PATTERN.test(buildId);
+}
+
+export function getClientImagePath(buildId: string, index: number): string {
+  if (!isValidBuildId(buildId)) {
+    throw new Error('Invalid build ID');
+  }
+
+  if (!Number.isInteger(index) || index < 0) {
+    throw new Error('Invalid image index');
+  }
+
+  const fileName = index === 0 ? 'thumbnail.webp' : `${index}.webp`;
+  return `./images/${buildId}/${fileName}`;
+}
+
 export function getImagePaths(buildId: string, index: number): { full: string; thumbnail: string } {
+  if (!isValidBuildId(buildId)) {
+    throw new Error('Invalid build ID');
+  }
+
+  if (!Number.isInteger(index) || index < 0) {
+    throw new Error('Invalid image index');
+  }
+
   if (index === 0) {
     return {
       full: `microkeebs/public/images/${buildId}/thumbnail.webp`,

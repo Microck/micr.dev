@@ -1,8 +1,8 @@
 import { useState, useEffect, ReactNode, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { AdminLogin } from './AdminLogin';
-import { API_BASE } from './api';
-import { usePendingChanges } from './PendingChangesContext';
+import { adminFetch } from './api';
+import { usePendingChanges } from './use-pending-changes';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -48,12 +48,9 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
   }, []);
 
   const fetchCurrentData = async () => {
-    const token = localStorage.getItem('admin_token');
     try {
-      const buildsRes = await fetch(`${API_BASE}/.netlify/functions/admin-builds`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      
+      const buildsRes = await adminFetch('/.netlify/functions/admin-builds');
+
       if (buildsRes.ok) {
         const data = await buildsRes.json();
         setCurrentBuilds(data.builds || []);
@@ -64,17 +61,8 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
   };
 
   const checkAuth = async () => {
-    const token = localStorage.getItem('admin_token');
-    if (!token) {
-      setIsAuthenticated(false);
-      return;
-    }
-
     try {
-      const res = await fetch(`${API_BASE}/.netlify/functions/admin-auth/verify`, {
-        headers: { Authorization: `Bearer ${token}` },
-        credentials: 'include',
-      });
+      const res = await adminFetch('/.netlify/functions/admin-auth/verify');
       setIsAuthenticated(res.ok);
     } catch {
       setIsAuthenticated(false);
@@ -83,11 +71,8 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
 
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem('admin_token');
-      await fetch(`${API_BASE}/.netlify/functions/admin-auth/logout`, {
+      await adminFetch('/.netlify/functions/admin-auth/logout', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        credentials: 'include',
       });
     } catch {
       // Ignore
@@ -102,7 +87,6 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
     setDeployError(null);
     setDeployProgress(null);
     
-    const token = localStorage.getItem('admin_token');
     const pendingBuildsArray = Array.from(pendingBuilds.values());
     
     // Accumulate all processed images
@@ -135,11 +119,10 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
           
           addLog('request', `POST processImages (chunk ${chunkIndex + 1}/${totalChunks})`);
           
-          const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
+          const res = await adminFetch('/.netlify/functions/admin-deploy', {
             method: 'POST',
-            headers: { 
+            headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               processImages: chunk,
@@ -186,11 +169,10 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
           
           addLog('request', `POST commitImages (batch ${batchIndex + 1}/${totalCommitBatches})`);
           
-          const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
+          const res = await adminFetch('/.netlify/functions/admin-deploy', {
             method: 'POST',
-            headers: { 
+            headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               commitImages: batch,
@@ -220,11 +202,10 @@ export function AdminLayout({ children, currentView, onNavigate }: AdminLayoutPr
       setDeployProgress({ current: 0, total: 0, stage: 'Updating builds.json...' });
       addLog('request', `POST finalDeploy (${pendingBuildsArray.length} builds)`);
       
-      const res = await fetch(`${API_BASE}/.netlify/functions/admin-deploy`, {
+      const res = await adminFetch('/.netlify/functions/admin-deploy', {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           finalDeploy: true,

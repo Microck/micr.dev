@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 import { cn } from '@/lib/utils';
 import LogoWall from './LogoWall';
 import { ScrollReveal } from './ScrollReveal';

@@ -1,30 +1,46 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
 import { Header } from './components/Header';
 import { BuildGallery } from './components/BuildGallery';
-import { BuildDetail } from './components/BuildDetail';
-import { Rankings } from './components/Rankings';
-import { Blog } from './components/Blog';
-import { BlogPost } from './components/BlogPost';
-import { Commissions } from './components/Commissions';
-import { Contact } from './components/Contact';
 import { ThemeToggle } from './components/ThemeToggle';
 import { MobilePopup } from './components/MobilePopup';
 import { SmoothScroll } from './components/SmoothScroll';
 import { PageTransitions } from './components/PageTransitions';
 import { TargetCursor } from './components/TargetCursor';
 import { DebugCursor } from './components/DebugCursor';
-import { AdminPage } from './components/admin';
 import { KeyboardBuild } from './types/Build';
 import type { BlogPost as BlogPostType } from './types/BlogPost';
-import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { useTheme } from './contexts/use-theme';
 import { findBuildBySlug } from './utils/slugUtils';
 import { getPostBySlug } from './utils/blog';
 import builds from './data/builds.json';
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+const BuildDetail = lazy(() =>
+  import('./components/BuildDetail').then((module) => ({ default: module.BuildDetail }))
+);
+const Rankings = lazy(() =>
+  import('./components/Rankings').then((module) => ({ default: module.Rankings }))
+);
+const Blog = lazy(() =>
+  import('./components/Blog').then((module) => ({ default: module.Blog }))
+);
+const BlogPost = lazy(() =>
+  import('./components/BlogPost').then((module) => ({ default: module.BlogPost }))
+);
+const Commissions = lazy(() =>
+  import('./components/Commissions').then((module) => ({ default: module.Commissions }))
+);
+const Contact = lazy(() =>
+  import('./components/Contact').then((module) => ({ default: module.Contact }))
+);
+const AdminPage = lazy(() =>
+  import('./components/admin').then((module) => ({ default: module.AdminPage }))
+);
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState('builds');
@@ -84,6 +100,10 @@ function AppContent() {
         const build = findBuildBySlug(baseSlug, counter, builds as unknown as KeyboardBuild[]);
         if (build) {
           setSelectedBuild(build);
+          setCurrentPage('builds');
+          setSelectedPost(null);
+        } else {
+          setSelectedBuild(null);
           setCurrentPage('builds');
           setSelectedPost(null);
         }
@@ -178,6 +198,21 @@ function AppContent() {
     window.location.hash = '#/blog';
   };
 
+  const pageLoadingFallback = (
+    <div className="flex min-h-[40vh] items-center justify-center">
+      <div className="flex items-center gap-3">
+        <div
+          className={`h-6 w-6 animate-spin rounded-full border-2 border-t-transparent ${
+            isDark ? 'border-[#a7a495]' : 'border-[#1c1c1c]'
+          }`}
+        />
+        <span className={isDark ? 'text-[#a7a495]' : 'text-[#1c1c1c]'}>
+          Loading page...
+        </span>
+      </div>
+    </div>
+  );
+
   const renderContent = () => {
     if (selectedBuild) {
       return (
@@ -235,7 +270,9 @@ function AppContent() {
             <div className="relative z-10">
               <Header currentPage={currentPage} onNavigate={handleNavigate} />
               <main>
-                {renderContent()}
+                <Suspense fallback={pageLoadingFallback}>
+                  {renderContent()}
+                </Suspense>
               </main>
             </div>
           </PageTransitions>

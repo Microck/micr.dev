@@ -1,49 +1,12 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-
-export interface PendingImage {
-  buildId: string;
-  index: number;
-  base64: string;
-  localUrl: string;
-}
-
-export interface PendingBuild {
-  id: string;
-  title: string;
-  youtubeTitle?: string;
-  category: 'MX' | 'EC';
-  timestamp: string;
-  images: string[];
-  youtubeUrl: string;
-  specs: Record<string, string | undefined>;
-  isNew?: boolean;
-  isDeleted?: boolean;
-}
-
-interface PendingChangesContextType {
-  pendingImages: PendingImage[];
-  pendingBuilds: Map<string, PendingBuild>;
-  pendingRankings: Record<string, string[]> | null;
-  
-  addPendingImage: (image: PendingImage) => void;
-  removePendingImage: (buildId: string, index: number) => void;
-  
-  setPendingBuild: (build: PendingBuild) => void;
-  deletePendingBuild: (id: string) => void;
-  getPendingBuild: (id: string) => PendingBuild | undefined;
-  
-  setPendingRankings: (rankings: Record<string, string[]>) => void;
-  
-  hasChanges: boolean;
-  pendingCount: { images: number; builds: number };
-  clearAll: () => void;
-  
-  getImagePreviewUrl: (buildId: string, path: string) => string;
-}
+import { useState, useEffect } from 'react';
+import { PendingChangesContext } from './pending-changes-context';
+import type {
+  PendingBuild,
+  PendingChangesProviderProps,
+  PendingImage,
+} from './pending-changes-types';
 
 const STORAGE_KEY = 'microkeebs_pending_changes';
-
-const PendingChangesContext = createContext<PendingChangesContextType | null>(null);
 
 // Save to localStorage (debounced)
 let saveTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -63,7 +26,7 @@ const saveToStorage = (images: PendingImage[], builds: Map<string, PendingBuild>
   }, 500);
 };
 
-export function PendingChangesProvider({ children }: { children: ReactNode }) {
+export function PendingChangesProvider({ children }: PendingChangesProviderProps) {
   const [pendingImages, setPendingImages] = useState<PendingImage[]>([]);
   const [pendingBuilds, setPendingBuilds] = useState<Map<string, PendingBuild>>(new Map());
   const [pendingRankings, setPendingRankingsState] = useState<Record<string, string[]> | null>(null);
@@ -209,12 +172,4 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       {children}
     </PendingChangesContext.Provider>
   );
-}
-
-export function usePendingChanges() {
-  const context = useContext(PendingChangesContext);
-  if (!context) {
-    throw new Error('usePendingChanges must be used within PendingChangesProvider');
-  }
-  return context;
 }

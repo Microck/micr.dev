@@ -2,7 +2,7 @@ import { ArrowLeftIcon } from '@/components/ui/arrow-left';
 import { KeyboardBuild } from '../types/Build';
 import { YouTubeEmbed } from './YouTubeEmbed';
 import { Footer } from './Footer';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 import { DecryptedText } from './DecryptedText';
 import { ThumbnailSlider } from './ThumbnailSlider';
 

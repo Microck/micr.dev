@@ -1,4 +1,4 @@
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 import { BlogMdxProvider } from './BlogMdxProvider';
 import { formatDate } from '../utils/blog';
 import type { BlogPost as BlogPostType } from '../types/BlogPost';

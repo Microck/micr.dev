@@ -1145,7 +1145,7 @@ body[data-theme="dark"] .carousel-skeleton {
 }
 
 ::view-transition-new(root) {
-  mask: url('/microkeebs/public/logo-mask.svg') center / 0 no-repeat;
+  mask: url('/logo-mask.svg') center / 0 no-repeat;
   animation: theme-scale var(--theme-duration);
   animation-fill-mode: both;
 }

@@ -62,7 +62,13 @@ export class QuestionService {
       .update({ answered: true })
       .eq('id', questionId);
 
-    if (updateError) throw updateError;
+    if (updateError) {
+      await getSupabase()
+        .from('answers')
+        .delete()
+        .eq('id', answer.id);
+      throw updateError;
+    }
 
     return answer;
   }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { API_BASE } from './api';
+import { adminFetch } from './api';
 
 interface KeyboardBuild {
   id: string;
@@ -49,11 +49,8 @@ export function BuildsList({ onSelectBuild }: BuildsListProps) {
   }, []);
 
   const fetchBuilds = async () => {
-    const token = localStorage.getItem('admin_token');
     try {
-      const res = await fetch(`${API_BASE}/.netlify/functions/admin-builds`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await adminFetch('/.netlify/functions/admin-builds');
       const text = await res.text();
       let data;
       try {

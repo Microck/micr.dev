@@ -1,30 +1,27 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { usePendingChanges } from './PendingChangesContext';
+import { usePendingChanges } from './use-pending-changes';
 
 interface ImageGalleryProps {
   buildId: string;
   images: string[];
   onReorder: (images: string[]) => void;
   onDelete: (index: number) => void;
-  onRename: (index: number, newPath: string) => void;
 }
 
 // Image card with loading state
 function ImageCard({ 
-  src, 
-  index, 
+  src,
+  index,
   onMoveLeft,
   onMoveRight,
-  onEdit,
   onDelete,
   fileName,
-}: { 
-  src: string; 
+}: {
+  src: string;
   index: number;
   onMoveLeft?: () => void;
   onMoveRight?: () => void;
-  onEdit: () => void;
   onDelete: () => void;
   fileName: string;
 }) {
@@ -76,15 +73,6 @@ function ImageCard({
               </button>
             )}
             <button
-              onClick={onEdit}
-              className="p-2 bg-[#5c5647]/80 hover:bg-[#5c5647] rounded-md text-white transition-colors"
-              title="Rename"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-              </svg>
-            </button>
-            <button
               onClick={onDelete}
               className="p-2 bg-[#a65d5d]/80 hover:bg-[#a65d5d] rounded-md text-white transition-colors"
               title="Delete"
@@ -126,10 +114,8 @@ function ImageCard({
   );
 }
 
-export function ImageGallery({ buildId, images, onReorder, onDelete, onRename }: ImageGalleryProps) {
+export function ImageGallery({ buildId, images, onReorder, onDelete }: ImageGalleryProps) {
   const { getImagePreviewUrl } = usePendingChanges();
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [editValue, setEditValue] = useState('');
 
   const moveImage = (from: number, to: number) => {
     if (to < 0 || to >= images.length) return;
@@ -141,31 +127,6 @@ export function ImageGallery({ buildId, images, onReorder, onDelete, onRename }:
 
   const getFileName = (path: string) => {
     return path.split('/').pop() || path;
-  };
-
-  const startEditing = (index: number) => {
-    setEditingIndex(index);
-    setEditValue(getFileName(images[index]));
-  };
-
-  const saveEdit = () => {
-    if (editingIndex === null) return;
-    
-    const oldPath = images[editingIndex];
-    const pathParts = oldPath.split('/');
-    pathParts[pathParts.length - 1] = editValue;
-    const newPath = pathParts.join('/');
-    
-    if (newPath !== oldPath) {
-      onRename(editingIndex, newPath);
-    }
-    setEditingIndex(null);
-    setEditValue('');
-  };
-
-  const cancelEdit = () => {
-    setEditingIndex(null);
-    setEditValue('');
   };
 
   if (images.length === 0) {
@@ -187,47 +148,10 @@ export function ImageGallery({ buildId, images, onReorder, onDelete, onRename }:
             fileName={getFileName(image)}
             onMoveLeft={index > 0 ? () => moveImage(index, index - 1) : undefined}
             onMoveRight={index < images.length - 1 ? () => moveImage(index, index + 1) : undefined}
-            onEdit={() => startEditing(index)}
             onDelete={() => onDelete(index)}
           />
         ))}
       </div>
-
-      {/* Rename Modal */}
-      {editingIndex !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="p-6 rounded-xl shadow-xl max-w-md w-full mx-4 bg-[#f5f3ed]">
-            <h3 className="text-lg font-semibold mb-4 text-[#3d3a32]">
-              Rename Image
-            </h3>
-            <input
-              type="text"
-              value={editValue}
-              onChange={(e) => setEditValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') saveEdit();
-                if (e.key === 'Escape') cancelEdit();
-              }}
-              autoFocus
-              className="w-full px-3 py-2 rounded-lg border-2 focus:outline-none focus:ring-0 bg-white border-[#d9d5c9] text-[#3d3a32] focus:border-[#5c5647]"
-            />
-            <div className="flex justify-end gap-2 mt-4">
-              <button
-                onClick={cancelEdit}
-                className="px-4 py-2 rounded-lg font-medium transition-colors text-[#6b6459] hover:bg-[#e0dcd0]"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={saveEdit}
-                className="px-4 py-2 rounded-lg font-medium bg-[#5c5647] hover:bg-[#4a463a] text-white transition-colors"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

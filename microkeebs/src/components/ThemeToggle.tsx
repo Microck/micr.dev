@@ -1,4 +1,4 @@
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 import { SunIcon } from '@/components/ui/sun';
 import { MoonIcon } from '@/components/ui/moon';
 

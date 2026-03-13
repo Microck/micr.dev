@@ -5,10 +5,12 @@ import {
   createAuthCookie,
   clearAuthCookie,
   checkRateLimit,
+  lockRateLimit,
   resetRateLimit,
   getClientIP,
   verifyToken,
   getCorsHeaders,
+  getTokenFromEvent,
 } from './lib/auth';
 
 export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
@@ -55,12 +57,15 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
       const valid = await verifyPassword(password);
 
       if (!valid) {
+        const remaining = Math.max(rateLimit.remaining, 0);
+        const resetIn = remaining === 0 ? Math.ceil(lockRateLimit(ip) / 1000) : undefined;
         return {
           statusCode: 401,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           body: JSON.stringify({
             error: 'Invalid password',
-            remaining: rateLimit.remaining - 1,
+            remaining,
+            ...(resetIn ? { resetIn } : {}),
           }),
         };
       }
@@ -76,14 +81,13 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
           'Content-Type': 'application/json',
           'Set-Cookie': createAuthCookie(token),
         },
-        body: JSON.stringify({ success: true, token }),
+        body: JSON.stringify({ success: true }),
       };
     }
 
     // GET /verify - Verify current session
     if (event.httpMethod === 'GET' && path === '/verify') {
-      const authHeader = event.headers.authorization;
-      const token = authHeader?.replace('Bearer ', '');
+      const token = getTokenFromEvent(event);
       
       if (token && verifyToken(token)) {
         return {

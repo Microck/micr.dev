@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo } from 'react';
+import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 
 interface DecryptedTextProps {
   text: string;
@@ -27,7 +27,7 @@ export function DecryptedText({
 }: DecryptedTextProps) {
   const chars = useMemo(() => characters.split(''), [characters]);
   
-  const scramble = (revealed: Set<number>) => {
+  const scramble = useCallback((revealed: Set<number>) => {
     return text
       .split('')
       .map((char, i) => {
@@ -36,7 +36,7 @@ export function DecryptedText({
         return chars[Math.floor(Math.random() * chars.length)];
       })
       .join('');
-  };
+  }, [chars, text]);
 
   const [displayText, setDisplayText] = useState(() => 
     animateOn === 'view' ? scramble(new Set()) : text
@@ -110,7 +110,7 @@ export function DecryptedText({
     }, delay);
 
     return () => clearTimeout(timeoutId);
-  }, [started, text, speed, maxIterations, sequential, revealDirection, chars, delay]);
+  }, [started, text, speed, maxIterations, sequential, revealDirection, delay, scramble]);
 
   const handleMouseEnter = () => {
     if (animateOn === 'hover') {

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { ImageUploader } from './ImageUploader';
 import { ImageGallery } from './ImageGallery';
-import { usePendingChanges } from './PendingChangesContext';
+import { usePendingChanges } from './use-pending-changes';
 
 interface KeyboardBuild {
   id: string;
@@ -95,13 +95,6 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
     setFormData(prev => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index),
-    }));
-  };
-
-  const handleImageRename = (index: number, newPath: string) => {
-    setFormData(prev => ({
-      ...prev,
-      images: prev.images.map((img, i) => i === index ? newPath : img),
     }));
   };
 
@@ -282,8 +275,10 @@ export function BuildEditor({ build, onSave, onDelete, onCancel }: BuildEditorPr
             images={formData.images}
             onReorder={handleImageReorder}
             onDelete={handleImageDelete}
-            onRename={handleImageRename}
           />
+          <p className="mt-2 text-xs text-[#8b8578]">
+            Filenames are managed automatically. Move the first image to change the cover.
+          </p>
           <div className="mt-3">
             <ImageUploader
               buildId={formData.id}

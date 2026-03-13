@@ -1,4 +1,4 @@
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 import { cn } from '@/lib/utils';
 
 export function InteractiveDivider() {

@@ -1,6 +1,7 @@
 import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
 import { isAuthenticated, getCorsHeaders } from './lib/auth';
 import { getFileContent, createOrUpdateFile } from './lib/github';
+import { isValidBuildId } from './lib/image';
 
 interface KeyboardBuild {
   id: string;
@@ -61,6 +62,14 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
           statusCode: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           body: JSON.stringify({ error: 'Missing required fields: id, title, category' }),
+        };
+      }
+
+      if (!isValidBuildId(build.id)) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid build ID' }),
         };
       }
 
@@ -128,6 +137,14 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
         };
       }
 
+      if (!isValidBuildId(build.id)) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid build ID' }),
+        };
+      }
+
       // Get current builds
       const file = await getFileContent(BUILDS_PATH);
       if (!file) {
@@ -176,6 +193,14 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
           statusCode: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           body: JSON.stringify({ error: 'Build ID required' }),
+        };
+      }
+
+      if (!isValidBuildId(buildId)) {
+        return {
+          statusCode: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'Invalid build ID' }),
         };
       }
 

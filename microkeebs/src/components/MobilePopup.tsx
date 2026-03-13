@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Monitor, X } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 
 export function MobilePopup() {
   const [isVisible, setIsVisible] = useState(false);

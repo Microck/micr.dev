@@ -1,6 +1,6 @@
 import { useRef, useLayoutEffect } from 'react';
 import { KeyboardBuild } from '../types/Build';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 import { CherryIcon, DomeIcon } from './icons';
 import { TrophyIcon } from '@/components/ui/trophy';
 import { EyeIcon } from '@/components/ui/eye';

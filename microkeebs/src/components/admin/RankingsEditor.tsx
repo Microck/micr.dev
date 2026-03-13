@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { API_BASE } from './api';
-import { usePendingChanges } from './PendingChangesContext';
+import { adminFetch } from './api';
+import { usePendingChanges } from './use-pending-changes';
 
 interface Rankings {
   all: string[];
@@ -45,43 +45,47 @@ export function RankingsEditor({ builds }: RankingsEditorProps) {
   const [activeCategory, setActiveCategory] = useState<keyof Rankings>('all');
 
   useEffect(() => {
-    fetchRankings();
+    let cancelled = false;
+
+    const fetchRankings = async () => {
+      try {
+        const res = await adminFetch('/.netlify/functions/admin-rankings');
+        const text = await res.text();
+        let data;
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch {
+          throw new Error(`Server error: ${text || res.statusText}`);
+        }
+        if (!res.ok) throw new Error(data.error || 'Failed to fetch rankings');
+
+        if (!cancelled) {
+          setRankings(data.rankings);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : 'Failed to load rankings');
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    void fetchRankings();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Apply pending rankings if they exist
   useEffect(() => {
-    if (pendingRankings && rankings) {
+    if (pendingRankings) {
       setRankings(pendingRankings as unknown as Rankings);
     }
   }, [pendingRankings]);
-
-  const fetchRankings = async () => {
-    const token = localStorage.getItem('admin_token');
-    try {
-      const res = await fetch(`${API_BASE}/.netlify/functions/admin-rankings`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const text = await res.text();
-      let data;
-      try {
-        data = text ? JSON.parse(text) : {};
-      } catch {
-        throw new Error(`Server error: ${text || res.statusText}`);
-      }
-      if (!res.ok) throw new Error(data.error || 'Failed to fetch rankings');
-      
-      // Use pending rankings if available, otherwise use fetched data
-      if (pendingRankings) {
-        setRankings(pendingRankings as unknown as Rankings);
-      } else {
-        setRankings(data.rankings);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load rankings');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const getBuildTitle = (id: string) => {
     return builds.find(b => b.id === id)?.title || id;

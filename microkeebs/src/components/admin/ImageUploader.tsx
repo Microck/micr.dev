@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { usePendingChanges } from './PendingChangesContext';
+import { usePendingChanges } from './use-pending-changes';
+import { getBuildImagePath } from './api';
 
 interface ImageUploaderProps {
   buildId: string;
@@ -105,7 +106,7 @@ export function ImageUploader({ buildId, currentImageCount, onUpload, disabled }
         });
         
         // Add path to build's images array
-        const path = `./images/${buildId}/${index}.webp`;
+        const path = getBuildImagePath(buildId, index);
         newPaths.push(path);
       }
       

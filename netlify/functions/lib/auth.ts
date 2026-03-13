@@ -90,6 +90,16 @@ export function resetRateLimit(ip: string): void {
   rateLimitStore.delete(ip);
 }
 
+export function lockRateLimit(ip: string): number {
+  const record = rateLimitStore.get(ip);
+  if (!record) {
+    return LOCKOUT_DURATION;
+  }
+
+  record.lockedUntil = Date.now() + LOCKOUT_DURATION;
+  return LOCKOUT_DURATION;
+}
+
 export async function verifyPassword(password: string): Promise<boolean> {
   const storedHash = process.env.ADMIN_PASSWORD_HASH;
   if (!storedHash) {

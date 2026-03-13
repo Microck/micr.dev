@@ -1,13 +1,11 @@
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/use-theme';
 import { cn } from '@/lib/utils';
-import Lanyard from './Lanyard/Lanyard';
 import LogoWall from './LogoWall';
 import { SplitText } from './SplitText';
 import { ScrollReveal } from './ScrollReveal';
 import { InteractiveDivider } from './InteractiveDivider';
-import { ContactMobile } from './ContactMobile';
 
 // Import logos directly for Vite processing
 import bowlLogo from '@/assets/workedwith/bowlkeyboards.webp';
@@ -20,6 +18,11 @@ import metakeebsLogo from '@/assets/workedwith/metakeebs.png';
 import monsgeekLogo from '@/assets/workedwith/monsgeek.png';
 import vertexLogo from '@/assets/workedwith/vertex.png';
 import tkdLogo from '@/assets/workedwith/tkd.png';
+
+const Lanyard = lazy(() => import('./Lanyard/Lanyard'));
+const ContactMobile = lazy(() =>
+  import('./ContactMobile').then((module) => ({ default: module.ContactMobile }))
+);
 
 const aboutText = `I entered the keyboard hobby in early 2021. I was active immediately, but I didn't build my first custom board until mid-2022. That was the start of the channel. I wanted a place to catalog the keyboards passing through my hands.
 
@@ -279,7 +282,9 @@ export function Contact() {
     <>
       {/* Mobile version */}
       <div className="block lg:hidden">
-        <ContactMobile />
+        <Suspense fallback={null}>
+          <ContactMobile />
+        </Suspense>
       </div>
 
       {/* Desktop version */}

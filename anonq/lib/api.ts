@@ -10,19 +10,6 @@ const api = axios.create({
   withCredentials: true,
 })
 
-api.interceptors.request.use((config) => {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('adminAuth')
-    if (token) {
-      const parsedToken = JSON.parse(token)
-      if (parsedToken) {
-        config.headers.Authorization = `Bearer ${parsedToken}`
-      }
-    }
-  }
-  return config
-})
-
 const ntfyApi = axios.create({
   headers: {
     'Content-Type': 'application/json',
@@ -86,11 +73,6 @@ export const questionsAPI = {
 
   // Admin API methods
   admin: {
-    login: async (password: string): Promise<ApiResponse> => {
-      const response = await api.post('/admin/login', { password })
-      return response.data
-    },
-
     getQuestions: async () => {
       const response = await api.get('/admin/questions')
       return response.data
