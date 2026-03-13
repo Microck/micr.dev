@@ -1,4 +1,4 @@
-import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
+import type { Handler, HandlerEvent } from '@netlify/functions';
 import {
   verifyPassword,
   createToken,
@@ -13,7 +13,7 @@ import {
   getTokenFromEvent,
 } from './lib/auth';
 
-export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
+export const handler: Handler = async (event: HandlerEvent) => {
   const corsHeaders = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {

@@ -96,12 +96,12 @@ export function getImagePaths(buildId: string, index: number): { full: string; t
 
   if (index === 0) {
     return {
-      full: `microkeebs/public/images/${buildId}/thumbnail.webp`,
-      thumbnail: `microkeebs/public/images/${buildId}/thumbnail_sm.webp`,
+      full: `public/images/${buildId}/thumbnail.webp`,
+      thumbnail: `public/images/${buildId}/thumbnail_sm.webp`,
     };
   }
   return {
-    full: `microkeebs/public/images/${buildId}/${index}.webp`,
-    thumbnail: `microkeebs/public/images/${buildId}/${index}_sm.webp`,
+    full: `public/images/${buildId}/${index}.webp`,
+    thumbnail: `public/images/${buildId}/${index}_sm.webp`,
   };
 }

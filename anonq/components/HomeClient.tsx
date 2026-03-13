@@ -90,7 +90,7 @@ export default function HomeClient() {
             title="Toggle background animation"
           >
             <img 
-              src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/quarzite.png`}
+              src="/quarzite.png"
               alt="AnonQ Logo" 
               width={256}
               height={256}

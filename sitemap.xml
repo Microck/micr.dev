@@ -14,24 +14,4 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- About page -->
-  <url>
-    <loc>https://micr.dev/about/</loc>
-    <lastmod>2025-11-13</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Microkeebs page (custom keyboards) -->
-  <url>
-    <loc>https://micr.dev/microkeebs/</loc>
-    <lastmod>2025-11-13</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Quarzite page (OC / creative content) -->
-  <url>
-    <loc>https://micr.dev/quarzite/</loc>
-    <lastmod>2025-11-13</lastmod>
-    <priority>0.7</priority>
-  </url>
 </urlset>

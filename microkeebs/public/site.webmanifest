@@ -3,12 +3,12 @@
   "short_name": "Microkeebs",
   "icons": [
     {
-      "src": "/microkeebs/favicon-black-32.png",
+      "src": "/favicon-black-32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/microkeebs/favicon-white-32.png",
+      "src": "/favicon-white-32.png",
       "sizes": "32x32",
       "type": "image/png"
     }
@@ -16,5 +16,5 @@
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "display": "standalone",
-  "start_url": "/microkeebs/"
+  "start_url": "/"
 }

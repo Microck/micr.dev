@@ -1,4 +1,4 @@
-import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
+import type { Handler, HandlerEvent } from '@netlify/functions';
 import { isAuthenticated, getCorsHeaders } from './lib/auth';
 import { commitMultipleFiles } from './lib/github';
 import { processImage, getImagePaths, isValidBuildId } from './lib/image';
@@ -47,7 +47,14 @@ interface DeployRequest {
   currentBuilds?: PendingBuild[];
 }
 
-export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
+function stripPendingFlags(build: PendingBuild): Omit<PendingBuild, 'isNew' | 'isDeleted'> {
+  const { isNew, isDeleted, ...rest } = build;
+  void isNew;
+  void isDeleted;
+  return rest;
+}
+
+export const handler: Handler = async (event: HandlerEvent) => {
   const corsHeaders = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {
@@ -175,30 +182,27 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
         if (pending.isDeleted) {
           finalBuilds = finalBuilds.filter(b => b.id !== pending.id);
         } else if (pending.isNew) {
-          const { isNew: _, isDeleted: __, ...build } = pending;
-          finalBuilds.unshift(build);
+          finalBuilds.unshift(stripPendingFlags(pending));
         } else {
           const idx = finalBuilds.findIndex(b => b.id === pending.id);
           if (idx >= 0) {
-            const { isNew: _, isDeleted: __, ...build } = pending;
-            finalBuilds[idx] = build;
+            finalBuilds[idx] = stripPendingFlags(pending);
           } else {
-            const { isNew: _, isDeleted: __, ...build } = pending;
-            finalBuilds.push(build);
+            finalBuilds.push(stripPendingFlags(pending));
           }
         }
       }
       
       // Add builds.json
       filesToCommit.push({
-        path: 'microkeebs/src/data/builds.json',
+        path: 'src/data/builds.json',
         content: Buffer.from(JSON.stringify(finalBuilds, null, 2)).toString('base64'),
       });
       
       // Add rankings if changed
       if (pendingRankings) {
         filesToCommit.push({
-          path: 'microkeebs/src/data/rankings.json',
+          path: 'src/data/rankings.json',
           content: Buffer.from(JSON.stringify(pendingRankings, null, 2) + '\n').toString('base64'),
         });
       }

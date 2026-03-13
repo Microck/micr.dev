@@ -2,7 +2,6 @@
 
 User-agent: *
 Disallow: /assets/
-Disallow: /WIP/
 Disallow: /wip/
 Disallow: /frames-ascii/
 Allow: /

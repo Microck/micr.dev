@@ -1,4 +1,4 @@
-import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
+import type { Handler, HandlerEvent } from '@netlify/functions';
 import { isAuthenticated, getCorsHeaders } from './lib/auth';
 import { getFileContent, createOrUpdateFile } from './lib/github';
 
@@ -11,9 +11,9 @@ interface Rankings {
   electrocapacitive: string[];
 }
 
-const RANKINGS_PATH = 'microkeebs/src/data/rankings.json';
+const RANKINGS_PATH = 'src/data/rankings.json';
 
-export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
+export const handler: Handler = async (event: HandlerEvent) => {
   const corsHeaders = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {

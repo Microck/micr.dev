@@ -1,9 +1,9 @@
-import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
+import type { Handler, HandlerEvent } from '@netlify/functions';
 import { isAuthenticated, getCorsHeaders } from './lib/auth';
 import { commitMultipleFiles } from './lib/github';
 import { processImage, validateImage, getImagePaths, isValidBuildId } from './lib/image';
 
-export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
+export const handler: Handler = async (event: HandlerEvent) => {
   const corsHeaders = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {
@@ -82,9 +82,9 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
         `Add image: ${buildId}/${index === 0 ? 'thumbnail' : index}`
       );
 
-      // Return the public path (relative to microkeebs/public/)
-      const publicPath = paths.full.replace('microkeebs/public/', './');
-      const thumbnailPath = paths.thumbnail.replace('microkeebs/public/', './');
+      // Return the public path relative to the app public directory.
+      const publicPath = paths.full.replace('public/', './');
+      const thumbnailPath = paths.thumbnail.replace('public/', './');
 
       return {
         statusCode: 200,

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://quarzite.micr.dev/sitemap.xml

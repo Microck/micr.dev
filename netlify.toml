@@ -1,37 +1,64 @@
-# =============================================================================
-# FINAL & FORCEFUL CONFIGURATION for a Monorepo with a Vite SPA
-# =============================================================================
-
 [build]
-  command = "cd netlify/functions && npm install && cd ../../microkeebs && npm install && npm run build"
   publish = "."
 
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
-  external_node_modules = ["sharp"]
-  
-# --- ANONQ PROXY ---
 [[redirects]]
-  from = "/anonq"
-  to = "https://anonqmicr.netlify.app/anonq"
-  status = 200
+  from = "/about"
+  to = "https://about.micr.dev/"
+  status = 301
   force = true
 
 [[redirects]]
-  from = "/anonq/"
-  to = "https://anonqmicr.netlify.app/anonq"
-  status = 200
+  from = "/about/*"
+  to = "https://about.micr.dev/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/quarzite"
+  to = "https://quarzite.micr.dev/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/quarzite/*"
+  to = "https://quarzite.micr.dev/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/microkeebs"
+  to = "https://microkeebs.micr.dev/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/microkeebs/*"
+  to = "https://microkeebs.micr.dev/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/anonq"
+  to = "https://anonq.micr.dev/"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/anonq/*"
-  to = "https://anonqmicr.netlify.app/anonq/:splat"
-  status = 200
+  to = "https://anonq.micr.dev/:splat"
+  status = 301
   force = true
-  
-# --- DIALOGUE ---
-# Note: /assets/* redirect removed - was breaking frames.zip loading for run.js easter egg
+
+[[redirects]]
+  from = "/regular-projects"
+  to = "/wip/"
+  status = 302
+
+[[redirects]]
+  from = "/big-projects"
+  to = "/wip/"
+  status = 302
+
 [[redirects]]
   from = "/favicon.svg"
   to = "https://dialoguegen.vercel.app/favicon.svg"
@@ -61,48 +88,7 @@
   to = "https://dialoguegen.vercel.app/:splat"
   status = 200
   force = true
- 
-# --- REDIRECT & REWRITE RULES ---
-# The order and `force` attribute are critical.
 
-# Rule 1: Serve assets correctly. This MUST be first.
-[[redirects]]
-  from = "/microkeebs/assets/*"
-  to = "/microkeebs/dist/assets/:splat"
-  status = 200
-  force = true
-  
-# Rule 2: Explicitly handle the base path WITHOUT a trailing slash.
-[[redirects]]
-  from = "/microkeebs/"
-  to = "/microkeebs/dist/index.html"
-  status = 200
-  force = true
-
-# Rule 3: Serve images from dist
-[[redirects]]
-  from = "/microkeebs/images/*"
-  to = "/microkeebs/dist/images/:splat"
-  status = 200
-
-# --- SPA/INTERNAL REDIRECTS ---
-  
-[[redirects]]
-  from = "/microkeebs"
-  to = "/microkeebs/"
-  status = 302
-
-[[redirects]]
-  from = "/regular-projects"
-  to = "/wip"
-  status = 302
-
-[[redirects]]
-  from = "/big-projects"
-  to = "/wip"
-  status = 302
-
-# --- EXTERNAL REDIRECTS ---
 [[redirects]]
   from = "/youtube"
   to = "https://www.youtube.com/@Microck"
@@ -158,40 +144,6 @@
   to = "https://tracker.gg/valorant/profile/riot/Secret%23666/performance?platform=pc&playlist=competitive"
   status = 302
 
-# --- MICROKEEBS SOCIALS ---
-[[redirects]]
-  from = "/microkeebs/youtube"
-  to = "https://www.youtube.com/@microkeebs"
-  status = 302
-
-[[redirects]]
-  from = "/microkeebs/instagram"
-  to = "https://www.instagram.com/microkeebs/"
-  status = 302
-
-[[redirects]]
-  from = "/microkeebs/tiktok"
-  to = "https://www.tiktok.com/@microkeebs"
-  status = 302
-
-[[redirects]]
-  from = "/microkeebs/reddit"
-  to = "https://www.reddit.com/user/Microkeebs/"
-  status = 302
-
-[[redirects]]
-from = "https://quarzite.micr.dev/*"
-to = "https://micr.dev/quarzite"
-status = 301
-force = true
-
-[[redirects]]
-from = "https://tile.micr.dev/*"
-to = "https://micr.dev/quarzite"
-status = 301
-force = true
-
-# --- SOCR SOCIALS ---
 [[redirects]]
   from = "/socr/youtube"
   to = "https://www.youtube.com/@socr.marcos"
@@ -202,7 +154,12 @@ force = true
   to = "https://www.instagram.com/http.socr"
   status = 302
 
-# --- SECURITY HEADERS ---
+[[redirects]]
+  from = "https://tile.micr.dev/*"
+  to = "https://quarzite.micr.dev/:splat"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
@@ -211,4 +168,4 @@ force = true
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.youtube.com https://s.ytimg.com https://sleepie.uk; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com https://unpkg.com; img-src 'self' data: https:; connect-src 'self' https: blob:; frame-src 'self' https://www.youtube.com https://open.spotify.com https://jspaint.app https://anonqmicr.netlify.app https://dialoguegen.vercel.app; object-src 'none';"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.youtube.com https://s.ytimg.com https://sleepie.uk; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com https://unpkg.com; img-src 'self' data: https:; connect-src 'self' https: blob:; frame-src 'self' https://www.youtube.com https://open.spotify.com https://dialoguegen.vercel.app; object-src 'none';"

@@ -2,20 +2,35 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { ToastProvider } from '@/components/ui/toast'
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.APP_BASE_URL || 'https://anonq.micr.dev'
 
 export const metadata: Metadata = {
   title: 'anonq',
   description: 'No strings, no names. Just curiosity.',
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: '/',
+  },
   icons: {
     icon: [
-      { url: `${basePath}/favicon.ico`, sizes: 'any' },
-      { url: `${basePath}/favicon-16x16.png`, sizes: '16x16', type: 'image/png' },
-      { url: `${basePath}/favicon-32x32.png`, sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
-    apple: `${basePath}/apple-touch-icon.png`,
+    apple: '/apple-touch-icon.png',
   },
-  manifest: `${basePath}/site.webmanifest`,
+  manifest: '/site.webmanifest',
+  openGraph: {
+    url: '/',
+    title: 'anonq',
+    description: 'No strings, no names. Just curiosity.',
+    siteName: 'anonq',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'anonq',
+    description: 'No strings, no names. Just curiosity.',
+  },
 }
 
 export default function RootLayout({

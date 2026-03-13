@@ -1,4 +1,4 @@
-import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
+import type { Handler, HandlerEvent } from '@netlify/functions';
 import { isAuthenticated, getCorsHeaders } from './lib/auth';
 import { getFileContent, createOrUpdateFile } from './lib/github';
 import { isValidBuildId } from './lib/image';
@@ -14,9 +14,9 @@ interface KeyboardBuild {
   specs: Record<string, string | undefined>;
 }
 
-const BUILDS_PATH = 'microkeebs/src/data/builds.json';
+const BUILDS_PATH = 'src/data/builds.json';
 
-export const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
+export const handler: Handler = async (event: HandlerEvent) => {
   const corsHeaders = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {

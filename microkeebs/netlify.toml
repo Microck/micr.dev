@@ -1,0 +1,28 @@
+[build]
+  command = "npm install && npm --prefix netlify/functions install && npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  external_node_modules = ["sharp"]
+
+[[redirects]]
+  from = "/youtube"
+  to = "https://www.youtube.com/@microkeebs"
+  status = 302
+
+[[redirects]]
+  from = "/instagram"
+  to = "https://www.instagram.com/microkeebs/"
+  status = 302
+
+[[redirects]]
+  from = "/tiktok"
+  to = "https://www.tiktok.com/@microkeebs"
+  status = 302
+
+[[redirects]]
+  from = "/reddit"
+  to = "https://www.reddit.com/user/Microkeebs/"
+  status = 302

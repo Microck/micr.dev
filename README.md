@@ -18,11 +18,11 @@ this solves that. one link, no waiting.
 
 ---
 
-# micr.dev/about
+# about.micr.dev
 <img width="1843" height="983" alt="Screenshot_1325" src="https://github.com/user-attachments/assets/b0be87e9-e013-48db-94c0-17dfb1037adb" />
 
 i’ve always had terrible passive recall; stuff like “what films inspire me?” or “what fragrance was that again?” just disappears.  
-so i made [micr.dev/about](https://micr.dev/about). part portfolio, part personal archive.
+so i made [about.micr.dev](https://about.micr.dev). part portfolio, part personal archive.
 
 the design pulls heavy inspiration from aphex twin’s *[syro](https://en.wikipedia.org/wiki/Syro)* album art.  
 side by side it’s pretty obvious. i fell in love with its minimalism, clean type, and neutral greens. so i decided to make my own version.
@@ -32,7 +32,7 @@ then lists what i enjoy → series, anime, films, games, art styles, fashion, fo
 some are images, some are links that open in new tabs.  
 hover tooltips show a black label with the item name, clean and readable.
 
-the “syro cd” artwork got replaced with a full-body commission of my character **[quarzite](https://micr.dev/quarzite)**, drawn by [@masarapmaruya](https://twitter.com/masarapmaruya).  
+the “syro cd” artwork got replaced with a full-body commission of my character **[quarzite](https://quarzite.micr.dev)**, drawn by [@masarapmaruya](https://twitter.com/masarapmaruya).  
 
 all data is neatly organized into a `.json` file, so i can update stuff easily.  
 font used: **DecimaMono**, same as the *syro* cover.
@@ -47,10 +47,10 @@ it’s a simple system, but it behaves more like a tiny single-page app than a t
 
 ---
 
-# micr.dev/quarzite
+# quarzite.micr.dev
 <img width="1919" height="968" alt="Screenshot_1335" src="https://github.com/user-attachments/assets/ad2532d9-1932-485f-bd84-71ad160ddc21" />
 
-i created [quarzite](https://micr.dev/quarzite) in +-2022, a sort-of digital version to represent myself in online spaces.  
+i created [quarzite](https://quarzite.micr.dev) in +-2022, a sort-of digital version to represent myself in online spaces.  
 i slowly collected art and commissions but never had a good place to show them off.  
 that changed when i came across [dimden’s oc gallery](https://dimden.dev/gallery/) in early 2025.
 
@@ -78,27 +78,27 @@ oh, and don’t forget neko. the small [neko cursor cat](https://en.wikipedia.or
 
 ---
 
-# micr.dev/microkeebs
+# microkeebs.micr.dev
 <img width="1899" height="953" alt="Screenshot_1316" src="https://github.com/user-attachments/assets/c5cab624-7b15-4969-8996-3087c7e60623" />
 
-[**micr.dev/microkeebs**](https://micr.dev/microkeebs) is a complete system built to catalog, display, and rank my mechanical keyboards. it’s fully structured: every card, every filter, and every ranking is generated from data files, not static html. what looks like a simple gallery is an organized design + data layer that scales as the collection grows.
+[**microkeebs.micr.dev**](https://microkeebs.micr.dev) is a complete system built to catalog, display, and rank my mechanical keyboards. it’s fully structured: every card, every filter, and every ranking is generated from data files, not static html. what looks like a simple gallery is an organized design + data layer that scales as the collection grows.
 
 the main **builds page** shows all keyboards in a responsive grid. you can switch between `all`, `mx`, and `ec`, sort by **newest** or **oldest**, and optionally toggle **timestamps** (ex. _DD/MM/YYYY_) or **build info** (ex. _cherry mx blacks_ or _lubed and silenced_). theme switches between light and dark via a small react context and persists to localStorage.
 
 each keyboard card links to its own page with a predictable **url structure**:
-1. base: `https://micr.dev/microkeebs/#/builds/{slug}`
+1. base: `https://microkeebs.micr.dev/#/builds/{slug}`
 2. slug is the lowercase, hyphenated title
 3. if a model has multiple distinct builds, the path appends a counter in chronological order: `/{slug}/1`, `/{slug}/2`, `/{slug}/3`  
   the unsuffixed path resolves to the first build of that title
 
 examples:
 - geonworks f1-8x v2 (dry cherry mx2a browns)  
-  https://micr.dev/microkeebs/#/builds/geonworks-f1-8x-v2
+  https://microkeebs.micr.dev/#/builds/geonworks-f1-8x-v2
 - 2007 hhkb pro 2 (lubed & silenced)  
-  https://micr.dev/microkeebs/#/builds/2007-hhkb-pro-2
+  https://microkeebs.micr.dev/#/builds/2007-hhkb-pro-2
 - tgr jane v2 ce (multiple builds)  
-  https://micr.dev/microkeebs/#/builds/tgr-jane-v2-ce/1  
-  https://micr.dev/microkeebs/#/builds/tgr-jane-v2-ce/2
+  https://microkeebs.micr.dev/#/builds/tgr-jane-v2-ce/1  
+  https://microkeebs.micr.dev/#/builds/tgr-jane-v2-ce/2
 
 the site runs on a simple `hash-based router`. all navigation, from the gallery to a specific build page, is handled by listening for changes in the url after the `#`. the rules for slugs live in `utils/slugUtils.ts`. a `slugify` function turns keyboard titles into clean, lowercase urls. if a board has multiple builds, the script sorts them by date and assigns a number, like `/tgr-jane-v2-ce/1` and `/tgr-jane-v2-ce/2`. it keeps the links stable and predictable.
 
