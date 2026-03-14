@@ -71,7 +71,7 @@
       }
     </style>
   </head>
-  <body>
+  <body class="is-loading">
     <div class="mobile-blocker">
       soz id rather kms than make my websites responsive on mobile<br /><br />
       come back on desktop ^_^
@@ -79,10 +79,36 @@
 
     <div class="page-rotate">
       <div class="container">
-        <div class="left-column" id="content"></div>
+        <div class="left-column" id="content" aria-live="polite">
+          <div class="skeleton-block skeleton-intro" aria-hidden="true">
+            <div class="skeleton-line skeleton-line-wide"></div>
+            <div class="skeleton-line skeleton-line-short"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line skeleton-line-wide"></div>
+          </div>
+          <div class="skeleton-block" aria-hidden="true">
+            <div class="skeleton-label"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line skeleton-line-short"></div>
+          </div>
+          <div class="skeleton-block" aria-hidden="true">
+            <div class="skeleton-label"></div>
+            <div class="skeleton-grid">
+              <div class="skeleton-tile"></div>
+              <div class="skeleton-tile"></div>
+              <div class="skeleton-tile"></div>
+              <div class="skeleton-tile"></div>
+              <div class="skeleton-tile"></div>
+              <div class="skeleton-tile"></div>
+            </div>
+          </div>
+        </div>
 
         <div class="right-fixed">
           <div class="hero-wrap">
+            <div class="hero-skeleton" aria-hidden="true"></div>
             <img
               src="images/right-image.png"
               alt=""

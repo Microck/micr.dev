@@ -1,4 +1,3 @@
-// Helper: measure dots accurately with given fonts
 function getDots(
   leftText,
   rightText,
@@ -35,37 +34,92 @@ function debounce(fn, delay = 150) {
   };
 }
 
+function waitForFonts() {
+  if (!document.fonts?.ready) {
+    return Promise.resolve();
+  }
+  return document.fonts.ready.catch(() => {});
+}
+
+function waitForImage(img) {
+  if (!img) {
+    return Promise.resolve();
+  }
+  if (img.complete) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve) => {
+    img.addEventListener("load", resolve, { once: true });
+    img.addEventListener("error", resolve, { once: true });
+  });
+}
+
+async function fetchData() {
+  const res = await fetch("data.json", { cache: "no-store" });
+  if (!res.ok) {
+    throw new Error(`Failed to load data.json: ${res.status}`);
+  }
+  return res.json();
+}
+
+function syncReadyState() {
+  const body = document.body;
+  if (
+    body.classList.contains("content-ready") &&
+    body.classList.contains("hero-ready")
+  ) {
+    body.classList.remove("is-loading");
+  }
+}
+
+function showLoadError() {
+  const content = document.getElementById("content");
+  if (!content) return;
+
+  content.innerHTML = `
+    <div class="category">
+      <div class="category-title">Status</div>
+      <div>Couldn’t load this page right now. Refresh and try again.</div>
+    </div>
+  `;
+
+  document.body.classList.add("content-ready");
+  syncReadyState();
+}
+
 let savedData = null;
 
-// Load after fonts so measurements are correct, then re-render on resize
-document.fonts
-  .ready
-  .then(() => fetch("data.json"))
-  .then((res) => res.json())
-  .then((data) => {
-    savedData = data;
+document.addEventListener("DOMContentLoaded", async () => {
+  const heroImg = document.querySelector(".hero-img");
+
+  waitForImage(heroImg).then(() => {
+    document.body.classList.add("hero-ready");
+    syncReadyState();
+  });
+
+  try {
+    await waitForFonts();
+    savedData = await fetchData();
     render(savedData);
 
     const onResize = debounce(() => {
       if (savedData) render(savedData);
     }, 150);
     window.addEventListener("resize", onResize, { passive: true });
-  })
-  .catch(() => {
-    // Fallback if fonts promise fails
-    fetch("data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        savedData = data;
-        render(savedData);
-      });
-  });
+
+    document.body.classList.add("content-ready");
+    syncReadyState();
+  } catch (error) {
+    console.error("About page failed to initialize:", error);
+    showLoadError();
+  }
+});
 
 function render(data) {
   const content = document.getElementById("content");
   if (!content) return;
 
-  // Clear and rebuild
   content.innerHTML = "";
 
   for (const [category, details] of Object.entries(data)) {
@@ -79,7 +133,6 @@ function render(data) {
     const availableWidth = leftCol.clientWidth - paddingLeft - paddingRight;
     const defaultFont = `${styles.fontSize} ${styles.fontFamily}`;
 
-    // === Intro paragraph ===
     if (details.type === "intro") {
       const introPara = document.createElement("div");
       introPara.classList.add("intro-text");
@@ -121,12 +174,10 @@ function render(data) {
       continue;
     }
 
-    // Sort T types oldest -> newest
     if (details.type === "T") {
       details.items.sort((a, b) => a.year - b.year);
     }
 
-    // Single-line R type
     if (details.type === "R" && details.items.length === 1) {
       section.classList.add("inline-category");
       const titleText = details.displayName || category;
@@ -148,13 +199,11 @@ function render(data) {
       continue;
     }
 
-    // Category title
     const title = document.createElement("div");
     title.classList.add("category-title");
     title.textContent = details.displayName || category;
     section.appendChild(title);
 
-    // Designer images
     if (details.type === "designerImages") {
       const grid = document.createElement("div");
       grid.classList.add("designer-grid");
@@ -174,10 +223,7 @@ function render(data) {
         grid.appendChild(element);
       });
       section.appendChild(grid);
-    }
-
-    // Colours
-    else if (details.type === "colours") {
+    } else if (details.type === "colours") {
       const swatchWidth = 14;
       details.items.forEach((item) => {
         const hex = item.title;
@@ -204,10 +250,7 @@ function render(data) {
         row.appendChild(swatch);
         section.appendChild(row);
       });
-    }
-
-    // Fonts (now works like R type with dot leaders)
-    else if (details.type === "fonts") {
+    } else if (details.type === "fonts") {
       details.items.forEach((item) => {
         const row = document.createElement("div");
         row.classList.add("item");
@@ -225,10 +268,7 @@ function render(data) {
         row.textContent = `${item.title}${dots}${item.right}`;
         section.appendChild(row);
       });
-    }
-
-    // Runways
-    else if (details.type === "runways") {
+    } else if (details.type === "runways") {
       details.items.forEach((item) => {
         const dots = getDots(
           item.runway,
@@ -243,10 +283,7 @@ function render(data) {
         row.textContent = `${item.runway}${dots}${item.designer}`;
         section.appendChild(row);
       });
-    }
-
-    // P = Picture grid
-    else if (details.type === "P") {
+    } else if (details.type === "P") {
       const gridContainer = document.createElement("div");
       gridContainer.classList.add("p-grid-container", `${category}-grid`);
 
@@ -277,10 +314,7 @@ function render(data) {
         }
       });
       section.appendChild(gridContainer);
-    }
-
-    // T = Text with dot leaders
-    else if (details.type === "T") {
+    } else if (details.type === "T") {
       details.items.forEach((item) => {
         const itemDiv = document.createElement("div");
         itemDiv.classList.add("item");
@@ -301,10 +335,7 @@ function render(data) {
         }
         section.appendChild(itemDiv);
       });
-    }
-
-    // R = Regular text
-    else if (details.type === "R") {
+    } else if (details.type === "R") {
       details.items.forEach((item) => {
         const itemDiv = document.createElement("div");
         itemDiv.classList.add("item");
@@ -333,20 +364,18 @@ function render(data) {
           } else {
             itemDiv.textContent = `${item.title}${dots}${item.right}`;
           }
+        } else if (clickableUrl) {
+          const link = document.createElement("a");
+          link.href = clickableUrl;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = item.title || item.name;
+          link.style.cursor = "pointer";
+          link.style.textDecoration = "none";
+          link.style.color = "inherit";
+          itemDiv.appendChild(link);
         } else {
-          if (clickableUrl) {
-            const link = document.createElement("a");
-            link.href = clickableUrl;
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
-            link.textContent = item.title || item.name;
-            link.style.cursor = "pointer";
-            link.style.textDecoration = "none";
-            link.style.color = "inherit";
-            itemDiv.appendChild(link);
-          } else {
-            itemDiv.textContent = item.title || item.name;
-          }
+          itemDiv.textContent = item.title || item.name;
         }
 
         section.appendChild(itemDiv);
@@ -356,7 +385,6 @@ function render(data) {
     content.appendChild(section);
   }
 
-  // === Black square cursor logic (create once) ===
   let customCursor = document.querySelector(".custom-cursor");
   if (!customCursor) {
     customCursor = document.createElement("div");

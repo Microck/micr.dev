@@ -22,6 +22,8 @@
   --hero-height: 100vh;     /* full viewport height */
   --hero-translate-x: 0px;  /* fine nudge horizontally */
   --hero-translate-y: 0px;  /* fine nudge vertically */
+  --skeleton-base: #efefef;
+  --skeleton-glow: rgba(255, 255, 255, 0.92);
 }
 
 body {
@@ -68,6 +70,8 @@ body {
 .hero-wrap {
   position: relative;
   display: inline-block;
+  min-width: 520px;
+  min-height: 720px;
 }
 
 /* The visible image */
@@ -77,6 +81,98 @@ body {
   width: auto;
   height: auto;
   pointer-events: none; /* clicks go to masked link */
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+body.hero-ready .hero-img {
+  opacity: 1;
+}
+
+.hero-skeleton {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #e5e5e5;
+  background: linear-gradient(135deg, #f8f8f8 0%, #ebebeb 100%);
+  transition: opacity 0.35s ease;
+}
+
+body.hero-ready .hero-skeleton {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.skeleton-block {
+  margin-bottom: 1.6rem;
+}
+
+.skeleton-intro {
+  margin-bottom: 2rem;
+}
+
+.skeleton-line,
+.skeleton-label,
+.skeleton-tile,
+.hero-skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--skeleton-base);
+}
+
+.skeleton-line::after,
+.skeleton-label::after,
+.skeleton-tile::after,
+.hero-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 35%,
+    var(--skeleton-glow) 50%,
+    transparent 65%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.35s ease-in-out infinite;
+}
+
+.skeleton-label {
+  width: 112px;
+  height: 11px;
+  margin-bottom: 0.45rem;
+}
+
+.skeleton-line {
+  width: 100%;
+  height: 10px;
+  margin-bottom: 0.3rem;
+}
+
+.skeleton-line-wide {
+  width: 94%;
+}
+
+.skeleton-line-short {
+  width: 62%;
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 50px);
+  gap: 2px;
+}
+
+.skeleton-tile {
+  width: 50px;
+  height: 50px;
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Clickable silhouette exactly over the image */
