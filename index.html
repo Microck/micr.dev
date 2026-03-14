@@ -349,7 +349,7 @@
         canvas = document.getElementById("canvas3d"),
         app = new Application(canvas);
 
-      const PREP_END = 18 + Math.random() * 8,
+      const FETCH_END = 72 + Math.random() * 10,
         LOAD_END = 94 + Math.random() * 3,
         SCENE_URL = "./scene.splinecode";
       let fake = 0;
@@ -370,22 +370,66 @@
         document.getElementById("spinner-container").style.display = "none";
       }
 
-      async function verifySceneAsset() {
+      async function readSceneBytes(response) {
+        const len = Number(response.headers.get("Content-Length"));
+        const hasLen = Number.isFinite(len) && len > 0;
+
+        if (!response.body || !response.body.getReader) {
+          const merged = new Uint8Array(await response.arrayBuffer());
+          bar(FETCH_END);
+          return merged;
+        }
+
+        const rd = response.body.getReader();
+
+        if (hasLen) {
+          const merged = new Uint8Array(len);
+          let got = 0;
+
+          while (true) {
+            const { value, done } = await rd.read();
+            if (done) break;
+            merged.set(value, got);
+            got += value.length;
+            bar((got / len) * FETCH_END);
+          }
+
+          return got === merged.length ? merged : merged.slice(0, got);
+        }
+
+        const chunks = [];
+        let got = 0;
+
+        while (true) {
+          const { value, done } = await rd.read();
+          if (done) break;
+          chunks.push(value);
+          got += value.length;
+          bar(Math.min(FETCH_END, got / 50000));
+        }
+
+        const merged = new Uint8Array(got);
+        let off = 0;
+        for (const chunk of chunks) {
+          merged.set(chunk, off);
+          off += chunk.length;
+        }
+
+        return merged;
+      }
+
+      async function loadStream() {
         const response = await fetch(SCENE_URL, {
-          method: "HEAD",
           cache: "no-store",
         });
-
         if (!response.ok) {
           throw new Error(
             `scene.splinecode request failed: ${response.status} ${response.statusText}`
           );
         }
-      }
 
-      async function loadStream() {
-        await verifySceneAsset();
-        bar(PREP_END);
+        const sceneBytes = await readSceneBytes(response);
+        bar(FETCH_END);
 
         const popup = document.getElementById("confirm-popup");
         popup.classList.add("visible");
@@ -419,16 +463,21 @@
           return;
         }
 
+        // Spline's vendored runtime is more reliable with this scene when the
+        // bytes are handed off via Blob URL instead of the direct file URL.
+        const blob = new Blob([sceneBytes], { type: "application/octet-stream" });
+        const bURL = URL.createObjectURL(blob);
         let loadP;
         try {
-          loadP = app.load(SCENE_URL);
+          loadP = app.load(bURL);
         } catch (err) {
           console.error("Spline scene handoff failed:", err);
+          URL.revokeObjectURL(bURL);
           showSceneLoadFailure();
           return;
         }
 
-        let phase3 = PREP_END;
+        let phase3 = FETCH_END;
         const gpuT = setInterval(() => {
           phase3 += (LOAD_END - phase3) * 0.08;
           bar(phase3);
@@ -438,10 +487,12 @@
           await loadP;
         } catch (err) {
           console.error("Spline scene render load failed:", err);
+          URL.revokeObjectURL(bURL);
           clearInterval(gpuT);
           showSceneLoadFailure();
           return;
         }
+        URL.revokeObjectURL(bURL);
         clearInterval(gpuT);
 
         // Initialize CRT effect as soon as scene content is ready
