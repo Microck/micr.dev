@@ -230,6 +230,11 @@
         "title": "Lucy Bedroque",
         "right": "Glitch Pop / Electronic",
         "spotify": "https://open.spotify.com/artist/7y8kZ2J6bZ5qW4hKp7XxM"
+      },
+      {
+        "title": "predawka",
+        "right": "Experimental Electronic / Breakcore",
+        "spotify": "https://open.spotify.com/intl-es/artist/3Gm7TJeqp34qTpofnsEwLu?si=wuGaYYC3RWuF6FeH3FVokg"
       }
     ]
   },
@@ -316,6 +321,11 @@
         "name": "erynias - predawka",
         "image": "erynias.jpg",
         "spotify": "https://open.spotify.com/album/7QO2wG2hZdR9bPjK5Q1Mk"
+      },
+      {
+        "name": "it's fine to dream - you are an angel",
+        "image": "",
+        "spotify": "https://open.spotify.com/intl-es/album/43JeNPB6NJEt30C8InjiSC?si=UgyiohB2Q96SfeJKX35tgg"
       },
       {
         "name": "The Dimrain47 Collection (2005-2012) - Dimrain47",
@@ -551,14 +561,21 @@
     "displayName": "GD Layout Maker",
     "type": "R",
     "items": [
-      { "title": "qalli, SrGuillester" }
+      { "title": "qalli" }
     ]
   },
-  "gdLevelMaker": {
-    "displayName": "GD Level Maker",
+  "learningPattern": {
+    "displayName": "Learning Pattern",
     "type": "R",
     "items": [
-      { "title": "MindCap" }
+      { "title": "Concrete-first, scaffolded relational-map learner" }
+    ]
+  },
+  "favouriteTuiFramework": {
+    "displayName": "Favourite TUI Framework",
+    "type": "R",
+    "items": [
+      { "title": "bubbletea" }
     ]
   },
   "lastUpdated": {
