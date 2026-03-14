@@ -1,6 +1,7 @@
 (() => {
   const OPT_OUT_KEY = "resWarn:optOut";
-  const TARGET_WIDTH = 1920;
+  const MIN_WIDTH = 1180;
+  const MIN_HEIGHT = 700;
   // Initial load only (no resize re-check)
   const USE_RESIZE_RECHECK = false;
 
@@ -21,9 +22,8 @@
     },
   };
 
-  // Compatible if width is exactly 1920; height can be anything.
   function isCompatible() {
-    return window.innerWidth === TARGET_WIDTH;
+    return window.innerWidth >= MIN_WIDTH && window.innerHeight >= MIN_HEIGHT;
   }
 
   function updateCurrent() {

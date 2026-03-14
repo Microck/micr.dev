@@ -1,2 +1,8 @@
 [build]
   publish = "."
+
+[[redirects]]
+  from = "https://tile.micr.dev/*"
+  to = "https://quarzite.micr.dev/:splat"
+  status = 301
+  force = true

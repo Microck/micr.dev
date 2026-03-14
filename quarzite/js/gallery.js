@@ -188,6 +188,10 @@
   // Lock window width to the image width (not the text), capped to viewport.
   function adjustToImageWidth() {
     if (!viewer || !viewerImg || !viewerImg.naturalWidth) return;
+    const toDesignPx =
+      window.AppLayout && typeof window.AppLayout.toDesignPx === "function"
+        ? window.AppLayout.toDesignPx
+        : (value) => value;
 
     const wb = viewer.querySelector(".window-body");
     const fig = viewer.querySelector(".viewer-figure");
@@ -214,9 +218,11 @@
     const imgH = Math.max(1, viewerImg.naturalHeight);
 
     // Caps by viewport: width (90vw) and height (image max-height: 70vh)
-    const maxViewerW = Math.floor(window.innerWidth * 0.9);
+    const maxViewerW = Math.floor(toDesignPx(window.innerWidth * 0.9));
     const maxImgWByVW = Math.max(120, maxViewerW - extras);
-    const maxImgWByVH = Math.floor((window.innerHeight * 0.7) * (imgW / imgH));
+    const maxImgWByVH = Math.floor(
+      toDesignPx(window.innerHeight * 0.7) * (imgW / imgH)
+    );
 
     const targetImgW = Math.max(120, Math.min(imgW, maxImgWByVW, maxImgWByVH));
     const targetViewerW = Math.round(targetImgW + extras);

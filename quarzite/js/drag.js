@@ -36,17 +36,18 @@
       if (!dragging) return;
 
       const p = e.touches ? e.touches[0] : e;
-      const dx = p.clientX - startX;
-      const dy = p.clientY - startY;
-
-      const c = container.getBoundingClientRect();
-      const w = el.getBoundingClientRect();
+      const scale =
+        window.AppLayout && typeof window.AppLayout.getScale === "function"
+          ? window.AppLayout.getScale()
+          : 1;
+      const dx = (p.clientX - startX) / scale;
+      const dy = (p.clientY - startY) / scale;
 
       let left = startLeft + dx;
       let top = startTop + dy;
 
-      const maxLeft = c.width - w.width;
-      const maxTop = c.height - w.height;
+      const maxLeft = container.clientWidth - el.offsetWidth;
+      const maxTop = container.clientHeight - el.offsetHeight;
 
       left = Math.min(Math.max(left, 0), Math.max(0, maxLeft));
       top = Math.min(Math.max(top, 0), Math.max(0, maxTop));

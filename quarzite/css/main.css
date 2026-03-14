@@ -1,5 +1,7 @@
 :root {
   --desktop-purple: #7000ff;
+  --desktop-scale: 1;
+  --desktop-offset-top: 0px;
 
   /* Window positions/sizes (latest locked values) */
   --gallery-left: 231px;
@@ -195,9 +197,15 @@ body {
 }
 
 .desktop {
-  position: relative;
-  height: 100vh;
+  position: absolute;
+  left: 50%;
+  top: var(--desktop-offset-top);
+  width: 1920px;
+  height: 1080px;
   padding-top: 30px; /* leave space for logo (adjust to your logo height) */
+  transform: translateX(-50%) scale(var(--desktop-scale));
+  transform-origin: top center;
+  will-change: transform;
 }
 
 /* ------------------------------
