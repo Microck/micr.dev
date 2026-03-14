@@ -307,7 +307,6 @@
 
     <script type="module">
       import { Application } from "./runtime.js";
-      import { unzipSync } from "https://cdn.jsdelivr.net/npm/fflate/esm/browser.js";
 
       // -------- PHONE/TABLET BLOCKER --------------
       const isMobile = /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Tablet|PlayBook|Silk/i.test(
@@ -350,8 +349,9 @@
         canvas = document.getElementById("canvas3d"),
         app = new Application(canvas);
 
-      const DL_END = 72 + Math.random() * 10,
-        UNZIP_END = 87 + Math.random() * 7;
+      const PREP_END = 18 + Math.random() * 8,
+        LOAD_END = 94 + Math.random() * 3,
+        SCENE_URL = "./scene.splinecode";
       let fake = 0;
       function bar(v) {
         fake += (v - fake) * 0.25;
@@ -370,132 +370,22 @@
         document.getElementById("spinner-container").style.display = "none";
       }
 
-      async function readSceneArchive(response) {
-        const len = Number(response.headers.get("Content-Length"));
-        const hasLen = Number.isFinite(len) && len > 0;
-
-        if (!response.body || !response.body.getReader) {
-          const merged = new Uint8Array(await response.arrayBuffer());
-          bar(DL_END);
-          return merged;
-        }
-
-        const rd = response.body.getReader();
-
-        if (hasLen) {
-          const merged = new Uint8Array(len);
-          let got = 0;
-
-          while (true) {
-            const { value, done } = await rd.read();
-            if (done) break;
-            merged.set(value, got);
-            got += value.length;
-            bar((got / len) * DL_END);
-          }
-
-          return got === merged.length ? merged : merged.slice(0, got);
-        }
-
-        const chunks = [];
-        let got = 0;
-
-        while (true) {
-          const { value, done } = await rd.read();
-          if (done) break;
-          chunks.push(value);
-          got += value.length;
-          bar(Math.min(DL_END, got / 50000));
-        }
-
-        const merged = new Uint8Array(got);
-        let off = 0;
-        for (const chunk of chunks) {
-          merged.set(chunk, off);
-          off += chunk.length;
-        }
-
-        return merged;
-      }
-
-      function unzipSceneArchiveSync(archiveBytes) {
-        const files = unzipSync(archiveBytes);
-        const entry = files["scene.splinecode"];
-        if (!entry) throw new Error("scene.splinecode not found in scene.dat");
-        return entry;
-      }
-
-      function unzipSceneArchive(archiveBytes) {
-        if (!window.Worker) {
-          return Promise.resolve(unzipSceneArchiveSync(archiveBytes));
-        }
-
-        return new Promise((resolve, reject) => {
-          const worker = new Worker("./scene-unzip-worker.js");
-          let settled = false;
-
-          const cleanup = () => {
-            worker.onerror = null;
-            worker.onmessage = null;
-            worker.terminate();
-          };
-
-          const finish = (fn, value) => {
-            if (settled) return;
-            settled = true;
-            cleanup();
-            fn(value);
-          };
-
-          worker.onmessage = ({ data }) => {
-            if (!data?.ok || !(data.sceneBuffer instanceof ArrayBuffer)) {
-              finish(
-                reject,
-                new Error(data?.error || "Scene archive unzip failed.")
-              );
-              return;
-            }
-
-            finish(resolve, new Uint8Array(data.sceneBuffer));
-          };
-
-          worker.onerror = (event) => {
-            const message =
-              event.error?.message ||
-              event.message ||
-              "Scene archive worker failed.";
-            finish(reject, new Error(message));
-          };
-
-          worker.postMessage(
-            { archiveBuffer: archiveBytes.buffer },
-            [archiveBytes.buffer]
-          );
+      async function verifySceneAsset() {
+        const response = await fetch(SCENE_URL, {
+          method: "HEAD",
+          cache: "no-store",
         });
+
+        if (!response.ok) {
+          throw new Error(
+            `scene.splinecode request failed: ${response.status} ${response.statusText}`
+          );
+        }
       }
 
       async function loadStream() {
-        const r = await fetch("./scene.dat");
-        if (!r.ok) {
-          throw new Error(`scene.dat request failed: ${r.status} ${r.statusText}`);
-        }
-        const merged = await readSceneArchive(r);
-
-        let creep = DL_END;
-        const creepT = setInterval(() => {
-          creep += 0.3 + Math.random() * 0.3;
-          if (creep >= UNZIP_END) clearInterval(creepT);
-          else bar(creep);
-        }, 100);
-
-        let sceneBytes;
-        try {
-          sceneBytes = await unzipSceneArchive(merged);
-        } finally {
-          clearInterval(creepT);
-        }
-
-        bar(UNZIP_END);
+        await verifySceneAsset();
+        bar(PREP_END);
 
         const popup = document.getElementById("confirm-popup");
         popup.classList.add("visible");
@@ -529,21 +419,18 @@
           return;
         }
 
-        const blob = new Blob([sceneBytes], { type: "application/octet-stream" });
-        const bURL = URL.createObjectURL(blob);
         let loadP;
         try {
-          loadP = app.load(bURL);
+          loadP = app.load(SCENE_URL);
         } catch (err) {
           console.error("Spline scene handoff failed:", err);
-          URL.revokeObjectURL(bURL);
           showSceneLoadFailure();
           return;
         }
 
-        let phase3 = UNZIP_END;
+        let phase3 = PREP_END;
         const gpuT = setInterval(() => {
-          phase3 += (95 - phase3) * 0.08;
+          phase3 += (LOAD_END - phase3) * 0.08;
           bar(phase3);
         }, 80);
 
@@ -551,12 +438,10 @@
           await loadP;
         } catch (err) {
           console.error("Spline scene render load failed:", err);
-          URL.revokeObjectURL(bURL);
           clearInterval(gpuT);
           showSceneLoadFailure();
           return;
         }
-        URL.revokeObjectURL(bURL);
         clearInterval(gpuT);
 
         // Initialize CRT effect as soon as scene content is ready
