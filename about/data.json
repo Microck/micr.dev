@@ -503,13 +503,6 @@
       { "title": "Lat Pulldown" }
     ]
   },
-  "tuiDesign": {
-    "displayName": "TUI Design",
-    "type": "R",
-    "items": [
-      { "title": "Opencode" }
-    ]
-  },
   "minecraftEnchant": {
     "displayName": "Minecraft Enchant",
     "type": "R",
@@ -574,7 +567,7 @@
     ]
   },
   "favouriteTuiFramework": {
-    "displayName": "Favourite TUI Framework",
+    "displayName": "TUI Framework",
     "type": "R",
     "items": [
       { "title": "bubbletea" }
