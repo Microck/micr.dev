@@ -132,23 +132,10 @@
     "type": "colours",
     "items": [
       { "title": "#8621E7" },
+      { "title": "#F582DB" },
       { "title": "#000000" },
       { "title": "#F0E8BB" },
       { "title": "#AAAAAA" }
-    ]
-  },
-  "fonts": {
-    "displayName": "Fonts",
-    "type": "fonts",
-    "items": [
-      { "title": "Roboto Mono", "right": "Christian Robertson" },
-      { "title": "Mongolian Baiti", "right": "Microsoft" },
-      { "title": "Alte Haas Grotesk", "right": "Yann Le Coroller" },
-      { "title": "Times New Roman", "right": "Stanley Morison" },
-      { "title": "Acumin Variable Concept", "right": "Robert Slimbach" },
-      { "title": "BONNES", "right": "Unknown" },
-      { "title": "Dutch801 RM BT", "right": "Bitstream" },
-      { "title": "Neue Montreal", "right": "Mathieu Desjardins" }
     ]
   },
   "bands": {
@@ -179,6 +166,16 @@
         "title": "susquatch",
         "right": "Indie Rock / Shoegaze",
         "spotify": "https://open.spotify.com/artist/4kX2L7K9qW3pY8rJ6hM5"
+      },
+      {
+        "title": "Mindless Self Indulgence",
+        "right": "Electropunk / Industrial Rock",
+        "spotify": "https://open.spotify.com/artist/5R5MLOQbI4lb7GHYioPqoN"
+      },
+      {
+        "title": "Extremoduro",
+        "right": "Hard Rock / Progressive Rock",
+        "spotify": "https://open.spotify.com/artist/3bgsNtcf5d5h9jbQbohfBK"
       }
     ]
   },
@@ -225,6 +222,11 @@
         "title": "2hollis",
         "right": "Digicore / Electropop",
         "spotify": "https://open.spotify.com/artist/72NhFAGG5Pt91VbheJeEPG"
+      },
+      {
+        "title": "Jane Remover",
+        "right": "Hyperpop / Digicore",
+        "spotify": "https://open.spotify.com/artist/2rLGlNI6htigNxx172qxLu"
       },
       {
         "title": "Lucy Bedroque",
