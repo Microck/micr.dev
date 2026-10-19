@@ -53,7 +53,21 @@ export function BuildCard({
     : "";
 
   return (
-    <div onClick={onClick} className="cursor-pointer cursor-target">
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${build.title} (${build.timestamp.slice(0, 10)})`}
+      data-build-id={build.id}
+      data-build-category={build.category}
+      onClick={onClick}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onClick();
+        }
+      }}
+      className="cursor-pointer cursor-target"
+    >
       <div className="w-full h-64 mb-4 overflow-hidden relative">
         <div className={`gallery-media ${isDark ? 'gallery-media--dark' : 'gallery-media--light'}`}>
           {coverImage && (

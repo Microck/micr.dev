@@ -15,7 +15,7 @@ test('invalid or missing build routes return null',()=>{
  assert.equal(findBuildBySlug('missing',undefined,[]),null);
  assert.equal(findBuildBySlug('board','0',[{id:'a',title:'Board',timestamp:'2025-01-01'}]),null);
 });
-test('click navigation uses the same canonical slug encoder as route lookup',()=>{
+test('source delegates click encoding to the canonical slug helper',()=>{
  const app=readFileSync(new URL('../src/App.tsx',import.meta.url),'utf8');
  assert.match(app,/generateSlugInfo\(build,/);
  assert.doesNotMatch(app,/const baseSlug = build.title/);
