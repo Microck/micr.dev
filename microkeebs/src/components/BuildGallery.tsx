@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, LayoutGroup, AnimatePresence } from "framer-motion";
 import { SearchIcon } from "@/components/ui/search";
 import { BuildCard } from "./BuildCard";
@@ -22,20 +22,17 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
 
   const typedBuilds = builds as unknown as KeyboardBuild[];
 
-  const filteredBuilds = typedBuilds.filter((build) => {
-    const matchesFilter = activeFilter === "All" || build.category === activeFilter;
-    const matchesSearch = searchQuery === "" || 
-      build.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (build.youtubeTitle && build.youtubeTitle.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesFilter && matchesSearch;
-  });
-
-  const sortedBuilds = [...filteredBuilds].sort((a, b) => {
-    if (sortBy === "newest") {
-      return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-    }
-    return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
-  });
+  const sortedBuilds = useMemo(() => {
+    const query = searchQuery.toLowerCase();
+    const filtered = typedBuilds.filter(build =>
+      (activeFilter === "All" || build.category === activeFilter) &&
+      (!query || build.title.toLowerCase().includes(query) ||
+        build.youtubeTitle?.toLowerCase().includes(query))
+    );
+    return filtered.sort((a, b) => sortBy === "newest"
+      ? Date.parse(b.timestamp) - Date.parse(a.timestamp)
+      : Date.parse(a.timestamp) - Date.parse(b.timestamp));
+  }, [typedBuilds, activeFilter, searchQuery, sortBy]);
 
   return (
     <div className={`${isDark ? "bg-[#1c1c1c]" : "bg-[#a7a495]"} min-h-screen`}>
@@ -67,7 +64,7 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
           {/* Sort dropdown */}
           <div className="flex items-center gap-2 whitespace-nowrap">
             <span className={`text-sm font-normal ${isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"}`}>Sort by:</span>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={`border px-3 py-1 text-sm transition-all duration-300 ease-out cursor-pointer hover:scale-105 hover:-translate-y-0.5 ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c]"}`}>
+            <select aria-label="Sort builds" value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={`border px-3 py-1 text-sm transition-all duration-300 ease-out cursor-pointer hover:scale-105 hover:-translate-y-0.5 ${isDark ? "bg-[#2a2a2a] border-[#a7a495] text-[#a7a495]" : "bg-[#b5b3a7] border-[#1c1c1c] text-[#1c1c1c]"}`}>
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
             </select>
@@ -97,6 +94,7 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
             >
               <input
                 type="text"
+                aria-label="Search keyboards"
                 placeholder="Search keyboards..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -108,12 +106,14 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
                   searchExpanded ? "w-64 opacity-100" : "w-0 opacity-0"
                 } ${isDark ? "border-[#a7a495] text-[#a7a495] placeholder-[#a7a495]/50" : "border-[#1c1c1c] text-[#1c1c1c] placeholder-[#1c1c1c]/50"}`}
               />
+              <button type="button" aria-label="Open keyboard search" onClick={() => setSearchExpanded(true)}>
               <SearchIcon
                 size={20}
                 className={`transition-all duration-300 ease-out cursor-pointer ${
                   isDark ? "text-[#a7a495]" : "text-[#1c1c1c]"
                 } ${searchExpanded ? "ml-2" : ""}`}
               />
+              </button>
             </div>
           </div>
         </div>

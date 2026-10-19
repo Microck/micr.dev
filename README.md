@@ -142,3 +142,12 @@ commissions and collaborative works remain the property of their respective arti
 
 you may view the repository and its contents for personal reference only.  
 no other use is authorized.
+
+## Repeatable browser verification
+
+In `microkeebs`, run `npm ci`, `npm run build`, `npx e2e-web install chromium`,
+and `npm run test:e2e`. The pinned tester-army/e2e suite checks desktop/mobile
+search, filters, theme persistence, navigation and invalid-build recovery against
+the production build. It uses no AI providers or agent processes. Authenticated
+admin writes, YouTube ingestion and anonymous-question submissions are outside
+this suite; tests never submit to those services. CI preserves failing traces.
