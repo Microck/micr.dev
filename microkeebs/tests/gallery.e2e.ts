@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs';
-import { generateSlugInfo } from '../src/utils/slugUtils';
 import type { KeyboardBuild } from '../src/types/Build';
-const builds = JSON.parse(readFileSync(new URL('../src/data/builds.json', import.meta.url), 'utf8')) as KeyboardBuild[];
+const builds = [...JSON.parse(readFileSync(new URL('../src/data/builds.json', import.meta.url), 'utf8')), ...JSON.parse(readFileSync(new URL('./builds.fixture.json', import.meta.url), 'utf8'))] as KeyboardBuild[];
 import { test } from '@e2e-dev/web';
 import { expect } from 'e2e';
 
@@ -39,11 +38,11 @@ test('navigation and unknown build recovery',async({app,screen,browser})=>{
 });
 
 test('duplicate-title build clicks open the canonical detail route', async ({app,screen,browser}) => {
- const build = builds.find(candidate => builds.filter(other => other.title === candidate.title).length > 1)!;
+ const build = builds.find(candidate => candidate.id === 'e2e-punctuation-2')!;
  await app.open('/microkeebs/');
  await screen.getByRole('button', {name:`Open ${build.title} (${build.timestamp.slice(0,10)})`,exact:true}).click();
  await expect(screen.getByRole('button','Back to Gallery')).toBeVisible();
- expect(await browser.evaluate(()=>location.hash)).toBe('#/builds'+generateSlugInfo(build,builds).fullPath);
+ expect(await browser.evaluate(()=>location.hash)).toBe('#/builds/qa-keyboard/2');
  const images = await browser.evaluate(()=>Array.from(document.querySelectorAll('img'),image=>image.getAttribute('src')));
  expect(images.some(src => src?.includes(build.images[0]))).toBe(true);
 });

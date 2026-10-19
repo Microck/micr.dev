@@ -145,9 +145,10 @@ no other use is authorized.
 
 ## Repeatable browser verification
 
-In `microkeebs`, run `npm ci`, `npm run build`, `npx e2e-web install chromium`,
+In `microkeebs`, run `npm ci`, `npm run build`, `npm run build:e2e`, `npx e2e-web install chromium`,
 and `npm run test:e2e`. The pinned tester-army/e2e suite checks desktop/mobile
 search, filters, theme persistence, navigation and invalid-build recovery against
-the production build. It uses no AI providers or agent processes. Authenticated
+a production-mode test build with isolated synthetic punctuation/duplicate-title records.
+The ordinary production build excludes these fixtures. It uses no AI providers or agent processes. Authenticated
 admin writes, YouTube ingestion and anonymous-question submissions are outside
 this suite; tests never submit to those services. CI preserves failing traces.
