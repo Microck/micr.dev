@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 .env
 *.backup
+
+# Synthetic browser-test bundle.
+dist-e2e/

@@ -1,0 +1,36 @@
+name: Microkeebs browser flows
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: microkeebs
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: node --test tests/slugs.test.mjs
+      - run: npm run build
+      - run: npm run build:e2e
+      - run: npx e2e-web install chromium --with-deps
+      - run: npm run test:e2e
+        env:
+          E2E_TELEMETRY_DISABLED: '1'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: failure()
+        with:
+          name: microkeebs-browser-traces
+          path: microkeebs/.e2e/results/
+          include-hidden-files: true
+          retention-days: 7

@@ -14,7 +14,7 @@ import { KeyboardBuild } from './types/Build';
 import type { BlogPost as BlogPostType } from './types/BlogPost';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { useTheme } from './contexts/use-theme';
-import { findBuildBySlug } from './utils/slugUtils';
+import { findBuildBySlug, generateSlugInfo } from './utils/slugUtils';
 import { getPostBySlug } from './utils/blog';
 import builds from './data/builds.json';
 
@@ -160,15 +160,7 @@ function AppContent() {
   };
 
   const handleBuildSelect = (build: KeyboardBuild) => {
-    const baseSlug = build.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const sameTitleBuilds = builds
-      .filter(b => b.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === baseSlug)
-      .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-
-    const index = sameTitleBuilds.findIndex(b => b.id === build.id);
-    const counter = sameTitleBuilds.length > 1 ? `/${index + 1}` : '';
-
-    window.location.hash = `#/builds/${baseSlug}${counter}`;
+    window.location.hash = `#/builds${generateSlugInfo(build, builds as unknown as KeyboardBuild[]).fullPath}`;
   };
 
   const handlePostSelect = (post: BlogPostType) => {
