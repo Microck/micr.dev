@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { motion, LayoutGroup, AnimatePresence } from "framer-motion";
 import { SearchIcon } from "@/components/ui/search";
 import { BuildCard } from "./BuildCard";
@@ -19,6 +19,7 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchExpanded, setSearchExpanded] = useState(false);
   const { isDark } = useTheme();
+  const searchInput = useRef<HTMLInputElement>(null);
 
   const typedBuilds = builds as unknown as KeyboardBuild[];
 
@@ -89,10 +90,11 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
               className="relative flex items-center"
               onMouseEnter={() => setSearchExpanded(true)}
               onMouseLeave={() => {
-                if (!searchQuery) setSearchExpanded(false);
+                if (!searchQuery && document.activeElement !== searchInput.current) setSearchExpanded(false);
               }}
             >
               <input
+                ref={searchInput}
                 type="text"
                 aria-label="Search keyboards"
                 placeholder="Search keyboards..."
@@ -106,7 +108,7 @@ export function BuildGallery({ onBuildSelect }: BuildGalleryProps) {
                   searchExpanded ? "w-64 opacity-100" : "w-0 opacity-0"
                 } ${isDark ? "border-[#a7a495] text-[#a7a495] placeholder-[#a7a495]/50" : "border-[#1c1c1c] text-[#1c1c1c] placeholder-[#1c1c1c]/50"}`}
               />
-              <button type="button" aria-label="Open keyboard search" onClick={() => setSearchExpanded(true)}>
+              <button type="button" aria-label="Open keyboard search" onClick={() => { setSearchExpanded(true); searchInput.current?.focus(); }}>
               <SearchIcon
                 size={20}
                 className={`transition-all duration-300 ease-out cursor-pointer ${

@@ -14,7 +14,9 @@ for (const width of [1280, 390]) {
   expect(await browser.evaluate(() => Array.from(document.querySelectorAll('[data-build-id]'), node => node.getAttribute('data-build-id')).sort())).toEqual(builds.filter(build => build.category === 'EC').map(build => build.id).sort());
   await screen.getByRole('button',{name:'All',exact:true}).click();
   expect(await browser.evaluate(() => document.querySelectorAll('[data-build-id]').length)).toBe(builds.length);
-  await screen.getByRole('button','Open keyboard search').click();
+  await screen.getByRole('button','Open keyboard search').focus();
+  await screen.getByRole('button','Open keyboard search').press('Enter');
+  expect(await browser.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toBe('Search keyboards');
   await screen.getByRole('textbox','Search keyboards').fill('definitely-no-keyboard-matches-92834');
   expect(await browser.evaluate(()=>document.querySelectorAll('.card-title').length)).toBe(0);
   await screen.getByRole('textbox','Search keyboards').fill('');
